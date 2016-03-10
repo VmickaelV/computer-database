@@ -1,5 +1,6 @@
 package com.excilys.mviegas.speccdb.exceptions;
 
+@SuppressWarnings("serial")
 public class DAOException extends RuntimeException {
 
 	public DAOException() {

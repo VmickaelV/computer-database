@@ -1,0 +1,20 @@
+2016-03-09 15:07:48 INFO  Runtime:65 - Lancement du programme
+2016-03-09 15:08:06 INFO  Runtime:65 - Lancement du programme
+2016-03-09 15:08:40 INFO  Runtime:78 - Exctinction du programme
+2016-03-09 15:08:50 INFO  Runtime:78 - Exctinction du programme
+2016-03-09 15:40:48 INFO  Runtime:79 - Lancement du programme
+2016-03-09 17:11:15 INFO  Runtime:79 - Lancement du programme
+2016-03-09 17:13:36 INFO  Runtime:79 - Lancement du programme
+2016-03-09 17:13:40 INFO  ComputerDao:48 - Init of ComputerDao
+2016-03-09 17:13:40 INFO  ComputerDao:99 - Persist of Computer [mId=606, mName=lqsjdslqjd, mIntroducedDate=null, mDiscontinuedDate=null, mManufacturer=null]
+2016-03-09 17:13:57 INFO  Runtime:79 - Lancement du programme
+2016-03-09 17:14:04 INFO  ComputerDao:48 - Init of ComputerDao
+2016-03-09 17:14:04 INFO  ComputerDao:99 - Persist of Computer [mId=607, mName=gfrpyit, mIntroducedDate=null, mDiscontinuedDate=null, mManufacturer=null]
+2016-03-09 17:19:51 INFO  Runtime:79 - Lancement du programme
+2016-03-09 17:19:54 INFO  ComputerDao:48 - Init of ComputerDao
+2016-03-09 17:19:55 INFO  ComputerDao:99 - Persist of Computer [mId=608, mName=dfgdfg, mIntroducedDate=null, mDiscontinuedDate=null, mManufacturer=null]
+2016-03-09 17:25:07 INFO  Runtime:81 - Lancement du programme
+2016-03-09 17:25:14 INFO  ComputerDao:48 - Init of ComputerDao
+2016-03-09 17:25:14 INFO  ComputerDao:99 - Persist of Computer [mId=609, mName=sdfjsdlfjs, mIntroducedDate=null, mDiscontinuedDate=null, mManufacturer=null]
+2016-03-09 18:04:06 INFO  Runtime:18 - Lancement du programme
+2016-03-09 18:04:36 INFO  ComputerDao:48 - Init of ComputerDao

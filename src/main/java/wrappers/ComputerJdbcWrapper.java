@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.persist.CompanyDao;
+import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
 
 public class ComputerJdbcWrapper extends Computer {
 	public static Computer fromJdbc(ResultSet pResultSet) {

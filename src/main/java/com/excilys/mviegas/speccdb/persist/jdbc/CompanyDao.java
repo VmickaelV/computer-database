@@ -1,4 +1,4 @@
-package com.excilys.mviegas.speccdb.persist;
+package com.excilys.mviegas.speccdb.persist.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persist.jdbc.DatabaseManager;
+import com.excilys.mviegas.speccdb.persist.CrudService;
 
 import wrappers.CompanyJdbcWrapper;
 
@@ -23,9 +23,9 @@ public enum CompanyDao implements CrudService<Company> {
 	// ===========================================================
 	private final Connection mConnection;
 	
-	private final PreparedStatement mCreateStatement;
-	private final PreparedStatement mUpdateStatement;
-	private final PreparedStatement mDeleteStatement;
+//	private final PreparedStatement mCreateStatement;
+//	private final PreparedStatement mUpdateStatement;
+//	private final PreparedStatement mDeleteStatement;
 	private final PreparedStatement mFindStatement;
 	
 	//===========================================================
@@ -35,9 +35,9 @@ public enum CompanyDao implements CrudService<Company> {
 	private CompanyDao() {
 		try {
 			mConnection = DatabaseManager.getConnection();
-			mCreateStatement = mConnection.prepareStatement("INSERT INTO `company` (name) VALUES (?);", Statement.RETURN_GENERATED_KEYS);
-			mUpdateStatement = mConnection.prepareStatement("UPDATE `company` SET name=? WHERE id = ?;");
-			mDeleteStatement = mConnection.prepareStatement("DELETE FROM `company` WHERE id = ?");
+//			mCreateStatement = mConnection.prepareStatement("INSERT INTO `company` (name) VALUES (?);", Statement.RETURN_GENERATED_KEYS);
+//			mUpdateStatement = mConnection.prepareStatement("UPDATE `company` SET name=? WHERE id = ?;");
+//			mDeleteStatement = mConnection.prepareStatement("DELETE FROM `company` WHERE id = ?");
 			mFindStatement = mConnection.prepareStatement("SELECT * FROM `company` WHERE id = ?");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
