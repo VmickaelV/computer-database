@@ -1,4 +1,4 @@
-package com.excilys.mviegas.speccdb.persist;
+package com.excilys.mviegas.speccdb.persist.jdbc;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -12,18 +12,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.RuntimeErrorException;
+import org.apache.log4j.Logger;
 
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persist.jdbc.DatabaseManager;
+import com.excilys.mviegas.speccdb.persist.CrudService;
 
-import wrappers.CompanyJdbcWrapper;
 import wrappers.ComputerJdbcWrapper;
 
-public enum ComputerDao implements CrudService<Computer> {
-	INSTANCE;
+public class ComputerDao implements CrudService<Computer> {
+//	INSTANCE;
+	
+	public static final Logger LOGGER = Logger.getLogger(ComputerDao.class);
+	
+	public static final ComputerDao INSTANCE = new ComputerDao();
+	
+	
+	
 	
 	// ===========================================================
 	// Attributres - private
@@ -39,6 +45,7 @@ public enum ComputerDao implements CrudService<Computer> {
 	// Constructors
 	// ===========================================================
 	private ComputerDao() {
+		LOGGER.info("Init of ComputerDao");
 		try {
 			mConnection = DatabaseManager.getConnection();
 			mCreateStatement = mConnection.prepareStatement("INSERT INTO `computer` (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
@@ -88,10 +95,18 @@ public enum ComputerDao implements CrudService<Computer> {
 				ResultSet a = mCreateStatement.getGeneratedKeys();
 				a.next();
 				pT.setId(a.getInt(1));
+				if (LOGGER.isInfoEnabled()) {
+					LOGGER.info("Persist of "+pT);
+				}
+				
 				return pT;
+				
 			}
+			
+			LOGGER.error("Error on persist");
 			return null;
 		} catch (SQLException e) {
+			LOGGER.error(e);
 			throw new DAOException(e);
 		}
 	}
@@ -108,6 +123,7 @@ public enum ComputerDao implements CrudService<Computer> {
 			resultSet.next();
 			return ComputerJdbcWrapper.fromJdbc(resultSet);
 		} catch (SQLException e) {
+			LOGGER.error(e);
 			throw new DAOException(e);
 		}
 	}
@@ -123,10 +139,16 @@ public enum ComputerDao implements CrudService<Computer> {
 			mUpdateStatement.setInt(5, pT.getId());
 			int nbResult = mUpdateStatement.executeUpdate();
 			if (nbResult == 1) {
+				if (LOGGER.isInfoEnabled()) {
+					LOGGER.info("Update of "+pT.getId()+" successfull");
+				}
+				
 				return pT;
 			}
+			LOGGER.error("Error on update");
 			return null;
 		} catch (SQLException e) {
+			LOGGER.error(e);
 			throw new DAOException(e);
 		}
 	}
@@ -142,8 +164,12 @@ public enum ComputerDao implements CrudService<Computer> {
 			mDeleteStatement.setLong(1, pId);
 			int nbLines = mDeleteStatement.executeUpdate();
 			
+			if (LOGGER.isInfoEnabled()) {
+				LOGGER.info("Delete of "+pId+(nbLines == 1 ? " successfull" : " failed"));
+			}
 			return nbLines == 1;
 		} catch (SQLException e) {
+			LOGGER.error(e);
 			throw new DAOException(e);
 		}
 	}
@@ -160,8 +186,10 @@ public enum ComputerDao implements CrudService<Computer> {
 			mDeleteStatement.setLong(1, pT.getId());
 			int nbLines = mDeleteStatement.executeUpdate();
 			
+			LOGGER.info("Delete of "+pT.getId()+(nbLines == 1 ? " successfull" : " failed"));
 			return nbLines == 1;
 		} catch (SQLException e) {
+			LOGGER.error(e);
 			throw new DAOException(e);
 		}
 	}
@@ -213,6 +241,7 @@ public enum ComputerDao implements CrudService<Computer> {
 			}
 			return mCompanies;
 		} catch (SQLException e) {
+			LOGGER.error(e);
 			throw new DAOException(e);
 		}
 	}
@@ -242,9 +271,32 @@ public enum ComputerDao implements CrudService<Computer> {
 		throw new UnsupportedOperationException("ComputerDao#findWithNamedQuery not implemented yet.");
 	}
 	
+	public int size() {
+		Statement statement;
+		try {
+			statement = mConnection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM computer");
+			
+			if (!resultSet.isBeforeFirst()) {
+				throw new DAOException();
+			}
+			
+			
+			
+			resultSet.next();
+			return resultSet.getInt(1);
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			throw new DAOException(e);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 //		
 		
+		System.out.println(INSTANCE.findAll());
 		System.out.println(INSTANCE.findAll(6, 10));
 		System.out.println(INSTANCE.findAll(6, 10).size());
 		

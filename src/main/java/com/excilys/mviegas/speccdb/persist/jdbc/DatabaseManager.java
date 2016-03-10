@@ -13,6 +13,8 @@ import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Queue;
 
+import org.apache.log4j.Logger;
+
 /**
  * Gestion de la connection à la base de données Created by Mickael on
  * 18/10/2014.
@@ -49,13 +51,17 @@ public class DatabaseManager {
 	/** The Constant user. */
 	private static final String USER;// =
 									 // "test";//BDD.LOGIN;//System.getProperty("mviegas072.database.user");
+	
+	public static final Logger logger = Logger.getLogger(DatabaseManager.class);
 
 	static {
 
 		Properties prefs = new Properties();
 
 		if (new File(CONFIG_FILENAME).exists()) {
-			System.out.println("sesese");
+			if (logger.isInfoEnabled()) {
+				logger.info("Chargement config à partir du fichier "+CONFIG_FILENAME);
+			}
 			try (FileInputStream file = new FileInputStream(new File(CONFIG_FILENAME))) {
 				prefs.load(file);
 				file.close();
@@ -82,7 +88,7 @@ public class DatabaseManager {
 		URL = prefs.getProperty("url", "");
 		USER = prefs.getProperty("user", "");
 		PASSWORD = prefs.getProperty("password", "");
-		String schema = prefs.getProperty("schema", "");
+//		String schema = prefs.getProperty("schema", "");
 
 		for (int i = 0; i < MIN_SIZE_QUEUE; i++) {
 			try {
@@ -105,7 +111,7 @@ public class DatabaseManager {
 		Connection connection = null;
 		if (freeConnections.isEmpty()) {
 			try {
-				System.out.println("Création Connexion");
+//				System.out.println("Création Connexion");
 				connection = DriverManager.getConnection(URL, USER, PASSWORD);
 				// connection.nativeSQL();
 
@@ -114,7 +120,7 @@ public class DatabaseManager {
 				throw e;
 			}
 		} else {
-			System.out.println("remove");
+//			System.out.println("remove");
 			connection = freeConnections.remove();
 		}
 		return connection;
