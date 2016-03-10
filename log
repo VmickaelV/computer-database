@@ -1,0 +1,20 @@
+2016-03-11 09:44:33 ERROR CompanyDao:46 - org.h2.jdbc.JdbcSQLException: Table "COMPANY" not found; SQL statement:
+SELECT * FROM `company` WHERE id = ? [42102-191]
+2016-03-11 09:51:19 INFO  ComputerDao:49 - Init of ComputerDao
+2016-03-11 09:52:05 INFO  ComputerDao:49 - Init of ComputerDao
+2016-03-11 09:52:05 INFO  ComputerDao:152 - Update of 4 successfull
+2016-03-11 09:52:05 INFO  ComputerDao:152 - Update of 4 successfull
+2016-03-11 09:52:05 INFO  ComputerDao:176 - Delete of 644312312 failed
+2016-03-11 10:24:34 INFO  ComputerDao:49 - Init of ComputerDao
+2016-03-11 10:24:34 INFO  ComputerDao:176 - Delete of 644312312 failed
+2016-03-11 10:24:42 INFO  ComputerDao:49 - Init of ComputerDao
+2016-03-11 10:25:11 INFO  ComputerDao:49 - Init of ComputerDao
+2016-03-11 10:25:12 INFO  ComputerDao:176 - Delete of 644312312 failed
+2016-03-11 10:25:15 INFO  ComputerDao:49 - Init of ComputerDao
+2016-03-11 10:27:29 INFO  ComputerDao:49 - Init of ComputerDao
+2016-03-11 10:28:21 INFO  ComputerDao:49 - Init of ComputerDao
+2016-03-11 10:28:44 INFO  ComputerDao:49 - Init of ComputerDao
+2016-03-11 10:31:28 INFO  ComputerDao:49 - Init of ComputerDao
+2016-03-11 10:31:28 INFO  Runtime:93 - jdbc:mysql://localhost/computer-database-db?zeroDateTimeBehavior=convertToNull
+2016-03-11 10:32:48 INFO  ComputerDao:49 - Init of ComputerDao
+2016-03-11 10:32:48 INFO  Runtime:94 - jdbc:mysql://localhost/computer-database-db?zeroDateTimeBehavior=convertToNull

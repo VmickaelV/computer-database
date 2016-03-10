@@ -3,10 +3,9 @@
 # ============
 
 # fichiers générés automatiquement par JPA
-createDDL_ddlGeneration.sql
-dropDDL_ddlGeneration.sql
-
-/images
+src/main/resources/config_bd.properties
+log
+log.*.txt
 
 # ============
 # FIN
