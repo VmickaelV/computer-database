@@ -57,8 +57,8 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.17</version>
 				<configuration>
-					<!-- <configLocation>config/checkstyle/checkstyle.xml</configLocation> 
-						<suppressionsLocation>config/checkstyle/suppressions.xml</suppressionsLocation> -->
+					<configLocation>config/checkstyle/checkstyle.xml</configLocation> 
+						<!-- <suppressionsLocation>config/checkstyle/suppressions.xml</suppressionsLocation> -->
 					<!-- <configLocation>config/checkstyle/checkstyle.xml</configLocation> --><!-- <suppressionsLocation>config/checkstyke/suppressions.xml</suppressionsLocation> -->
 
 					<!-- <configLocation>config/sun_checks.xml</configLocation> --><!-- default -->
