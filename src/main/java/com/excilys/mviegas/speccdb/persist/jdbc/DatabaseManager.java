@@ -104,6 +104,14 @@ public class DatabaseManager {
 		INSERT_SCRIPTS = prefs.getProperty("insertScripts", "");
 //		String schema = prefs.getProperty("schema", "");
 		
+		try {
+            // The newInstance() call is a work around for some
+            // broken Java implementations
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+            // handle the error
+        }
+		
 		if (!CREATE_SCRIPTS.isEmpty() || INSERT_SCRIPTS.isEmpty()) {
 			try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
 				

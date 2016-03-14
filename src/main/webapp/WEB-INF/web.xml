@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This web.xml file is not required when using Servlet 3.0 container, 
+	see implementation details http://jersey.java.net/nonav/documentation/latest/jax-rs.html#d4e194 -->
+
+<!-- <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" -->
+<!-- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" -->
+<!-- xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"> -->
+
+<!-- <context-param> -->
+<!-- <param-name>javax.faces.PROJECT_STAGE</param-name> -->
+<!-- <param-value>Production</param-value> -->
+<!-- </context-param> -->
+
+<!-- <context-param> -->
+<!-- <param-name>facelets.SKIP_COMMENTS</param-name> -->
+<!-- <param-value>true</param-value> -->
+<!-- </context-param> -->
+
+<!-- <servlet> -->
+<!-- <servlet-name>FacesServlet</servlet-name> -->
+<!-- <servlet-class>javax.faces.webapp.FacesServlet</servlet-class> -->
+<!-- <load-on-startup>1</load-on-startup> -->
+<!-- </servlet> -->
+
+<!-- <servlet-mapping> -->
+<!-- <servlet-name>FacesServlet</servlet-name> -->
+<!-- <url-pattern>*.html</url-pattern> -->
+<!-- </servlet-mapping> -->
+
+<!-- <error-page> -->
+<!-- <exception-type>javax.faces.application.ViewExpiredException</exception-type> -->
+<!-- <location>/index.xhtml?faces-redirect=true</location> -->
+<!-- </error-page> -->
+
+<!-- </web-app> -->
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<display-name>Archetype Created Web Application</display-name>
+	
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>HttpServlet</servlet-name> -->
+<!-- 		<servlet-class>com.excilys.mviegas.speccdb.DefaultServlet</servlet-class> -->
+<!-- 		<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class> -->
+<!-- 	</servlet> -->
+	
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>HttpServlet</servlet-name> -->
+<!-- 		<url-pattern>/</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+	
+<!-- 	<welcome-file-list> -->
+<!-- 		<welcome-file>/views/dashboard.jsp</welcome-file> -->
+<!-- 	</welcome-file-list> -->
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/views/404.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>403</error-code>
+		<location>/views/403.html</location>
+	</error-page>
+	
+<!-- 	<error-page> -->
+<!-- 		<error-code>500</error-code> -->
+<!-- 		<location>/views/500.html</location> -->
+<!-- 	</error-page> -->
+
+</web-app>
