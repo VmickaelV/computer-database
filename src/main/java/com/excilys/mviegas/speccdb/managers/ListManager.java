@@ -63,6 +63,16 @@ public class ListManager {
 		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
 	}
 
+	public int getSize() {
+		return mSize;
+	}
+
+	public void setSize(int pSize) {
+		C.LOGGER.RUNTIME.info("setSize");
+		mSize = pSize - 1;
+		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
+	}
+
 	public String getFilter() {
 		return mFilter;
 	}

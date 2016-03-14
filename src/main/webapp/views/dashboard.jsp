@@ -15,6 +15,14 @@
 	
 </c:when>
 <c:when test="${pageContext.request.method=='GET'}">
+		<c:if test="${param.size != null && (listManager.size = param.size) >= 0}">
+<%-- 			<c:set property="size" target="listManager" value="${param.size}"/> --%>
+		</c:if>
+		
+		<c:if test="${param.page != null && (listManager.page = (param.page - 1)) >= 0}">
+<%-- 			<c:set property="size" target="listManager" value="${param.size}"/> --%>
+		</c:if>
+	
 </c:when>
 <c:when test="${param.add!=null}">
 </c:when></c:choose>
@@ -132,9 +140,9 @@
 			</ul>
 
 			<div class="btn-group btn-group-sm pull-right" role="group">
-				<button type="button" class="btn btn-default">10</button>
-				<button type="button" class="btn btn-default">50</button>
-				<button type="button" class="btn btn-default">100</button>
+				<a type="button" class="btn btn-default" href="?size=10">10</a>
+				<a type="button" class="btn btn-default" href="?size=50">50</a>
+				<a type="button" class="btn btn-default" href="?size=100">100</a>
 			</div>
 	</footer>
 	<script src="../js/jquery.min.js"></script>
