@@ -42,6 +42,15 @@
 		</div>
 	</header>
 	<section id="main">
+		<%--suppress ELValidationInJSP --%>
+		<c:if test="${computerAdded}">
+			<c:remove var="computerAdded" scope="session" />
+			<div class="alert alert-success alert-dismissible fade in" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+				</button>
+				<h4>Computer successfully added into Database</h4>
+			</div>
+		</c:if>
 		<div class="container">
 			<h1 id="homeTitle">
 				${listManager.nbComputers()} Computers found

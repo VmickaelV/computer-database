@@ -9,17 +9,16 @@
 
 <c:choose>
     <c:when test="${pageContext.request.method=='POST' && param.action == 'add'}">
-        <c:if test="${computerEditor.addComputer()}" var="resultAdd"/>
+        <c:if test="${computerEditor.addComputer()}" var="computerAdded" scope="session">
+            <c:redirect url="dashboard.jsp"/>
+        </c:if>
     </c:when>
 </c:choose>
-
 <%-- Idées trovuées sur internet --%>
-
 <%--<c:if test="${param.submitted}">--%>
 <%--<c:if test="${empty param.name}" var="noName" />--%>
 <%--<c:if test="${empty param.email}" var="noEmail" />--%>
 <%--<c:if test="${empty param.age}" var="noAge" />--%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,13 +40,6 @@
 <section id="main">
     <div class="container">
         <div class="row">
-            <c:if test="${resultAdd}">
-                <div class="alert alert-success alert-dismissible fade in" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                    </button>
-                    <h4>Computer successfully added into Database</h4>
-                </div>
-            </c:if>
             <div class="col-xs-8 col-xs-offset-2 box">
                 <h1>Add Computer</h1>
                 <form action="addComputer.jsp" method="POST">
