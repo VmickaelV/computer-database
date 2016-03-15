@@ -1,18 +1,15 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao"%>
-
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <jsp:useBean id="listManager" scope="page"
 	class="com.excilys.mviegas.speccdb.managers.ListManager" />
-<%@page import="com.excilys.mviegas.speccdb.managers.ListManager"%>
+<%-- <%@page import="com.excilys.mviegas.speccdb.managers.ListManager"%> --%>
 <%-- <%!ListManager listManager = new ListManager();%> --%>
 <%-- <% --%>
 <%-- 	listManager.init();--%>
 <%-- %> --%>
 <c:choose>
 <c:when test="${pageContext.request.method=='POST'}">
-	
 </c:when>
 <c:when test="${pageContext.request.method=='GET'}">
 		<c:if test="${param.size != null && (listManager.size = param.size) >= 0}">
@@ -40,17 +37,14 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.html"> Application -
+			<a class="navbar-brand" href="dashboard.jsp"> Application -
 				Computer Database </a>
 		</div>
 	</header>
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">
-				<%-- 				<c:out value="${listManager.size}" /> --%>
-				<%-- 				<%= listManager.nbComputers() %> Computers found --%>
-				<c:out value="${listManager.nbComputers()}" />
-				Computers found
+				${listManager.nbComputers()} Computers found
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
@@ -63,7 +57,7 @@
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="addComputer.html">Add
+					<a class="btn btn-success" id="addComputer" href="addComputer.jsp">Add
 						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
@@ -106,7 +100,7 @@
 								class="cb" value="0"></td>
 							<td><jsp:element name="a">
 								<jsp:attribute name="href">
-									editComputer.html?id=<c:out value="${computer.getId()}" />
+									editComputer.html?id=${computer.id}
 								</jsp:attribute>
 								<jsp:body>
 										<c:out value="${computer.name}" />
@@ -144,6 +138,7 @@
 				<a type="button" class="btn btn-default" href="?size=50">50</a>
 				<a type="button" class="btn btn-default" href="?size=100">100</a>
 			</div>
+		</div>
 	</footer>
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>

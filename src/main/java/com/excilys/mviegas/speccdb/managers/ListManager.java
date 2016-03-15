@@ -1,13 +1,12 @@
 package com.excilys.mviegas.speccdb.managers;
 
-import java.util.List;
-
-import javax.annotation.ManagedBean;
-import javax.annotation.PostConstruct;
-
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.persist.CrudService;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+
+import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
+import java.util.List;
 
 @ManagedBean
 public class ListManager {
@@ -68,7 +67,6 @@ public class ListManager {
 	}
 
 	public void setSize(int pSize) {
-		C.LOGGER.RUNTIME.info("setSize");
 		mSize = pSize - 1;
 		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
 	}
