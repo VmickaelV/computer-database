@@ -6,10 +6,15 @@ import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+
+import org.apache.log4j.Logger;
+
 import java.util.List;
 
 @ManagedBean
 public class ListManager {
+	
+	public static final Logger LOGGER = Logger.getLogger(ListManager.class);
 	
 	public static final int DEFAULT_SIZE_PAGE = 10;
 
@@ -19,8 +24,9 @@ public class ListManager {
 	
 	private String mFilter;
 	
-	private int mPage;
-	private int mSize;
+	private int mPage = 1;
+	
+	private int mSize = DEFAULT_SIZE_PAGE;
 	
 	private List<Computer> mDisplayedComputers;
 	
@@ -39,17 +45,16 @@ public class ListManager {
 	@PostConstruct
 	public void init() {
 		mFilter = "";
-		mPage = 0;
+		mPage = 1;
 		mSize = DEFAULT_SIZE_PAGE;
 		mComputerDao = ComputerDao.INSTANCE;
-		setPage(mPage);
 	}
 	
 	//===========================================================
 	// Méthodes controleurs
 	//===========================================================
 	
-	public int nbComputers() {
+	public int getNbComputers() {
 		return mComputerDao.size();
 	}
 	
@@ -59,7 +64,7 @@ public class ListManager {
 
 	public void setPage(int pPage) {
 		mPage = pPage;
-		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
+//		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
 	}
 
 	public int getSize() {
@@ -67,8 +72,22 @@ public class ListManager {
 	}
 
 	public void setSize(int pSize) {
-		mSize = pSize - 1;
-		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
+		mSize = pSize;
+//		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
+	}
+	
+	public void update() {
+		
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug(this);
+		}
+		
+		if (mPage == 0) {
+			mPage = 1;
+		}
+		
+		
+		mDisplayedComputers = mComputerDao.findAll((mPage-1)*mSize, mSize);
 	}
 
 	public String getFilter() {
@@ -77,12 +96,33 @@ public class ListManager {
 
 	public void setFilter(String pFilter) {
 		mFilter = pFilter;
-		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
+//		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
 	}
 
 	public List<Computer> getDisplayedComputers() {
 		return mDisplayedComputers;
 	}
+
+	//===========================================================
+	// Méthodes - Object
+	//===========================================================	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("ListManager [mFilter=");
+		builder.append(mFilter);
+		builder.append(", mPage=");
+		builder.append(mPage);
+		builder.append(", mSize=");
+		builder.append(mSize);
+		builder.append(", mDisplayedComputers=");
+		builder.append(mDisplayedComputers);
+		builder.append(", mComputerDao=");
+		builder.append(mComputerDao);
+		builder.append("]");
+		return builder.toString();
+	}
+	
 	
 	
 	

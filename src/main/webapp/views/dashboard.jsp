@@ -1,8 +1,12 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="/WEB-INF/tagslib.tld" prefix="my"%>
 <jsp:useBean id="listManager" scope="page"
-	class="com.excilys.mviegas.speccdb.managers.ListManager" />
+	class="com.excilys.mviegas.speccdb.managers.ListManager">
+	<jsp:setProperty name="listManager" property="*"/>
+</jsp:useBean>
+<c:if test="${listManager.update()}"/>
 <%-- <%@page import="com.excilys.mviegas.speccdb.managers.ListManager"%> --%>
 <%-- <%!ListManager listManager = new ListManager();%> --%>
 <%-- <% --%>
@@ -10,16 +14,6 @@
 <%-- %> --%>
 <c:choose>
 <c:when test="${pageContext.request.method=='POST'}">
-</c:when>
-<c:when test="${pageContext.request.method=='GET'}">
-		<c:if test="${param.size != null && (listManager.size = param.size) >= 0}">
-<%-- 			<c:set property="size" target="listManager" value="${param.size}"/> --%>
-		</c:if>
-		
-		<c:if test="${param.page != null && (listManager.page = (param.page - 1)) >= 0}">
-<%-- 			<c:set property="size" target="listManager" value="${param.size}"/> --%>
-		</c:if>
-	
 </c:when>
 <c:when test="${param.add!=null}">
 </c:when></c:choose>
@@ -53,7 +47,7 @@
 		</c:if>
 		<div class="container">
 			<h1 id="homeTitle">
-				${listManager.nbComputers()} Computers found
+				${listManager.nbComputers} Computers found
 			</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
@@ -121,7 +115,6 @@
 						</tr>
 					</c:forEach>
 
-
 				</tbody>
 			</table>
 		</div>
@@ -129,18 +122,7 @@
 
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
-			<ul class="pagination">
-				<li><a href="#" aria-label="Previous"> <span
-						aria-hidden="true">&laquo;</span>
-				</a></li>
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-				</a></li>
-			</ul>
+			<my:pagination currentPage="${param.page}" countByPages="${param.size}" count="${listManager.nbComputers}" parameters="${param}"/>
 
 			<div class="btn-group btn-group-sm pull-right" role="group">
 				<a type="button" class="btn btn-default" href="?size=10">10</a>
