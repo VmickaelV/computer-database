@@ -29,6 +29,26 @@ public class ComputerDao implements CrudService<Computer> {
 
 	public static final int BASE_SIZE_PAGE = 100;
 	
+	/**
+	 * Liste des Queries nommées proposer pour le ComputerDao
+	 * 
+	 * @author VIEGAS Mickael
+	 */
+	public final class NamedQueries {
+		/**
+		 * Effectue une recherche par nom
+		 * 	SIZE 	int (opt) : nombre d'éléments
+		 *  START	int (opt) : décalage
+		 *  FILTER_NAME String (opt) : filtre
+		 */
+		public static final String SEARCH = "search";
+	}
+	
+	public final class Parameters {
+		public static final String SIZE = "size";
+		public static final String START = "start";
+		public static final String FILTER_NAME = "filter_name";
+	}
 	
 	
 	
@@ -268,8 +288,54 @@ public class ComputerDao implements CrudService<Computer> {
 
 	@Override
 	public List<Computer> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("ComputerDao#findWithNamedQuery not implemented yet.");
+		switch (pNamedQueryName) {
+		case NamedQueries.SEARCH:
+			Statement statement;
+			int size = (int) pParameters.getOrDefault(Parameters.SIZE, BASE_SIZE_PAGE);
+			int start = (int) pParameters.getOrDefault(Parameters.START, 0);
+			String search = (String) pParameters.getOrDefault(Parameters.FILTER_NAME, 0);
+			
+			try {
+				statement = mConnection.createStatement();
+				if (size > 0) {
+					statement.setMaxRows(size);
+				} else {
+					statement.setMaxRows(0);
+					size = 0;
+				}
+				
+				StringBuilder stringBuilder = new StringBuilder();
+				
+				stringBuilder.append("SELECT * FROM computer");
+				
+				if (search != null && !search.isEmpty()) {
+					stringBuilder.append(" WHERE name LIKE \"%")
+						.append(search)
+						.append("%\"");
+				}
+				
+				stringBuilder.append(" LIMIT ").append(size).append(" OFFSET ").append(start);
+				
+				if (LOGGER.isInfoEnabled()) {
+					LOGGER.info("Query : "+stringBuilder.toString());
+				}
+				
+				ResultSet resultSet = statement.executeQuery(stringBuilder.toString());
+				
+				List<Computer> mCompanies = new ArrayList<>(resultSet.getFetchSize());
+				
+				while (resultSet.next()) {
+					Computer computer = ComputerJdbcWrapper.fromJdbc(resultSet);
+					mCompanies.add(computer);
+				}
+				return mCompanies;
+			} catch (SQLException e) {
+				LOGGER.error(e);
+				throw new DAOException(e);
+			}
+		default:
+			throw new UnsupportedOperationException("NamedQueries not supported : " + pNamedQueryName);
+		}
 	}
 
 	@Override
