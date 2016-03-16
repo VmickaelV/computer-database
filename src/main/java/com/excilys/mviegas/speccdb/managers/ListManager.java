@@ -2,6 +2,7 @@ package com.excilys.mviegas.speccdb.managers;
 
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.persist.CrudService;
+import com.excilys.mviegas.speccdb.persist.QueryParameter;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
 
 import javax.annotation.ManagedBean;
@@ -22,11 +23,11 @@ public class ListManager {
 	// Attributes - privates
 	//===========================================================
 	
-	private String mFilter;
-	
 	private int mPage = 1;
 	
 	private int mSize = DEFAULT_SIZE_PAGE;
+	
+	private String mSearch;
 	
 	private List<Computer> mDisplayedComputers;
 	
@@ -44,7 +45,6 @@ public class ListManager {
 	//===========================================================
 	@PostConstruct
 	public void init() {
-		mFilter = "";
 		mPage = 1;
 		mSize = DEFAULT_SIZE_PAGE;
 		mComputerDao = ComputerDao.INSTANCE;
@@ -76,7 +76,19 @@ public class ListManager {
 //		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
 	}
 	
+	public String getSearch() {
+		return mSearch;
+	}
+
+	public void setSearch(String pSearch) {
+		mSearch = pSearch;
+	}
+
 	public void update() {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("ListManager#update");
+			LOGGER.debug("");
+		}
 		
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug(this);
@@ -86,17 +98,14 @@ public class ListManager {
 			mPage = 1;
 		}
 		
-		
-		mDisplayedComputers = mComputerDao.findAll((mPage-1)*mSize, mSize);
-	}
-
-	public String getFilter() {
-		return mFilter;
-	}
-
-	public void setFilter(String pFilter) {
-		mFilter = pFilter;
-//		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
+		if (mSearch != null && !mSearch.isEmpty()) {
+			QueryParameter parameter = QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, mSearch);
+			parameter.and(ComputerDao.Parameters.SIZE, mSize)
+				.and(ComputerDao.Parameters.START, (mPage - 1)*mSize);
+			mDisplayedComputers = mComputerDao.findWithNamedQuery(ComputerDao.NamedQueries.SEARCH, parameter.parameters());
+		} else {
+			mDisplayedComputers = mComputerDao.findAll((mPage-1)*mSize, mSize);
+		}
 	}
 
 	public List<Computer> getDisplayedComputers() {
@@ -106,15 +115,16 @@ public class ListManager {
 	//===========================================================
 	// Méthodes - Object
 	//===========================================================	
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("ListManager [mFilter=");
-		builder.append(mFilter);
-		builder.append(", mPage=");
+		builder.append("ListManager [mPage=");
 		builder.append(mPage);
 		builder.append(", mSize=");
 		builder.append(mSize);
+		builder.append(", mSearch=");
+		builder.append(mSearch);
 		builder.append(", mDisplayedComputers=");
 		builder.append(mDisplayedComputers);
 		builder.append(", mComputerDao=");
@@ -122,6 +132,7 @@ public class ListManager {
 		builder.append("]");
 		return builder.toString();
 	}
+
 	
 	
 	
