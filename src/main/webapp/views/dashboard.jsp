@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="/WEB-INF/tagslib.tld" prefix="my"%>
+<%@taglib tagdir="/WEB-INF/tags" prefix="my2"%>
 <jsp:useBean id="listManager" scope="page"
 	class="com.excilys.mviegas.speccdb.managers.ListManager">
 	<jsp:setProperty name="listManager" property="*"/>
@@ -123,11 +124,11 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
 			<my:pagination currentPage="${param.page}" countByPages="${param.size}" count="${listManager.nbComputers}" parameters="${param}"/>
-
+			
 			<div class="btn-group btn-group-sm pull-right" role="group">
-				<a type="button" class="btn btn-default" href="?size=10">10</a>
-				<a type="button" class="btn btn-default" href="?size=50">50</a>
-				<a type="button" class="btn btn-default" href="?size=100">100</a>
+				<a type="button" class="btn btn-default ${param.size == 10 ? 'active' : ''}" href="?size=10">10</a>
+				<a type="button" class="btn btn-default ${param.size == 50 ? 'active' : ''}" href="?size=50">50</a>
+				<a type="button" class="btn btn-default ${param.size == 100 ? 'active' : ''}" href="?size=100">100</a>
 			</div>
 		</div>
 	</footer>

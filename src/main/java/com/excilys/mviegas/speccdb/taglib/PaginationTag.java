@@ -157,7 +157,9 @@ public class PaginationTag extends SimpleTagSupport {
 		}
 		
 		for(int i = min; i <= max; i++) {
-			out.append("<li><a href=\"")
+			out.append("<li")
+				.append(mCurrentPage == i ? " class=\"active\"": "")
+				.append("><a href=\"")
 				.append(builder.toString())
 				.append(String.valueOf(i))
 				.append("\">")
