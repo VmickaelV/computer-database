@@ -1,18 +1,16 @@
 package com.excilys.mviegas.speccdb.managers;
 
-import java.rmi.UnexpectedException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-
-import javax.annotation.ManagedBean;
-import javax.annotation.PostConstruct;
-
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.persist.CrudService;
 import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+
+import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 @ManagedBean
 public class ComputerEditor {

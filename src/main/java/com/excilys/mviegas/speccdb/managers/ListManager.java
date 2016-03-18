@@ -1,6 +1,7 @@
 package com.excilys.mviegas.speccdb.managers;
 
 import com.excilys.mviegas.speccdb.data.Computer;
+import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persist.CrudService;
 import com.excilys.mviegas.speccdb.persist.QueryParameter;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
@@ -112,6 +113,18 @@ public class ListManager {
 		return mDisplayedComputers;
 	}
 
+	public boolean delete(String pIntegers) {
+		String[] indexes = pIntegers.split(",");
+
+		// TODO à optimiser
+		for (String index : indexes) {
+			int i = Integer.parseInt(index);
+			if (!mComputerDao.delete(i)) {
+				return false;
+			}
+		}
+		return true;
+	}
 	//===========================================================
 	// Méthodes - Object
 	//===========================================================	
