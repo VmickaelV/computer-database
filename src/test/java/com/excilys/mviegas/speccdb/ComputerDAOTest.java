@@ -1,20 +1,22 @@
 package com.excilys.mviegas.speccdb;
 
-import static org.junit.Assert.*;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-
+import com.excilys.mviegas.speccdb.data.Computer;
+import com.excilys.mviegas.speccdb.exceptions.DAOException;
+import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
-import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import static org.junit.Assert.*;
 
 public class ComputerDAOTest {
 	
@@ -113,6 +115,20 @@ public class ComputerDAOTest {
 	@Test
 	public void create2() throws Exception {
 		assertNotNull(new Computer("Un autre nom"));
+	}
+
+
+
+	@Test
+	public void createerrorTimeStamp() throws Exception {
+		try {
+			LocalDateTime localDateTime = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
+			mComputerDao.create(new Computer("un nom", new Date(1969, 1, 1), null, null));
+			fail();
+		} catch (DAOException ignored) {
+
+		}
+
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

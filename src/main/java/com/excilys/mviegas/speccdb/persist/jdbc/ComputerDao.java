@@ -74,6 +74,7 @@ public class ComputerDao implements CrudService<Computer> {
 			mDeleteStatement = mConnection.prepareStatement("DELETE FROM `computer` WHERE id = ?");
 			mFindStatement = mConnection.prepareStatement("SELECT * FROM `computer` WHERE id = ?");
 		} catch (SQLException e) {
+			LOGGER.error(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -131,9 +132,9 @@ public class ComputerDao implements CrudService<Computer> {
 				return pT;
 				
 			}
-			
-			LOGGER.error("Error on persist");
-			return null;
+
+			LOGGER.error("Erreur lors de la persistance d'un objet");
+			throw new DAOException("Erreur lors de la persistance d'un objet");
 		} catch (SQLException e) {
 			LOGGER.error(e);
 			throw new DAOException(e);

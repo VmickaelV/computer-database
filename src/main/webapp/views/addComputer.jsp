@@ -101,7 +101,7 @@
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" name="action" value="add"
+							<input type="submit" id="btnSubmit" name="action" value="add"
 								class="btn btn-primary"> or <a href="dashboard.jsp"
 								class="btn btn-default">Cancel</a>
 						</div>
@@ -124,8 +124,21 @@
 			}
 		});
 		
-		$("#introducedDate").datepicker();
-		$("#discontinuedDate").datepicker();
+		$("#introducedDate").datepicker({
+			changeMonth:true,
+			changeYear:true,
+			maxDate: "+0d",
+			buttonText: "Choose"
+		}).change(function () {
+
+		});
+		$("#discontinuedDate").datepicker({
+			changeMonth:true,
+			changeYear:true,
+			maxDate: "+0d",
+			buttonText: "Choose"
+		});
+
 	</script>
 </body>
 </html>
