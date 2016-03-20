@@ -1,5 +1,8 @@
 package com.excilys.mviegas.speccdb.data;
 
+import com.excilys.mviegas.speccdb.IBuilder;
+import com.excilys.mviegas.speccdb.exceptions.BuilderException;
+
 import java.time.LocalDate;
 
 /**
@@ -119,7 +122,7 @@ public class Computer {
 	/**
 	 * Class Builder d'un ordinateur
 	 */
-	public static class Builder {
+	public static class Builder implements IBuilder<Builder, Computer> {
 
 		private String mName;
 		private LocalDate mIntroducedDate;
@@ -146,6 +149,7 @@ public class Computer {
 			return this;
 		}
 
+		@Override
 		public Computer build() {
 			Computer computer = new Computer();
 			computer.mName = mName;
@@ -154,6 +158,15 @@ public class Computer {
 			computer.mManufacturer = mManufacturer;
 
 			return computer;
+		}
+
+		@Override
+		public Builder init() throws BuilderException {
+			mName = null;
+			mIntroducedDate = null;
+			mDiscontinuedDate = null;
+			mManufacturer = null;
+			return this;
 		}
 	}
 }
