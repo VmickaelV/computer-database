@@ -13,8 +13,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 
 import static org.junit.Assert.*;
 
@@ -114,7 +113,7 @@ public class ComputerDAOTest {
 	
 	@Test
 	public void create2() throws Exception {
-		assertNotNull(new Computer("Un autre nom"));
+		assertNotNull(new Computer.Builder().setName("Un autre nom").build());
 	}
 
 
@@ -122,8 +121,10 @@ public class ComputerDAOTest {
 	@Test
 	public void createerrorTimeStamp() throws Exception {
 		try {
-			LocalDateTime localDateTime = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
-			mComputerDao.create(new Computer("un nom", new Date(1969, 1, 1), null, null));
+			mComputerDao.create(new Computer.Builder()
+					.setName("un nom")
+					.setIntroducedDate(LocalDate.of(1969, 1, 1))
+					.build());
 			fail();
 		} catch (DAOException ignored) {
 
@@ -139,7 +140,7 @@ public class ComputerDAOTest {
 	@Test
 	public void update1() throws Exception {
 		try {
-			mComputerDao.update(new Computer("name"));
+			mComputerDao.update(new Computer.Builder().setName("name").build());
 			fail();
 		} catch (IllegalArgumentException e) {
 			if (!e.getMessage().equals("Null or Not Persisted Object")) {

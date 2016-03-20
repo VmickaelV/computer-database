@@ -1,12 +1,13 @@
 package com.excilys.mviegas.speccdb.ui.cligui;
 
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class ComputerUpdate implements IComputerUpdateControler {
 
@@ -50,9 +51,9 @@ public class ComputerUpdate implements IComputerUpdateControler {
 		} while (name == null || name.equals(""));
 
 		// saisie date introduction
-		Date dateIntroduced = null;
+		LocalDate dateIntroduced = null;
 		final String formatDate = "yyyy/MM/dd";
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatDate);
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatDate);
 
 		do {
 			if (mComputer == null || mComputer.getIntroducedDate() == null) {
@@ -65,8 +66,8 @@ public class ComputerUpdate implements IComputerUpdateControler {
 
 			if (!t.isEmpty()) {
 				try {
-					dateIntroduced = simpleDateFormat.parse(t);
-				} catch (ParseException e) {
+					dateIntroduced = LocalDate.parse(t, dateTimeFormatter);
+				} catch (DateTimeParseException e) {
 					System.err.println("Veuillez saisir une date dans le bon format (AAAA/MM/JJ)");
 					continue;
 				}
@@ -80,7 +81,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 		} while (true);
 
 		// Saisie date fin
-		Date dateFinished = null;
+		LocalDate dateFinished = null;
 
 		do {
 			if (mComputer == null || mComputer.getDiscontinuedDate() == null) {
@@ -93,8 +94,8 @@ public class ComputerUpdate implements IComputerUpdateControler {
 
 			if (!t.isEmpty()) {
 				try {
-					dateFinished = simpleDateFormat.parse(t);
-				} catch (ParseException e) {
+					dateFinished = LocalDate.parse(t, dateTimeFormatter);
+				} catch (DateTimeParseException e) {
 					System.err.println("Veuillez saisir une date dans le bon format (AAAA/MM/JJ)");
 					continue;
 				}
@@ -150,7 +151,10 @@ public class ComputerUpdate implements IComputerUpdateControler {
 		} while (true);
 
 		if (mComputer == null) {
-			mComputer = new Computer(name, dateIntroduced, dateFinished, company);
+			Computer.Builder builder = new Computer.Builder();
+			builder.setName(name).setIntroducedDate(dateIntroduced).setDiscontinuedDate(dateFinished).setManufacturer(company);
+
+			mComputer = builder.build();
 
 			ComputerDao.INSTANCE.create(mComputer);
 		} else {

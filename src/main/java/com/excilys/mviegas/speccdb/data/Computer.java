@@ -28,29 +28,7 @@ public class Computer {
 	// ===========================================================
 
 	public Computer() {
-		super();
-	}
 
-	public Computer(String pName) {
-		super();
-		mName = pName;
-	}
-
-	public Computer(String pName, LocalDate pIntroducedDate, LocalDate pDiscontinuedDate, Company pManufacturer) {
-		super();
-		mName = pName;
-		mIntroducedDate = pIntroducedDate;
-		mDiscontinuedDate = pDiscontinuedDate;
-		mManufacturer = pManufacturer;
-	}
-
-	public Computer(int pId, String pName, LocalDate pIntroducedDate, LocalDate pDiscontinuedDate, Company pManufacturer) {
-		super();
-		mId = pId;
-		mName = pName;
-		mIntroducedDate = pIntroducedDate;
-		mDiscontinuedDate = pDiscontinuedDate;
-		mManufacturer = pManufacturer;
 	}
 
 	// ===========================================================
