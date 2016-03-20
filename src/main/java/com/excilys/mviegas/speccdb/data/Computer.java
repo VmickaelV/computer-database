@@ -2,6 +2,11 @@ package com.excilys.mviegas.speccdb.data;
 
 import java.util.Date;
 
+/**
+ * Objet représentant un ordinateur
+ *
+ * @author Mickael
+ */
 public class Computer {
 
 	// ===========================================================
@@ -22,7 +27,7 @@ public class Computer {
 	// Constructors
 	// ===========================================================
 
-	protected Computer() {
+	public Computer() {
 		super();
 	}
 
@@ -30,10 +35,6 @@ public class Computer {
 		super();
 		mName = pName;
 	}
-	
-	
-	
-	
 
 	public Computer(String pName, Date pIntroducedDate, Date pDiscontinuedDate, Company pManufacturer) {
 		super();
@@ -127,11 +128,54 @@ public class Computer {
 		if (getClass() != obj.getClass())
 			return false;
 		Computer other = (Computer) obj;
+		//noinspection RedundantIfStatement
 		if (mId != other.mId)
 			return false;
 		return true;
 	}
 	
-	
-	
+	// ============================================================
+	//	Inner Class
+	// ============================================================
+
+	/**
+	 * Class Builder d'un ordinateur
+	 */
+	public static class Builder {
+
+		private String mName;
+		private Date mIntroducedDate;
+		private Date mDiscontinuedDate;
+		private Company mManufacturer;
+
+		public Builder setName(final String pName) {
+			mName = pName;
+			return this;
+		}
+
+		public Builder setIntroducedDate(final Date pIntroducedDate) {
+			mIntroducedDate = pIntroducedDate;
+			return this;
+		}
+
+		public Builder setDiscontinuedDate(final Date pDiscontinuedDate) {
+			mDiscontinuedDate = pDiscontinuedDate;
+			return this;
+		}
+
+		public Builder setManufacturer(final Company pManufacturer) {
+			mManufacturer = pManufacturer;
+			return this;
+		}
+
+		public Computer build() {
+			Computer computer = new Computer();
+			computer.mName = mName;
+			computer.mIntroducedDate = mIntroducedDate;
+			computer.mDiscontinuedDate = mDiscontinuedDate;
+			computer.mManufacturer = mManufacturer;
+
+			return computer;
+		}
+	}
 }
