@@ -1,7 +1,7 @@
 package com.excilys.mviegas.speccdb.exceptions;
 
-@SuppressWarnings("serial")
-public class DAOException extends RuntimeException {
+@SuppressWarnings({"serial", "unused"})
+public class DAOException extends Exception {
 
 	public DAOException() {
 		super();

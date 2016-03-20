@@ -1,5 +1,8 @@
 package com.excilys.mviegas.speccdb.data;
 
+import com.excilys.mviegas.speccdb.IBuilder;
+import com.excilys.mviegas.speccdb.exceptions.BuilderException;
+
 /**
  * Objet représentant une compagnie
  *
@@ -92,7 +95,7 @@ public class Company {
 	/**
 	 * Class Builder d'une compagnie
 	 */
-	public static class Builder {
+	public static class Builder implements IBuilder<Builder, Company> {
 		private int mId;
 		private String mName;
 
@@ -101,10 +104,18 @@ public class Company {
 			return this;
 		}
 
+		@Override
 		public Company build() {
 			Company company = new Company();
 			company.mName = mName;
 			return company;
+		}
+
+		@Override
+		public Builder init() throws BuilderException {
+			mId = 0;
+			mName = null;
+			return this;
 		}
 	}
 }
