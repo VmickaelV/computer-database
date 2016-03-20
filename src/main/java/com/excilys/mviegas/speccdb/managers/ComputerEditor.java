@@ -8,8 +8,9 @@ import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @ManagedBean
@@ -27,7 +28,7 @@ public class ComputerEditor {
 	
 	public List<Company> mCompanies;
 
-	public static SimpleDateFormat sSimpleDateFormat = new SimpleDateFormat(PATTERN_DATE);
+	public static DateTimeFormatter sDateTimeFormatter = DateTimeFormatter.ofPattern(PATTERN_DATE);
 
 	public CrudService<Company> mCompanyCrudService;
 	public CrudService<Computer> mComputerCrudService;
@@ -101,9 +102,9 @@ public class ComputerEditor {
 			return true;
 		} else {
 			try {
-				sSimpleDateFormat.parse(pDate);
+				LocalDate.parse(pDate, sDateTimeFormatter);
 				return true;
-			} catch (ParseException e) {
+			} catch (DateTimeParseException e) {
 				return false;
 			}
 		}
@@ -111,8 +112,13 @@ public class ComputerEditor {
 
 	private Computer makeComputer() {
 		try {
-			return new Computer(mName, mIntroducedDate == null ? null : sSimpleDateFormat.parse(mIntroducedDate), mDiscontinuedDate == null ? null : sSimpleDateFormat.parse(mDiscontinuedDate), mCompanyCrudService.find(mIdCompany));
-		} catch (ParseException pE) {
+			return new Computer.Builder()
+					.setName(mName)
+					.setIntroducedDate(mIntroducedDate == null ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter))
+					.setDiscontinuedDate(mDiscontinuedDate == null ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter))
+					.setManufacturer(mCompanyCrudService.find(mIdCompany)).build();
+		} catch (DateTimeParseException pE) {
+			// TODO a logger
 			throw new RuntimeException("Erreur non attendu", pE);
 		}
 	}

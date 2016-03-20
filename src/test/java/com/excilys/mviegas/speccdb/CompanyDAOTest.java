@@ -1,14 +1,11 @@
 package com.excilys.mviegas.speccdb;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
-
+import com.excilys.mviegas.speccdb.data.Company;
+import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.excilys.mviegas.speccdb.data.Company;
-import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
+import static org.junit.Assert.*;
 
 public class CompanyDAOTest {
 	
@@ -76,7 +73,7 @@ public class CompanyDAOTest {
 	@Test
 	public void create1() throws Exception {
 		try {
-			mCompanyDao.create(new Company("name"));
+			mCompanyDao.create(new Company.Builder().setName("name").build());
 			fail();
 		} catch (UnsupportedOperationException ignored) {
 			
@@ -91,7 +88,7 @@ public class CompanyDAOTest {
 	@Test
 	public void update1() throws Exception {
 		try {
-			mCompanyDao.update(new Company("name"));
+			mCompanyDao.update(new Company.Builder().setName("name").build());
 			fail();
 		} catch (UnsupportedOperationException ignored) {
 			

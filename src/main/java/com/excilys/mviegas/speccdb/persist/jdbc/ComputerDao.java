@@ -1,24 +1,15 @@
 package com.excilys.mviegas.speccdb.persist.jdbc;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-
-import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persist.CrudService;
 import com.excilys.mviegas.speccdb.wrappers.ComputerJdbcWrapper;
+import org.apache.log4j.Logger;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ComputerDao implements CrudService<Computer> {
 //	INSTANCE;
@@ -89,12 +80,12 @@ public class ComputerDao implements CrudService<Computer> {
 		}
 		pPreparedStatement.setString(1, pT.getName());
 		if (pT.getIntroducedDate() != null) {
-			pPreparedStatement.setDate(2, new Date(pT.getIntroducedDate().getTime()));
+			pPreparedStatement.setDate(2, new Date(pT.getIntroducedDate().toEpochDay()));
 		} else {
 			pPreparedStatement.setDate(2, null);
 		}
 		if (pT.getDiscontinuedDate() != null) {
-			pPreparedStatement.setDate(3, new Date(pT.getDiscontinuedDate().getTime()));
+			pPreparedStatement.setDate(3, new Date(pT.getDiscontinuedDate().toEpochDay()));
 		} else {
 			pPreparedStatement.setDate(3, null);
 		}
