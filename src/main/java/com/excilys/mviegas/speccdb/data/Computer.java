@@ -1,6 +1,6 @@
 package com.excilys.mviegas.speccdb.data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Objet représentant un ordinateur
@@ -17,9 +17,9 @@ public class Computer {
 
 	private String mName;
 
-	private Date mIntroducedDate;
+	private LocalDate mIntroducedDate;
 
-	private Date mDiscontinuedDate;
+	private LocalDate mDiscontinuedDate;
 
 	private Company mManufacturer;
 
@@ -36,7 +36,7 @@ public class Computer {
 		mName = pName;
 	}
 
-	public Computer(String pName, Date pIntroducedDate, Date pDiscontinuedDate, Company pManufacturer) {
+	public Computer(String pName, LocalDate pIntroducedDate, LocalDate pDiscontinuedDate, Company pManufacturer) {
 		super();
 		mName = pName;
 		mIntroducedDate = pIntroducedDate;
@@ -44,7 +44,7 @@ public class Computer {
 		mManufacturer = pManufacturer;
 	}
 
-	public Computer(int pId, String pName, Date pIntroducedDate, Date pDiscontinuedDate, Company pManufacturer) {
+	public Computer(int pId, String pName, LocalDate pIntroducedDate, LocalDate pDiscontinuedDate, Company pManufacturer) {
 		super();
 		mId = pId;
 		mName = pName;
@@ -65,11 +65,11 @@ public class Computer {
 		return mName;
 	}
 
-	public Date getIntroducedDate() {
+	public LocalDate getIntroducedDate() {
 		return mIntroducedDate;
 	}
 
-	public Date getDiscontinuedDate() {
+	public LocalDate getDiscontinuedDate() {
 		return mDiscontinuedDate;
 	}
 
@@ -90,11 +90,11 @@ public class Computer {
 		mName = pName;
 	}
 
-	public void setIntroducedDate(Date pIntroducedDate) {
+	public void setIntroducedDate(LocalDate pIntroducedDate) {
 		mIntroducedDate = pIntroducedDate;
 	}
 
-	public void setDiscontinuedDate(Date pDiscontinuedDate) {
+	public void setDiscontinuedDate(LocalDate pDiscontinuedDate) {
 		mDiscontinuedDate = pDiscontinuedDate;
 	}
 
@@ -144,8 +144,8 @@ public class Computer {
 	public static class Builder {
 
 		private String mName;
-		private Date mIntroducedDate;
-		private Date mDiscontinuedDate;
+		private LocalDate mIntroducedDate;
+		private LocalDate mDiscontinuedDate;
 		private Company mManufacturer;
 
 		public Builder setName(final String pName) {
@@ -153,12 +153,12 @@ public class Computer {
 			return this;
 		}
 
-		public Builder setIntroducedDate(final Date pIntroducedDate) {
+		public Builder setIntroducedDate(final LocalDate pIntroducedDate) {
 			mIntroducedDate = pIntroducedDate;
 			return this;
 		}
 
-		public Builder setDiscontinuedDate(final Date pDiscontinuedDate) {
+		public Builder setDiscontinuedDate(final LocalDate pDiscontinuedDate) {
 			mDiscontinuedDate = pDiscontinuedDate;
 			return this;
 		}
