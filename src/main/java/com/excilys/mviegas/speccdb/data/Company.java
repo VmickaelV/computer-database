@@ -1,5 +1,10 @@
 package com.excilys.mviegas.speccdb.data;
 
+/**
+ * Objet représentant une compagnie
+ *
+ * @author Mickael
+ */
 public class Company {
 
 	// ===========================================================
@@ -14,16 +19,11 @@ public class Company {
 	// Constructors
 	// ===========================================================
 
-	protected Company() {
+	public Company() {
 		super();
-	}
-
-	public Company(String pName) {
-		super();
-		mName = pName;
 	}
 	
-	public Company(int pId, String pName) {
+	private Company(int pId, String pName) {
 		super();
 		mId = pId;
 		mName = pName;
@@ -41,7 +41,13 @@ public class Company {
 		return mName;
 	}
 
-	// ----------------------------------------------------------
+	// -----------------------------------------------------------
+
+	public void setId(final int pId) {
+		if (mId == 0 && pId > 0) {
+			mId = pId;
+		}
+	}
 
 	public void setName(String pName) {
 		mName = pName;
@@ -73,11 +79,32 @@ public class Company {
 		if (getClass() != obj.getClass())
 			return false;
 		Company other = (Company) obj;
+		//noinspection RedundantIfStatement
 		if (mId != other.mId)
 			return false;
 		return true;
 	}
 	
-	
+	// ============================================================
+	//	Inner Class
+	// ============================================================
 
+	/**
+	 * Class Builder d'une compagnie
+	 */
+	public static class Builder {
+		private int mId;
+		private String mName;
+
+		public Builder setName(final String pName) {
+			mName = pName;
+			return this;
+		}
+
+		public Company build() {
+			Company company = new Company();
+			company.mName = mName;
+			return company;
+		}
+	}
 }
