@@ -1,15 +1,22 @@
 package com.excilys.mviegas.speccdb.selenium;
 
-import com.excilys.mviegas.speccdb.BaseTest;
+import com.excilys.mviegas.speccdb.BaseSeleniumTest;
+import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
 import org.junit.Test;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.lift.Matchers;
 
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
-public class Tests extends BaseTest {
+public class Tests extends BaseSeleniumTest {
+
 	@org.junit.Test
 	public void testA() throws Exception {
-		mWebDriver.get(mBaseUrl + "/speccdb/views/addComputer.jsp");
+		mWebDriver.get(getTargetUrl("addComputer"));
+
 		mWebDriver.findElement(By.id("btnSubmit")).click();
 
 		mWebDriver.findElement(By.id("searchsubmit")).click();
@@ -29,6 +36,80 @@ public class Tests extends BaseTest {
 		mWebDriver.findElement(By.id("btnSubmit")).click();
 
 		assertEquals("Computer Database", mWebDriver.getTitle());
+
+	}
+
+	/**
+	 * Test de validation champ vide pour nom
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void nameEmpty() throws Exception {
+
+		int n = ComputerDao.INSTANCE.size();
+		mWebDriver.get(mBaseUrl + "/speccdb/views/addComputer.jsp");
+
+		assertEquals("Computer Database", driver.getTitle());
+		assertEquals("", driver.findElement(By.id("name")).getText());
+		assertEquals("", driver.findElement(By.id("name")).getAttribute("value"));
+
+		try {
+			assertThat(driver.findElement(By.id("name-error")), not(Matchers.displayed()));
+			fail();
+		} catch (NoSuchElementException ignored) {
+
+		}
+
+		mWebDriver.findElement(By.id("btnSubmit")).click();
+
+		assertEquals("This field is required.", driver.findElement(By.id("name-error")).getText());
+
+		assertEquals(n, ComputerDao.INSTANCE.size());
+	}
+
+	/**
+	 * Test de validation champ vide pour nom
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void onlyName() throws Exception {
+
+		int n = ComputerDao.INSTANCE.size();
+		mWebDriver.get(mBaseUrl + "/speccdb/views/addComputer.jsp");
+
+		assertEquals("Computer Database", driver.getTitle());
+		WebElement element = driver.findElement(By.id("name"));
+		assertEquals("", element.getText());
+		assertEquals("", element.getAttribute("value"));
+
+
+		element.clear();
+		element.sendKeys("UnNom");
+
+
+		try {
+			assertThat(driver.findElement(By.id("name-error")), not(Matchers.displayed()));
+			fail();
+		} catch (NoSuchElementException ignored) {
+
+		}
+
+		mWebDriver.findElement(By.id("btnSubmit")).click();
+
+		try {
+			assertThat(driver.findElement(By.id("name-error")), not(Matchers.displayed()));
+			fail();
+		} catch (NoSuchElementException ignored) {
+
+		}
+
+		assertEquals(n+1, ComputerDao.INSTANCE.size());
+
+		assertTrue(mWebDriver.getCurrentUrl().endsWith("dashboard.jsp"));
+
+		assertEquals("× Computer successfully added into Database", driver.findElement(By.xpath("//section[@id='main']/div")).getText());
 
 	}
 }

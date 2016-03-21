@@ -1,22 +1,20 @@
 package com.excilys.mviegas.speccdb.managers;
 
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persist.CrudService;
 import com.excilys.mviegas.speccdb.persist.QueryParameter;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
-
-import org.apache.log4j.Logger;
-
 import java.util.List;
 
 @ManagedBean
 public class ListManager {
 	
-	public static final Logger LOGGER = Logger.getLogger(ListManager.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(ListManager.class);
 	
 	public static final int DEFAULT_SIZE_PAGE = 10;
 
@@ -92,7 +90,7 @@ public class ListManager {
 		}
 		
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug(this);
+			LOGGER.debug(this.toString());
 		}
 		
 		if (mPage == 0) {

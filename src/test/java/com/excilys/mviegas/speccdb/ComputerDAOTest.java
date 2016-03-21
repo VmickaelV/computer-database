@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -122,8 +123,8 @@ public class ComputerDAOTest {
 	@Test
 	public void createerrorTimeStamp() throws Exception {
 		try {
-			LocalDateTime localDateTime = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
-			mComputerDao.create(new Computer("un nom", new Date(1969, 1, 1), null, null));
+			LocalDateTime localDateTime = LocalDateTime.of(1911, 1, 1, 0, 0, 0, 0);
+			mComputerDao.create(new Computer("un nom", Date.from(Instant.from(localDateTime)), null, null));
 			fail();
 		} catch (DAOException ignored) {
 
