@@ -1,19 +1,26 @@
 package com.excilys.mviegas.speccdb.persist.jdbc;
 
 import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
+import com.jolbox.bonecp.BoneCP;
+import com.jolbox.bonecp.BoneCPConfig;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 
+import javax.management.RuntimeErrorException;
+
 /**
- * Gestion de la connection à la base de données Created by Mickael on
- * 18/10/2014.
+ * Gestion de la connection à la base de données
+ * 
+ * Created by Mickael on 18/10/2014.
  */
 public class DatabaseManager {
 	
@@ -28,33 +35,58 @@ public class DatabaseManager {
 	public static final String KEY_USER = "user";
 	public static final String KEY_PASSWORD = "password";
 	public static final String KEY_SCHEMA = "schema";
+	public static final String KEY_MIN_SIZE = "min_size";
+	public static final String KEY_MAX_SIZE = "max_size";
 
+	
+	private static final BoneCP sConnectionPool;
 	/**
 	 * Queue des connections libres
 	 */
 	private static final Queue<Connection> freeConnections = new LinkedList<Connection>();
 
 	/**
-	 * The Constant numberOfInitialConnections.
+	 * The Constant password.
 	 */
-	private static final int MIN_SIZE_QUEUE = 5;
-
-	/** The Constant password. */
 	private static final String PASSWORD;
 
-	/** The Constant url. */
+	/**
+	 * The Constant url.
+	 */
 	private static final String URL;
 
-	/** The Constant user. */
+	/** 
+	 * The Constant user. 
+	 */
 	private static final String USER;
 	
+	/**
+	 * Liste de fichiers de scripts à lancer pour mettre en place la BDD
+	 */
 	private static final String CREATE_SCRIPTS; 
+	
+	/**
+	 * Liste de fichiers de scripts à lancer à la première connexion pour remplir la BDD
+	 */
 	private static final String INSERT_SCRIPTS;
+	
+	/**
+	 * Taille minimale du pool de connexion
+	 */
+	public static final int MIN_SIZE_POOL = 5;
+	
+	/**
+	 * Taille maximale qu'aura le pool de connexion
+	 * 
+	 */
+	public static final int MAX_SIZE_POOL = 20;
 
 	static {
-
+		
+		// Chargement des préférences de connexions
 		Properties prefs = new Properties();
 
+		// Chargement de l'objet Preferences
 		if (new File(CONFIG_FILENAME).exists()) {
 			if (LOGGER.isInfoEnabled()) {
 				LOGGER.info("Chargement config à partir du fichier "+CONFIG_FILENAME);
@@ -82,6 +114,7 @@ public class DatabaseManager {
 			}
 		}
 
+		// Assignation des préférences
 		URL = prefs.getProperty("url", "");
 		USER = prefs.getProperty("user", "");
 		PASSWORD = prefs.getProperty("password", "");
@@ -89,14 +122,15 @@ public class DatabaseManager {
 		INSERT_SCRIPTS = prefs.getProperty("insertScripts", "");
 //		String schema = prefs.getProperty("schema", "");
 		
+		// Chargement des pilotes 
 		try {
-            // The newInstance() call is a work around for some
-            // broken Java implementations
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (Exception ex) {
-            // handle the error
+            LOGGER.error(ex.getMessage(), ex);
+			throw new RuntimeException(ex);
         }
 		
+		// Scripts SQL à lancer au démarrage
 		if (!CREATE_SCRIPTS.isEmpty() || INSERT_SCRIPTS.isEmpty()) {
 			try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
 				
@@ -113,13 +147,10 @@ public class DatabaseManager {
 				System.out.println(list);
 				
 				for (String fileLink : list) {
-					
 					StringBuilder builder = new StringBuilder();
-					
 					File file = new File(DatabaseManager.class.getClassLoader().getResource(fileLink).getFile());
 					
 					try (Scanner scanner = new Scanner(file)) {
-
 						while (scanner.hasNextLine()) {
 							String line = scanner.nextLine();
 							if (!line.trim().isEmpty()) {
@@ -137,7 +168,6 @@ public class DatabaseManager {
 						
 						Statement statement = connection.createStatement();
 						statement.executeUpdate(builder.toString());
-
 					} catch (IOException e) {
 						throw new ConnectionException("Error with the file "+fileLink, e);
 					}
@@ -151,13 +181,41 @@ public class DatabaseManager {
 			}
 		}
 
-		for (int i = 0; i < MIN_SIZE_QUEUE; i++) {
-			try {
-				freeConnections.add(DriverManager.getConnection(URL, USER, PASSWORD));
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		// Préparation de la Queue
+//		for (int i = 0; i < MIN_SIZE_QUEUE; i++) {
+//			try {
+//				freeConnections.add(DriverManager.getConnection(URL, USER, PASSWORD));
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+		
+		Connection connection = null;
+		try {
+			// Mise en plase du pool de connexion
+			BoneCPConfig config = new BoneCPConfig();
+			config.setJdbcUrl(URL);
+			config.setUsername(USER); 
+			config.setPassword(PASSWORD);
+			config.setMinConnectionsPerPartition(MIN_SIZE_POOL);
+			config.setMaxConnectionsPerPartition(MAX_SIZE_POOL);
+			config.setPartitionCount(1);
+			sConnectionPool = new BoneCP(config);
+			
+			
+			
+			if (connection != null) {
+				System.out.println("Connection successful!");
+				Statement stmt = connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS"); // do something with the connection.
+				while (rs.next()) {
+					System.out.println(rs.getString(1)); // should print out "1"'
+				}
 			}
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -165,43 +223,48 @@ public class DatabaseManager {
 	 * Gets the connection.
 	 *
 	 * @return the connection
-	 *
 	 * @throws SQLException the SQL exception
 	 */
 	public static synchronized Connection getConnection() throws SQLException {
-		Connection connection = null;
-		if (freeConnections.isEmpty()) {
-			try {
-//				System.out.println("Création Connexion");
-				connection = DriverManager.getConnection(URL, USER, PASSWORD);
-				// connection.nativeSQL();
-
-			} catch (SQLException e) {
-				System.out.println(URL + ":" + USER + ":" + PASSWORD);
-				throw e;
-			}
-		} else {
-//			System.out.println("remove");
-			connection = freeConnections.remove();
-		}
-		return connection;
+//		Connection connection = null;
+//		if (freeConnections.isEmpty()) {
+//			try {
+////				System.out.println("Création Connexion");
+//				connection = DriverManager.getConnection(URL, USER, PASSWORD);
+//				// connection.nativeSQL();
+//
+//			} catch (SQLException e) {
+//				System.out.println(URL + ":" + USER + ":" + PASSWORD);
+//				throw e;
+//			}
+//		} else {
+////			System.out.println("remove");
+//			connection = freeConnections.remove();
+//		}
+//		return connection;
+		
+		return sConnectionPool.getConnection(); // fetch a connection
 	}
 
 	/**
 	 * Release connection.
 	 *
 	 * @param connection the connection
+	 * @throws SQLException 
 	 */
-	public static synchronized void releaseConnection(Connection connection) {
-		if (freeConnections.size() < MIN_SIZE_QUEUE) {
-			freeConnections.add(connection);
-		} else {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+	@Deprecated
+	public static synchronized void releaseConnection(Connection connection) throws SQLException {
+//		if (freeConnections.size() < MIN_SIZE_POOL) {
+//			freeConnections.add(connection);
+//		} else {
+//			try {
+//				connection.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+		
+		connection.close();
 	}
 
 }
