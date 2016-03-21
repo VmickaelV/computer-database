@@ -53,9 +53,9 @@ public abstract class BaseSeleniumTest {
 	@Before
 	public void setUp() throws Exception {
 
-//		initServer();
-//		startServer();
-//		deploy();
+		initServer();
+		startServer();
+		deploy();
 
 		mWebDriver = new FirefoxDriver(mFirefoxProfile);
 		mWebDriver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);

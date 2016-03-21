@@ -1,6 +1,6 @@
 package com.excilys.mviegas.speccdb.taglib;
 
-import com.excilys.mviegas.speccdb.managers.ListManager;
+import com.excilys.mviegas.speccdb.managers.ListManagerBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class PaginationTag extends SimpleTagSupport {
 	
 	private int mCurrentPage = 1;
 	
-	private int mCountByPages = ListManager.DEFAULT_SIZE_PAGE;
+	private int mCountByPages = ListManagerBean.DEFAULT_SIZE_PAGE;
 	
 	private int mPagesCountAround = 3;
 	
@@ -139,7 +139,7 @@ public class PaginationTag extends SimpleTagSupport {
 		
 		// TODO à retirer jusqu'à ce que je treouve un moyen de mettre une val par défaut
 		if (mCountByPages == 0) {
-			mCountByPages = ListManager.DEFAULT_SIZE_PAGE;
+			mCountByPages = ListManagerBean.DEFAULT_SIZE_PAGE;
 		}
 		
 		int pageMax = mCount/mCountByPages;
