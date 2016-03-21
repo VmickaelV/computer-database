@@ -1,29 +1,21 @@
 package com.excilys.mviegas.speccdb.persist.jdbc;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-
-import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persist.CrudService;
 import com.excilys.mviegas.speccdb.wrappers.ComputerJdbcWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ComputerDao implements CrudService<Computer> {
 //	INSTANCE;
 	
-	public static final Logger LOGGER = Logger.getLogger(ComputerDao.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerDao.class);
 	
 	public static final ComputerDao INSTANCE = new ComputerDao();
 
@@ -74,7 +66,7 @@ public class ComputerDao implements CrudService<Computer> {
 			mDeleteStatement = mConnection.prepareStatement("DELETE FROM `computer` WHERE id = ?");
 			mFindStatement = mConnection.prepareStatement("SELECT * FROM `computer` WHERE id = ?");
 		} catch (SQLException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -136,7 +128,7 @@ public class ComputerDao implements CrudService<Computer> {
 			LOGGER.error("Erreur lors de la persistance d'un objet");
 			throw new DAOException("Erreur lors de la persistance d'un objet");
 		} catch (SQLException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
 	}
@@ -153,7 +145,7 @@ public class ComputerDao implements CrudService<Computer> {
 			resultSet.next();
 			return ComputerJdbcWrapper.fromJdbc(resultSet);
 		} catch (SQLException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
 	}
@@ -178,7 +170,7 @@ public class ComputerDao implements CrudService<Computer> {
 			LOGGER.error("Error on update");
 			return null;
 		} catch (SQLException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
 	}
@@ -198,7 +190,7 @@ public class ComputerDao implements CrudService<Computer> {
 			}
 			return nbLines == 1;
 		} catch (SQLException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
 	}
@@ -218,7 +210,7 @@ public class ComputerDao implements CrudService<Computer> {
 			LOGGER.info("Delete of "+pT.getId()+(nbLines == 1 ? " successfull" : " failed"));
 			return nbLines == 1;
 		} catch (SQLException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
 	}
@@ -270,7 +262,7 @@ public class ComputerDao implements CrudService<Computer> {
 			}
 			return mCompanies;
 		} catch (SQLException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
 	}
@@ -331,7 +323,7 @@ public class ComputerDao implements CrudService<Computer> {
 				}
 				return mCompanies;
 			} catch (SQLException e) {
-				LOGGER.error(e);
+				LOGGER.error(e.getMessage(), e);
 				throw new DAOException(e);
 			}
 		default:
@@ -363,7 +355,7 @@ public class ComputerDao implements CrudService<Computer> {
 			resultSet.next();
 			return resultSet.getInt(1);
 		} catch (SQLException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
 	}

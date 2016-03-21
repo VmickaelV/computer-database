@@ -1,16 +1,16 @@
 package com.excilys.mviegas.speccdb.taglib;
 
+import com.excilys.mviegas.speccdb.managers.ListManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
-
-import org.apache.log4j.Logger;
-
-import com.excilys.mviegas.speccdb.managers.ListManager;
 
 /**
  * Classe traitant le tag JSTL <viegasLib:pagination />
@@ -18,7 +18,7 @@ import com.excilys.mviegas.speccdb.managers.ListManager;
  * @author VIEGAS Mickael
  */
 public class PaginationTag extends SimpleTagSupport {
-	public static final Logger LOGGER = Logger.getLogger(PaginationTag.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(PaginationTag.class);
 	
 	//===========================================================
 	// Attribut - private

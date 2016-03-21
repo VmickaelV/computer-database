@@ -1,28 +1,15 @@
 package com.excilys.mviegas.speccdb.persist.jdbc;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.ConnectException;
+import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Queue;
-import java.util.Scanner;
-
-import org.apache.log4j.Logger;
-
-import com.excilys.mviegas.speccdb.C;
-import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
+import java.util.*;
 
 /**
  * Gestion de la connection à la base de données Created by Mickael on
@@ -30,7 +17,7 @@ import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
  */
 public class DatabaseManager {
 	
-	public static final Logger LOGGER = Logger.getLogger(DatabaseManager.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(DatabaseManager.class);
 
 	// ===========================================================
 	// Constantes
@@ -62,17 +49,15 @@ public class DatabaseManager {
 	private static final String USER;
 	
 	private static final String CREATE_SCRIPTS; 
-	private static final String INSERT_SCRIPTS; 
-	
-	public static final Logger logger = Logger.getLogger(DatabaseManager.class);
+	private static final String INSERT_SCRIPTS;
 
 	static {
 
 		Properties prefs = new Properties();
 
 		if (new File(CONFIG_FILENAME).exists()) {
-			if (logger.isInfoEnabled()) {
-				logger.info("Chargement config à partir du fichier "+CONFIG_FILENAME);
+			if (LOGGER.isInfoEnabled()) {
+				LOGGER.info("Chargement config à partir du fichier "+CONFIG_FILENAME);
 			}
 			try (FileInputStream file = new FileInputStream(new File(CONFIG_FILENAME))) {
 				prefs.load(file);
@@ -161,7 +146,7 @@ public class DatabaseManager {
 				connection.setAutoCommit(true);
 				
 			} catch (SQLException e1) {
-				LOGGER.error(e1);
+				LOGGER.error(e1.getMessage(), e1);
 				throw new ConnectionException(e1);
 			}
 		}
