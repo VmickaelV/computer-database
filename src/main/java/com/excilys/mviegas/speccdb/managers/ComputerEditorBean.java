@@ -13,17 +13,19 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @ManagedBean
-public class ComputerEditor {
+public class ComputerEditorBean {
 
 	public static final String PATTERN_DATE = "dd/MM/yyyy";
 	
 	//===========================================================
 	// Attribute - private
 	//===========================================================
-	public String mName;
-	public String mIntroducedDate;
-	public String mDiscontinuedDate;
-	public int mIdCompany;
+	private String mName;
+	private String mIntroducedDate;
+	private String mDiscontinuedDate;
+	private int mIdCompany;
+	private long mId;
+	private Computer mComputer;
 	
 	public List<Company> mCompanies;
 
@@ -36,20 +38,14 @@ public class ComputerEditor {
 	//===========================================================
 	// Constructeurs
 	//===========================================================
-	public ComputerEditor() {
+	
+	public ComputerEditorBean() {
 		init();
 	}
-	//===========================================================
-	// Méthodes
-	//===========================================================
 	
-	@PostConstruct
-	public void init() {
-		mCompanyCrudService = CompanyDao.INSTANCE;
-		mComputerCrudService = ComputerDao.INSTANCE;
-		mCompanies = mCompanyCrudService.findAll();
-	}
-	
+	//===========================================================
+	// Getters & Setters
+	//===========================================================
 	public String getName() {
 		return mName;
 	}
@@ -61,25 +57,56 @@ public class ComputerEditor {
 	public void setName(String pName) {
 		mName = pName;
 	}
+	
 	public String getIntroducedDate() {
 		return mIntroducedDate;
 	}
+	
 	public void setIntroducedDate(String pIntroducedDate) {
 		mIntroducedDate = pIntroducedDate;
 	}
+	
 	public String getDiscontinuedDate() {
 		return mDiscontinuedDate;
 	}
+	
 	public void setDiscontinuedDate(String pDiscontinuedDate) {
 		mDiscontinuedDate = pDiscontinuedDate;
 	}
+	
 	public int getIdCompany() {
 		return mIdCompany;
 	}
+	
 	public void setIdCompany(int pIdCompany) {
 		mIdCompany = pIdCompany;
 	}
+	
+	public long getId() {
+		return mId;
+	}
 
+	public void setId(long pId) {
+		mId = pId;
+		if (pId > 0) {
+			mComputer = mComputerCrudService.find(pId);
+		} else {
+			mComputer = null;
+		}
+	}
+	
+	public Computer getComputer() {
+		return mComputer;
+	}
+
+	public void setComputer(Computer pComputer) {
+		mComputer = pComputer;
+	}
+	
+	//===========================================================
+	// Functions
+	//===========================================================
+	
 	public boolean hasValidName() {
 		return mName != null && !mName.isEmpty();
 	}
@@ -109,24 +136,31 @@ public class ComputerEditor {
 		}
 	}
 
+	//===========================================================
+	// Méthodes Controleurs
+	//===========================================================
+	
+	@PostConstruct
+	public void init() {
+		mCompanyCrudService = CompanyDao.INSTANCE;
+		mComputerCrudService = ComputerDao.INSTANCE;
+		mCompanies = mCompanyCrudService.findAll();
+	}	
+		
+	public boolean addComputer() {
+		if (hasValidName() && hasValidIntroducedDate() && hasValidDiscontinuedDate() && hasValidIdCompany()) {
+			mComputerCrudService.create(makeComputer());
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	private Computer makeComputer() {
 		try {
 			return new Computer(mName, mIntroducedDate == null ? null : sSimpleDateFormat.parse(mIntroducedDate), mDiscontinuedDate == null ? null : sSimpleDateFormat.parse(mDiscontinuedDate), mCompanyCrudService.find(mIdCompany));
 		} catch (ParseException pE) {
 			throw new RuntimeException("Erreur non attendu", pE);
-		}
-	}
-
-	//===========================================================
-	// Méthodes Controleurs
-	//===========================================================
-	public boolean addComputer() {
-		if (hasValidName() && hasValidIntroducedDate() && hasValidDiscontinuedDate() && hasValidIdCompany()) {
-			mComputerCrudService.create(makeComputer());
-
-			return true;
-		} else {
-			return false;
 		}
 	}
 

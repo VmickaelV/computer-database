@@ -12,9 +12,9 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 @ManagedBean
-public class ListManager {
+public class ListManagerBean {
 	
-	public static final Logger LOGGER = LoggerFactory.getLogger(ListManager.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(ListManagerBean.class);
 	
 	public static final int DEFAULT_SIZE_PAGE = 10;
 
@@ -35,7 +35,7 @@ public class ListManager {
 	//===========================================================
 	// Constructeur
 	//===========================================================
-	public ListManager() {
+	public ListManagerBean() {
 		init();
 	}
 	
