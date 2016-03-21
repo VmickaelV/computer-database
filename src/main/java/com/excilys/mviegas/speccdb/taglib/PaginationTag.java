@@ -1,16 +1,16 @@
 package com.excilys.mviegas.speccdb.taglib;
 
+import com.excilys.mviegas.speccdb.managers.ListManagerBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
-
-import org.apache.log4j.Logger;
-
-import com.excilys.mviegas.speccdb.managers.ListManager;
 
 /**
  * Classe traitant le tag JSTL <viegasLib:pagination />
@@ -18,7 +18,7 @@ import com.excilys.mviegas.speccdb.managers.ListManager;
  * @author VIEGAS Mickael
  */
 public class PaginationTag extends SimpleTagSupport {
-	public static final Logger LOGGER = Logger.getLogger(PaginationTag.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(PaginationTag.class);
 	
 	//===========================================================
 	// Attribut - private
@@ -28,7 +28,7 @@ public class PaginationTag extends SimpleTagSupport {
 	
 	private int mCurrentPage = 1;
 	
-	private int mCountByPages = ListManager.DEFAULT_SIZE_PAGE;
+	private int mCountByPages = ListManagerBean.DEFAULT_SIZE_PAGE;
 	
 	private int mPagesCountAround = 3;
 	
@@ -139,7 +139,7 @@ public class PaginationTag extends SimpleTagSupport {
 		
 		// TODO à retirer jusqu'à ce que je treouve un moyen de mettre une val par défaut
 		if (mCountByPages == 0) {
-			mCountByPages = ListManager.DEFAULT_SIZE_PAGE;
+			mCountByPages = ListManagerBean.DEFAULT_SIZE_PAGE;
 		}
 		
 		int pageMax = mCount/mCountByPages;

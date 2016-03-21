@@ -1,25 +1,21 @@
 package com.excilys.mviegas.speccdb.persist.jdbc;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persist.CrudService;
 import com.excilys.mviegas.speccdb.wrappers.CompanyJdbcWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public enum CompanyDao implements CrudService<Company> {
 	INSTANCE;
 	
-	public final Logger LOGGER = Logger.getLogger(CompanyDao.class);
+	public final Logger LOGGER = LoggerFactory.getLogger(CompanyDao.class);
 
 	// ===========================================================
 	// Attributres - private
@@ -43,7 +39,7 @@ public enum CompanyDao implements CrudService<Company> {
 //			mDeleteStatement = mConnection.prepareStatement("DELETE FROM `company` WHERE id = ?");
 			mFindStatement = mConnection.prepareStatement("SELECT * FROM `company` WHERE id = ?");
 		} catch (SQLException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
 		
@@ -92,7 +88,7 @@ public enum CompanyDao implements CrudService<Company> {
 			resultSet.next();
 			return CompanyJdbcWrapper.fromJdbc(resultSet);
 		} catch (SQLException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
 	}
@@ -150,7 +146,7 @@ public enum CompanyDao implements CrudService<Company> {
 			
 			return mCompanies;
 		} catch (SQLException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
 	}
@@ -205,7 +201,7 @@ public enum CompanyDao implements CrudService<Company> {
 			resultSet.next();
 			return resultSet.getInt(1);
 		} catch (SQLException e) {
-			LOGGER.error(e);
+			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
 	}
