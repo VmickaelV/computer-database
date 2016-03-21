@@ -4,7 +4,7 @@
 <%@taglib uri="/WEB-INF/tagslib.tld" prefix="my" %>
 <%@taglib tagdir="/WEB-INF/tags" prefix="my2" %>
 <jsp:useBean id="listManager" scope="page"
-             class="com.excilys.mviegas.speccdb.managers.ListManager">
+             class="com.excilys.mviegas.speccdb.managers.ListManagerBean">
     <jsp:setProperty name="listManager" property="*"/>
 </jsp:useBean>
 <%-- <%@page import="com.excilys.mviegas.speccdb.managers.ListManager"%> --%>
@@ -136,7 +136,7 @@
                     <td>
                         <jsp:element name="a">
 								<jsp:attribute name="href">
-									editComputer.html?id=${computer.id}
+									editComputer.jsp?id=${computer.id}
 								</jsp:attribute>
                             <jsp:body>
                                 <c:out value="${computer.name}"/>
