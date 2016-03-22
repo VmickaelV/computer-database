@@ -1,5 +1,11 @@
 package com.excilys.mviegas.speccdb.exceptions;
 
+
+/**
+ * Exception générique lié aux DAO
+ *
+ * @author Mickael
+ */
 @SuppressWarnings({"serial", "unused"})
 public class DAOException extends Exception {
 

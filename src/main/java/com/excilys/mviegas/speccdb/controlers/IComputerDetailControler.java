@@ -10,7 +10,7 @@ import com.excilys.mviegas.speccdb.data.Computer;
 public interface IComputerDetailControler {
 
 	/**
-	 * demande d'effacement de l'ordinateur en cour
+	 * Demande d'effacement de l'ordinateur en cour
 	 */
 	void delete();
 

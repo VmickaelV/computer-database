@@ -5,6 +5,13 @@ import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interface global pour tout service de CRUD
+ *
+ * @param <T> Type que gèrera le prochain CrudService
+ *
+ * @author Mickael
+ */
 public interface CrudService<T> {
     public T create(T t) throws DAOException;
 

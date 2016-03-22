@@ -19,7 +19,9 @@ import java.util.Map.Entry;
  * 
  * @author VIEGAS Mickael
  */
+@SuppressWarnings("unused")
 public class PaginationTag extends SimpleTagSupport {
+
 	public static final Logger LOGGER = LoggerFactory.getLogger(PaginationTag.class);
 	
 	//===========================================================
@@ -204,6 +206,7 @@ public class PaginationTag extends SimpleTagSupport {
 	//===========================================================
 	@Override
 	public String toString() {
+		//noinspection StringBufferReplaceableByString
 		StringBuilder builder = new StringBuilder();
 		builder.append("PaginationTag [mUrl=");
 		builder.append(mUrl);

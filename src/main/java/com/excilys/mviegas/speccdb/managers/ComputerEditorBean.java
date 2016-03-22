@@ -13,6 +13,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+/**
+ * Bean lié à la gestion d'un ordinateur
+ *
+ * @author Mickael
+ */
 @ManagedBean
 public class ComputerEditorBean {
 
@@ -34,12 +39,10 @@ public class ComputerEditorBean {
 
 	public CrudService<Company> mCompanyCrudService;
 	public CrudService<Computer> mComputerCrudService;
-
 	
 	//===========================================================
 	// Constructeurs
 	//===========================================================
-
 	public ComputerEditorBean() {
 		init();
 	}
@@ -112,7 +115,6 @@ public class ComputerEditorBean {
 	//===========================================================
 	// Functions
 	//===========================================================
-
 	public boolean hasValidName() {
 		return mName != null && !mName.isEmpty();
 	}
@@ -163,10 +165,9 @@ public class ComputerEditorBean {
 		}
 	}
 
-	//===========================================================
-	// Méthodes Controleurs
-	//===========================================================
-
+	// ============================================================
+	//	Méthodes - Callback
+	// ============================================================
 	@PostConstruct
 	public void init() {
 		mCompanyCrudService = CompanyDao.INSTANCE;
@@ -179,6 +180,9 @@ public class ComputerEditorBean {
 		}
 	}
 
+	//===========================================================
+	// Méthodes Controleurs
+	//===========================================================
 	public boolean addComputer() {
 		if (hasValidName() && hasValidIntroducedDate() && hasValidDiscontinuedDate() && hasValidIdCompany()) {
 			try {

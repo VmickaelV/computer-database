@@ -5,6 +5,9 @@ import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
 
+/**
+ * Classes regroupant les Singletons des différents DAO.
+ */
 public final class Daos {
 	
 	public static final CrudService<Company> COMPANY_DAO = CompanyDao.INSTANCE;

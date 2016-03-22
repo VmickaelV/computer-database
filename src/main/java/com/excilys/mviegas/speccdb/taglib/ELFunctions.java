@@ -13,14 +13,30 @@ import java.util.Map;
  */
 public class ELFunctions {
 
+	/**
+	 * @see #link(String, Map, String, Object)
+	 */
 	public static String link(String pTarget) {
 		return link(pTarget, null, null, null);
 	}
 
+	/**
+	 * @see #link(String, Map, String, Object)
+	 */
 	public static String link(String pTarget, Map<String, String> pQueries) {
 		return link(pTarget, pQueries, null, null);
 	}
 
+	/**
+	 * Fonction générant un lien
+	 *
+	 * @param pTarget Page cible
+	 * @param pQueries Map de paramètres GET à ajouter dans le lien
+	 * @param pQueryToEscape Un paramètre à ne pas inclure, ou avec une valeur à fixer à part
+	 * @param value Valeur à remplacer par le nom fournie dans le paramètre à ne pas inclure
+	 *
+	 * @return Lien texte généré
+	 */
 	public static String link(String pTarget, Map<String, String> pQueries, String pQueryToEscape, Object value) {
 
 		C.LOGGER.RUNTIME.debug("ELFunctions.link");
