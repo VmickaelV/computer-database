@@ -15,7 +15,7 @@
         <attribute>
         	<description>Numero de la page courante</description>
         	<name>currentPage</name>
-        	<required>true</required>
+        	<!--<required>true</required>-->
         	<rtexprvalue>true</rtexprvalue>
         	<type>java.lang.Integer</type>
         </attribute>
@@ -29,24 +29,30 @@
         <attribute>
         	<description>nombre d'éléments par Pages</description>
         	<name>countByPages</name>
-        	<required>true</required>
+        	<!--<required>true</required>-->
         	<rtexprvalue>true</rtexprvalue>
         	<type>java.lang.Integer</type>
         </attribute>
         <attribute>
         	<description>Indique le nombre d'éléments totales</description>
         	<name>count</name>
-        	<required>true</required>
+        	<!--<required>true</required>-->
         	<rtexprvalue>true</rtexprvalue>
         	<type>java.lang.Integer</type>
        	</attribute>
        	<attribute>
        		<description>Paramètres GET à ajouter aux liens</description>
        		<name>parameters</name>
-       		<required>true</required>
+       		<!--<required>true</required>-->
        		<rtexprvalue>true</rtexprvalue>
        		<type>java.util.Map</type>
        	</attribute>
+		<attribute>
+			<name>paginator</name>
+			<!--<required>true</required>-->
+			<rtexprvalue>true</rtexprvalue>
+			<type>com.excilys.mviegas.speccdb.persist.Paginator</type>
+		</attribute>
         <!--<attribute>-->
         <!--<name>number</name>-->
         <!--<required>true</required>-->
