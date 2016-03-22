@@ -15,6 +15,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -180,8 +183,6 @@ public class ComputerDAOTest {
 		assertEquals(SIZE_COMPUTER+1, mComputerDao.size());
 	}
 
-
-
 	@Test
 	public void createerrorTimeStamp() throws Exception {
 		try {
@@ -325,30 +326,51 @@ public class ComputerDAOTest {
 			
 		}
 	}
-	
-	
-//	TODO a finir
-	public static void assertCompanyEquals(Computer pComputer1, Computer pComputer2) {
-		if (pComputer1 == pComputer2) {
-			return;
-		}
-		
-//		if ()
+
+	@Test
+	public void sortByName1() throws Exception {
+		Paginator<Computer> paginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, "pow").and(ComputerDao.Parameters.SIZE, 20).and(ComputerDao.Parameters.ORDER, ComputerDao.Order.NAME).parameters());
+
+
+		List<Computer> list = Arrays.asList("361", "204", "226", "218", "28", "213", "245", "246", "243", "220", "210", "238", "239", "205", "207", "208", "219", "217", "211", "221").stream().map(i -> {
+			try {
+				return mComputerDao.find(Long.parseLong(i));
+			} catch (DAOException pE) {
+				throw new RuntimeException();
+			}
+		}).collect(Collectors.toList());
+
+		assertNotNull(paginator);
+		assertEquals("Error on "+paginator.toString(), 3, paginator.getNbPages());
+		assertEquals(20, paginator.getElementsByPage());
+		assertEquals(47, paginator.getElementsCount());
+		assertEquals(1, paginator.getCurrentPage());
+		assertEquals(20, paginator.getValues().size());
+
+		assertEquals(list, paginator.getValues());
 	}
-	
-	
-	public void main() {
-//		mComputerDao.create(new Company("Ma Companie"));
-//		
-//		System.out.println(mComputerDao.findAll(6, 10));
-//		System.out.println(mComputerDao.findAll(6, 10).size());
-//		
-//		Company company = new Company("Ma Companie"); 
-//		Company companyAfter = mComputerDao.create(company);
-//		
-//		System.out.println(company);
-//		System.out.println(companyAfter);
-//		
-//		System.out.println(mComputerDao.find(2));
+
+	@Test
+	public void noSortByName2() throws Exception {
+		Paginator<Computer> paginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, "pow").and(ComputerDao.Parameters.SIZE, 20).parameters());
+
+
+		List<Computer> list = Arrays.asList("361", "204", "226", "218", "28", "213", "245", "246", "243", "220", "210", "238", "239", "205", "207", "208", "219", "217", "211", "221").stream().map(i -> {
+			try {
+				return mComputerDao.find(Long.parseLong(i));
+			} catch (DAOException pE) {
+				throw new RuntimeException();
+			}
+		}).collect(Collectors.toList());
+
+		assertNotNull(paginator);
+		assertEquals("Error on "+paginator.toString(), 3, paginator.getNbPages());
+		assertEquals(20, paginator.getElementsByPage());
+		assertEquals(47, paginator.getElementsCount());
+		assertEquals(1, paginator.getCurrentPage());
+		assertEquals(20, paginator.getValues().size());
+
+		assertNotEquals(list, paginator.getValues());
 	}
+
 }
