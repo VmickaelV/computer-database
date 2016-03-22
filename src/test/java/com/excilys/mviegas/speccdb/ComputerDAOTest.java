@@ -98,7 +98,7 @@ public class ComputerDAOTest {
 		assertEquals(5, computer.getId());
 		assertEquals("CM-5", computer.getName());
 		assertNull(computer.getDiscontinuedDate());
-		assertEquals(dateTimeFormatter.parse("1991/01/01"), computer.getIntroducedDate());
+		assertEquals(LocalDate.of(1991, 1, 1), computer.getIntroducedDate());
 		assertEquals(computer.getManufacturer(), CompanyDao.INSTANCE.find(2));
 	}
 

@@ -24,14 +24,11 @@ public class ComputerJdbcWrapper extends Computer {
 
 		object = pResultSet.getDate("introduced");
 		if (object != null) {
-
-			// TODO a revoir
-//			companyBuilder.setIntroducedDate(LocalDate.from(Instant.ofEpochMilli(pResultSet.getDate("introduced").getTime())));
-//			System.out.println(LocalDateTime.from(Instant.ofEpochMilli(pResultSet.getDate("introduced").getTime())));
+			companyBuilder.setIntroducedDate(pResultSet.getDate("introduced").toLocalDate());
 		}
 
 		if (pResultSet.getDate("discontinued") != null) {
-//			companyBuilder.setDiscontinuedDate(LocalDate.ofEpochDay(pResultSet.getDate("discontinued").getTime()/1000));
+			companyBuilder.setDiscontinuedDate(pResultSet.getDate("discontinued").toLocalDate());
 		}
 
 		if (pResultSet.getLong("company_id") != 0) {
