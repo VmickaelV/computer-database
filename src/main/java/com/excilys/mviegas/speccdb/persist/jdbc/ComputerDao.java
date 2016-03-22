@@ -69,7 +69,7 @@ public class ComputerDao implements CrudService<Computer> {
 		public static final String START = "start";
 		public static final String FILTER_NAME = "filter_name";
 		public static final String ORDER = "order";
-		public static final String TYPE_ORDER = "order";
+		public static final String TYPE_ORDER = "type_order";
 	}
 
 	/**
@@ -83,7 +83,13 @@ public class ComputerDao implements CrudService<Computer> {
 	 * Liste des Champs ordonnable
 	 */
 	public enum Order {
-		NAME, INTRODUCED_DATE, DISCONTINUED_DATE, ID_COMPANY, NAME_COMPANY
+		NAME("name"), INTRODUCED_DATE("introduced"), DISCONTINUED_DATE("discontinued"), ID_COMPANY("company_id"), NAME_COMPANY("company.name");
+
+		public final String queryName;
+
+		Order(String pQueryName) {
+			queryName = pQueryName;
+		}
 	}
 	
 	// ===========================================================
@@ -417,7 +423,11 @@ public class ComputerDao implements CrudService<Computer> {
 				Statement statement;
 				int size = (int) parameters.getOrDefault(Parameters.SIZE, BASE_SIZE_PAGE);
 				int start = (int) parameters.getOrDefault(Parameters.START, 0);
-				String search = (String) parameters.getOrDefault(Parameters.FILTER_NAME, 0);
+				String search = (String) parameters.get(Parameters.FILTER_NAME);
+
+				Order order = (Order) parameters.get(Parameters.ORDER);
+				TypeOrder typeOrder = (TypeOrder) parameters.getOrDefault(Parameters.TYPE_ORDER, TypeOrder.ASC);
+
 
 				try {
 					statement = mConnection.createStatement();
@@ -451,6 +461,17 @@ public class ComputerDao implements CrudService<Computer> {
 					}
 
 					stringBuilder.replace(0, "SELECT COUNT(*) FROM computer".length(), "SELECT * FROM computer");
+
+					if (order != null) {
+						stringBuilder
+								.append(" ORDER BY ")
+								.append(order.queryName);
+
+						if (typeOrder == TypeOrder.DESC) {
+							stringBuilder.append(" DESC");
+						}
+					}
+
 					stringBuilder.append(" LIMIT ").append(size).append(" OFFSET ").append(start);
 
 					if (LOGGER.isInfoEnabled()) {

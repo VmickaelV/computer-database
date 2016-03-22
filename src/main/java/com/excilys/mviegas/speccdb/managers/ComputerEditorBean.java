@@ -193,4 +193,8 @@ public class ComputerEditorBean {
 		}
 	}
 
+	public boolean editComputer() {
+		throw new UnsupportedOperationException();
+	}
+
 }
