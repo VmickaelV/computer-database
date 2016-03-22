@@ -2,18 +2,19 @@ package com.excilys.mviegas.speccdb;
 
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
+import com.excilys.mviegas.speccdb.persist.Paginator;
+import com.excilys.mviegas.speccdb.persist.QueryParameter;
 import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.Assert.*;
 
@@ -23,7 +24,7 @@ public class ComputerDAOTest {
 	private CompanyDao mCompanyDao = CompanyDao.INSTANCE;
 	
 	public static final int SIZE_COMPUTER = 574;
-	
+
 	@Before
 	public void before() throws Exception {
 		DatabaseManagerTest.resetDatabase();
@@ -40,6 +41,7 @@ public class ComputerDAOTest {
 		
 		assertEquals(SIZE_COMPUTER, mComputerDao.size());
 	}
+
 	@Test
 	public void findPagination2() throws Exception {
 		assertEquals(ComputerDao.BASE_SIZE_PAGE, mComputerDao.findAll(100, ComputerDao.BASE_SIZE_PAGE).size());
@@ -75,7 +77,7 @@ public class ComputerDAOTest {
 		
 		assertNull(computer);
 	}
-	
+
 	@Test
 	public void testFind1() throws Exception {
 		Computer computer = mComputerDao.find(200);
@@ -92,28 +94,90 @@ public class ComputerDAOTest {
 		Computer computer = mComputerDao.find(5);
 		
 		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 		assertEquals(5, computer.getId());
 		assertEquals("CM-5", computer.getName());
 		assertNull(computer.getDiscontinuedDate());
-		assertEquals(simpleDateFormat.parse("1991/01/01"), computer.getIntroducedDate());
+		assertEquals(dateTimeFormatter.parse("1991/01/01"), computer.getIntroducedDate());
 		assertEquals(computer.getManufacturer(), CompanyDao.INSTANCE.find(2));
 	}
-	
+
 	@Test
-	public void create() throws Exception {
-		assertNull(mComputerDao.create(null));
+	public void findAllPaginator1() throws Exception {
+		Paginator<Computer> paginator = mComputerDao.findAllWithPaginator(0, 50);
+
+		assertNotNull(paginator);
+
+		assertEquals(12, paginator.getNbPages());
+		assertEquals(50, paginator.getElementsByPage());
+		assertEquals(SIZE_COMPUTER, paginator.getElementsCount());
+		assertEquals(1, paginator.getCurrentPage());
+		assertEquals(50, paginator.getValues().size());
+	}
+
+	@Test
+	public void findAllPaginator2() throws Exception {
+		Paginator<Computer> paginator = mComputerDao.findAllWithPaginator(100, ComputerDao.BASE_SIZE_PAGE);
+
+		assertNotNull(paginator);
+
+		assertEquals(SIZE_COMPUTER/ComputerDao.BASE_SIZE_PAGE+1, paginator.getNbPages());
+		assertEquals(ComputerDao.BASE_SIZE_PAGE, paginator.getElementsByPage());
+		assertEquals(SIZE_COMPUTER, paginator.getElementsCount());
+		assertEquals(2, paginator.getCurrentPage());
+		assertEquals(ComputerDao.BASE_SIZE_PAGE, paginator.getValues().size());
 	}
 	
 	@Test
-	@Ignore("UseCase non-stanrdadised")
+	public void findAllPaginator3() throws Exception {
+		Paginator<Computer> paginator = mComputerDao.findAllWithPaginator(0, 1000);
+
+		assertNotNull(paginator);
+
+		assertEquals(1, paginator.getNbPages());
+		assertEquals(1000, paginator.getElementsByPage());
+		assertEquals(SIZE_COMPUTER, paginator.getElementsCount());
+		assertEquals(1, paginator.getCurrentPage());
+		assertEquals(SIZE_COMPUTER, paginator.getValues().size());
+	}
+
+	@Test
+	public void findAllPaginator4() throws Exception {
+		Paginator<Computer> paginator = mComputerDao.findAllWithPaginator(500, 100);
+
+		assertNotNull(paginator);
+
+		assertEquals(6, paginator.getNbPages());
+		assertEquals(100, paginator.getElementsByPage());
+		assertEquals(SIZE_COMPUTER, paginator.getElementsCount());
+		assertEquals(6, paginator.getCurrentPage());
+		assertEquals(SIZE_COMPUTER-500, paginator.getValues().size());
+	}
+
+	@Test
+	public void create() throws Exception {
+		try {
+			assertNull(mComputerDao.create(null));
+			fail();
+		} catch (IllegalArgumentException ignored) {
+
+		}
+	}
+	
+	@Test
 	public void create1() throws Exception {
-		assertNull(mComputerDao.create(mComputerDao.find(5)));
+		try {
+			mComputerDao.create(mComputerDao.find(5));
+			fail();
+		} catch (IllegalArgumentException ignored) {
+
+		}
 	}
 	
 	@Test
 	public void create2() throws Exception {
-		assertNotNull(new Computer.Builder().setName("Un autre nom").build());
+		assertNotNull(mComputerDao.create(new Computer.Builder().setName("Un autre nom").build()));
+		assertEquals(SIZE_COMPUTER+1, mComputerDao.size());
 	}
 
 
@@ -207,7 +271,43 @@ public class ComputerDAOTest {
 		assertFalse(mComputerDao.delete(2));
 		assertNull(mComputerDao.find(2));
 	}
-	
+
+	@Test
+	public void searchByName1() throws Exception {
+		Paginator<Computer> paginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, "apple").and(ComputerDao.Parameters.SIZE, 20).parameters());
+
+		assertNotNull(paginator);
+		assertEquals("Error on "+paginator.toString(), 1, paginator.getNbPages());
+		assertEquals(20, paginator.getElementsByPage());
+		assertEquals(13, paginator.getElementsCount());
+		assertEquals(1, paginator.getCurrentPage());
+		assertEquals(13, paginator.getValues().size());
+	}
+
+	@Test
+	public void searchByName2() throws Exception {
+		Paginator<Computer> paginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, "pow").and(ComputerDao.Parameters.SIZE, 20).parameters());
+
+		assertNotNull(paginator);
+		assertEquals("Error on "+paginator.toString(), 3, paginator.getNbPages());
+		assertEquals(20, paginator.getElementsByPage());
+		assertEquals(47, paginator.getElementsCount());
+		assertEquals(1, paginator.getCurrentPage());
+		assertEquals(20, paginator.getValues().size());
+	}
+
+	@Test
+	public void searchByName3() throws Exception {
+		Paginator<Computer> paginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, "pow").and(ComputerDao.Parameters.START, 40).and(ComputerDao.Parameters.SIZE, 20).parameters());
+
+		assertNotNull(paginator);
+		assertEquals("Error on "+paginator.toString(), 3, paginator.getNbPages());
+		assertEquals(20, paginator.getElementsByPage());
+		assertEquals(47, paginator.getElementsCount());
+		assertEquals(3, paginator.getCurrentPage());
+		assertEquals(7, paginator.getValues().size());
+	}
+
 	@Test
 	public void testName() throws Exception {
 		Connection connection = Mockito.mock(Connection.class);
@@ -224,8 +324,6 @@ public class ComputerDAOTest {
 		} catch (SQLException ignored) {
 			
 		}
-		
-		
 	}
 	
 	

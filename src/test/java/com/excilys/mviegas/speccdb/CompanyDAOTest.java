@@ -1,6 +1,7 @@
 package com.excilys.mviegas.speccdb;
 
 import com.excilys.mviegas.speccdb.data.Company;
+import com.excilys.mviegas.speccdb.persist.Paginator;
 import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,33 @@ public class CompanyDAOTest {
 	
 	@Test
 	public void findAll1() throws Exception {
-		assertEquals(20, mCompanyDao.findAll().size());
+		assertEquals(42, mCompanyDao.findAll().size());
+	}
+
+	@Test
+	public void findAllPagintator() throws Exception {
+		Paginator<Company> paginator = mCompanyDao.findAllWithPaginator(0, 50);
+
+		assertNotNull(paginator);
+
+		assertEquals(1, paginator.getNbPages());
+		assertEquals(50, paginator.getElementsByPage());
+		assertEquals(42, paginator.getElementsCount());
+		assertEquals(1, paginator.getCurrentPage());
+		assertEquals(42, paginator.getValues().size());
+	}
+
+	@Test
+	public void findAllPagintator2() throws Exception {
+		Paginator<Company> paginator = mCompanyDao.findAllWithPaginator(20, 20);
+
+		assertNotNull(paginator);
+
+		assertEquals(3, paginator.getNbPages());
+		assertEquals(20, paginator.getElementsByPage());
+		assertEquals(42, paginator.getElementsCount());
+		assertEquals(2, paginator.getCurrentPage());
+		assertEquals(20, paginator.getValues().size());
 	}
 	
 	@Test
@@ -35,32 +62,55 @@ public class CompanyDAOTest {
 	public void findPagination3() throws Exception {
 		assertEquals(2, mCompanyDao.findAll(40, 10).size());
 	}
+
+	@Test
+	public void findPaginationWithPaginator1() throws Exception {
+		Paginator<Company> paginator = mCompanyDao.findAllWithPaginator(0, 40);
+
+		assertEquals(2, paginator.getNbPages());
+		assertEquals(40, paginator.getElementsByPage());
+		assertEquals(42, paginator.getElementsCount());
+		assertEquals(1, paginator.getCurrentPage());
+		assertEquals(40, paginator.getValues().size());
+	}
+
+	@Test
+	public void findPaginationWithPaginator3() throws Exception {
+		Paginator<Company> paginator = mCompanyDao.findAllWithPaginator(40, 10);
+
+		assertEquals(5, paginator.getNbPages());
+		assertEquals(10, paginator.getElementsByPage());
+		assertEquals(42, paginator.getElementsCount());
+		assertEquals(5, paginator.getCurrentPage());
+		assertEquals(2, paginator.getValues().size());
+	}
 	
 	@Test
-	public void testFindNull1() throws Exception {
+	public void findNull1() throws Exception {
 		Company company = mCompanyDao.find(0);
 		
 		assertNull(company);
 	}
 	
 	@Test
-	public void testFindNull2() throws Exception {
+	public void findNull2() throws Exception {
 		Company company = mCompanyDao.find(-1);
 		
 		assertNull(company);
 	}
 	
 	@Test
-	public void testFindNull3() throws Exception {
+	public void findNull3() throws Exception {
 		Company company = mCompanyDao.find(687321324);
 		
 		assertNull(company);
 	}
 	
 	@Test
-	public void testFind1() throws Exception {
+	public void find1() throws Exception {
 		Company company = mCompanyDao.find(1);
-		
+
+		assertNotNull(company);
 		assertEquals(1, company.getId());
 		assertEquals("Apple Inc.", company.getName());
 	}

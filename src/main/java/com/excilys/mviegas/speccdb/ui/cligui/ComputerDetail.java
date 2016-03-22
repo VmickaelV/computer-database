@@ -88,10 +88,15 @@ public class ComputerDetail implements IComputerDetailControler {
 		System.out.println("Êtes-vous sur ? (O/n)");
 		
 		if (MainMenuControleur.SCANNER.next().equals("O")) {
-			if (!ComputerDao.INSTANCE.delete(mComputer)) {
-				throw new RuntimeException();
+			try {
+				if (!ComputerDao.INSTANCE.delete(mComputer)) {
+					throw new RuntimeException();
+				}
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				// TODO à refaire
+				throw new RuntimeException(pE);
 			}
-			
+
 			System.out.printf("[!] Ordinateur %s (n°%d) supprimé avec succès%n", mComputer.getName(), mComputer.getId());
 			return true;
 		}
@@ -106,8 +111,14 @@ public class ComputerDetail implements IComputerDetailControler {
 	}
 
 	public static IComputerDetailControler make(int pId) {
-		Computer computer = ComputerDao.INSTANCE.find(pId);
-		
+		Computer computer;
+		try {
+			computer = ComputerDao.INSTANCE.find(pId);
+		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+			// TODO à refaire
+			throw new RuntimeException(pE);
+		}
+
 		if (computer == null) {
 //			throw new IllegalArgumentException();
 			return null;
@@ -121,8 +132,13 @@ public class ComputerDetail implements IComputerDetailControler {
 //			throw new IllegalArgumentException();
 			return null;
 		}
-		
-		pComputer = ComputerDao.INSTANCE.find(pComputer.getId());
+
+		try {
+			pComputer = ComputerDao.INSTANCE.find(pComputer.getId());
+		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+			// TODO à refaire
+			throw new RuntimeException(pE);
+		}
 		if (pComputer == null) {
 			return null;
 		}

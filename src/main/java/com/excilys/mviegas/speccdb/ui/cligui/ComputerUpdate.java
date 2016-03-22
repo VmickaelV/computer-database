@@ -139,7 +139,12 @@ public class ComputerUpdate implements IComputerUpdateControler {
 					continue;
 				}
 
-				company = CompanyDao.INSTANCE.find(id);
+				try {
+					company = CompanyDao.INSTANCE.find(id);
+				} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+					// TODO à refaire
+					throw new RuntimeException(pE);
+				}
 
 				if (company == null) {
 					System.err.println("Saisissez un ID valide");
@@ -156,12 +161,22 @@ public class ComputerUpdate implements IComputerUpdateControler {
 
 			mComputer = builder.build();
 
-			ComputerDao.INSTANCE.create(mComputer);
+			try {
+				ComputerDao.INSTANCE.create(mComputer);
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				// TODO à refaire
+				throw new RuntimeException(pE);
+			}
 		} else {
 			mComputer.setName(name);
 			mComputer.setIntroducedDate(dateIntroduced);
 
-			ComputerDao.INSTANCE.update(mComputer);
+			try {
+				ComputerDao.INSTANCE.update(mComputer);
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				// TODO à refaire
+				throw new RuntimeException(pE);
+			}
 		}
 		
 		valid();
@@ -183,7 +198,13 @@ public class ComputerUpdate implements IComputerUpdateControler {
 	}
 
 	public static IComputerUpdateControler make(int pId) {
-		Computer computer = ComputerDao.INSTANCE.find(pId);
+		Computer computer;
+		try {
+			computer = ComputerDao.INSTANCE.find(pId);
+		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+			// TODO à refaire
+			throw new RuntimeException(pE);
+		}
 
 		if (computer == null) {
 			// throw new IllegalArgumentException();
@@ -199,7 +220,12 @@ public class ComputerUpdate implements IComputerUpdateControler {
 			return null;
 		}
 
-		pComputer = ComputerDao.INSTANCE.find(pComputer.getId());
+		try {
+			pComputer = ComputerDao.INSTANCE.find(pComputer.getId());
+		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+			// TODO à refaire
+			throw new RuntimeException(pE);
+		}
 		if (pComputer == null) {
 			return null;
 		}

@@ -1,32 +1,44 @@
 package com.excilys.mviegas.speccdb.persist;
 
+import com.excilys.mviegas.speccdb.exceptions.DAOException;
+
 import java.util.List;
 import java.util.Map;
 
 public interface CrudService<T> {
-    public T create(T t);
+    public T create(T t) throws DAOException;
 
-    public T find(long id);
+    public T find(long id) throws DAOException;
 
-    public T update(T t);
+    public T update(T t) throws DAOException;
     
-    public int size();
+    public int size() throws DAOException;
 
-    public boolean delete(long id);
+    public boolean delete(long id) throws DAOException;
     
-    public boolean delete(T t);
+    public boolean delete(T t) throws DAOException;
 
-    public boolean refresh(T t);
+    public boolean refresh(T t) throws DAOException;
 
-    List<T> findAll();
+    public List<T> findAll() throws DAOException;
     
-    List<T> findAll(int start, int size);
+    public List<T> findAll(int start, int size) throws DAOException;
 
-    public List<T> findWithNamedQuery(String queryName);
+    public Paginator<T> findAllWithPaginator(int start, int size) throws DAOException;
 
-    public List<T> findWithNamedQuery(String queryName, int resultLimit);
+    public List<T> findWithNamedQuery(String queryName) throws DAOException;
 
-    public List<T> findWithNamedQuery(String namedQueryName, Map<String, Object> parameters);
+    public Paginator<T> findWithNamedQueryWithPaginator(String queryName) throws DAOException;
 
-    public List<T> findWithNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit);
+    public List<T> findWithNamedQuery(String queryName, int resultLimit) throws DAOException;
+
+    public Paginator<T> findWithNamedQueryWithPaginator(String queryName, int resultLimit) throws DAOException;
+
+    public List<T> findWithNamedQuery(String namedQueryName, Map<String, Object> parameters) throws DAOException;
+
+    public Paginator<T> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException;
+
+    public List<T> findWithNamedQuery(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws DAOException;
+
+    public Paginator<T> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws DAOException;
 }
