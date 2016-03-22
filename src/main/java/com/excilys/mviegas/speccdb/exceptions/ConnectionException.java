@@ -1,5 +1,10 @@
 package com.excilys.mviegas.speccdb.exceptions;
 
+/**
+ * Exception lancée lors d'un problème de connexion à la BDD
+ *
+ * @author Mickael
+ */
 public class ConnectionException extends RuntimeException {
 
 	public ConnectionException() {
@@ -23,7 +28,7 @@ public class ConnectionException extends RuntimeException {
 	public ConnectionException(Throwable pCause) {
 		super(pCause);
 	}
-	
-	
+
+
 
 }

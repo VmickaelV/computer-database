@@ -3,23 +3,20 @@ package com.excilys.mviegas.speccdb.persist.jdbc;
 import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 
-import javax.management.RuntimeErrorException;
-
 /**
  * Gestion de la connection à la base de données
- * 
+ *
+ * @author Mickael
  * Created by Mickael on 18/10/2014.
  */
 public class DatabaseManager {
@@ -35,11 +32,16 @@ public class DatabaseManager {
 	public static final String KEY_USER = "user";
 	public static final String KEY_PASSWORD = "password";
 	public static final String KEY_SCHEMA = "schema";
+	public static final String KEY_CREATE_SCRIPTS = "createScripts";
+	public static final String KEY_INSERT_SCRIPTS = "insertScripts";
 	public static final String KEY_MIN_SIZE = "min_size";
 	public static final String KEY_MAX_SIZE = "max_size";
 
-	
+	/**
+	 * Pool de Connexion
+	 */
 	private static final BoneCP sConnectionPool;
+
 	/**
 	 * Queue des connections libres
 	 */
@@ -81,6 +83,9 @@ public class DatabaseManager {
 	 */
 	public static final int MAX_SIZE_POOL = 20;
 
+	// ============================================================
+	//	Bloc static
+	// ============================================================
 	static {
 		
 		// Chargement des préférences de connexions
@@ -115,11 +120,11 @@ public class DatabaseManager {
 		}
 
 		// Assignation des préférences
-		URL = prefs.getProperty("url", "");
-		USER = prefs.getProperty("user", "");
-		PASSWORD = prefs.getProperty("password", "");
-		CREATE_SCRIPTS = prefs.getProperty("createScripts", "");
-		INSERT_SCRIPTS = prefs.getProperty("insertScripts", "");
+		URL = prefs.getProperty(KEY_URL, "");
+		USER = prefs.getProperty(KEY_USER, "");
+		PASSWORD = prefs.getProperty(KEY_PASSWORD, "");
+		CREATE_SCRIPTS = prefs.getProperty(KEY_CREATE_SCRIPTS, "");
+		INSERT_SCRIPTS = prefs.getProperty(KEY_INSERT_SCRIPTS, "");
 //		String schema = prefs.getProperty("schema", "");
 		
 		// Chargement des pilotes 
@@ -148,6 +153,7 @@ public class DatabaseManager {
 				
 				for (String fileLink : list) {
 					StringBuilder builder = new StringBuilder();
+					//noinspection ConstantConditions
 					File file = new File(DatabaseManager.class.getClassLoader().getResource(fileLink).getFile());
 					
 					try (Scanner scanner = new Scanner(file)) {
@@ -161,8 +167,6 @@ public class DatabaseManager {
 									statement.executeUpdate(builder.toString());
 									builder = new StringBuilder();
 								}
-								
-								
 							}
 						}
 						
@@ -190,8 +194,7 @@ public class DatabaseManager {
 //				e.printStackTrace();
 //			}
 //		}
-		
-		Connection connection = null;
+
 		try {
 			// Mise en plase du pool de connexion
 			BoneCPConfig config = new BoneCPConfig();
@@ -202,23 +205,15 @@ public class DatabaseManager {
 			config.setMaxConnectionsPerPartition(MAX_SIZE_POOL);
 			config.setPartitionCount(1);
 			sConnectionPool = new BoneCP(config);
-			
-			
-			
-			if (connection != null) {
-				System.out.println("Connection successful!");
-				Statement stmt = connection.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS"); // do something with the connection.
-				while (rs.next()) {
-					System.out.println(rs.getString(1)); // should print out "1"'
-				}
-			}
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
-			throw new RuntimeException(e);
+			throw new ConnectionException(e);
 		}
 	}
 
+	// ============================================================
+	//	Méthodes static
+	// ============================================================
 	/**
 	 * Gets the connection.
 	 *

@@ -11,6 +11,11 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 
+/**
+ * Bean permettant de gérer une liste de Computeurs
+ *
+ * @author Mickael
+ */
 @ManagedBean
 public class ListManagerBean {
 

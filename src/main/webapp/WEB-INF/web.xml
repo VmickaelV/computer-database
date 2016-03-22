@@ -74,7 +74,7 @@
 	<servlet>
 		<servlet-name>EditionComputerServlet</servlet-name>
 		<servlet-class>
-			com.excilys.formation.computerdatabase.servlets.DashboardServlet
+			com.excilys.mviegas.speccdb.servlets.EditComputerServlet
 		</servlet-class>
 	</servlet>
 
