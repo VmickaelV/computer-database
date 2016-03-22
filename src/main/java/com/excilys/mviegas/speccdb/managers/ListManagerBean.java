@@ -13,7 +13,11 @@ import javax.annotation.PostConstruct;
 
 @ManagedBean
 public class ListManagerBean {
-	
+
+	//===========================================================
+	// Attributes static
+	//===========================================================
+
 	public static final Logger LOGGER = LoggerFactory.getLogger(ListManagerBean.class);
 	
 	public static final int DEFAULT_SIZE_PAGE = 10;
@@ -35,6 +39,7 @@ public class ListManagerBean {
 	//===========================================================
 	// Constructeur
 	//===========================================================
+
 	public ListManagerBean() {
 		init();
 	}
@@ -79,24 +84,46 @@ public class ListManagerBean {
 		mSearch = pSearch;
 	}
 
+	public Paginator<Computer> getPaginator() {
+		return mPaginator;
+	}
+
+	//===========================================================
+	// Méthodes - Object
+	//===========================================================	
+
+	@Override
+	public String toString() {
+		return "ListManagerBean{" +
+				"mPage=" + mPage +
+				", mSize=" + mSize +
+				", mSearch='" + mSearch + '\'' +
+				", mPaginator=" + mPaginator +
+				", mComputerDao=" + mComputerDao +
+				'}';
+	}
+
+	//===========================================================
+	// Méthodes - Object
+	//===========================================================
 	public void update() {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("ListManager#update");
 			LOGGER.debug("");
 		}
-		
+
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug(this.toString());
 		}
-		
+
 		if (mPage == 0) {
 			mPage = 1;
 		}
-		
+
 		if (mSearch != null && !mSearch.isEmpty()) {
 			QueryParameter parameter = QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, mSearch);
 			parameter.and(ComputerDao.Parameters.SIZE, mSize)
-				.and(ComputerDao.Parameters.START, (mPage - 1)*mSize);
+					.and(ComputerDao.Parameters.START, (mPage - 1)*mSize);
 			try {
 				mPaginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, parameter.parameters());
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
@@ -111,10 +138,6 @@ public class ListManagerBean {
 				throw new RuntimeException(pE);
 			}
 		}
-	}
-
-	public Paginator<Computer> getPaginator() {
-		return mPaginator;
 	}
 
 	public boolean delete(String pIntegers) {
@@ -134,20 +157,4 @@ public class ListManagerBean {
 		}
 		return true;
 	}
-	//===========================================================
-	// Méthodes - Object
-	//===========================================================	
-
-	@Override
-	public String toString() {
-		return "ListManagerBean{" +
-				"mPage=" + mPage +
-				", mSize=" + mSize +
-				", mSearch='" + mSearch + '\'' +
-				", mPaginator=" + mPaginator +
-				", mComputerDao=" + mComputerDao +
-				'}';
-	}
-
-
 }
