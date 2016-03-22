@@ -3,6 +3,8 @@ package com.excilys.mviegas.speccdb;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.persist.Paginator;
 import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persist.jdbc.DatabaseManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -145,13 +147,56 @@ public class CompanyDAOTest {
 		}
 	}
 	
-	@Test(expected = UnsupportedOperationException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void delete1() throws Exception {
 		mCompanyDao.delete(null);
 	}
 	
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void delete2() throws Exception {
-		mCompanyDao.delete(1);
+		try {
+			mCompanyDao.delete(1);
+			fail("delete seems to throw an exception when there are not transaction");
+		} catch (IllegalStateException ignored) {
+
+		}
 	}
+
+	@Test
+	public void delete3() throws Exception {
+
+//		int nCompanies = mCompanyDao.size();
+
+		ComputerDao computerDao = ComputerDao.getInstance();
+		computerDao.setConnection(DatabaseManager.getConnection());
+
+//		int nComputers = computerDao.size();
+
+		mCompanyDao.getConnection().setAutoCommit(false);
+		mCompanyDao.delete(1);
+		mCompanyDao.getConnection().commit();
+
+		assertEquals(41, mCompanyDao.size());
+		assertEquals(574-39, computerDao.size());
+
+
+		DatabaseManager.releaseConnection(computerDao.getConnection());
+		ComputerDao.releaseInstance(computerDao);
+
+
+	}
+
+	@Test
+	public void delete4() throws Exception {
+		try {
+			mCompanyDao.getConnection().setAutoCommit(false);
+			mCompanyDao.delete(413213);
+			mCompanyDao.getConnection().commit();
+			fail();
+		} catch (IllegalArgumentException ignored) {
+
+		}
+	}
+
+
 }
