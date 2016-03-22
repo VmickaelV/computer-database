@@ -158,7 +158,7 @@ public class ComputerEditorBean {
 	public void init() {
 		mCompanyCrudService = CompanyDao.INSTANCE;
 		mComputerCrudService = ComputerDao.INSTANCE;
-		mCompanies = mCompanyCrudService.findAll();
+		mCompanies = mCompanyCrudService.findAll(0, 0);
 	}
 
 	public boolean addComputer() {
