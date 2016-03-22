@@ -32,23 +32,26 @@ public class CompanyDao implements CrudService<Company> {
 //	private final PreparedStatement mCreateStatement;
 //	private final PreparedStatement mUpdateStatement;
 //	private final PreparedStatement mDeleteStatement;
-	private final PreparedStatement mFindStatement;
-	
+//	private final PreparedStatement mDeleteCascadeStatement;
+	private PreparedStatement mFindStatement;
+
 	//===========================================================
 	// Constructors
 	//===========================================================
 	
 	private CompanyDao() {
-		try {
-			mConnection = DatabaseManager.getConnection();
-//			mCreateStatement = mConnection.prepareStatement("INSERT INTO `company` (name) VALUES (?);", Statement.RETURN_GENERATED_KEYS);
-//			mUpdateStatement = mConnection.prepareStatement("UPDATE `company` SET name=? WHERE id = ?;");
-//			mDeleteStatement = mConnection.prepareStatement("DELETE FROM `company` WHERE id = ?");
-			mFindStatement = mConnection.prepareStatement("SELECT * FROM `company` WHERE id = ?");
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new RuntimeException(e);
-		}
+//		try {
+////			mConnection = DatabaseManager.getConnection();
+//////			mCreateStatement = mConnection.prepareStatement("INSERT INTO `company` (name) VALUES (?);", Statement.RETURN_GENERATED_KEYS);
+//////			mUpdateStatement = mConnection.prepareStatement("UPDATE `company` SET name=? WHERE id = ?;");
+////			mDeleteStatement = mConnection.prepareStatement("DELETE FROM `company` WHERE id = ?");
+////			mDeleteCascadeStatement = mConnection.prepareStatement("DELETE FROM `computer` WHERE company_id = ?");
+////
+////			mFindStatement = mConnection.prepareStatement("SELECT * FROM `company` WHERE id = ?");
+//		} catch (SQLException e) {
+//			LOGGER.error(e.getMessage(), e);
+//			throw new RuntimeException(e);
+//		}
 	}
 
 	// ===========================================================
@@ -61,6 +64,13 @@ public class CompanyDao implements CrudService<Company> {
 
 	public void setConnection(Connection pConnection) {
 		mConnection = pConnection;
+		try {
+			mFindStatement = mConnection.prepareStatement("SELECT * FROM `company` WHERE id = ?");
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new RuntimeException(e);
+		}
+
 	}
 
 	// ===========================================================
@@ -115,14 +125,40 @@ public class CompanyDao implements CrudService<Company> {
 
 	@Override
 	public boolean delete(long pId) throws DAOException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("CrudService<Company>#delete not implemented yet.");
+		try {
+			if (mConnection.getAutoCommit()) {
+				throw new IllegalStateException();
+			}
+		} catch (SQLException pE) {
+			throw new DAOException(pE);
+		}
+		try (Statement statement = mConnection.createStatement()) {
+
+			statement.executeUpdate("DELETE FROM COMPUTER WHERE company_id = "+pId);
+			if (statement.executeUpdate("DELETE FROM COMPANY WHERE id = "+pId) != 1) {
+				mConnection.rollback();
+				throw new IllegalArgumentException("Not persisted company");
+			}
+			return true;
+		} catch (SQLException pE) {
+			try {
+				mConnection.rollback();
+			} catch (SQLException pE1) {
+				LOGGER.error(pE1.getMessage(), pE1);
+				throw new DAOException(pE1);
+			}
+
+			LOGGER.error(pE.getMessage(), pE);
+			throw new DAOException(pE);
+		}
 	}
 	
 	@Override
 	public boolean delete(Company pT) throws DAOException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("CompanyDao#delete not implemented yet.");
+		if (pT == null || pT.getId() <= 0) {
+			throw new IllegalArgumentException();
+		}
+		return delete(pT.getId());
 	}
 	
 	@Override
