@@ -136,7 +136,12 @@ public enum CompanyDao implements CrudService<Company> {
 			}
 			
 			
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM company LIMIT " + pSize + " OFFSET "+pStart);
+			ResultSet resultSet;
+			if (pSize > 0) {
+				resultSet = statement.executeQuery("SELECT * FROM company LIMIT " + pSize + " OFFSET "+pStart);
+			} else {
+				resultSet = statement.executeQuery("SELECT * FROM company");
+			}
 			List<Company> mCompanies = new ArrayList<>(resultSet.getFetchSize());
 			
 			while (resultSet.next()) {
