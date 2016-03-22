@@ -83,8 +83,11 @@
         </h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
-                <form id="searchForm" action="dashboard.jsp" method="GET" class="form-inline">
+                <form id="searchForm" action="${my:link('dashboard')}" method="GET" class="form-inline">
 
+                    <c:if test="${not empty param.size}">
+                        <input type="hidden" name="size" value="${param.size}">
+                    </c:if>
                     <input type="search" id="searchbox" name="search"
                            class="form-control" placeholder="Search name" value="${param.search}"/> <input
                         type="submit" id="searchsubmit" value="Filter by name"
@@ -161,9 +164,9 @@
 
         <div class="btn-group btn-group-sm pull-right" role="group">
             <a type="button" class="btn btn-default ${param.size == 10 || empty param.size ? 'active' : ''}"
-               href="?size=10">10</a>
-            <a type="button" class="btn btn-default ${param.size == 50 ? 'active' : ''}" href="?size=50">50</a>
-            <a type="button" class="btn btn-default ${param.size == 100 ? 'active' : ''}" href="?size=100">100</a>
+               href="${my:linkQE('dashboard', param, 'size', null)}">10</a>
+            <a type="button" class="btn btn-default ${param.size == 50 ? 'active' : ''}" href="${my:linkQE('dashboard', param, 'size', 50)}">50</a>
+            <a type="button" class="btn btn-default ${param.size == 100 ? 'active' : ''}" href="${my:linkQE('dashboard', param, 'size', 100)}">100</a>
         </div>
     </div>
 </footer>
