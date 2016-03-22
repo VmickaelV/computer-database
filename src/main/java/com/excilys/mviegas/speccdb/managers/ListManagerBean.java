@@ -1,8 +1,8 @@
 package com.excilys.mviegas.speccdb.managers;
 
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persist.CrudService;
+import com.excilys.mviegas.speccdb.persist.Paginator;
 import com.excilys.mviegas.speccdb.persist.QueryParameter;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
 import org.slf4j.Logger;
@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
-import java.util.List;
 
 @ManagedBean
 public class ListManagerBean {
@@ -29,7 +28,7 @@ public class ListManagerBean {
 	
 	private String mSearch;
 	
-	private List<Computer> mDisplayedComputers;
+	private Paginator<Computer> mPaginator;
 	
 	private CrudService<Computer> mComputerDao;
 	
@@ -53,16 +52,7 @@ public class ListManagerBean {
 	//===========================================================
 	// Méthodes controleurs
 	//===========================================================
-	
-	public int getNbComputers() {
-		try {
-			return mComputerDao.size();
-		} catch (DAOException pE) {
-			// TODO a modifier
-			throw new RuntimeException(pE);
-		}
-	}
-	
+
 	public int getPage() {
 		return mPage;
 	}
@@ -108,14 +98,14 @@ public class ListManagerBean {
 			parameter.and(ComputerDao.Parameters.SIZE, mSize)
 				.and(ComputerDao.Parameters.START, (mPage - 1)*mSize);
 			try {
-				mDisplayedComputers = mComputerDao.findWithNamedQuery(ComputerDao.NamedQueries.SEARCH, parameter.parameters());
+				mPaginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, parameter.parameters());
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				// TODO à refaire
 				throw new RuntimeException(pE);
 			}
 		} else {
 			try {
-				mDisplayedComputers = mComputerDao.findAll((mPage-1)*mSize, mSize);
+				mPaginator = mComputerDao.findAllWithPaginator((mPage-1)*mSize, mSize);
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				// TODO à refaire
 				throw new RuntimeException(pE);
@@ -123,8 +113,8 @@ public class ListManagerBean {
 		}
 	}
 
-	public List<Computer> getDisplayedComputers() {
-		return mDisplayedComputers;
+	public Paginator<Computer> getPaginator() {
+		return mPaginator;
 	}
 
 	public boolean delete(String pIntegers) {
@@ -147,27 +137,17 @@ public class ListManagerBean {
 	//===========================================================
 	// Méthodes - Object
 	//===========================================================	
-	
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("ListManager [mPage=");
-		builder.append(mPage);
-		builder.append(", mSize=");
-		builder.append(mSize);
-		builder.append(", mSearch=");
-		builder.append(mSearch);
-		builder.append(", mDisplayedComputers=");
-		builder.append(mDisplayedComputers);
-		builder.append(", mComputerDao=");
-		builder.append(mComputerDao);
-		builder.append("]");
-		return builder.toString();
+		return "ListManagerBean{" +
+				"mPage=" + mPage +
+				", mSize=" + mSize +
+				", mSearch='" + mSearch + '\'' +
+				", mPaginator=" + mPaginator +
+				", mComputerDao=" + mComputerDao +
+				'}';
 	}
 
-	
-	
-	
-	
-	
+
 }

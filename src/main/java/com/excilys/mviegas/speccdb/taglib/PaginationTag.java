@@ -1,6 +1,8 @@
 package com.excilys.mviegas.speccdb.taglib;
 
+import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.managers.ListManagerBean;
+import com.excilys.mviegas.speccdb.persist.Paginator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,8 @@ public class PaginationTag extends SimpleTagSupport {
 	private int mCount;
 	
 	private Map<String, String> mParameters;
+
+	private Paginator<Computer> mPaginator;
 	
 	//===========================================================
 	// Getters & Setters
@@ -92,6 +96,14 @@ public class PaginationTag extends SimpleTagSupport {
 		mParameters = pParameters;
 	}
 
+	public Paginator<Computer> getPaginator() {
+		return mPaginator;
+	}
+
+	public void setPaginator(Paginator<Computer> pPaginator) {
+		mPaginator = pPaginator;
+	}
+
 	//===========================================================
 	// Ovverride - SimpleTagSupport
 	//===========================================================
@@ -102,7 +114,12 @@ public class PaginationTag extends SimpleTagSupport {
 			LOGGER.debug("");
 			LOGGER.debug(this.toString());
 		}
-				
+
+		if (mPaginator != null) {
+			mCount = mPaginator.getElementsCount();
+			mCountByPages = mPaginator.getElementsByPage();
+			mCurrentPage = mPaginator.getCurrentPage();
+		}
 		
 		// TODO attention risque d'injection ?
 		StringBuilder builder = new StringBuilder("?");

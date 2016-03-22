@@ -79,7 +79,7 @@
 
     <div class="container">
         <h1 id="homeTitle">
-            ${listManager.nbComputers} Computers found
+            ${listManager.paginator.elementsCount} Computers found
         </h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
@@ -129,7 +129,7 @@
             <!-- Browse attribute computers -->
             <tbody id="results">
 
-            <c:forEach items="${listManager.displayedComputers}" var="computer">
+            <c:forEach items="${listManager.paginator.values}" var="computer">
                 <tr>
                     <td class="editMode"><input type="checkbox" name="cb"
                                                 class="cb" value="${computer.id}"></td>
@@ -156,7 +156,7 @@
 
 <footer class="navbar-fixed-bottom">
     <div class="container text-center">
-        <my:pagination currentPage="${param.page}" countByPages="${param.size}" count="${listManager.nbComputers}"
+        <my:pagination paginator="${listManager.paginator}"
                        parameters="${param}"/>
 
         <div class="btn-group btn-group-sm pull-right" role="group">
