@@ -3,6 +3,7 @@ package com.excilys.mviegas.speccdb.persist.jdbc;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persist.CrudService;
+import com.excilys.mviegas.speccdb.persist.Paginator;
 import com.excilys.mviegas.speccdb.wrappers.ComputerJdbcWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +71,11 @@ public class ComputerDao implements CrudService<Computer> {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
+	//===========================================================
+	// Getters & Setters
+	//===========================================================
+
 	//===========================================================
 	// Methods - private
 	//===========================================================
@@ -102,11 +107,12 @@ public class ComputerDao implements CrudService<Computer> {
 	// ===========================================================
 
 	@Override
-	public Computer create(Computer pT) {
+	public Computer create(Computer pT) throws DAOException {
 		
-		if (pT == null) {
-			return null;
+		if (pT == null || pT.getId() > 0) {
+			throw new IllegalArgumentException("null or already persisted object are illegales values");
 		}
+
 		try {
 //			mCreateStatement.clearParameters();
 			
@@ -134,7 +140,7 @@ public class ComputerDao implements CrudService<Computer> {
 	}
 
 	@Override
-	public Computer find(long pId) {
+	public Computer find(long pId) throws DAOException {
 		try {
 			mFindStatement.setLong(1, pId);
 			ResultSet resultSet = mFindStatement.executeQuery();
@@ -151,7 +157,7 @@ public class ComputerDao implements CrudService<Computer> {
 	}
 
 	@Override
-	public Computer update(Computer pT) {
+	public Computer update(Computer pT) throws DAOException {
 		if (pT == null || pT.getId() <= 0) {
 			throw new IllegalArgumentException("Null or Not Persisted Object");
 		}
@@ -176,7 +182,7 @@ public class ComputerDao implements CrudService<Computer> {
 	}
 
 	@Override
-	public boolean delete(long pId) {
+	public boolean delete(long pId) throws DAOException {
 		if (pId <= 0) {
 			throw new IllegalArgumentException("Null or Not Persisted Object");
 		}
@@ -198,7 +204,7 @@ public class ComputerDao implements CrudService<Computer> {
 	
 
 	@Override
-	public boolean delete(Computer pT) {
+	public boolean delete(Computer pT) throws DAOException {
 		if (pT == null || pT.getId() <= 0) {
 			throw new IllegalArgumentException("Null or Not Persisted Object");
 		}
@@ -216,13 +222,19 @@ public class ComputerDao implements CrudService<Computer> {
 	}
 
 	@Override
-	public boolean refresh(Computer pT) {
+	public boolean refresh(Computer pT) throws DAOException {
 		if (pT == null || pT.getId() <= 0) {
 			throw new IllegalArgumentException("Null or Not Persisted Object");
 		}
-		
-		Computer computer = INSTANCE.find(pT.getId());
-		
+
+		Computer computer;
+		try {
+			computer = INSTANCE.find(pT.getId());
+		} catch (DAOException pE) {
+			// TODO à refaire
+			throw new RuntimeException(pE);
+		}
+
 		if (computer == null) {
 			return false;
 		}
@@ -236,13 +248,21 @@ public class ComputerDao implements CrudService<Computer> {
 	}
 
 	@Override
-	public List<Computer> findAll() {
-		return findAll(0, BASE_SIZE_PAGE);
+	public List<Computer> findAll() throws DAOException {
+		return findAllWithPaginator(0, BASE_SIZE_PAGE).getValues();
 	}
 
 	@Override
-	public List<Computer> findAll(int pStart, int pSize) {
+	public List<Computer> findAll(int start, int size) throws DAOException {
+		// TODO To Implement
+		return findAllWithPaginator(start, size).getValues();
+	}
+
+	@Override
+	public Paginator<Computer> findAllWithPaginator(int pStart, int pSize) throws DAOException {
 		Statement statement;
+		Paginator<Computer> paginator;
+
 		try {
 			statement = mConnection.createStatement();
 			if (pSize > 0) {
@@ -260,7 +280,20 @@ public class ComputerDao implements CrudService<Computer> {
 				Computer computer = ComputerJdbcWrapper.fromJdbc(resultSet);
 				mCompanies.add(computer);
 			}
-			return mCompanies;
+
+			int nbCount;
+			if (pSize > 0) {
+				resultSet = statement.executeQuery("SELECT COUNT(*) FROM computer");
+
+				resultSet.next();
+				nbCount = resultSet.getInt(1);
+			} else {
+				nbCount = mCompanies.size();
+			}
+
+			paginator = new Paginator<>(pStart, nbCount, pSize, mCompanies);
+
+			return paginator;
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
@@ -268,78 +301,31 @@ public class ComputerDao implements CrudService<Computer> {
 	}
 
 	@Override
-	public List<Computer> findWithNamedQuery(String pQueryName) {
+	public List<Computer> findWithNamedQuery(String pQueryName) throws DAOException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("ComputerDao#findWithNamedQuery not implemented yet.");
 	}
 
 	@Override
-	public List<Computer> findWithNamedQuery(String pQueryName, int pResultLimit) {
+	public List<Computer> findWithNamedQuery(String pQueryName, int pResultLimit) throws DAOException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("ComputerDao#findWithNamedQuery not implemented yet.");
 	}
 
 	@Override
-	public List<Computer> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters) {
-		switch (pNamedQueryName) {
-		case NamedQueries.SEARCH:
-			Statement statement;
-			int size = (int) pParameters.getOrDefault(Parameters.SIZE, BASE_SIZE_PAGE);
-			int start = (int) pParameters.getOrDefault(Parameters.START, 0);
-			String search = (String) pParameters.getOrDefault(Parameters.FILTER_NAME, 0);
-			
-			try {
-				statement = mConnection.createStatement();
-				if (size > 0) {
-					statement.setMaxRows(size);
-				} else {
-					statement.setMaxRows(0);
-					size = 0;
-				}
-				
-				StringBuilder stringBuilder = new StringBuilder();
-				
-				stringBuilder.append("SELECT * FROM computer");
-				
-				if (search != null && !search.isEmpty()) {
-					stringBuilder.append(" WHERE name LIKE \"%")
-						.append(search)
-						.append("%\"");
-				}
-				
-				stringBuilder.append(" LIMIT ").append(size).append(" OFFSET ").append(start);
-				
-				if (LOGGER.isInfoEnabled()) {
-					LOGGER.info("Query : "+stringBuilder.toString());
-				}
-				
-				ResultSet resultSet = statement.executeQuery(stringBuilder.toString());
-				
-				List<Computer> mCompanies = new ArrayList<>(resultSet.getFetchSize());
-				
-				while (resultSet.next()) {
-					Computer computer = ComputerJdbcWrapper.fromJdbc(resultSet);
-					mCompanies.add(computer);
-				}
-				return mCompanies;
-			} catch (SQLException e) {
-				LOGGER.error(e.getMessage(), e);
-				throw new DAOException(e);
-			}
-		default:
-			throw new UnsupportedOperationException("NamedQueries not supported : " + pNamedQueryName);
-		}
+	public List<Computer> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters) throws DAOException {
+		return findWithNamedQueryWithPaginator(pNamedQueryName, pParameters).getValues();
 	}
 
 	@Override
 	public List<Computer> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters,
-			int pResultLimit) {
+			int pResultLimit) throws DAOException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("ComputerDao#findWithNamedQuery not implemented yet.");
 	}
 	
 	@Override
-	public int size() {
+	public int size() throws DAOException {
 		Statement statement;
 		try {
 			statement = mConnection.createStatement();
@@ -350,8 +336,6 @@ public class ComputerDao implements CrudService<Computer> {
 				throw new DAOException();
 			}
 			
-			
-			
 			resultSet.next();
 			return resultSet.getInt(1);
 		} catch (SQLException e) {
@@ -360,4 +344,98 @@ public class ComputerDao implements CrudService<Computer> {
 		}
 	}
 
+	@Override
+	public Paginator<Computer> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws DAOException {
+		// TODO To Implement
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao#findWithNamedQueryWithPaginator not implemented yet.");
+	}
+
+	@Override
+	public Paginator<Computer> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
+		Paginator<Computer> paginator;
+		ResultSet resultSet;
+
+		switch (namedQueryName) {
+			case NamedQueries.SEARCH:
+				Statement statement;
+				int size = (int) parameters.getOrDefault(Parameters.SIZE, BASE_SIZE_PAGE);
+				int start = (int) parameters.getOrDefault(Parameters.START, 0);
+				String search = (String) parameters.getOrDefault(Parameters.FILTER_NAME, 0);
+
+				try {
+					statement = mConnection.createStatement();
+					if (size > 0) {
+						statement.setMaxRows(size);
+					} else {
+						statement.setMaxRows(0);
+						size = 0;
+					}
+
+					StringBuilder stringBuilder = new StringBuilder();
+
+					stringBuilder.append("SELECT COUNT(*) FROM computer");
+
+					if (search != null && !search.isEmpty()) {
+						stringBuilder.append(" WHERE lcase(name) LIKE '%")
+								.append(search)
+								.append("%'");
+					}
+
+					if (LOGGER.isInfoEnabled()) {
+						LOGGER.info(stringBuilder.toString());
+					}
+
+
+					int nbCount = 0;
+					if (size > 0) {
+						resultSet = statement.executeQuery(stringBuilder.toString());
+						resultSet.next();
+						nbCount = resultSet.getInt(1);
+					}
+
+					stringBuilder.replace(0, "SELECT COUNT(*) FROM computer".length(), "SELECT * FROM computer");
+					stringBuilder.append(" LIMIT ").append(size).append(" OFFSET ").append(start);
+
+					if (LOGGER.isInfoEnabled()) {
+						LOGGER.info("Query : "+stringBuilder.toString());
+					}
+
+
+					resultSet = statement.executeQuery(stringBuilder.toString());
+
+					List<Computer> mComputers = new ArrayList<>(resultSet.getFetchSize());
+
+					while (resultSet.next()) {
+						Computer computer = ComputerJdbcWrapper.fromJdbc(resultSet);
+						mComputers.add(computer);
+					}
+
+					if (size == 0) {
+						nbCount = mComputers.size();
+					}
+
+
+					paginator = new Paginator<>(start, nbCount, size, mComputers);
+
+					return paginator;
+				} catch (SQLException e) {
+					LOGGER.error(e.getMessage(), e);
+					throw new DAOException(e);
+				}
+			default:
+				throw new UnsupportedOperationException("NamedQueries not supported : " + namedQueryName);
+		}
+	}
+
+	@Override
+	public Paginator<Computer> findWithNamedQueryWithPaginator(String queryName, int resultLimit) throws DAOException {
+		// TODO To Implement
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao#findWithNamedQueryWithPaginator not implemented yet.");
+	}
+
+	@Override
+	public Paginator<Computer> findWithNamedQueryWithPaginator(String queryName) throws DAOException {
+		// TODO To Implement
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao#findWithNamedQueryWithPaginator not implemented yet.");
+	}
 }

@@ -34,7 +34,7 @@ public abstract class BaseSeleniumTest {
 		public static final String TMP_CONTEXT = "tomcat.tmpcontext";
 	}
 
-	public static final String TMP_WORKING_DIR = System.getProperty(Properties.TMP_WORKING_DIR, "target/tomcat");
+	public static final String TMP_WORKING_DIR = System.getProperty(Properties.TMP_WORKING_DIR, ".");
 	public static final String TMP_DEPLOY_DIR = TMP_WORKING_DIR + "/webapps";
 	public static final String TMP_URL = System.getProperty(Properties.TMP_URL, "localhost");
 	public static final int TMP_PORT = Integer.parseInt(System.getProperty(Properties.TMP_PORT, String.valueOf(8081)));

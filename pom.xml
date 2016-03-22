@@ -17,7 +17,7 @@
 
     <build>
         <finalName>${name.finale}</finalName>
-        
+
         <plugins>
             <!-- JDK Java -->
             <plugin>
@@ -49,19 +49,19 @@
                     <outputFileFormat>plain</outputFileFormat>
                 </configuration>
                 <dependencies>
-                	<dependency>
-            			<groupId>org.apache.maven.plugins</groupId>
-            			<artifactId>maven-jxr-plugin</artifactId>
-	            		<version>2.3</version>
-            		</dependency>
+                    <dependency>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jxr-plugin</artifactId>
+                        <version>2.3</version>
+                    </dependency>
                 </dependencies>
             </plugin>
             <!-- Ajout de lien -->
             <plugin>
-            	<groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-jxr-plugin</artifactId>
-            	<version>2.3</version>
-        	</plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.3</version>
+            </plugin>
 
             <!-- Conf Webapp -->
             <plugin>
@@ -100,13 +100,6 @@
                     <!-- <configLocation>config/maven_checks.xml</configLocation> -->
                     <!-- <configLocation>config/turbine_checks.xml</configLocation> -->
                     <!-- <configLocation>config/avalon_checks.xml</configLocation> -->
-                    <dependencies>
-                		<dependency>
-            				<groupId>org.apache.maven.plugins</groupId>
-            				<artifactId>maven-jxr-plugin</artifactId>
-	            			<version>2.3</version>
-	            		</dependency>
-                	</dependencies>
                 </configuration>
 
                 <reportSets>
@@ -118,12 +111,12 @@
                 </reportSets>
             </plugin>
 
-            <!-- Permet d'ajouter des liens vers le code source dans le rapport
-             <plugin>
-             <groupId>org.apache.maven.plugins</groupId>
-             <artifactId>maven-jxr-plugin</artifactId>
-             </plugin>
-            -->
+            <!--&lt;!&ndash; Permet d'ajouter des liens vers le code source dans le rapport-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+            </plugin>
+            <!--&ndash;&gt;-->
 
             <!-- Ajout de la javadoc -->
             <plugin>
@@ -131,7 +124,8 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.10.3</version>
                 <configuration>
-
+                    <!-- TODO à supprimer -->
+                    <failOnError>false</failOnError>
                 </configuration>
             </plugin>
 
@@ -202,6 +196,14 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Bind à log4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.19</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Dépendances globales -->
 
 
@@ -229,13 +231,13 @@
         <!-- <artifactId>weld-core</artifactId> -->
         <!-- <version>2.3.3.Final</version> -->
         <!-- </dependency> -->
-        
-		<!-- Ajout d'un pool de connexion JDBC -->
+
+        <!-- Ajout d'un pool de connexion JDBC -->
         <dependency>
-			<groupId>com.jolbox</groupId>
-			<artifactId>bonecp</artifactId>
-			<version>${bonecp.version}</version>
-		</dependency>
+            <groupId>com.jolbox</groupId>
+            <artifactId>bonecp</artifactId>
+            <version>${bonecp.version}</version>
+        </dependency>
 
         <!-- Dependances de Tests -->
 

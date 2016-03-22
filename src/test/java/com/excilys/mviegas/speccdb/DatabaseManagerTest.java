@@ -1,18 +1,16 @@
 package com.excilys.mviegas.speccdb;
 
-import static org.junit.Assert.*;
+import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persist.jdbc.DatabaseManager;
+import org.junit.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Scanner;
 
-import org.junit.Test;
-
-import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
-import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
-import com.excilys.mviegas.speccdb.persist.jdbc.DatabaseManager;
+import static org.junit.Assert.assertEquals;
 
 public class DatabaseManagerTest {
 

@@ -1,11 +1,12 @@
 package com.excilys.mviegas.speccdb.ui.cligui;
 
-import java.util.List;
-import java.util.Scanner;
-
 import com.excilys.mviegas.speccdb.controlers.IComputersListViewControler;
 import com.excilys.mviegas.speccdb.data.Computer;
+import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+
+import java.util.List;
+import java.util.Scanner;
 
 public enum ComputersListView implements IComputersListViewControler {
 
@@ -28,10 +29,15 @@ public enum ComputersListView implements IComputersListViewControler {
 	 */
 	@Override
 	public void nextPage() {
-		if ((mStart + mSize) < ComputerDao.INSTANCE.size()) {
-			mStart += mSize;
-		} else {
-			System.err.println("Fin de liste atteinte !");
+		try {
+			if ((mStart + mSize) < ComputerDao.INSTANCE.size()) {
+				mStart += mSize;
+			} else {
+				System.err.println("Fin de liste atteinte !");
+			}
+		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+			// TODO à refaire
+			throw new RuntimeException(pE);
 		}
 		printPage();
 	}
@@ -61,8 +67,14 @@ public enum ComputersListView implements IComputersListViewControler {
 
 	private void printPage() {
 		printHeaderList();
-		List<Computer> computers = ComputerDao.INSTANCE.findAll(mStart, mSize);
-		
+		List<Computer> computers;
+		try {
+			computers = ComputerDao.INSTANCE.findAll(mStart, mSize);
+		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+			// TODO a modifier
+			throw new RuntimeException(pE);
+		}
+
 		if (computers.size() == 0) {
 			System.out.println("Aucune donnée.");
 		} else {
@@ -131,16 +143,27 @@ public enum ComputersListView implements IComputersListViewControler {
 			System.out.print("Supprimer quel ordinateur (Saisissez l'ID) ? > ");
 			
 			id = MainMenuControleur.SCANNER.nextInt();
-			Computer computer = ComputerDao.INSTANCE.find(id);
+			Computer computer;
+			try {
+				computer = ComputerDao.INSTANCE.find(id);
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				// TODO a modifier
+				throw new RuntimeException(pE);
+			}
 			if (computer == null) {
 				System.err.printf("Ordinateur avec l'ID n°%d introuvable%nVeuillez saisir un ID valide%n", id);
 				continue;
 			}
-			
-			if (!ComputerDao.INSTANCE.delete(computer)) {
+
+			try {
+				if (!ComputerDao.INSTANCE.delete(computer)) {
+					throw new RuntimeException();
+				}
+			} catch (DAOException pE) {
+				// TODO a implémenter
 				throw new RuntimeException();
 			}
-			
+
 			printPage();
 			
 			
@@ -173,8 +196,15 @@ public enum ComputersListView implements IComputersListViewControler {
 			System.out.println(MainMenuControleur.SEPARATOR);
 			System.out.print("Voir le détail de quel ordinateur (Saisissez l'ID) ? > ");
 			id = Integer.valueOf(MainMenuControleur.SCANNER.next());
-			
-			Computer computer = ComputerDao.INSTANCE.find(id);
+
+			Computer computer;
+			try {
+				computer = ComputerDao.INSTANCE.find(id);
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				// TODO à refaire
+				throw new RuntimeException(pE);
+			}
+
 			if (computer == null) {
 				System.err.printf("Ordinateur avec l'ID n°%d introuvable%nVeuillez saisir un ID valide%n", id);
 				continue;

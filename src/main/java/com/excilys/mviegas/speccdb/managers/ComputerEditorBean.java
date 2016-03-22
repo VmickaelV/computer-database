@@ -90,7 +90,12 @@ public class ComputerEditorBean {
 	public void setId(long pId) {
 		mId = pId;
 		if (pId > 0) {
-			mComputer = mComputerCrudService.find(pId);
+			try {
+				mComputer = mComputerCrudService.find(pId);
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				// TODO à refaire
+				throw new RuntimeException(pE);
+			}
 		} else {
 			mComputer = null;
 		}
@@ -121,7 +126,12 @@ public class ComputerEditorBean {
 	}
 
 	public boolean hasValidIdCompany() {
-		return mIdCompany == 0 || mCompanyCrudService.find(mIdCompany) != null;
+		try {
+			return mIdCompany == 0 || mCompanyCrudService.find(mIdCompany) != null;
+		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+			// TODO à implenter
+			throw new RuntimeException(pE);
+		}
 	}
 
 	private static boolean isValidOptionnalDate(String pDate) {
@@ -147,6 +157,9 @@ public class ComputerEditorBean {
 		} catch (DateTimeParseException pE) {
 			// TODO a logger
 			throw new RuntimeException("Erreur non attendu", pE);
+		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+			// TODO à refaire
+			throw new RuntimeException(pE);
 		}
 	}
 
@@ -158,12 +171,22 @@ public class ComputerEditorBean {
 	public void init() {
 		mCompanyCrudService = CompanyDao.INSTANCE;
 		mComputerCrudService = ComputerDao.INSTANCE;
-		mCompanies = mCompanyCrudService.findAll(0, 0);
+		try {
+			mCompanies = mCompanyCrudService.findAll(0, 0);
+		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+			// TODO à refaire
+			throw new RuntimeException(pE);
+		}
 	}
 
 	public boolean addComputer() {
 		if (hasValidName() && hasValidIntroducedDate() && hasValidDiscontinuedDate() && hasValidIdCompany()) {
-			mComputerCrudService.create(makeComputer());
+			try {
+				mComputerCrudService.create(makeComputer());
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				// TODO à refaire
+				throw new RuntimeException(pE);
+			}
 			return true;
 		} else {
 			return false;

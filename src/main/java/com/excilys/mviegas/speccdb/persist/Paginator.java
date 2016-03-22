@@ -5,6 +5,8 @@ import java.util.List;
 /**
  * Regroupement d'informations utile pour une pagination.
  *
+ * L'indexation des pages commence à 1 (car principalement utilisé pour de l'IU)
+ *
  * Created by excilys on 15/03/16.
  */
 public class Paginator<T> {
@@ -25,9 +27,14 @@ public class Paginator<T> {
 	//===========================================================
 	// Constructors
 	//===========================================================
-	public Paginator(int pCurrentPage, int pElementsCount, int pElementsByPage, List<T> pValues) {
+	public Paginator(int pStartIndex, int pElementsCount, int pElementsByPage, List<T> pValues) {
 		super();
-		mCurrentPage = pCurrentPage;
+		if (pElementsByPage == 0) {
+			pElementsByPage = -1;
+		}
+		mCurrentPage = pStartIndex/pElementsByPage;
+		mCurrentPage++;
+
 		mElementsCount = pElementsCount;
 		mElementsByPage = pElementsByPage;
 		mValues = pValues;
@@ -60,4 +67,19 @@ public class Paginator<T> {
 		return mNbPages;
 	}
 
+	//===========================================================
+	// Méthodes - Object
+	//===========================================================
+
+
+	@Override
+	public String toString() {
+		return "Paginator{" +
+				"mCurrentPage=" + mCurrentPage +
+				", mElementsCount=" + mElementsCount +
+				", mElementsByPage=" + mElementsByPage +
+				", mValues=" + mValues +
+				", mNbPages=" + mNbPages +
+				'}';
+	}
 }

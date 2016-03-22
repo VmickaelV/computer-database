@@ -3,6 +3,7 @@ package com.excilys.mviegas.speccdb.persist.jdbc;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persist.CrudService;
+import com.excilys.mviegas.speccdb.persist.Paginator;
 import com.excilys.mviegas.speccdb.wrappers.CompanyJdbcWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,7 @@ public enum CompanyDao implements CrudService<Company> {
 	// Methods - CrudService
 	// ===========================================================
 	@Override
-	public Company create(Company pT) {
+	public Company create(Company pT) throws DAOException {
 //		try {
 ////			mCreateStatement.clearParameters();
 //			
@@ -65,12 +66,7 @@ public enum CompanyDao implements CrudService<Company> {
 	}
 
 	@Override
-	public Company find(long pId) {
-//		System.out.println("CompanyDao#find");
-//		System.out.println(pId);
-		
-			
-			
+	public Company find(long pId) throws DAOException {
 		try {
 			mFindStatement.setLong(1, pId);
 //			System.out.println(mFindStatement.toString());
@@ -95,37 +91,43 @@ public enum CompanyDao implements CrudService<Company> {
 	
 
 	@Override
-	public Company update(Company pT) {
+	public Company update(Company pT) throws DAOException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("CrudService<Company>#update not implemented yet.");
 	}
 
 	@Override
-	public boolean delete(long pId) {
+	public boolean delete(long pId) throws DAOException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("CrudService<Company>#delete not implemented yet.");
 	}
 	
 	@Override
-	public boolean delete(Company pT) {
+	public boolean delete(Company pT) throws DAOException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("CompanyDao#delete not implemented yet.");
 	}
 	
 	@Override
-	public boolean refresh(Company pT) {
+	public boolean refresh(Company pT) throws DAOException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("CrudService<Company>#refresh not implemented yet.");
 	}
 
 	@Override
-	public List<Company> findAll() {
-		return findAll(0, 20);	
+	public List<Company> findAll() throws DAOException {
+		return findAll(0, 0);
 	}
 	
 	@Override
-	public List<Company> findAll(int pStart, int pSize) {
+	public List<Company> findAll(int pStart, int pSize) throws DAOException {
+		return findAllWithPaginator(pStart, pSize).getValues();
+	}
+
+	@Override
+	public Paginator<Company> findAllWithPaginator(int pStart, int pSize) throws DAOException {
 		Statement statement;
+		Paginator<Company> paginator;
 		try {
 			statement = mConnection.createStatement();
 			if (pSize > 0) {
@@ -134,63 +136,92 @@ public enum CompanyDao implements CrudService<Company> {
 				statement.setMaxRows(0);
 				pSize = 0;
 			}
-			
-			
+
+
 			ResultSet resultSet;
 			if (pSize > 0) {
 				resultSet = statement.executeQuery("SELECT * FROM company LIMIT " + pSize + " OFFSET "+pStart);
 			} else {
 				resultSet = statement.executeQuery("SELECT * FROM company");
 			}
+
 			List<Company> mCompanies = new ArrayList<>(resultSet.getFetchSize());
-			
+
 			while (resultSet.next()) {
 				Company company = CompanyJdbcWrapper.fromJdbc(resultSet);
 				mCompanies.add(company);
 			}
-			
-			return mCompanies;
+
+			int nbCount;
+			if (pSize > 0) {
+				resultSet = statement.executeQuery("SELECT COUNT(*) FROM company");
+
+				resultSet.next();
+				nbCount = resultSet.getInt(1);
+			} else {
+				nbCount = mCompanies.size();
+			}
+
+			paginator = new Paginator<>(pStart, nbCount, pSize, mCompanies);
+
+			return paginator;
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
 	}
-	
+
 	@Override
-	public List<Company> findWithNamedQuery(String pQueryName) {
+	public List<Company> findWithNamedQuery(String pQueryName) throws DAOException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("CrudService<Company>#findWithNamedQuery not implemented yet.");
 	}
 
 	@Override
-	public List<Company> findWithNamedQuery(String pQueryName, int pResultLimit) {
+	public Paginator<Company> findWithNamedQueryWithPaginator(String queryName) throws DAOException {
+		// ${todo} To Implement
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
+	}
+
+	@Override
+	public List<Company> findWithNamedQuery(String pQueryName, int pResultLimit) throws DAOException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("CrudService<Company>#findWithNamedQuery not implemented yet.");
 	}
 
 	@Override
-	public List<Company> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters) {
+	public Paginator<Company> findWithNamedQueryWithPaginator(String queryName, int resultLimit) throws DAOException {
+		// ${todo} To Implement
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
+	}
+
+	@Override
+	public List<Company> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters) throws DAOException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("CrudService<Company>#findWithNamedQuery not implemented yet.");
 	}
 
 	@Override
-	public List<Company> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters, int pResultLimit) {
+	public Paginator<Company> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
+		// ${todo} To Implement
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
+	}
+
+	@Override
+	public List<Company> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters, int pResultLimit) throws DAOException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("CrudService<Company>#findWithNamedQuery not implemented yet.");
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	@Override
-	public int size() {
+	public Paginator<Company> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws DAOException {
+		// ${todo} To Implement
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
+	}
+
+
+	@Override
+	public int size() throws DAOException {
 		Statement statement;
 		try {
 			statement = mConnection.createStatement();
@@ -200,9 +231,7 @@ public enum CompanyDao implements CrudService<Company> {
 			if (!resultSet.isBeforeFirst()) {
 				throw new DAOException();
 			}
-			
-			
-			
+
 			resultSet.next();
 			return resultSet.getInt(1);
 		} catch (SQLException e) {
@@ -210,5 +239,7 @@ public enum CompanyDao implements CrudService<Company> {
 			throw new DAOException(e);
 		}
 	}
+
+
 
 }

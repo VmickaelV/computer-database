@@ -1,6 +1,7 @@
 package com.excilys.mviegas.speccdb.managers;
 
 import com.excilys.mviegas.speccdb.data.Computer;
+import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persist.CrudService;
 import com.excilys.mviegas.speccdb.persist.QueryParameter;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
@@ -54,7 +55,12 @@ public class ListManagerBean {
 	//===========================================================
 	
 	public int getNbComputers() {
-		return mComputerDao.size();
+		try {
+			return mComputerDao.size();
+		} catch (DAOException pE) {
+			// TODO a modifier
+			throw new RuntimeException(pE);
+		}
 	}
 	
 	public int getPage() {
@@ -101,9 +107,19 @@ public class ListManagerBean {
 			QueryParameter parameter = QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, mSearch);
 			parameter.and(ComputerDao.Parameters.SIZE, mSize)
 				.and(ComputerDao.Parameters.START, (mPage - 1)*mSize);
-			mDisplayedComputers = mComputerDao.findWithNamedQuery(ComputerDao.NamedQueries.SEARCH, parameter.parameters());
+			try {
+				mDisplayedComputers = mComputerDao.findWithNamedQuery(ComputerDao.NamedQueries.SEARCH, parameter.parameters());
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				// TODO à refaire
+				throw new RuntimeException(pE);
+			}
 		} else {
-			mDisplayedComputers = mComputerDao.findAll((mPage-1)*mSize, mSize);
+			try {
+				mDisplayedComputers = mComputerDao.findAll((mPage-1)*mSize, mSize);
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				// TODO à refaire
+				throw new RuntimeException(pE);
+			}
 		}
 	}
 
@@ -117,8 +133,13 @@ public class ListManagerBean {
 		// TODO à optimiser
 		for (String index : indexes) {
 			int i = Integer.parseInt(index);
-			if (!mComputerDao.delete(i)) {
-				return false;
+			try {
+				if (!mComputerDao.delete(i)) {
+					return false;
+				}
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				// TODO à refaire
+				throw new RuntimeException(pE);
 			}
 		}
 		return true;
