@@ -12,16 +12,22 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
-public enum CompanyDao implements CrudService<Company> {
-	INSTANCE;
-	
-	public final Logger LOGGER = LoggerFactory.getLogger(CompanyDao.class);
+public class CompanyDao implements CrudService<Company> {
+
+	public static final int MIN_SIZE_POOL = 5;
+	public static final Queue<CompanyDao> sQUEUE = new ArrayBlockingQueue<>(MIN_SIZE_POOL);
+
+	public static final CompanyDao INSTANCE;
+
+	public static final Logger LOGGER = LoggerFactory.getLogger(CompanyDao.class);
 
 	// ===========================================================
 	// Attributres - private
 	// ===========================================================
-	private final Connection mConnection;
+	private Connection mConnection;
 	
 //	private final PreparedStatement mCreateStatement;
 //	private final PreparedStatement mUpdateStatement;
@@ -43,9 +49,20 @@ public enum CompanyDao implements CrudService<Company> {
 			LOGGER.error(e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
-		
-		
 	}
+
+	// ===========================================================
+	// Getters & Setters
+	// ===========================================================
+
+	public Connection getConnection() {
+		return mConnection;
+	}
+
+	public void setConnection(Connection pConnection) {
+		mConnection = pConnection;
+	}
+
 	// ===========================================================
 	// Methods - CrudService
 	// ===========================================================
@@ -240,6 +257,32 @@ public enum CompanyDao implements CrudService<Company> {
 		}
 	}
 
+	// ===========================================================
+	// Methods statics
+	// ===========================================================
+	public static CompanyDao getInstance() {
+		if (sQUEUE.isEmpty()) {
+			return new CompanyDao();
+		} else {
+			return sQUEUE.poll();
+		}
+	}
 
+	public static void releaseInstance(CompanyDao pCompanyDao) {
+		if (sQUEUE.size() < MIN_SIZE_POOL) {
+			sQUEUE.add(pCompanyDao);
+		}
+	}
+
+	static {
+		INSTANCE = new CompanyDao();
+
+		try {
+			INSTANCE.setConnection(DatabaseManager.getConnection());
+		} catch (SQLException pE) {
+			LOGGER.error(pE.getMessage(), pE);
+			throw new RuntimeException(pE);
+		}
+	}
 
 }

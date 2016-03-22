@@ -12,14 +12,37 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
+/**
+ * Dao d'un Ordinateur {@link Computer}
+ *
+ * @author VIEGAS Mickael
+ */
 public class ComputerDao implements CrudService<Computer> {
-//	INSTANCE;
-	
-	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerDao.class);
-	
-	public static final ComputerDao INSTANCE = new ComputerDao();
 
+	// TODO a effacer
+	public static final ComputerDao INSTANCE;
+
+	/**
+	 * Taille minimum du pool de computerDao
+	 */
+	public static final int MIN_SIZE_POOL = 5;
+
+	/**
+	 * Pool de computerDao
+	 */
+	public static final Queue<ComputerDao> sPOOL = new ArrayBlockingQueue<>(MIN_SIZE_POOL);
+
+	/**
+	 * Logger de la classe
+	 */
+	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerDao.class);
+
+	/**
+	 * Taille par défaut d'une page
+	 */
 	public static final int BASE_SIZE_PAGE = 100;
 	
 	/**
@@ -33,22 +56,40 @@ public class ComputerDao implements CrudService<Computer> {
 		 * 	SIZE 	int (opt) : nombre d'éléments
 		 *  START	int (opt) : décalage
 		 *  FILTER_NAME String (opt) : filtre
+		 *  ORDER 	String (opt) : rajoute
 		 */
 		public static final String SEARCH = "search";
 	}
-	
+
+	/**
+	 * Liste des noms de paramètres pour les NamedQuerys
+	 */
 	public final class Parameters {
 		public static final String SIZE = "size";
 		public static final String START = "start";
 		public static final String FILTER_NAME = "filter_name";
+		public static final String ORDER = "order";
+		public static final String TYPE_ORDER = "order";
 	}
-	
-	
+
+	/**
+	 * Type d'ordre possible pour un Tri
+	 */
+	public enum TypeOrder {
+		ASC, DESC
+	}
+
+	/**
+	 * Liste des Champs ordonnable
+	 */
+	public enum Order {
+		NAME, INTRODUCED_DATE, DISCONTINUED_DATE, ID_COMPANY, NAME_COMPANY
+	}
 	
 	// ===========================================================
 	// Attributres - private
 	// ===========================================================
-	private final Connection mConnection;
+	private Connection mConnection;
 	
 	private final PreparedStatement mCreateStatement;
 	private final PreparedStatement mUpdateStatement;
@@ -58,6 +99,7 @@ public class ComputerDao implements CrudService<Computer> {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+
 	private ComputerDao() {
 		LOGGER.info("Init of ComputerDao");
 		try {
@@ -76,9 +118,24 @@ public class ComputerDao implements CrudService<Computer> {
 	// Getters & Setters
 	//===========================================================
 
+	public Connection getConnection() {
+		return mConnection;
+	}
+
+	public void setConnection(Connection pConnection) {
+		mConnection = pConnection;
+	}
+
 	//===========================================================
 	// Methods - private
 	//===========================================================
+
+	/**
+	 * Genere le prépareStatement d'un ordinateur
+	 * @param pT Ordinateur à mapper
+	 * @param pPreparedStatement PreparedStatement à mapper
+	 * @throws SQLException Si une erreur SQL est levée
+	 */
 	private void prepareStatement(Computer pT, PreparedStatement pPreparedStatement) throws SQLException {
 		
 		if (pT == null) {
@@ -229,7 +286,7 @@ public class ComputerDao implements CrudService<Computer> {
 
 		Computer computer;
 		try {
-			computer = INSTANCE.find(pT.getId());
+			computer = find(pT.getId());
 		} catch (DAOException pE) {
 			// TODO à refaire
 			throw new RuntimeException(pE);
@@ -437,5 +494,33 @@ public class ComputerDao implements CrudService<Computer> {
 	public Paginator<Computer> findWithNamedQueryWithPaginator(String queryName) throws DAOException {
 		// TODO To Implement
 		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao#findWithNamedQueryWithPaginator not implemented yet.");
+	}
+
+	// ===========================================================
+	// Methods statics
+	// ===========================================================
+	public static ComputerDao getInstance() {
+		if (sPOOL.isEmpty()) {
+			return new ComputerDao();
+		} else {
+			return sPOOL.poll();
+		}
+	}
+
+	public static void releaseInstance(ComputerDao pComputerDao) {
+		if (sPOOL.size() < MIN_SIZE_POOL) {
+			sPOOL.add(pComputerDao);
+		}
+	}
+
+	static {
+		INSTANCE = new ComputerDao();
+
+		try {
+			INSTANCE.setConnection(DatabaseManager.getConnection());
+		} catch (SQLException pE) {
+			LOGGER.error(pE.getMessage(), pE);
+			throw new RuntimeException(pE);
+		}
 	}
 }

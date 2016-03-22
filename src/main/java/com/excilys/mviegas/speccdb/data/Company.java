@@ -25,12 +25,6 @@ public class Company {
 	public Company() {
 		super();
 	}
-	
-	private Company(int pId, String pName) {
-		super();
-		mId = pId;
-		mName = pName;
-	}
 
 	// ===========================================================
 	// Getters & Setters
