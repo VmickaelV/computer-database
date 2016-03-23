@@ -8,6 +8,7 @@ import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 
 import java.sql.Connection;
@@ -182,19 +183,26 @@ public class ComputerDAOTest {
 		assertNotNull(mComputerDao.create(new Computer.Builder().setName("Un autre nom").build()));
 		assertEquals(SIZE_COMPUTER+1, mComputerDao.size());
 	}
-
+	
 	@Test
-	public void createerrorTimeStamp() throws Exception {
-		try {
-			mComputerDao.create(new Computer.Builder()
-					.setName("un nom")
-					.setIntroducedDate(LocalDate.of(1969, 1, 1))
-					.build());
-			fail();
-		} catch (DAOException ignored) {
-
-		}
-
+	public void create3() throws Exception {
+		int n = mComputerDao.size();
+		String desiredName = "Un autre nom";
+		LocalDate desiredDiscontinuedDate = LocalDate.of(2005, 6, 22);
+		
+		Computer computer;
+		assertNotNull(computer = mComputerDao.create(
+				new Computer.Builder()
+				.setName(desiredName)
+				.setDiscontinuedDate(desiredDiscontinuedDate)
+				.build()));
+		assertEquals(SIZE_COMPUTER+1, mComputerDao.size());
+		
+		assertThat(computer.getId(), org.hamcrest.Matchers.greaterThan(0));
+		
+		assertEquals(desiredName, computer.getName());
+		assertEquals(desiredDiscontinuedDate, computer.getDiscontinuedDate());
+		assertEquals(n+1, mComputerDao.size());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -242,6 +250,106 @@ public class ComputerDAOTest {
 		computer = mComputerDao.find(4);
 		
 		assertEquals(mCompanyDao.find(80), computer.getManufacturer());
+	}
+	
+	@Test
+	public void update4() throws Exception {
+		
+		Computer computer = mComputerDao.find(5);
+		
+		LocalDate localDateIntroduced = computer.getIntroducedDate();
+		LocalDate localDateDiscontinued = computer.getDiscontinuedDate();
+		LocalDate localDateDesiredIntroduced = LocalDate.of(1926, 3, 30);
+		LocalDate localDateDesiredDiscontinued = LocalDate.of(1989, 6, 3);
+		
+		assertEquals(LocalDate.of(1991, 1, 1), computer.getIntroducedDate());
+		assertEquals(null, computer.getDiscontinuedDate());
+		
+		computer.setDiscontinuedDate(localDateDesiredDiscontinued);
+		
+		computer = mComputerDao.update(computer);
+		
+		assertNotNull(computer);
+		
+		assertEquals(localDateDesiredDiscontinued, computer.getDiscontinuedDate());
+		assertEquals(localDateDesiredDiscontinued, mComputerDao.find(5).getDiscontinuedDate());
+		assertNotEquals(localDateDiscontinued, mComputerDao.find(5).getDiscontinuedDate());
+		assertEquals(LocalDate.of(1991, 1, 1), mComputerDao.find(5).getIntroducedDate());
+	}
+	
+	@Test
+	public void update6() throws Exception {
+		
+		Computer computer = mComputerDao.find(5);
+		
+		LocalDate localDateIntroduced = computer.getIntroducedDate();
+		LocalDate localDateDiscontinued = computer.getDiscontinuedDate();
+		LocalDate localDateDesiredIntroduced = LocalDate.of(1926, 3, 30);
+		LocalDate localDateDesiredDiscontinued = LocalDate.of(1950, 6, 3);
+		
+		assertEquals(LocalDate.of(1991, 1, 1), computer.getIntroducedDate());
+		assertEquals(null, computer.getDiscontinuedDate());
+		
+		computer.setDiscontinuedDate(localDateDesiredDiscontinued);
+		
+		computer = mComputerDao.update(computer);
+		
+		assertNotNull(computer);
+		
+		assertEquals(localDateDesiredDiscontinued, computer.getDiscontinuedDate());
+		assertEquals(localDateDesiredDiscontinued, mComputerDao.find(5).getDiscontinuedDate());
+		assertNotEquals(localDateDiscontinued, mComputerDao.find(5).getDiscontinuedDate());
+		assertEquals(LocalDate.of(1991, 1, 1), mComputerDao.find(5).getIntroducedDate());
+	}
+	
+	@Test
+	public void update7() throws Exception {
+		
+		Computer computer = mComputerDao.find(5);
+		
+		LocalDate localDateIntroduced = computer.getIntroducedDate();
+		LocalDate localDateDiscontinued = computer.getDiscontinuedDate();
+		LocalDate localDateDesiredIntroduced = LocalDate.of(1926, 3, 30);
+		LocalDate localDateDesiredDiscontinued = LocalDate.of(1750, 6, 3);
+		
+		assertEquals(LocalDate.of(1991, 1, 1), computer.getIntroducedDate());
+		assertEquals(null, computer.getDiscontinuedDate());
+		
+		computer.setDiscontinuedDate(localDateDesiredDiscontinued);
+		
+		computer = mComputerDao.update(computer);
+		
+		assertNotNull(computer);
+		
+		assertEquals(localDateDesiredDiscontinued, computer.getDiscontinuedDate());
+		assertEquals(localDateDesiredDiscontinued, mComputerDao.find(5).getDiscontinuedDate());
+		assertNotEquals(localDateDiscontinued, mComputerDao.find(5).getDiscontinuedDate());
+		assertEquals(LocalDate.of(1991, 1, 1), mComputerDao.find(5).getIntroducedDate());
+	}
+	
+	@Test
+	public void update5() throws Exception {
+		Computer computer = mComputerDao.find(5);
+		
+		LocalDate localDateIntroduced = computer.getIntroducedDate();
+		LocalDate localDateDiscontinued = computer.getDiscontinuedDate();
+		LocalDate localDateDesiredIntroduced = LocalDate.of(1926, 3, 30);
+		LocalDate localDateDesiredDiscontinued = LocalDate.of(1989, 6, 3);
+		
+		assertEquals(LocalDate.of(1991, 1, 1), computer.getIntroducedDate());
+		assertEquals(null, computer.getDiscontinuedDate());
+		
+		computer.setIntroducedDate(localDateDesiredIntroduced);
+		
+		computer = mComputerDao.update(computer);
+		
+		assertNotNull(computer);
+		
+		assertEquals(localDateDesiredIntroduced, computer.getIntroducedDate());
+		assertEquals(localDateDesiredIntroduced, mComputerDao.find(5).getIntroducedDate());
+		assertNotEquals(localDateIntroduced, mComputerDao.find(5).getIntroducedDate());
+		assertEquals(localDateDiscontinued, mComputerDao.find(5).getDiscontinuedDate());
+		assertEquals(null, mComputerDao.find(5).getDiscontinuedDate());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
