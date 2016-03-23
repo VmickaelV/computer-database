@@ -73,6 +73,15 @@ public class ELFunctions {
 		}
 	}
 
+	/**
+	 * Fonction générant un lien
+	 *
+	 * @param pTarget Page cible
+	 * @param pQueries Map de paramètres GET à ajouter dans le lien
+	 * @param pNewParameters Nouveaux paramètres à intégrer
+	 *
+	 * @return Lien texte généré
+	 */
 	public static String link(String pTarget, Map<String, String> pQueries, Map<String, String> pNewParameters) {
 
 		if (pQueries != null) {
@@ -110,6 +119,15 @@ public class ELFunctions {
 		}
 	}
 
+	/**
+	 * Génère un lien préformé pour un tri avec GET
+	 *
+	 * @param pTarget Page cible
+	 * @param pQueries Map de paramètres GET à ajouter dans le lien
+	 * @param pOrder Element selon lequel on doit trier
+	 * @param pTypeOrder Type d'ordre (descendant ou ascendant)
+	 * @return Lien généré
+	 */
 	public static String linkSort(String pTarget, Map<String, String> pQueries, String pOrder, String pTypeOrder) {
 		Map<String, String> map = new HashMap<>(2);
 		map.put("order", pOrder);

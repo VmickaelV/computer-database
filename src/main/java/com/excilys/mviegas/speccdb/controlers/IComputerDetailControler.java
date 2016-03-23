@@ -4,8 +4,8 @@ import com.excilys.mviegas.speccdb.data.Computer;
 
 /**
  * Controleur pour gérer le détail d'un ordinteur
- * @author excilys
  *
+ * @author excilys
  */
 public interface IComputerDetailControler {
 
