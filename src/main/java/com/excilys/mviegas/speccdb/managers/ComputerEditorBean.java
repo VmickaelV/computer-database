@@ -8,6 +8,10 @@ import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -21,7 +25,9 @@ import java.util.List;
 @ManagedBean
 public class ComputerEditorBean {
 
+	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerEditorBean.class);
 	public static final String PATTERN_DATE = "dd/MM/yyyy";
+	public final static DateTimeFormatter sDateTimeFormatter = DateTimeFormatter.ofPattern(PATTERN_DATE);
 	
 	//===========================================================
 	// Attribute - private
@@ -32,10 +38,9 @@ public class ComputerEditorBean {
 	private int mIdCompany;
 	private long mId;
 	private Computer mComputer;
+	private String mAction;
 	
 	public List<Company> mCompanies;
-
-	public static DateTimeFormatter sDateTimeFormatter = DateTimeFormatter.ofPattern(PATTERN_DATE);
 
 	public CrudService<Company> mCompanyCrudService;
 	public CrudService<Computer> mComputerCrudService;
@@ -95,6 +100,19 @@ public class ComputerEditorBean {
 		if (pId > 0) {
 			try {
 				mComputer = mComputerCrudService.find(pId);
+				
+				mName = mComputer.getName();
+				if (mComputer.getIntroducedDate() != null) {
+					mIntroducedDate = mComputer.getIntroducedDate().format(sDateTimeFormatter);
+				}
+				
+				if (mComputer.getDiscontinuedDate() != null) {
+					mDiscontinuedDate = mComputer.getDiscontinuedDate().format(sDateTimeFormatter);
+				}
+				
+				if (mComputer.getManufacturer() != null) {
+					mIdCompany = mComputer.getManufacturer().getId();
+				}
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				// TODO à refaire
 				throw new RuntimeException(pE);
@@ -111,10 +129,22 @@ public class ComputerEditorBean {
 	public void setComputer(Computer pComputer) {
 		mComputer = pComputer;
 	}
+	
+	public String getAction() {
+		return mAction;
+	}
+
+	public void setAction(String pAction) {
+		mAction = pAction;
+	}
 
 	//===========================================================
 	// Functions
 	//===========================================================
+
+	public boolean isEditing() {
+		return mId > 0;
+	}
 	public boolean hasValidName() {
 		return mName != null && !mName.isEmpty();
 	}
@@ -151,11 +181,24 @@ public class ComputerEditorBean {
 
 	private Computer makeComputer() {
 		try {
-			return new Computer.Builder()
-					.setName(mName)
-					.setIntroducedDate(mIntroducedDate == null ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter))
-					.setDiscontinuedDate(mDiscontinuedDate == null ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter))
-					.setManufacturer(mCompanyCrudService.find(mIdCompany)).build();
+			if (mComputer == null) {
+				return new Computer.Builder()
+						.setName(mName)
+						.setIntroducedDate(mIntroducedDate == null ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter))
+						.setDiscontinuedDate(mDiscontinuedDate == null ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter))
+						.setManufacturer(mCompanyCrudService.find(mIdCompany)).build();
+			} else {				
+				mComputer.setName(mName);
+				mComputer.setIntroducedDate(mIntroducedDate == null ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter));
+				mComputer.setDiscontinuedDate(mDiscontinuedDate == null ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter));
+				mComputer.setManufacturer(mCompanyCrudService.find(mIdCompany));
+				
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug(mComputer.toString());
+				}
+				
+				return mComputer;
+			}
 		} catch (DateTimeParseException pE) {
 			// TODO a logger
 			throw new RuntimeException("Erreur non attendu", pE);
@@ -179,6 +222,10 @@ public class ComputerEditorBean {
 			throw new RuntimeException(pE);
 		}
 	}
+	
+	public void request() {
+		
+	}
 
 	//===========================================================
 	// Méthodes Controleurs
@@ -197,8 +244,18 @@ public class ComputerEditorBean {
 		}
 	}
 
-	public boolean editComputer() {
-		throw new UnsupportedOperationException();
+	public boolean editComputer() {		
+		if (hasValidName() && hasValidIntroducedDate() && hasValidDiscontinuedDate() && hasValidIdCompany()) {
+			try {
+				mComputerCrudService.update(makeComputer());
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				// TODO à refaire
+				throw new RuntimeException(pE);
+			}
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

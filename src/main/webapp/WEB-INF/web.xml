@@ -66,10 +66,10 @@
 		<location>/views/403.html</location>
 	</error-page>
 	
-<!-- 	<error-page> -->
-<!-- 		<error-code>500</error-code> -->
-<!-- 		<location>/views/500.html</location> -->
-<!-- 	</error-page> -->
+	<error-page>
+		<error-code>500</error-code>
+		<location>/views/500.html</location>
+	</error-page>
 
 	<servlet>
 		<servlet-name>EditionComputerServlet</servlet-name>
@@ -80,12 +80,12 @@
 
 	<servlet-mapping>
 		<servlet-name>EditionComputerServlet</servlet-name>
-		<url-pattern>/views/addComputer.jsp</url-pattern>
+		<url-pattern>/views/addComputer.html</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>EditionComputerServlet</servlet-name>
-		<url-pattern>/views/editComputer.jsp</url-pattern>
+		<url-pattern>/views/editComputer.html</url-pattern>
 	</servlet-mapping>
 
 </web-app>

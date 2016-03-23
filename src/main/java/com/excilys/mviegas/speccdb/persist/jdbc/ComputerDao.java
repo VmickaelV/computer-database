@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -149,12 +150,12 @@ public class ComputerDao implements CrudService<Computer> {
 		}
 		pPreparedStatement.setString(1, pT.getName());
 		if (pT.getIntroducedDate() != null) {
-			pPreparedStatement.setDate(2, new Date(pT.getIntroducedDate().toEpochDay()));
+			pPreparedStatement.setDate(2, Date.valueOf(pT.getIntroducedDate()));
 		} else {
 			pPreparedStatement.setDate(2, null);
 		}
 		if (pT.getDiscontinuedDate() != null) {
-			pPreparedStatement.setDate(3, new Date(pT.getDiscontinuedDate().toEpochDay()));
+			pPreparedStatement.setDate(3, Date.valueOf(pT.getDiscontinuedDate()));
 		} else {
 			pPreparedStatement.setDate(3, null);
 		}

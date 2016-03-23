@@ -13,20 +13,20 @@ import java.util.List;
 public class EditComputerServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("companies", CompanyService.getCompanyList());
 		getServletContext().getRequestDispatcher("/views/addComputer.jsp").forward(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<String> errors = FormChecker.validate(req);
-		if (errors.isEmpty()) {
-			ComputerService.getComputerService().addComputer(RequestMapper.toComputer(req));
-			resp.sendRedirect(req.getContextPath() + "/dashboard");
-		} else {
-			req.setAttribute("companies", CompanyService.getCompanyList());
-			req.setAttribute("errors", errors);
-			req.getRequestDispatcher("/views/addComputer.jsp").forward(req, resp);
-		}
+		doGet(req, resp);
+//		List<String> errors = FormChecker.validate("/views/addComputer.jsp");
+//		if (errors.isEmpty()) {
+//			ComputerService.getComputerService().addComputer(RequestMapper.toComputer(req));
+//			resp.sendRedirect(req.getContextPath() + "/dashboard");
+//		} else {
+//			req.setAttribute("companies", CompanyService.getCompanyList());
+//			req.setAttribute("errors", errors);
+//			req.getRequestDispatcher("/views/addComputer.jsp").forward(req, resp);
+//		}
 	}
 }

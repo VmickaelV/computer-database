@@ -10,8 +10,15 @@
 
 <c:choose>
 	<c:when
-		test="${pageContext.request.method=='POST' && param.action == 'add'}">
+		test="${pageContext.request.method=='POST' && param.action == 'Add'}">
 		<c:if test="${computerEditor.addComputer()}" var="computerAdded"
+			scope="session">
+			<c:redirect url="dashboard.jsp" />
+		</c:if>
+	</c:when>
+	<c:when
+		test="${pageContext.request.method=='POST' && param.action == 'Edit'}">
+		<c:if test="${computerEditor.editComputer()}" var="computerEdited"
 			scope="session">
 			<c:redirect url="dashboard.jsp" />
 		</c:if>
@@ -50,7 +57,7 @@
 					<c:choose>
 						<c:when test="${not empty computerEditor.computer}">
 							<div class="label label-default pull-right">
-	                        	id: ${computerEditor.computer}
+	                        	id: ${computerEditor.computer.id}
                     		</div>
                     		<h1>Edit Computer</h1>
                     	</c:when>
@@ -59,7 +66,7 @@
                     	</c:otherwise>
 					</c:choose>
 					
-					<form action="${not empty computerEditor.computer ? 'editComputer.jsp?id='+computerEditor.computer.id : 'addComputer.jsp'}" method="POST">
+					<form action="${not empty computerEditor.computer ? 'editComputer.jsp?id=' : 'addComputer.jsp'}${not empty computerEditor.computer ? computerEditor.computer.id : ''}" method="POST">
 						<fieldset>
 							<div
 								class="form-group ${param.action == 'add' && !computerEditor.hasValidName() ? 'has-error' : ''}">
@@ -111,7 +118,7 @@
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" id="btnSubmit" name="action" value="add"
+							<input type="submit" id="btnSubmit" name="action" value="${computerEditor.isEditing() ? 'Edit' : 'Add'}"
 								class="btn btn-primary"> or <a href="dashboard.jsp"
 								class="btn btn-default">Cancel</a>
 						</div>
