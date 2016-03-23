@@ -1,5 +1,4 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
-        pageEncoding="UTF-8" %>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="/WEB-INF/tagslib.tld" prefix="my" %>
 <%@taglib tagdir="/WEB-INF/tags" prefix="my2" %>
@@ -42,7 +41,8 @@
     </div>
 </header>
 <section id="main">
-    <%--suppress ELValidationInJSP --%>
+    
+    <%-- Message de confirmations --%>
     <c:if test="${computerAdded}">
         <c:remove var="computerAdded" scope="session"/>
         <div class="alert alert-success alert-dismissible fade in" role="alert">
@@ -52,7 +52,17 @@
             <h4>Computer successfully added into Database</h4>
         </div>
     </c:if>
-
+    
+    <c:if test="${computerEdited}">
+        <c:remove var="computerEdited" scope="session"/>
+        <div class="alert alert-success alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">×</span>
+            </button>
+            <h4>Modifications are successfully saved into Database</h4>
+        </div>
+    </c:if>
+    
     <c:if test="${not empty deleteSuccessful}">
         <c:choose>
 
@@ -77,6 +87,7 @@
         <c:remove var="deleteSuccessful"/>
     </c:if>
 
+	<%-- Début contenu de la page --%>
     <div class="container">
         <h1 id="homeTitle">
             ${listManager.paginator.elementsCount} Computers found
@@ -134,8 +145,7 @@
 
             <c:forEach items="${listManager.paginator.values}" var="computer">
                 <tr>
-                    <td class="editMode"><input type="checkbox" name="cb"
-                                                class="cb" value="${computer.id}"></td>
+                    <td class="editMode"><input type="checkbox" name="cb" class="cb" value="${computer.id}"></td>
                     <td>
                         <jsp:element name="a">
 								<jsp:attribute name="href">
