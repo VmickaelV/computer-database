@@ -168,4 +168,8 @@ public abstract class BaseSeleniumTest {
 				mTomcat.getConnector().getLocalPort(), getApplicationId(), pTarget);
 	}
 
+	protected void assert404() {
+		throw new UnsupportedOperationException();
+	}
+
 }
