@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -77,21 +76,48 @@ public class ComputerDao implements CrudService<Computer> {
 	 * Type d'ordre possible pour un Tri
 	 */
 	public enum TypeOrder {
-		ASC, DESC
+		ASC, DESC;
+
+		public static TypeOrder from(String pTypeOrder) {
+			if (pTypeOrder == null || pTypeOrder.isEmpty()) {
+				return null;
+			}
+			pTypeOrder = pTypeOrder.toUpperCase();
+			for (TypeOrder typeOrder : TypeOrder.values()) {
+				if (typeOrder.toString().equals(pTypeOrder)) {
+					return typeOrder;
+				}
+			}
+			return null;
+		}
 	}
 
 	/**
 	 * Liste des Champs ordonnable
 	 */
 	public enum Order {
-		NAME("name"), INTRODUCED_DATE("introduced"), DISCONTINUED_DATE("discontinued"), ID_COMPANY("company_id"), NAME_COMPANY("company.name");
+		NAME("name"), INTRODUCED_DATE("introduced"), DISCONTINUED_DATE("discontinued"), ID_COMPANY("company_id"), NAME_COMPANY("company_name");
 
 		public final String queryName;
 
 		Order(String pQueryName) {
 			queryName = pQueryName;
 		}
+
+		public static Order from(String pTexte) {
+			if (pTexte == null || pTexte.isEmpty()) {
+				return null;
+			}
+			for (Order order : Order.values()) {
+				if (order.queryName.equals(pTexte.toLowerCase())) {
+					return order;
+				}
+			}
+			return null;
+		}
 	}
+
+
 	
 	// ===========================================================
 	// Attributres - private

@@ -58,7 +58,21 @@ public class QueryParameter {
         return this.parameters;
     }
 
+
+
     // ============================================================
+    //	Override - Object
+    // ============================================================
+
+	@Override
+	public String toString() {
+		return "QueryParameter{" +
+				"parameters=" + parameters +
+				'}';
+	}
+
+
+	// ============================================================
     //	Méthodes static
     // ============================================================
 

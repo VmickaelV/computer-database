@@ -131,13 +131,10 @@
                         class="fa fa-trash-o fa-lg"></i>
                 </a>
 						</span></th>
-                <th>Computer name</th>
-                <th>Introduced date</th>
-                <!-- Table header for Discontinued Date -->
-                <th>Discontinued date</th>
-                <!-- Table header for Company -->
-                <th>Company</th>
-
+                <th><a href="${my:linkSort('dashboard', param, 'name', (listManager.order == 'name' && listManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${listManager.order == 'name'}"><span class="glyphicon glyphicon-chevron-${listManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Computer name <span class="glyphicon glyphicon-sort-by-attributes${listManager.order == 'name' && listManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${my:linkSort('dashboard', param, 'introduced', (listManager.order == 'introduced' && listManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${listManager.order == 'introduced'}"><span class="glyphicon glyphicon-chevron-${listManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Introduced date <span class="glyphicon glyphicon-sort-by-attributes${listManager.order == 'introduced' && listManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${my:linkSort('dashboard', param, 'discontinued', (listManager.order == 'discontinued' && listManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${listManager.order == 'discontinued'}"><span class="glyphicon glyphicon-chevron-${listManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Discontinued date <span class="glyphicon glyphicon-sort-by-attributes${listManager.order == 'discontinued' && listManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${my:linkSort('dashboard', param, 'company_name', (listManager.order == 'company_name' && listManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${listManager.order == 'company_name'}"><span class="glyphicon glyphicon-chevron-${listManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Company <span class="glyphicon glyphicon-sort-by-attributes${listManager.order == 'company_name' && listManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
             </tr>
             </thead>
             <!-- Browse attribute computers -->
