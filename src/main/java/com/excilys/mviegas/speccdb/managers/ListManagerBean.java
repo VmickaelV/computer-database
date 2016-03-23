@@ -5,6 +5,8 @@ import com.excilys.mviegas.speccdb.persist.CrudService;
 import com.excilys.mviegas.speccdb.persist.Paginator;
 import com.excilys.mviegas.speccdb.persist.QueryParameter;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao.Order;
+import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao.TypeOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +42,10 @@ public class ListManagerBean {
 	private Paginator<Computer> mPaginator;
 	
 	private CrudService<Computer> mComputerDao;
+	
+	private String mOrder;
+	
+	private String mTypeOrder;
 	
 	//===========================================================
 	// Constructeur
@@ -93,6 +99,22 @@ public class ListManagerBean {
 		return mPaginator;
 	}
 
+	public String getOrder() {
+		return mOrder;
+	}
+
+	public void setOrder(String pOrder) {
+		mOrder = pOrder;
+	}
+
+	public String getTypeOrder() {
+		return mTypeOrder;
+	}
+
+	public void setTypeOrder(String pTypeOrder) {
+		mTypeOrder = pTypeOrder;
+	}
+
 	//===========================================================
 	// Méthodes - Object
 	//===========================================================	
@@ -105,6 +127,8 @@ public class ListManagerBean {
 				", mSearch='" + mSearch + '\'' +
 				", mPaginator=" + mPaginator +
 				", mComputerDao=" + mComputerDao +
+				", mOrder=" + mOrder +
+				", mTypeOrder=" + mTypeOrder +
 				'}';
 	}
 
@@ -125,10 +149,19 @@ public class ListManagerBean {
 			mPage = 1;
 		}
 
-		if (mSearch != null && !mSearch.isEmpty()) {
+		if ((mSearch != null && !mSearch.isEmpty()) || (mOrder != null && !mOrder.isEmpty())) {
 			QueryParameter parameter = QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, mSearch);
-			parameter.and(ComputerDao.Parameters.SIZE, mSize)
-					.and(ComputerDao.Parameters.START, (mPage - 1)*mSize);
+			parameter
+					.and(ComputerDao.Parameters.SIZE, mSize)
+					.and(ComputerDao.Parameters.START, (mPage - 1)*mSize)
+					.and(ComputerDao.Parameters.ORDER, Order.from(mOrder))
+					.and(ComputerDao.Parameters.TYPE_ORDER, TypeOrder.from(mTypeOrder))
+			;
+
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("parameter = " + parameter);
+			}
+
 			try {
 				mPaginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, parameter.parameters());
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {

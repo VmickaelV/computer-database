@@ -5,13 +5,11 @@ import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.persist.CrudService;
 import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
-
-import javax.annotation.ManagedBean;
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -141,10 +139,10 @@ public class ComputerEditorBean {
 	//===========================================================
 	// Functions
 	//===========================================================
-
 	public boolean isEditing() {
 		return mId > 0;
 	}
+	
 	public boolean hasValidName() {
 		return mName != null && !mName.isEmpty();
 	}

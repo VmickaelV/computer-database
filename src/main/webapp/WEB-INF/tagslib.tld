@@ -85,6 +85,13 @@
 		<function-signature>java.lang.String link(java.lang.String,java.util.Map,java.lang.String,java.lang.Object)</function-signature>
 	</function>
 
+	<function>
+		<description>Affiche un lien avec une liste de paramètres, et la possibilité de spécifier un ordre de tri</description>
+		<name>linkSort</name>
+		<function-class>com.excilys.mviegas.speccdb.taglib.ELFunctions</function-class>
+		<function-signature>java.lang.String linkSort(java.lang.String,java.util.Map,java.lang.String,java.lang.String)</function-signature>
+	</function>
+
 
 
 
