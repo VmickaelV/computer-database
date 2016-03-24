@@ -7,12 +7,33 @@
 	<packaging>war</packaging>
 
 	<properties>
+		<!-- Miscallaneous -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
 		<name.finale>speccdb</name.finale>
+
+		<!-- Versions -->
+		<java.version>1.8</java.version>
 		<tomcat.version>8.0.28</tomcat.version>
 		<selenium.version>2.52.0</selenium.version>
 		<bonecp.version>0.8.0.RELEASE</bonecp.version>
+		<maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+		<maven-site-plugin.version>3.5</maven-site-plugin.version>
+		<maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
+		<maven-jxr-plugin.version>2.3</maven-jxr-plugin.version>
+		<tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
+		<maven-surefire-report-plugin.version>2.19.1</maven-surefire-report-plugin.version>
+		<maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
+		<cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
+		<javax.annotation-api.version>1.2</javax.annotation-api.version>
+		<jsp-api.version>6.0.29</jsp-api.version>
+		<mysql-connector-java.version>5.1.38</mysql-connector-java.version>
+		<logback.version>1.0.13</logback.version>
+		<slf4j-api.version>1.7.19</slf4j-api.version>
+		<jstl.version>1.2</jstl.version>
+		<junit.version>4.12</junit.version>
+		<hamcrest.version>1.3</hamcrest.version>
+		<h2.version>1.4.191</h2.version>
+		<mockito.version>1.9.5</mockito.version>
 	</properties>
 
 	<build>
@@ -22,7 +43,7 @@
 			<!-- JDK Java -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5.1</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -33,7 +54,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.4</version>
+				<version>${maven-site-plugin.version}</version>
 				<configuration>
 					<locales>en,fr</locales>
 				</configuration>
@@ -43,7 +64,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.17</version>
+				<version>${maven-checkstyle-plugin.version}</version>
 				<configuration>
 					<configLocation>config/checkstyle/checkstyle.xml</configLocation>
 					<outputFileFormat>plain</outputFileFormat>
@@ -52,7 +73,7 @@
 					<dependency>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-jxr-plugin</artifactId>
-						<version>2.3</version>
+						<version>${maven-jxr-plugin.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -60,14 +81,14 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
-				<version>2.3</version>
+				<version>${maven-jxr-plugin.version}</version>
 			</plugin>
 
 			<!-- Conf Webapp -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
+				<version>${tomcat7-maven-plugin.version}</version>
 				<configuration>
 					<path>/${project.build.finalName}</path>
 				</configuration>
@@ -81,7 +102,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.19.1</version>
+				<version>${maven-surefire-report-plugin.version}</version>
 				<configuration>
 				</configuration>
 			</plugin>
@@ -90,7 +111,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.17</version>
+				<version>${maven-checkstyle-plugin.version}</version>
 				<configuration>
 					<configLocation>config/checkstyle/checkstyle.xml</configLocation>
 					<!-- <suppressionsLocation>config/checkstyle/suppressions.xml</suppressionsLocation> -->
@@ -116,6 +137,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
+				<version>${maven-jxr-plugin.version}</version>
 			</plugin>
 			<!--&ndash;&gt; -->
 
@@ -123,7 +145,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
+				<version>${maven-javadoc-plugin.version}</version>
 				<configuration>
 					<!-- TODO à supprimer -->
 					<failOnError>false</failOnError>
@@ -134,6 +156,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${cobertura-maven-plugin.version}</version>
 				<configuration>
 					<check /> <!-- Sinon, checkstyle râle -->
 					<formats>
@@ -148,47 +171,31 @@
 	</reporting>
 
 	<dependencies>
-		<!-- Dépedances incluses -->
+		<!-- ========== Dépedances incluses ============== -->
 
-		<!-- Dépendance de Tomcat & JavaEE <dependency> <groupId>javax.servlet</groupId> 
-			<artifactId>servlet-api</artifactId> <version>2.5</version> <scope>provided</scope> 
-			</dependency> -->
+		<!-- Dépendance de Tomcat & JavaEE -->
 
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>javax.annotation-api</artifactId>
-			<version>1.2</version>
+			<version>${javax.annotation-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
-		<!-- <dependency> -->
-		<!-- <groupId>javax.el</groupId> -->
-		<!-- <artifactId>el-api</artifactId> -->
-		<!-- <version>2.2</version> -->
-		<!-- <scope>provided</scope> -->
-		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>jsp-api</artifactId>
-			<version>6.0.29</version>
+			<version>${jsp-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- <dependency> -->
-		<!-- <groupId>tomcat</groupId> -->
-		<!-- <artifactId>catalina</artifactId> -->
-		<!-- <version>5.5.23</version> -->
-		<!-- <scope>provided</scope> -->
-		<!-- </dependency> -->
-
-		<!-- Dépendences Runtime -->
+		<!-- ============ Dépendences Runtime ============== -->
 
 		<!-- Pilote Mysql -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.38</version>
+			<version>${mysql-connector-java.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -203,18 +210,18 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
-			<version>1.0.13</version>
+			<version>${logback.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.0.13</version>
+			<version>${logback.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Dépendances globales -->
+		<!-- ============== Dépendances globales =============== -->
 
 
 		<!-- <dependency> -->
@@ -226,21 +233,14 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.19</version>
+			<version>${slf4j-api.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<version>${jstl.version}</version>
 		</dependency>
-
-		<!-- Lib for CDI -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.jboss.weld</groupId> -->
-		<!-- <artifactId>weld-core</artifactId> -->
-		<!-- <version>2.3.3.Final</version> -->
-		<!-- </dependency> -->
 
 		<!-- Ajout d'un pool de connexion JDBC -->
 		<dependency>
@@ -249,13 +249,13 @@
 			<version>${bonecp.version}</version>
 		</dependency>
 
-		<!-- Dependances de Tests -->
+		<!-- ================ Dependances de Tests =============== -->
 
 		<!-- Lanceur de tests Unitaires -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -263,14 +263,15 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-library</artifactId>
-			<version>1.3</version>
+			<version>${hamcrest.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Base de Données pour le Test (en mémoire) -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.4.191</version>
+			<version>${h2.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -278,7 +279,7 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.9.5</version>
+			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
 

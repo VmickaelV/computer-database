@@ -26,8 +26,12 @@ public class DatabaseManager {
 	// ===========================================================
 	// Constantes
 	// ===========================================================
+	/**
+	 * Nom du fichier de configuration de DatabaseManager
+	 */
 	public static final String CONFIG_FILENAME = "config_bd.properties";
 
+	// Liste de constantes de clés propriété systèmes
 	public static final String KEY_URL = "url";
 	public static final String KEY_USER = "user";
 	public static final String KEY_PASSWORD = "password";
@@ -37,15 +41,15 @@ public class DatabaseManager {
 	public static final String KEY_MIN_SIZE = "min_size";
 	public static final String KEY_MAX_SIZE = "max_size";
 
+	public static final int DEFAULT_MIN_SIZE_POOL = 25;
+	public static final int DEFAULT_MAX_SIZE_POOL = 200;
+	public static final String CLASS_NAME_JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	public static final String SQL_STATEMENT_SEPARATOR = ";";
+
 	/**
 	 * Pool de Connexion
 	 */
 	private static final BoneCP sConnectionPool;
-
-	/**
-	 * Queue des connections libres
-	 */
-	private static final Queue<Connection> freeConnections = new LinkedList<Connection>();
 
 	/**
 	 * The Constant password.
@@ -75,13 +79,12 @@ public class DatabaseManager {
 	/**
 	 * Taille minimale du pool de connexion
 	 */
-	public static final int MIN_SIZE_POOL = 5;
+	public static final int MIN_SIZE_POOL;
 	
 	/**
 	 * Taille maximale qu'aura le pool de connexion
-	 * 
 	 */
-	public static final int MAX_SIZE_POOL = 20;
+	public static final int MAX_SIZE_POOL;
 
 	// ============================================================
 	//	Bloc static
@@ -125,11 +128,12 @@ public class DatabaseManager {
 		PASSWORD = prefs.getProperty(KEY_PASSWORD, "");
 		CREATE_SCRIPTS = prefs.getProperty(KEY_CREATE_SCRIPTS, "");
 		INSERT_SCRIPTS = prefs.getProperty(KEY_INSERT_SCRIPTS, "");
-//		String schema = prefs.getProperty("schema", "");
+		MIN_SIZE_POOL = Integer.parseInt(prefs.getProperty(KEY_MIN_SIZE, String.valueOf(DEFAULT_MIN_SIZE_POOL)));
+		MAX_SIZE_POOL = Integer.parseInt(prefs.getProperty(KEY_MAX_SIZE, String.valueOf(DEFAULT_MAX_SIZE_POOL )));
 		
 		// Chargement des pilotes 
 		try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName(CLASS_NAME_JDBC_DRIVER).newInstance();
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
 			throw new RuntimeException(ex);
@@ -143,10 +147,10 @@ public class DatabaseManager {
 				
 				List<String> list = new ArrayList<>();
 				if (!CREATE_SCRIPTS.isEmpty()) {
-					list.addAll(Arrays.asList(CREATE_SCRIPTS.split(";")));
+					list.addAll(Arrays.asList(CREATE_SCRIPTS.split(SQL_STATEMENT_SEPARATOR)));
 				}
 				if (!INSERT_SCRIPTS.isEmpty()) {
-					list.addAll(Arrays.asList(INSERT_SCRIPTS.split(";")));
+					list.addAll(Arrays.asList(INSERT_SCRIPTS.split(SQL_STATEMENT_SEPARATOR)));
 				}
 				
 				System.out.println(list);
@@ -162,7 +166,7 @@ public class DatabaseManager {
 							if (!line.trim().isEmpty()) {
 								builder.append(line);
 							
-								if (line.trim().endsWith(";")) {
+								if (line.trim().endsWith(SQL_STATEMENT_SEPARATOR)) {
 									Statement statement = connection.createStatement();
 									statement.executeUpdate(builder.toString());
 									builder = new StringBuilder();
@@ -185,16 +189,6 @@ public class DatabaseManager {
 			}
 		}
 
-		// Préparation de la Queue
-//		for (int i = 0; i < MIN_SIZE_QUEUE; i++) {
-//			try {
-//				freeConnections.add(DriverManager.getConnection(URL, USER, PASSWORD));
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-
 		try {
 			// Mise en plase du pool de connexion
 			BoneCPConfig config = new BoneCPConfig();
@@ -203,7 +197,7 @@ public class DatabaseManager {
 			config.setPassword(PASSWORD);
 			config.setMinConnectionsPerPartition(MIN_SIZE_POOL);
 			config.setMaxConnectionsPerPartition(MAX_SIZE_POOL);
-			config.setPartitionCount(1);
+			config.setPartitionCount(1); // TODO a revoir
 			sConnectionPool = new BoneCP(config);
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
@@ -221,24 +215,7 @@ public class DatabaseManager {
 	 * @throws SQLException the SQL exception
 	 */
 	public static synchronized Connection getConnection() throws SQLException {
-//		Connection connection = null;
-//		if (freeConnections.isEmpty()) {
-//			try {
-////				System.out.println("Création Connexion");
-//				connection = DriverManager.getConnection(URL, USER, PASSWORD);
-//				// connection.nativeSQL();
-//
-//			} catch (SQLException e) {
-//				System.out.println(URL + ":" + USER + ":" + PASSWORD);
-//				throw e;
-//			}
-//		} else {
-////			System.out.println("remove");
-//			connection = freeConnections.remove();
-//		}
-//		return connection;
-		
-		return sConnectionPool.getConnection(); // fetch a connection
+		return sConnectionPool.getConnection();
 	}
 
 	/**
@@ -249,16 +226,6 @@ public class DatabaseManager {
 	 */
 	@Deprecated
 	public static synchronized void releaseConnection(Connection connection) throws SQLException {
-//		if (freeConnections.size() < MIN_SIZE_POOL) {
-//			freeConnections.add(connection);
-//		} else {
-//			try {
-//				connection.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		
 		connection.close();
 	}
 
