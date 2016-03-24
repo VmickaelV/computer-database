@@ -1,4 +1,4 @@
-package com.excilys.mviegas.speccdb.persist;
+package com.excilys.mviegas.speccdb.persistence;
 
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 
@@ -8,11 +8,11 @@ import java.util.Map;
 /**
  * Interface global pour tout service de CRUD
  *
- * @param <T> Type que gèrera le prochain CrudService
+ * @param <T> Type que gèrera le prochain ICrudService
  *
  * @author Mickael
  */
-public interface CrudService<T> {
+public interface ICrudService<T> {
     public T create(T t) throws DAOException;
 
     public T find(long id) throws DAOException;

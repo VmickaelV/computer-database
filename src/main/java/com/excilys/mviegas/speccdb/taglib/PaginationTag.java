@@ -2,7 +2,7 @@ package com.excilys.mviegas.speccdb.taglib;
 
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.managers.ListManagerBean;
-import com.excilys.mviegas.speccdb.persist.Paginator;
+import com.excilys.mviegas.speccdb.persistence.Paginator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,19 +27,40 @@ public class PaginationTag extends SimpleTagSupport {
 	//===========================================================
 	// Attribut - private
 	//===========================================================
-	
+
+	/**
+	 * URL cible
+	 */
 	private String mUrl;
-	
+
+	/**
+	 * Page courante
+	 */
 	private int mCurrentPage = 1;
-	
+
+	/**
+	 * Nombres d'éléments par pages
+	 */
 	private int mCountByPages = ListManagerBean.DEFAULT_SIZE_PAGE;
-	
+
+	/**
+	 * Nombre de pages à afficher en plus de la page actuelle
+	 */
 	private int mPagesCountAround = 3;
-	
+
+	/**
+	 *
+	 */
 	private int mCount;
-	
+
+	/**
+	 * Path-Paramèters de l'URL
+	 */
 	private Map<String, String> mParameters;
 
+	/**
+	 * Objet paginator (qui peut contenir toutes les infos pour le tag)
+	 */
 	private Paginator<Computer> mPaginator;
 	
 	//===========================================================
@@ -87,8 +108,6 @@ public class PaginationTag extends SimpleTagSupport {
 	public void setCount(int pCount) {
 		mCount = pCount;
 	}
-	
-	
 
 	public Map<String, String> getParameters() {
 		return mParameters;

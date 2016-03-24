@@ -1,9 +1,9 @@
-package com.excilys.mviegas.speccdb.persist.jdbc;
+package com.excilys.mviegas.speccdb.persistence.jdbc;
 
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persist.CrudService;
-import com.excilys.mviegas.speccdb.persist.Paginator;
+import com.excilys.mviegas.speccdb.persistence.ICrudService;
+import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.wrappers.CompanyJdbcWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class CompanyDao implements CrudService<Company> {
+public class CompanyDao implements ICrudService<Company> {
 
 	public static final int MIN_SIZE_POOL = 5;
 	public static final Queue<CompanyDao> sQUEUE = new ArrayBlockingQueue<>(MIN_SIZE_POOL);
@@ -74,7 +74,7 @@ public class CompanyDao implements CrudService<Company> {
 	}
 
 	// ===========================================================
-	// Methods - CrudService
+	// Methods - ICrudService
 	// ===========================================================
 	@Override
 	public Company create(Company pT) throws DAOException {
@@ -120,7 +120,7 @@ public class CompanyDao implements CrudService<Company> {
 	@Override
 	public Company update(Company pT) throws DAOException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("CrudService<Company>#update not implemented yet.");
+		throw new UnsupportedOperationException("ICrudService<Company>#update not implemented yet.");
 	}
 
 	@Override
@@ -164,7 +164,7 @@ public class CompanyDao implements CrudService<Company> {
 	@Override
 	public boolean refresh(Company pT) throws DAOException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("CrudService<Company>#refresh not implemented yet.");
+		throw new UnsupportedOperationException("ICrudService<Company>#refresh not implemented yet.");
 	}
 
 	@Override
@@ -227,49 +227,49 @@ public class CompanyDao implements CrudService<Company> {
 	@Override
 	public List<Company> findWithNamedQuery(String pQueryName) throws DAOException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("CrudService<Company>#findWithNamedQuery not implemented yet.");
+		throw new UnsupportedOperationException("ICrudService<Company>#findWithNamedQuery not implemented yet.");
 	}
 
 	@Override
 	public Paginator<Company> findWithNamedQueryWithPaginator(String queryName) throws DAOException {
 		// ${todo} To Implement
-		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
 	}
 
 	@Override
 	public List<Company> findWithNamedQuery(String pQueryName, int pResultLimit) throws DAOException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("CrudService<Company>#findWithNamedQuery not implemented yet.");
+		throw new UnsupportedOperationException("ICrudService<Company>#findWithNamedQuery not implemented yet.");
 	}
 
 	@Override
 	public Paginator<Company> findWithNamedQueryWithPaginator(String queryName, int resultLimit) throws DAOException {
 		// ${todo} To Implement
-		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
 	}
 
 	@Override
 	public List<Company> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters) throws DAOException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("CrudService<Company>#findWithNamedQuery not implemented yet.");
+		throw new UnsupportedOperationException("ICrudService<Company>#findWithNamedQuery not implemented yet.");
 	}
 
 	@Override
 	public Paginator<Company> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
 		// ${todo} To Implement
-		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
 	}
 
 	@Override
 	public List<Company> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters, int pResultLimit) throws DAOException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("CrudService<Company>#findWithNamedQuery not implemented yet.");
+		throw new UnsupportedOperationException("ICrudService<Company>#findWithNamedQuery not implemented yet.");
 	}
 
 	@Override
 	public Paginator<Company> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws DAOException {
 		// ${todo} To Implement
-		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
 	}
 
 

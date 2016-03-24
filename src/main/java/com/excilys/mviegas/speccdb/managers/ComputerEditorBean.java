@@ -4,9 +4,9 @@ import com.excilys.mviegas.speccdb.controlers.IEditorComputerControler;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persist.CrudService;
-import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
-import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.ICrudService;
+import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +46,8 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	private Computer mComputer;
 
 	public List<Company> mCompanies;
-	public CrudService<Company> mCompanyCrudService;
-	public CrudService<Computer> mComputerCrudService;
+	public ICrudService<Company> mCompanyCrudService;
+	public ICrudService<Computer> mComputerCrudService;
 	
 	//===========================================================
 	// Constructeurs

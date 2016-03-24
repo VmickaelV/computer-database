@@ -1,10 +1,10 @@
 package com.excilys.mviegas.speccdb;
 
 import com.excilys.mviegas.speccdb.data.Company;
-import com.excilys.mviegas.speccdb.persist.Paginator;
-import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
-import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
-import com.excilys.mviegas.speccdb.persist.jdbc.DatabaseManager;
+import com.excilys.mviegas.speccdb.persistence.Paginator;
+import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import org.junit.Before;
 import org.junit.Test;
 

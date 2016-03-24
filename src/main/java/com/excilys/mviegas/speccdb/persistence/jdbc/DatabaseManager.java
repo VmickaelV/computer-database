@@ -1,4 +1,4 @@
-package com.excilys.mviegas.speccdb.persist.jdbc;
+package com.excilys.mviegas.speccdb.persistence.jdbc;
 
 import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
 import com.jolbox.bonecp.BoneCP;
