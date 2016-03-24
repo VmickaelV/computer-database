@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class C {
 	
-	public static final class LOGGER {
+	public static final class Loggers {
 		public static final Logger RUNTIME = LoggerFactory.getLogger("Runtime");
 	}
 

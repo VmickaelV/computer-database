@@ -15,7 +15,7 @@ public class MainMenuConsole {
 	
 	public void display() {
 		
-		C.LOGGER.RUNTIME.info("Lancement du programme");
+		C.Loggers.RUNTIME.info("Lancement du programme");
 		System.out.println("*******************************************************************");
 		System.out.println("***                                                             ***");
 		System.out.println("***                  Gestionaire d'ordinateurs                  ***");
@@ -56,7 +56,7 @@ public class MainMenuConsole {
 		System.out.println("\n\n-------------------------------------------------------------------");
 		System.out.print("FIN");
 		
-		C.LOGGER.RUNTIME.info("Exctinction du programme");
+		C.Loggers.RUNTIME.info("Exctinction du programme");
 	}
 	
 	public static void printBread(String pLink) {

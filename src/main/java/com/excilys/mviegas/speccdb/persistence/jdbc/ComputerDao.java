@@ -1,5 +1,6 @@
 package com.excilys.mviegas.speccdb.persistence.jdbc;
 
+import com.excilys.mviegas.speccdb.C;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.ICrudService;
@@ -12,28 +13,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Dao d'un Ordinateur {@link Computer}
  *
  * @author VIEGAS Mickael
  */
-public class ComputerDao implements ICrudService<Computer> {
+public enum ComputerDao implements ICrudService<Computer> {
 
-	// TODO a effacer
-	public static final ComputerDao INSTANCE;
-
-	/**
-	 * Taille minimum du pool de computerDao
-	 */
-	public static final int MIN_SIZE_POOL = 5;
-
-	/**
-	 * Pool de computerDao
-	 */
-	public static final Queue<ComputerDao> sPOOL = new ArrayBlockingQueue<>(MIN_SIZE_POOL);
+	INSTANCE;
 
 	/**
 	 * Logger de la classe
@@ -44,7 +32,11 @@ public class ComputerDao implements ICrudService<Computer> {
 	 * Taille par défaut d'une page
 	 */
 	public static final int BASE_SIZE_PAGE = 100;
-	
+
+	//=============================================================
+	// Inner Classes
+	//=============================================================
+
 	/**
 	 * Liste des Queries nommées proposer pour le ComputerDao
 	 * 
@@ -117,11 +109,14 @@ public class ComputerDao implements ICrudService<Computer> {
 		}
 	}
 
+	//=============================================================
+	// Attributs static
+	//=============================================================
 
-	
-	// ===========================================================
+
+	//=============================================================
 	// Attributres - private
-	// ===========================================================
+	//=============================================================
 	private Connection mConnection;
 	
 	private final PreparedStatement mCreateStatement;
@@ -129,12 +124,12 @@ public class ComputerDao implements ICrudService<Computer> {
 	private final PreparedStatement mDeleteStatement;
 	private final PreparedStatement mFindStatement;
 
-	// ===========================================================
+	//=============================================================
 	// Constructors
-	// ===========================================================
+	//=============================================================
 
-	private ComputerDao() {
-		LOGGER.info("Init of ComputerDao");
+	ComputerDao() {
+		C.Loggers.RUNTIME.info("Init of ComputerDao");
 		try {
 			mConnection = DatabaseManager.getConnection();
 			mCreateStatement = mConnection.prepareStatement("INSERT INTO `computer` (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
@@ -142,7 +137,7 @@ public class ComputerDao implements ICrudService<Computer> {
 			mDeleteStatement = mConnection.prepareStatement("DELETE FROM `computer` WHERE id = ?");
 			mFindStatement = mConnection.prepareStatement("SELECT * FROM `computer` WHERE id = ?");
 		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
+			C.Loggers.RUNTIME.error(e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
 	}
