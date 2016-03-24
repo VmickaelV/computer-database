@@ -1,5 +1,6 @@
 package com.excilys.mviegas.speccdb.managers;
 
+import com.excilys.mviegas.speccdb.controlers.IEditorComputerControler;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.persist.CrudService;
@@ -21,7 +22,7 @@ import java.util.List;
  * @author Mickael
  */
 @ManagedBean
-public class ComputerEditorBean {
+public class ComputerEditorBean implements IEditorComputerControler {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerEditorBean.class);
 	public static final String PATTERN_DATE = "dd/MM/yyyy";
@@ -53,46 +54,57 @@ public class ComputerEditorBean {
 	//===========================================================
 	// Getters & Setters
 	//===========================================================
+	@Override
 	public String getName() {
 		return mName;
 	}
 
+	@Override
 	public List<Company> getCompanies() {
 		return mCompanies;
 	}
 
+	@Override
 	public void setName(String pName) {
 		mName = pName;
 	}
 
+	@Override
 	public String getIntroducedDate() {
 		return mIntroducedDate;
 	}
 
+	@Override
 	public void setIntroducedDate(String pIntroducedDate) {
 		mIntroducedDate = pIntroducedDate;
 	}
 
+	@Override
 	public String getDiscontinuedDate() {
 		return mDiscontinuedDate;
 	}
 
+	@Override
 	public void setDiscontinuedDate(String pDiscontinuedDate) {
 		mDiscontinuedDate = pDiscontinuedDate;
 	}
 
+	@Override
 	public int getIdCompany() {
 		return mIdCompany;
 	}
 
+	@Override
 	public void setIdCompany(int pIdCompany) {
 		mIdCompany = pIdCompany;
 	}
 
+	@Override
 	public long getId() {
 		return mId;
 	}
 
+	@Override
 	public void setId(long pId) {
 		mId = pId;
 		if (pId > 0) {
@@ -120,6 +132,7 @@ public class ComputerEditorBean {
 		}
 	}
 
+	@Override
 	public Computer getComputer() {
 		return mComputer;
 	}
@@ -128,10 +141,12 @@ public class ComputerEditorBean {
 		mComputer = pComputer;
 	}
 	
+	@Override
 	public String getAction() {
 		return mAction;
 	}
 
+	@Override
 	public void setAction(String pAction) {
 		mAction = pAction;
 	}
@@ -139,6 +154,7 @@ public class ComputerEditorBean {
 	//===========================================================
 	// Functions
 	//===========================================================
+	@Override
 	public boolean isEditing() {
 		return mId > 0;
 	}
@@ -209,6 +225,7 @@ public class ComputerEditorBean {
 	// ============================================================
 	//	Méthodes - Callback
 	// ============================================================
+	@Override
 	@PostConstruct
 	public void init() {
 		mCompanyCrudService = CompanyDao.INSTANCE;
@@ -220,14 +237,11 @@ public class ComputerEditorBean {
 			throw new RuntimeException(pE);
 		}
 	}
-	
-	public void request() {
-		
-	}
 
 	//===========================================================
 	// Méthodes Controleurs
 	//===========================================================
+	@Override
 	public boolean addComputer() {
 		if (hasValidName() && hasValidIntroducedDate() && hasValidDiscontinuedDate() && hasValidIdCompany()) {
 			try {
@@ -242,7 +256,8 @@ public class ComputerEditorBean {
 		}
 	}
 
-	public boolean editComputer() {		
+	@Override
+	public boolean editComputer() {
 		if (hasValidName() && hasValidIntroducedDate() && hasValidDiscontinuedDate() && hasValidIdCompany()) {
 			try {
 				mComputerCrudService.update(makeComputer());
