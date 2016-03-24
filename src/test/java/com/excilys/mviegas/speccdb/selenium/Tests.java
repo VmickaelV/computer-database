@@ -1,6 +1,5 @@
 package com.excilys.mviegas.speccdb.selenium;
 
-import com.excilys.mviegas.speccdb.BaseSeleniumTest;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -12,6 +11,107 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 public class Tests extends BaseSeleniumTest {
+
+	@Override
+	public void tearDown() throws Exception {
+		super.tearDown();
+	}
+
+	@Test
+	public void start() throws Exception {
+		mWebDriver.get(getApplicationUrl());
+
+		assertEquals("Computer Database", driver.getTitle());
+
+		assertEquals("Application - Computer Database", driver.findElement(By.cssSelector("a.navbar-brand")).getText());
+
+		assertEquals("574 Computers found", driver.findElement(By.id("homeTitle")).getText());
+
+		assertEquals("", driver.findElement(By.id("searchbox")).getAttribute("value"));
+		assertEquals("", driver.findElement(By.id("searchbox")).getText());
+
+		assertEquals("MacBook Pro 15.4 inch", driver.findElement(By.xpath("//tbody[@id='results']/tr/td[2]")).getText());
+		assertEquals("", driver.findElement(By.cssSelector("span.glyphicon.glyphicon-sort-by-attributes")).getText());
+		assertEquals("CM-2a", driver.findElement(By.xpath("//tbody[@id='results']/tr[2]/td[2]")).getText());
+		assertEquals("CM-200", driver.findElement(By.xpath("//tbody[@id='results']/tr[3]/td[2]")).getText());
+		assertEquals("CM-5e", driver.findElement(By.xpath("//tbody[@id='results']/tr[4]/td[2]")).getText());
+		assertEquals("CM-5", driver.findElement(By.xpath("//tbody[@id='results']/tr[5]/td[2]")).getText());
+		assertEquals("MacBook Pro", driver.findElement(By.xpath("//tbody[@id='results']/tr[6]/td[2]")).getText());
+		assertEquals("Apple IIc", driver.findElement(By.xpath("//tbody[@id='results']/tr[8]/td[2]")).getText());
+		assertEquals("Apple IIGS", driver.findElement(By.xpath("//tbody[@id='results']/tr[9]/td[2]")).getText());
+
+		assertEquals("10", driver.findElement(By.linkText("10")).getText());
+		assertThat(driver.findElement(By.linkText("10")).getAttribute("class").split(" "), org.hamcrest.Matchers.hasItemInArray("active"));
+		assertThat(driver.findElement(By.linkText("50")).getAttribute("class").split(" "), not(org.hamcrest.Matchers.hasItemInArray("active")));
+		assertThat(driver.findElement(By.linkText("100")).getAttribute("class").split(" "), not(org.hamcrest.Matchers.hasItemInArray("active")));
+	}
+
+	@Test
+	public void switchPage1() throws Exception {
+		mWebDriver.get(getApplicationUrl());
+		driver.findElement(By.linkText("1")).click();
+
+		assertEquals("Computer Database", driver.getTitle());
+
+		assertEquals("Application - Computer Database", driver.findElement(By.cssSelector("a.navbar-brand")).getText());
+
+		assertEquals("574 Computers found", driver.findElement(By.id("homeTitle")).getText());
+
+		assertEquals("", driver.findElement(By.id("searchbox")).getAttribute("value"));
+		assertEquals("", driver.findElement(By.id("searchbox")).getText());
+
+		assertEquals("MacBook Pro 15.4 inch", driver.findElement(By.xpath("//tbody[@id='results']/tr/td[2]")).getText());
+		assertEquals("", driver.findElement(By.cssSelector("span.glyphicon.glyphicon-sort-by-attributes")).getText());
+		assertEquals("CM-2a", driver.findElement(By.xpath("//tbody[@id='results']/tr[2]/td[2]")).getText());
+		assertEquals("CM-200", driver.findElement(By.xpath("//tbody[@id='results']/tr[3]/td[2]")).getText());
+		assertEquals("CM-5e", driver.findElement(By.xpath("//tbody[@id='results']/tr[4]/td[2]")).getText());
+		assertEquals("CM-5", driver.findElement(By.xpath("//tbody[@id='results']/tr[5]/td[2]")).getText());
+		assertEquals("MacBook Pro", driver.findElement(By.xpath("//tbody[@id='results']/tr[6]/td[2]")).getText());
+		assertEquals("Apple IIc", driver.findElement(By.xpath("//tbody[@id='results']/tr[8]/td[2]")).getText());
+		assertEquals("Apple IIGS", driver.findElement(By.xpath("//tbody[@id='results']/tr[9]/td[2]")).getText());
+
+		assertEquals("10", driver.findElement(By.linkText("10")).getText());
+		assertThat(driver.findElement(By.linkText("10")).getAttribute("class").split(" "), org.hamcrest.Matchers.hasItemInArray("active"));
+		assertThat(driver.findElement(By.linkText("50")).getAttribute("class").split(" "), not(org.hamcrest.Matchers.hasItemInArray("active")));
+		assertThat(driver.findElement(By.linkText("100")).getAttribute("class").split(" "), not(org.hamcrest.Matchers.hasItemInArray("active")));
+
+		assertThat(driver.findElement(By.linkText("1")).getAttribute("class").split(" "), (org.hamcrest.Matchers.hasItemInArray("active")));
+		assertThat(driver.findElement(By.linkText("2")).getAttribute("class").split(" "), not(org.hamcrest.Matchers.hasItemInArray("active")));
+		assertThat(driver.findElement(By.linkText("3")).getAttribute("class").split(" "), not(org.hamcrest.Matchers.hasItemInArray("active")));
+		assertThat(driver.findElement(By.linkText("4")).getAttribute("class").split(" "), not(org.hamcrest.Matchers.hasItemInArray("active")));
+	}
+
+	@Test
+	public void switchPage2() throws Exception {
+		mWebDriver.get(getApplicationUrl());
+		driver.findElement(By.linkText("3")).click();
+
+		assertEquals("Computer Database", driver.getTitle());
+
+		assertEquals("Application - Computer Database", driver.findElement(By.cssSelector("a.navbar-brand")).getText());
+
+		assertEquals("574 Computers found", driver.findElement(By.id("homeTitle")).getText());
+
+		assertEquals("", driver.findElement(By.id("searchbox")).getAttribute("value"));
+		assertEquals("", driver.findElement(By.id("searchbox")).getText());
+
+		assertEquals("MacBook Pro 15.4 inch", driver.findElement(By.xpath("//tbody[@id='results']/tr/td[2]")).getText());
+		assertEquals("", driver.findElement(By.cssSelector("span.glyphicon.glyphicon-sort-by-attributes")).getText());
+		assertEquals("CM-2a", driver.findElement(By.xpath("//tbody[@id='results']/tr[2]/td[2]")).getText());
+		assertEquals("CM-200", driver.findElement(By.xpath("//tbody[@id='results']/tr[3]/td[2]")).getText());
+		assertEquals("CM-5e", driver.findElement(By.xpath("//tbody[@id='results']/tr[4]/td[2]")).getText());
+		assertEquals("CM-5", driver.findElement(By.xpath("//tbody[@id='results']/tr[5]/td[2]")).getText());
+		assertEquals("MacBook Pro", driver.findElement(By.xpath("//tbody[@id='results']/tr[6]/td[2]")).getText());
+		assertEquals("Apple IIc", driver.findElement(By.xpath("//tbody[@id='results']/tr[8]/td[2]")).getText());
+		assertEquals("Apple IIGS", driver.findElement(By.xpath("//tbody[@id='results']/tr[9]/td[2]")).getText());
+
+		assertEquals("10", driver.findElement(By.linkText("10")).getText());
+		assertThat(driver.findElement(By.linkText("10")).getAttribute("class").split(" "), org.hamcrest.Matchers.hasItemInArray("active"));
+		assertThat(driver.findElement(By.linkText("50")).getAttribute("class").split(" "), not(org.hamcrest.Matchers.hasItemInArray("active")));
+		assertThat(driver.findElement(By.linkText("100")).getAttribute("class").split(" "), not(org.hamcrest.Matchers.hasItemInArray("active")));
+	}
+
+
 
 	@org.junit.Test
 	public void testA() throws Exception {
