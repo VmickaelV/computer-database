@@ -1,9 +1,9 @@
-package com.excilys.mviegas.speccdb.persist.jdbc;
+package com.excilys.mviegas.speccdb.persistence.jdbc;
 
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persist.CrudService;
-import com.excilys.mviegas.speccdb.persist.Paginator;
+import com.excilys.mviegas.speccdb.persistence.ICrudService;
+import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.wrappers.ComputerJdbcWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  *
  * @author VIEGAS Mickael
  */
-public class ComputerDao implements CrudService<Computer> {
+public class ComputerDao implements ICrudService<Computer> {
 
 	// TODO a effacer
 	public static final ComputerDao INSTANCE;
@@ -193,7 +193,7 @@ public class ComputerDao implements CrudService<Computer> {
 	}
 
 	// ===========================================================
-	// Methods - CrudService
+	// Methods - ICrudService
 	// ===========================================================
 
 	@Override
@@ -437,7 +437,7 @@ public class ComputerDao implements CrudService<Computer> {
 	@Override
 	public Paginator<Computer> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters, int resultLimit) throws DAOException {
 		// TODO To Implement
-		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao#findWithNamedQueryWithPaginator not implemented yet.");
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao#findWithNamedQueryWithPaginator not implemented yet.");
 	}
 
 	@Override
@@ -535,13 +535,13 @@ public class ComputerDao implements CrudService<Computer> {
 	@Override
 	public Paginator<Computer> findWithNamedQueryWithPaginator(String queryName, int resultLimit) throws DAOException {
 		// TODO To Implement
-		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao#findWithNamedQueryWithPaginator not implemented yet.");
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao#findWithNamedQueryWithPaginator not implemented yet.");
 	}
 
 	@Override
 	public Paginator<Computer> findWithNamedQueryWithPaginator(String queryName) throws DAOException {
 		// TODO To Implement
-		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao#findWithNamedQueryWithPaginator not implemented yet.");
+		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao#findWithNamedQueryWithPaginator not implemented yet.");
 	}
 
 	// ===========================================================

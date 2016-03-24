@@ -3,7 +3,7 @@ package com.excilys.mviegas.speccdb.ui.cligui;
 import com.excilys.mviegas.speccdb.controlers.IComputersListViewControler;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 
 import java.util.List;
 import java.util.Scanner;

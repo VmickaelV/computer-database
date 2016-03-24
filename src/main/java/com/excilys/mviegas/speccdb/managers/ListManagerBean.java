@@ -1,12 +1,12 @@
 package com.excilys.mviegas.speccdb.managers;
 
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.persist.CrudService;
-import com.excilys.mviegas.speccdb.persist.Paginator;
-import com.excilys.mviegas.speccdb.persist.QueryParameter;
-import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
-import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao.Order;
-import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao.TypeOrder;
+import com.excilys.mviegas.speccdb.persistence.ICrudService;
+import com.excilys.mviegas.speccdb.persistence.Paginator;
+import com.excilys.mviegas.speccdb.persistence.QueryParameter;
+import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.Order;
+import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.TypeOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +41,7 @@ public class ListManagerBean {
 	
 	private Paginator<Computer> mPaginator;
 	
-	private CrudService<Computer> mComputerDao;
+	private ICrudService<Computer> mComputerDao;
 	
 	private String mOrder;
 	

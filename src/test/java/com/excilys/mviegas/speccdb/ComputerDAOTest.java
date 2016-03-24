@@ -2,13 +2,12 @@ package com.excilys.mviegas.speccdb;
 
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persist.Paginator;
-import com.excilys.mviegas.speccdb.persist.QueryParameter;
-import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
-import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.Paginator;
+import com.excilys.mviegas.speccdb.persistence.QueryParameter;
+import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 
 import java.sql.Connection;

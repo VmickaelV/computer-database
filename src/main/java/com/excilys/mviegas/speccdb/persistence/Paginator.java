@@ -1,4 +1,4 @@
-package com.excilys.mviegas.speccdb.persist;
+package com.excilys.mviegas.speccdb.persistence;
 
 import java.util.List;
 
@@ -8,25 +8,49 @@ import java.util.List;
  * L'indexation des pages commence à 1 (car principalement utilisé pour de l'IU)
  *
  * Created by excilys on 15/03/16.
+ * @author Mickael
  */
 public class Paginator<T> {
 
 	//===========================================================
 	// Attributes - private
 	//===========================================================
+	/**
+	 * Numéro de la page courante
+	 */
 	private int mCurrentPage;
 
+	/***
+	 * Nombre d'éléments totales
+	 */
 	private int mElementsCount;
 
+	/**
+	 * Nom d'éléments par pages
+	 */
 	private int mElementsByPage;
 
+	/**
+	 * Valeurs de la pages
+	 */
 	private List<T> mValues;
 
+	/**
+	 * Nombre de pages
+	 */
 	private int mNbPages;
 
 	//===========================================================
 	// Constructors
 	//===========================================================
+
+	/**
+	 *
+	 * @param pStartIndex Début de l'index de début
+	 * @param pElementsCount Nombre d'éléments totales
+	 * @param pElementsByPage Nombre d'éléments par page
+	 * @param pValues Valeurs de la page actuelle
+	 */
 	public Paginator(int pStartIndex, int pElementsCount, int pElementsByPage, List<T> pValues) {
 		super();
 		if (pElementsByPage == 0) {

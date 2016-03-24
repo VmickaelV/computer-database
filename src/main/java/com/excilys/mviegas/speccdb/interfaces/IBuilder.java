@@ -1,4 +1,4 @@
-package com.excilys.mviegas.speccdb;
+package com.excilys.mviegas.speccdb.interfaces;
 
 import com.excilys.mviegas.speccdb.exceptions.BuilderException;
 
