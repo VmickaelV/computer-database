@@ -3,6 +3,7 @@ package com.excilys.mviegas.speccdb.managers;
 import com.excilys.mviegas.speccdb.controlers.IEditorComputerControler;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
+import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persist.CrudService;
 import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
@@ -24,9 +25,12 @@ import java.util.List;
 @ManagedBean
 public class ComputerEditorBean implements IEditorComputerControler {
 
+	//=============================================================
+	// Constantes
+	//=============================================================
 	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerEditorBean.class);
 	public static final String PATTERN_DATE = "dd/MM/yyyy";
-	public final static DateTimeFormatter sDateTimeFormatter = DateTimeFormatter.ofPattern(PATTERN_DATE);
+	public static final DateTimeFormatter sDateTimeFormatter = DateTimeFormatter.ofPattern(PATTERN_DATE);
 	
 	//===========================================================
 	// Attribute - private
@@ -36,11 +40,12 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	private String mDiscontinuedDate;
 	private int mIdCompany;
 	private long mId;
-	private Computer mComputer;
-	private String mAction;
-	
-	public List<Company> mCompanies;
 
+	private String mAction;
+
+	private Computer mComputer;
+
+	public List<Company> mCompanies;
 	public CrudService<Company> mCompanyCrudService;
 	public CrudService<Computer> mComputerCrudService;
 	
@@ -180,6 +185,10 @@ public class ComputerEditorBean implements IEditorComputerControler {
 		}
 	}
 
+	public boolean isValidForm() {
+		return hasValidName() && hasValidIntroducedDate() && hasValidDiscontinuedDate() && hasValidIdCompany();
+	}
+
 	private static boolean isValidOptionnalDate(String pDate) {
 		if (pDate == null) {
 			return true;
@@ -214,10 +223,9 @@ public class ComputerEditorBean implements IEditorComputerControler {
 				return mComputer;
 			}
 		} catch (DateTimeParseException pE) {
-			// TODO a logger
-			throw new RuntimeException("Erreur non attendu", pE);
-		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-			// TODO à refaire
+			LOGGER.error(pE.getMessage(), pE);
+			throw new IllegalStateException("Erreur non attendu", pE);
+		} catch (DAOException pE) {
 			throw new RuntimeException(pE);
 		}
 	}
@@ -243,12 +251,11 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	//===========================================================
 	@Override
 	public boolean addComputer() {
-		if (hasValidName() && hasValidIntroducedDate() && hasValidDiscontinuedDate() && hasValidIdCompany()) {
+		if (isValidForm()) {
 			try {
 				mComputerCrudService.create(makeComputer());
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				// TODO à refaire
-				throw new RuntimeException(pE);
+				return false;
 			}
 			return true;
 		} else {
@@ -258,12 +265,11 @@ public class ComputerEditorBean implements IEditorComputerControler {
 
 	@Override
 	public boolean editComputer() {
-		if (hasValidName() && hasValidIntroducedDate() && hasValidDiscontinuedDate() && hasValidIdCompany()) {
+		if (isValidForm()) {
 			try {
 				mComputerCrudService.update(makeComputer());
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				// TODO à refaire
-				throw new RuntimeException(pE);
+				return false;
 			}
 			return true;
 		} else {
