@@ -49,7 +49,7 @@ public class CompanyDao implements ICrudService<Company> {
 ////
 ////			mFindStatement = mConnection.prepareStatement("SELECT * FROM `company` WHERE id = ?");
 //		} catch (SQLException e) {
-//			LOGGER.error(e.getMessage(), e);
+//			Loggers.error(e.getMessage(), e);
 //			throw new RuntimeException(e);
 //		}
 	}
