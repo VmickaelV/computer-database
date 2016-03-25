@@ -31,12 +31,12 @@ public class EmbeddedTest extends BaseSeleniumTest {
 	// Tests
 	//===========================================================
 	@Test
-	public void testInitServer() throws Exception {
+	public void testInit() throws Exception {
 		this.initServer();
 	}
 	
 	@Test
-	public void testDeploy() throws Exception {
+	public void testInitDeploy() throws Exception {
 		try { 
 			this.initServer();
 		} catch (Throwable e) {
@@ -47,11 +47,12 @@ public class EmbeddedTest extends BaseSeleniumTest {
 	}
 	
 	@Test
-	public void testStartDeforeDeploy() throws Exception {
+	public void testInitStartTart() throws Exception {
 		try { 
 			this.initServer();
 			this.startServer();
 		} catch (Throwable e) {
+			e.printStackTrace();
 			fail();
 		}
 		
@@ -60,7 +61,7 @@ public class EmbeddedTest extends BaseSeleniumTest {
 	}
 	
 	@Test
-	public void testStartAfterDeploy() throws Exception {
+	public void testInitDeployStart() throws Exception {
 		try { 
 			this.initServer();
 			this.deploy();
@@ -70,6 +71,20 @@ public class EmbeddedTest extends BaseSeleniumTest {
 		
 		this.startServer();
 	}
+	
+	@Test
+	public void testStop() throws Exception {
+		try { 
+			this.initServer();
+			this.startServer();
+			this.deploy();
+		} catch (Throwable e) {
+			fail();
+		}
+		
+		this.stopServer();		
+	}
+	
 	
 	
 	

@@ -11,6 +11,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
 import javax.servlet.ServletException;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
@@ -68,9 +70,9 @@ public abstract class BaseSeleniumTest {
 	@Before
 	public void setUp() throws Exception {
 
-//		initServer();
-//		startServer();
-//		deploy();
+		initServer();
+		startServer();
+		deploy();
 
 		mWebDriver = new FirefoxDriver(mFirefoxProfile);
 		mWebDriver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
@@ -167,7 +169,7 @@ public abstract class BaseSeleniumTest {
 //		new ZipExporterImpl(createWebArchive()).exportTo(new File(TMP_WORKING_DIR + "/" + getApplicationId() + ".war"),
 //				true);
 //		mTomcat.addWebapp(mTomcat.getHost(), contextPath, webApp.getAbsolutePath());
-		mTomcat.addWebapp(mTomcat.getHost(), "/"+getApplicationId(), "target/speccdb");
+		mTomcat.addWebapp("/"+getApplicationId(), new File("target/speccdb.war").getAbsolutePath());
 	}
 
 	protected void startServer() throws LifecycleException {
@@ -213,6 +215,29 @@ public abstract class BaseSeleniumTest {
 
 	protected void assert500() {
 		mWebDriver.findElement(By.id("error_500"));
+	}
+	
+	public static void main(String[] args) {
+		BaseSeleniumTest baseSeleniumTest = new BaseSeleniumTest() {
+			
+		};
+		
+		try {
+			baseSeleniumTest.initServer();
+			baseSeleniumTest.startServer();
+			baseSeleniumTest.deploy();
+		} catch (LifecycleException | IOException | ServletException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("END");
 	}
 
 }
