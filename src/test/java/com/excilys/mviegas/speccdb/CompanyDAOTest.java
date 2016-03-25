@@ -4,21 +4,42 @@ import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
-import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.Connection;
 
 import static org.junit.Assert.*;
 
 public class CompanyDAOTest {
 	
 	private CompanyDao mCompanyDao = CompanyDao.INSTANCE;
+
+	private Connection mConnection;
 	
 	@Before
 	public void before() throws Exception {
+
+		System.out.println(String.valueOf(Thread.activeCount()));
+		System.out.println(String.valueOf(Thread.currentThread().getId()));
+
 		DatabaseManagerTest.resetDatabase();
+
+//		mConnection = DatabaseManager.getConnection();
+		System.out.println(String.valueOf(Thread.activeCount()));
+		System.out.println(String.valueOf(Thread.currentThread().getId()));
+//		ThreadLocals.CONNECTIONS.set(mConnection);
+
+		fail();
 	}
-	
+
+	@After
+	public void tearDown() throws Exception {
+//		ThreadLocals.CONNECTIONS.remove();
+//		DatabaseManager.releaseConnection(mConnection);
+	}
+
 	@Test
 	public void findAll1() throws Exception {
 		assertEquals(42, mCompanyDao.findAll().size());
@@ -164,39 +185,23 @@ public class CompanyDAOTest {
 
 	@Test
 	public void delete3() throws Exception {
-
-//		int nCompanies = mCompanyDao.size();
-
-		ComputerDao computerDao = ComputerDao.getInstance();
-		computerDao.setConnection(DatabaseManager.getConnection());
-
-//		int nComputers = computerDao.size();
-
-		mCompanyDao.getConnection().setAutoCommit(false);
+		mConnection.setAutoCommit(false);
 		mCompanyDao.delete(1);
-		mCompanyDao.getConnection().commit();
+		mConnection.commit();
 
 		assertEquals(41, mCompanyDao.size());
-		assertEquals(574-39, computerDao.size());
-
-
-		DatabaseManager.releaseConnection(computerDao.getConnection());
-		ComputerDao.releaseInstance(computerDao);
-
-
+		assertEquals(574-39, ComputerDao.INSTANCE.size());
 	}
 
 	@Test
 	public void delete4() throws Exception {
 		try {
-			mCompanyDao.getConnection().setAutoCommit(false);
+			mConnection.setAutoCommit(false);
 			mCompanyDao.delete(413213);
-			mCompanyDao.getConnection().commit();
+			mConnection.commit();
 			fail();
 		} catch (IllegalArgumentException ignored) {
 
 		}
 	}
-
-
 }

@@ -224,7 +224,6 @@ public class DatabaseManager {
 	 * @param connection the connection
 	 * @throws SQLException 
 	 */
-	@Deprecated
 	public static synchronized void releaseConnection(Connection connection) throws SQLException {
 		connection.close();
 	}
