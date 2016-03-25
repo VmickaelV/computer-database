@@ -1,7 +1,5 @@
 package com.excilys.mviegas.speccdb.ui.webapp;
 
-import org.slf4j.event.Level;
-
 /**
  * Représente un message à afficher sur la page Web
  * 
@@ -44,6 +42,13 @@ public class Message {
 
 	public Level getLevel() {
 		return level;
+	}
+	
+	//===========================================================
+	// Inner Class
+	//===========================================================
+	public enum Level {
+		DEBUG, INFO, WARN, ERROR, SUCCESS;
 	}
 
 }
