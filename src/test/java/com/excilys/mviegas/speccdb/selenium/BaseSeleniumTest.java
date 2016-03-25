@@ -160,7 +160,7 @@ public abstract class BaseSeleniumTest {
 		mTomcat.getHost().setAutoDeploy(true);
 		mTomcat.getHost().setDeployOnStartup(true);
 	}
-
+;
 	protected void deploy() throws ServletException {
 		String contextPath = "/" + getApplicationId();
 //		File webApp = new File(TMP_WORKING_DIR, getApplicationId());
