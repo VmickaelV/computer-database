@@ -147,7 +147,6 @@ public abstract class BaseSeleniumTest {
 		}
 
 		mTomcat = null;
-
 	}
 
 	protected void openTarget(String pTarget) {

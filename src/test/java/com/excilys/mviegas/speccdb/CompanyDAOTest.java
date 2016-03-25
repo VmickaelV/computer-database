@@ -1,9 +1,12 @@
 package com.excilys.mviegas.speccdb;
 
+import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,33 +15,42 @@ import java.sql.Connection;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test de la DAO de Companie ({@link Company}
+ * 
+ * @author Mickael
+ */
 public class CompanyDAOTest {
+	
+	//===========================================================
+	// Attributs - Private
+	//===========================================================
 	
 	private CompanyDao mCompanyDao = CompanyDao.INSTANCE;
 
 	private Connection mConnection;
 	
+	//===========================================================
+	// Callbacks
+	//===========================================================
+	
 	@Before
 	public void before() throws Exception {
-
-		System.out.println(String.valueOf(Thread.activeCount()));
-		System.out.println(String.valueOf(Thread.currentThread().getId()));
+		mConnection = DatabaseManager.getConnection();
+		ThreadLocals.CONNECTIONS.set(mConnection);
 
 		DatabaseManagerTest.resetDatabase();
-
-//		mConnection = DatabaseManager.getConnection();
-		System.out.println(String.valueOf(Thread.activeCount()));
-		System.out.println(String.valueOf(Thread.currentThread().getId()));
-//		ThreadLocals.CONNECTIONS.set(mConnection);
-
-		fail();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-//		ThreadLocals.CONNECTIONS.remove();
-//		DatabaseManager.releaseConnection(mConnection);
+		ThreadLocals.CONNECTIONS.remove();
+		DatabaseManager.releaseConnection(mConnection);
 	}
+	
+	//===========================================================
+	// Tests
+	//===========================================================
 
 	@Test
 	public void findAll1() throws Exception {
