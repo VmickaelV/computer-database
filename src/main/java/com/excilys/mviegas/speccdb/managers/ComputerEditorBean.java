@@ -1,20 +1,29 @@
 package com.excilys.mviegas.speccdb.managers;
 
+import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.controlers.IEditorComputerControler;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
+import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.ICrudService;
 import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
+import com.excilys.mviegas.speccdb.ui.webapp.Message;
+import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -45,9 +54,11 @@ public class ComputerEditorBean implements IEditorComputerControler {
 
 	private Computer mComputer;
 
-	public List<Company> mCompanies;
-	public ICrudService<Company> mCompanyCrudService;
-	public ICrudService<Computer> mComputerCrudService;
+	private List<Company> mCompanies;
+	private ICrudService<Company> mCompanyCrudService;
+	private ICrudService<Computer> mComputerCrudService;
+	
+	private List<Message> mMessages = new LinkedList<>();
 	
 	//===========================================================
 	// Constructeurs
@@ -114,6 +125,9 @@ public class ComputerEditorBean implements IEditorComputerControler {
 		mId = pId;
 		if (pId > 0) {
 			try {
+				Connection connection = DatabaseManager.getConnection();
+				ThreadLocals.CONNECTIONS.set(connection);
+				
 				mComputer = mComputerCrudService.find(pId);
 				
 				mName = mComputer.getName();
@@ -128,9 +142,12 @@ public class ComputerEditorBean implements IEditorComputerControler {
 				if (mComputer.getManufacturer() != null) {
 					mIdCompany = mComputer.getManufacturer().getId();
 				}
-			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				// TODO à refaire
-				throw new RuntimeException(pE);
+				
+				ThreadLocals.CONNECTIONS.remove();
+				DatabaseManager.releaseConnection(connection);
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException | ConnectionException pE) {
+				mComputer = null;
+				mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
 			}
 		} else {
 			mComputer = null;
@@ -177,11 +194,26 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	}
 
 	public boolean hasValidIdCompany() {
+		Connection connection = null;
 		try {
+			connection = DatabaseManager.getConnection();
+			ThreadLocals.CONNECTIONS.set(connection);
 			return mIdCompany == 0 || mCompanyCrudService.find(mIdCompany) != null;
-		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-			// TODO à implenter
-			throw new RuntimeException(pE);
+		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException | ConnectionException pE) {
+			LOGGER.error(pE.getMessage(), pE);
+			mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
+			return false;
+		} finally {
+			if (connection !=  null) {
+				ThreadLocals.CONNECTIONS.remove();
+				try {
+					DatabaseManager.releaseConnection(connection);
+				} catch (ConnectionException e) {
+					LOGGER.error(e.getMessage(), e);
+					throw new RuntimeException(e);
+				}
+				
+			}
 		}
 	}
 
@@ -238,11 +270,25 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	public void init() {
 		mCompanyCrudService = CompanyDao.INSTANCE;
 		mComputerCrudService = ComputerDao.INSTANCE;
+		
+		Connection connection = null;
 		try {
+			connection = DatabaseManager.getConnection();
+			ThreadLocals.CONNECTIONS.set(connection);
 			mCompanies = mCompanyCrudService.findAll(0, 0);
-		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-			// TODO à refaire
+		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException | ConnectionException pE) {
+			LOGGER.error(pE.getMessage(), pE);
 			throw new RuntimeException(pE);
+		} finally {
+			if (connection == null) {
+				ThreadLocals.CONNECTIONS.remove();
+				try {
+					DatabaseManager.releaseConnection(connection);
+				} catch (ConnectionException e) {
+					LOGGER.error(e.getMessage(), e);
+					throw new RuntimeException(e);
+				}
+			}
 		}
 	}
 
@@ -253,12 +299,22 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	public boolean addComputer() {
 		if (isValidForm()) {
 			try {
+				Connection connection = DatabaseManager.getConnection();
+				ThreadLocals.CONNECTIONS.set(connection);
+				
 				mComputerCrudService.create(makeComputer());
-			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				
+				ThreadLocals.CONNECTIONS.remove();
+				DatabaseManager.releaseConnection(connection);
+				
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException | ConnectionException pE) {
+				mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
 				return false;
 			}
+			mMessages.add(new Message("Computed Added", "Computer Added", Level.SUCCESS));
 			return true;
 		} else {
+			mMessages.add(new Message("Invalid Formular", "You formular is Invalid.\nCheck the details", Level.ERROR));
 			return false;
 		}
 	}
@@ -267,12 +323,21 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	public boolean editComputer() {
 		if (isValidForm()) {
 			try {
+				Connection connection = DatabaseManager.getConnection();
+				ThreadLocals.CONNECTIONS.set(connection);
+				
 				mComputerCrudService.update(makeComputer());
-			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				
+				ThreadLocals.CONNECTIONS.remove();
+				DatabaseManager.releaseConnection(connection);
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException | ConnectionException pE) {
+				mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
 				return false;
 			}
+			mMessages.add(new Message("Computed Edited", "Computer Edited", Level.SUCCESS));
 			return true;
 		} else {
+			mMessages.add(new Message("Invalid Formular", "You formular is Invalid.\nCheck the details", Level.ERROR));
 			return false;
 		}
 	}

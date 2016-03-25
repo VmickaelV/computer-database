@@ -177,7 +177,7 @@ public class DatabaseManager {
 						Statement statement = connection.createStatement();
 						statement.executeUpdate(builder.toString());
 					} catch (IOException e) {
-						throw new ConnectionException("Error with the file "+fileLink, e);
+						throw new RuntimeException("Error with the file "+fileLink, e);
 					}
 				}
 				
@@ -185,7 +185,7 @@ public class DatabaseManager {
 				
 			} catch (SQLException e1) {
 				LOGGER.error(e1.getMessage(), e1);
-				throw new ConnectionException(e1);
+				throw new RuntimeException(e1);
 			}
 		}
 
@@ -201,7 +201,7 @@ public class DatabaseManager {
 			sConnectionPool = new BoneCP(config);
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
-			throw new ConnectionException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -212,20 +212,28 @@ public class DatabaseManager {
 	 * Gets the connection.
 	 *
 	 * @return the connection
-	 * @throws SQLException the SQL exception
+	 * @throws ConnectionException 
 	 */
-	public static synchronized Connection getConnection() throws SQLException {
-		return sConnectionPool.getConnection();
+	public static synchronized Connection getConnection() throws ConnectionException {
+		try {
+			return sConnectionPool.getConnection();
+		} catch (SQLException e) {
+			throw new ConnectionException(e);
+		}
 	}
 
 	/**
 	 * Release connection.
 	 *
 	 * @param connection the connection
-	 * @throws SQLException 
+	 * @throws ConnectionException 
 	 */
-	public static synchronized void releaseConnection(Connection connection) throws SQLException {
-		connection.close();
+	public static synchronized void releaseConnection(Connection connection) throws ConnectionException {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			throw new ConnectionException(e);
+		}
 	}
 
 }

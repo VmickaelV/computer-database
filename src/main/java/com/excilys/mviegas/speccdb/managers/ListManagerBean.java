@@ -1,18 +1,23 @@
 package com.excilys.mviegas.speccdb.managers;
 
+import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Computer;
+import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
 import com.excilys.mviegas.speccdb.persistence.ICrudService;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.QueryParameter;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.Order;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.TypeOrder;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
+import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.event.Level;
 
+import java.sql.Connection;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.ManagedBean;
@@ -52,7 +57,7 @@ public class ListManagerBean {
 	
 	private String mTypeOrder;
 	
-	private List<Message> mMessages;
+	private List<Message> mMessages = new LinkedList<>();
 	
 	//===========================================================
 	// Constructeur
@@ -156,8 +161,19 @@ public class ListManagerBean {
 		if (mPage == 0) {
 			mPage = 1;
 		}
+		
+		Connection connection;
+		
+		try {
+			connection = DatabaseManager.getConnection();
+			ThreadLocals.CONNECTIONS.set(connection);
+		} catch (ConnectionException e) {
+			mMessages.add(new Message("Internal Error", "We got an internal Error .\nPlease, retry later.", Level.ERROR));
+			return; 
+		}
 
 		if ((mSearch != null && !mSearch.isEmpty()) || (mOrder != null && !mOrder.isEmpty())) {
+			ThreadLocals.CONNECTIONS.set(connection);
 			QueryParameter parameter = QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, mSearch);
 			parameter
 					.and(ComputerDao.Parameters.SIZE, mSize)
@@ -166,35 +182,70 @@ public class ListManagerBean {
 					.and(ComputerDao.Parameters.TYPE_ORDER, TypeOrder.from(mTypeOrder))
 			;
 
-
 			try {
 				mPaginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, parameter.parameters());
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				LOGGER.error(pE.getMessage(), pE);
 				mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nRetrieve later", Level.ERROR));
 			}
 		} else {
 			try {
 				mPaginator = mComputerDao.findAllWithPaginator((mPage-1)*mSize, mSize);
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				LOGGER.error(pE.getMessage(), pE);
 				mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nRetrieve later", Level.ERROR));
 			}
+		}
+		
+		mMessages.add(new Message("Successful Update", "Successful Update", Level.SUCCESS));
+		
+		try {
+			DatabaseManager.releaseConnection(connection);
+		} catch (ConnectionException e) {
+			LOGGER.error(e.getMessage(), e);
+			mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nRetrieve later", Level.ERROR));
 		}
 	}
 
 	public boolean delete(String pIntegers) {
 		String[] indexes = pIntegers.split(",");
+		
+		boolean result = true;
+		
+		Connection connection;
+		
+		try {
+			connection = DatabaseManager.getConnection();
+			ThreadLocals.CONNECTIONS.set(connection);
+		} catch (ConnectionException e) {
+			mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nPlease, retry later.", Level.ERROR));
+			return false; 
+		}
+		
 
 		// TODO à optimiser
 		for (String index : indexes) {
 			int i = Integer.parseInt(index);
 			try {
 				if (!mComputerDao.delete(i)) {
-					return false;
+					mMessages.add(new Message("Internal Error", "We have an Eror with the Database when we tried to delete the computer n°"+index+".\nWould you retry later.", Level.ERROR));
+					result = false;
 				}
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				mMessages.add(new Message("Internal Error", "We have an Eror with the Database when we tried to delete the computer n°"+index+".\nRetrieve later", Level.ERROR));
+				LOGGER.error(pE.getMessage(), pE);
+				mMessages.add(new Message("Internal Error", "We have an Eror with the Database when we tried to delete the computer n°"+index+".\nWould you retry later.", Level.ERROR));
+				result = false;
 			}
 		}
-		return true;
+		
+		try {
+			DatabaseManager.releaseConnection(connection);
+		} catch (ConnectionException e) {
+			LOGGER.error(e.getMessage(), e);
+			result = false;
+		}
+		
+		mMessages.add(new Message("Successful Deletion", "All selectede computers are deleted from the Database.", Level.SUCCESS));
+		return result;
 	}
 }
