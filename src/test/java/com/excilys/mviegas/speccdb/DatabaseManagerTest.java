@@ -76,6 +76,7 @@ public class DatabaseManagerTest {
 		assertEquals(574, ComputerDao.INSTANCE.size());
 		assertEquals(42, CompanyDao.INSTANCE.size());
 
+		DatabaseManager.releaseConnection(connection);
 		
 	}
 }
