@@ -7,8 +7,13 @@ import com.excilys.mviegas.speccdb.persistence.QueryParameter;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.Order;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.TypeOrder;
+import com.excilys.mviegas.speccdb.ui.webapp.Message;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
+
+import java.util.List;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
@@ -46,6 +51,8 @@ public class ListManagerBean {
 	private String mOrder;
 	
 	private String mTypeOrder;
+	
+	private List<Message> mMessages;
 	
 	//===========================================================
 	// Constructeur
@@ -121,30 +128,31 @@ public class ListManagerBean {
 
 	@Override
 	public String toString() {
-		return "ListManagerBean{" +
-				"mPage=" + mPage +
-				", mSize=" + mSize +
-				", mSearch='" + mSearch + '\'' +
-				", mPaginator=" + mPaginator +
-				", mComputerDao=" + mComputerDao +
-				", mOrder=" + mOrder +
-				", mTypeOrder=" + mTypeOrder +
-				'}';
+		StringBuilder builder = new StringBuilder();
+		builder.append("ListManagerBean [mPage=");
+		builder.append(mPage);
+		builder.append(", mSize=");
+		builder.append(mSize);
+		builder.append(", mSearch=");
+		builder.append(mSearch);
+		builder.append(", mPaginator=");
+		builder.append(mPaginator);
+		builder.append(", mComputerDao=");
+		builder.append(mComputerDao);
+		builder.append(", mOrder=");
+		builder.append(mOrder);
+		builder.append(", mTypeOrder=");
+		builder.append(mTypeOrder);
+		builder.append(", mMessages=");
+		builder.append(mMessages);
+		builder.append("]");
+		return builder.toString();
 	}
 
 	//===========================================================
 	// Méthodes - Object
 	//===========================================================
 	public void update() {
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("ListManager#update");
-			LOGGER.debug("");
-		}
-
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug(this.toString());
-		}
-
 		if (mPage == 0) {
 			mPage = 1;
 		}
@@ -158,22 +166,17 @@ public class ListManagerBean {
 					.and(ComputerDao.Parameters.TYPE_ORDER, TypeOrder.from(mTypeOrder))
 			;
 
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("parameter = " + parameter);
-			}
 
 			try {
 				mPaginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, parameter.parameters());
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				// TODO à refaire
-				throw new RuntimeException(pE);
+				mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nRetrieve later", Level.ERROR));
 			}
 		} else {
 			try {
 				mPaginator = mComputerDao.findAllWithPaginator((mPage-1)*mSize, mSize);
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				// TODO à refaire
-				throw new RuntimeException(pE);
+				mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nRetrieve later", Level.ERROR));
 			}
 		}
 	}
@@ -189,8 +192,7 @@ public class ListManagerBean {
 					return false;
 				}
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				// TODO à refaire
-				throw new RuntimeException(pE);
+				mMessages.add(new Message("Internal Error", "We have an Eror with the Database when we tried to delete the computer n°"+index+".\nRetrieve later", Level.ERROR));
 			}
 		}
 		return true;

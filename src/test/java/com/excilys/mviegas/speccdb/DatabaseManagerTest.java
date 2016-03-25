@@ -1,5 +1,6 @@
 package com.excilys.mviegas.speccdb;
 
+import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
@@ -7,6 +8,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -21,11 +23,9 @@ public class DatabaseManagerTest {
 	public void connection() throws Exception {
 		Connection connection = DatabaseManager.getConnection();
 
-		Statement statement = connection.createStatement();
-
-		// statement.
-
-		statement.close();
+		try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery("SELECt * FROM computer")) {
+			
+		}
 
 		DatabaseManager.releaseConnection(connection);
 	}
@@ -37,7 +37,11 @@ public class DatabaseManagerTest {
 	
 	@Test
 	public void testResetDatabase() throws Exception {
+		Connection connection = DatabaseManager.getConnection();
+		ThreadLocals.CONNECTIONS.set(connection);
 		resetDatabase();
+		
+		DatabaseManager.releaseConnection(connection);
 	}
 
 	public static void resetDatabase() throws Exception {

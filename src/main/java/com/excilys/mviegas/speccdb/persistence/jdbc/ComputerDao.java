@@ -300,6 +300,18 @@ public enum ComputerDao implements ICrudService<Computer> {
 			throw new IllegalArgumentException("Null or Not Persisted Object");
 		}
 		
+		Connection connection = ThreadLocals.CONNECTIONS.get();
+		
+		if (mDeleteStatement == null) {
+			// TODO à vérifier
+			try {
+				mDeleteStatement = connection.prepareStatement("DELETE FROM `computer` WHERE id = ?");
+			} catch (SQLException pE) {
+				throw new DAOException(pE);
+			}
+		}	
+		
+		
 		try {
 			mDeleteStatement.setLong(1, pId);
 			int nbLines = mDeleteStatement.executeUpdate();
@@ -318,20 +330,10 @@ public enum ComputerDao implements ICrudService<Computer> {
 
 	@Override
 	public boolean delete(Computer pT) throws DAOException {
-		if (pT == null || pT.getId() <= 0) {
+		if (pT == null) {
 			throw new IllegalArgumentException("Null or Not Persisted Object");
-		}
-		
-		try {
-			mDeleteStatement.setLong(1, pT.getId());
-			int nbLines = mDeleteStatement.executeUpdate();
-			
-			LOGGER.info("Delete of "+pT.getId()+(nbLines == 1 ? " successfull" : " failed"));
-			return nbLines == 1;
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new DAOException(e);
-		}
+		}		
+		return delete(pT.getId());
 	}
 
 	@Override

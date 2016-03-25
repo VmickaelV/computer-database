@@ -1,11 +1,15 @@
 package com.excilys.mviegas.speccdb;
 
+import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.QueryParameter;
 import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -23,16 +27,43 @@ import static org.junit.Assert.*;
 
 public class ComputerDAOTest {
 	
+	//===========================================================
+	// Constantes
+	//===========================================================
+		
+	public static final int SIZE_COMPUTER = 574;
+	
+	//===========================================================
+	// Attribut s- private
+	//===========================================================
+	
 	private ComputerDao mComputerDao = ComputerDao.INSTANCE;
 	private CompanyDao mCompanyDao = CompanyDao.INSTANCE;
 	
-	public static final int SIZE_COMPUTER = 574;
+	private Connection mConnection;
+	
+	//===========================================================
+	// Callbacks
+	//===========================================================
 
 	@Before
 	public void before() throws Exception {
+		mConnection = DatabaseManager.getConnection();
+		ThreadLocals.CONNECTIONS.set(mConnection);
+		
 		DatabaseManagerTest.resetDatabase();
 	}
 	
+	@After
+	public void tearDown() throws Exception {
+		ThreadLocals.CONNECTIONS.remove();
+		DatabaseManager.releaseConnection(mConnection);
+	}
+	
+	//===========================================================
+	// Tests
+	//===========================================================
+			
 	@Test
 	public void findAll1() throws Exception {
 		assertEquals(ComputerDao.BASE_SIZE_PAGE, mComputerDao.findAll().size());
@@ -96,8 +127,6 @@ public class ComputerDAOTest {
 	public void testFind2() throws Exception {
 		Computer computer = mComputerDao.find(5);
 		
-		
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 		assertEquals(5, computer.getId());
 		assertEquals("CM-5", computer.getName());
 		assertNull(computer.getDiscontinuedDate());
