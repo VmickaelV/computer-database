@@ -1,10 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Identifiant de base de POM -->
 	<groupId>spec-cdb</groupId>
 	<artifactId>spec-cdb</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.18-SNAPSHOT</version>
 	<packaging>war</packaging>
+
+	<!-- Informations sur le projet -->
+
+
+	<!-- Configuration -->
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
 
 	<properties>
 		<!-- Miscallaneous -->
@@ -20,10 +30,12 @@
 		<maven-site-plugin.version>3.5</maven-site-plugin.version>
 		<maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
 		<maven-jxr-plugin.version>2.3</maven-jxr-plugin.version>
-		<tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
 		<maven-surefire-report-plugin.version>2.19.1</maven-surefire-report-plugin.version>
 		<maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
+		<maven-checkstyle-plugin.configLocation>config/checkstyle/checkstyle.xml</maven-checkstyle-plugin.configLocation>
+		<versions-maven-plugin.version>2.2</versions-maven-plugin.version>
 		<cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
+		<tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
 		<javax.annotation-api.version>1.2</javax.annotation-api.version>
 		<jsp-api.version>6.0.29</jsp-api.version>
 		<mysql-connector-java.version>5.1.38</mysql-connector-java.version>
@@ -40,7 +52,7 @@
 		<finalName>${name.finale}</finalName>
 
 		<plugins>
-			<!-- JDK Java -->
+			<!-- Compilateur JDK Java -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin.version}</version>
@@ -66,8 +78,7 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${maven-checkstyle-plugin.version}</version>
 				<configuration>
-					<configLocation>config/checkstyle/checkstyle.xml</configLocation>
-					<outputFileFormat>plain</outputFileFormat>
+					<configLocation>${maven-checkstyle-plugin.configLocation}</configLocation>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -77,14 +88,14 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			<!-- Ajout de lien -->
+			<!-- Ajout de lien pour le rapport de checkstyle -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
 				<version>${maven-jxr-plugin.version}</version>
 			</plugin>
 
-			<!-- Conf Webapp -->
+			<!-- Tomcat7 embarqué à Maven -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
@@ -92,6 +103,13 @@
 				<configuration>
 					<path>/${project.build.finalName}</path>
 				</configuration>
+			</plugin>
+
+			<!-- Gestionnaire de Version pour Artefact Maven -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>${versions-maven-plugin.version}</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -103,8 +121,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
 				<version>${maven-surefire-report-plugin.version}</version>
-				<configuration>
-				</configuration>
 			</plugin>
 
 			<!-- Vérificaion de styles -->
@@ -113,7 +129,7 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${maven-checkstyle-plugin.version}</version>
 				<configuration>
-					<configLocation>config/checkstyle/checkstyle.xml</configLocation>
+					<configLocation>${maven-checkstyle-plugin.configLocation}</configLocation>
 					<!-- <suppressionsLocation>config/checkstyle/suppressions.xml</suppressionsLocation> -->
 					<!-- <configLocation>config/checkstyle/checkstyle.xml</configLocation> --><!-- <suppressionsLocation>config/checkstyke/suppressions.xml</suppressionsLocation> -->
 
@@ -166,6 +182,21 @@
 				</configuration>
 			</plugin>
 
+			<!-- Rapport sur les versions -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>${versions-maven-plugin.version}</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>dependency-updates-report</report>
+							<report>plugin-updates-report</report>
+							<report>property-updates-report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
 
 		</plugins>
 	</reporting>
