@@ -11,7 +11,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
 import javax.servlet.ServletException;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -169,7 +168,9 @@ public abstract class BaseSeleniumTest {
 //		new ZipExporterImpl(createWebArchive()).exportTo(new File(TMP_WORKING_DIR + "/" + getApplicationId() + ".war"),
 //				true);
 //		mTomcat.addWebapp(mTomcat.getHost(), contextPath, webApp.getAbsolutePath());
-		mTomcat.addWebapp("/"+getApplicationId(), new File("target/speccdb.war").getAbsolutePath());
+//		mTomcat.addContext(contextPath, "src/main/webapp");
+//		mTomcat.addWebapp(contextPath, new File("target/speccdb").getAbsolutePath());
+		mTomcat.addContext(contextPath, new File("target/speccdb").getAbsolutePath());
 	}
 
 	protected void startServer() throws LifecycleException {
