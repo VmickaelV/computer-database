@@ -51,17 +51,12 @@
 			<name>paginator</name>
 			<!--<required>true</required>-->
 			<rtexprvalue>true</rtexprvalue>
-			<type>com.excilys.mviegas.speccdb.persist.Paginator</type>
+			<type>com.excilys.mviegas.speccdb.persistence.Paginator</type>
 		</attribute>
         <!--<attribute>-->
         <!--<name>number</name>-->
         <!--<required>true</required>-->
         <!--</attribute>-->
-    </tag>
-    <tag>
-        <name>link</name>
-        <tag-class>com.excilys.mviegas.speccdb.taglib.LinkTag</tag-class>
-        <body-content>empty</body-content>
     </tag>
 	
 	<function>

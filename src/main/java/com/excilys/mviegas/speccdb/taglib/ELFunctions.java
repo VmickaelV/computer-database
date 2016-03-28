@@ -40,8 +40,8 @@ public class ELFunctions {
 	 */
 	public static String link(String pTarget, Map<String, String> pQueries, String pQueryToEscape, Object value) {
 
-		C.LOGGER.RUNTIME.debug("ELFunctions.link");
-		C.LOGGER.RUNTIME.debug("pTarget = [" + pTarget + "], pQueries = [" + pQueries + "], pQueryToEscape = [" + pQueryToEscape + "], value = [" + value + "]");
+		C.Loggers.RUNTIME.debug("ELFunctions.link");
+		C.Loggers.RUNTIME.debug("pTarget = [" + pTarget + "], pQueries = [" + pQueries + "], pQueryToEscape = [" + pQueryToEscape + "], value = [" + value + "]");
 
 		if (pQueries != null) {
 			StringBuilder stringBuilder = new StringBuilder(50);

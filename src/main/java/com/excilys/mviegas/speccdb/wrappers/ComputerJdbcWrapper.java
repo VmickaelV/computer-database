@@ -2,7 +2,7 @@ package com.excilys.mviegas.speccdb.wrappers;
 
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
