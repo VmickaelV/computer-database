@@ -186,7 +186,6 @@ public abstract class BaseSeleniumTest {
 		}
 
 		mTomcat = null;
-
 	}
 
 	//=============================================================

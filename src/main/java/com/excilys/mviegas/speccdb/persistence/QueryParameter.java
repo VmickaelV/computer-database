@@ -1,4 +1,4 @@
-package com.excilys.mviegas.speccdb.persist;
+package com.excilys.mviegas.speccdb.persistence;
 
 import java.util.HashMap;
 import java.util.Map;

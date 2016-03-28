@@ -1,7 +1,7 @@
 package com.excilys.mviegas.speccdb.data;
 
-import com.excilys.mviegas.speccdb.IBuilder;
 import com.excilys.mviegas.speccdb.exceptions.BuilderException;
+import com.excilys.mviegas.speccdb.interfaces.IBuilder;
 
 /**
  * Objet représentant une compagnie
