@@ -2,7 +2,7 @@ package com.excilys.mviegas.speccdb.ui.cligui;
 
 import com.excilys.mviegas.speccdb.controlers.IComputerDetailControler;
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 
 public class ComputerDetail implements IComputerDetailControler {
 	
