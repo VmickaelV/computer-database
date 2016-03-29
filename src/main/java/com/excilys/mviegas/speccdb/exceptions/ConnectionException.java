@@ -5,7 +5,7 @@ package com.excilys.mviegas.speccdb.exceptions;
  *
  * @author Mickael
  */
-public class ConnectionException extends RuntimeException {
+public class ConnectionException extends Exception {
 
 	public ConnectionException() {
 		super();

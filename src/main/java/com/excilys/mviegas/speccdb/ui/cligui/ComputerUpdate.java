@@ -2,8 +2,8 @@ package com.excilys.mviegas.speccdb.ui.cligui;
 
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.persist.jdbc.CompanyDao;
-import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

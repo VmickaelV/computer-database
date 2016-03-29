@@ -7,7 +7,7 @@
 		</encoder>
 	</appender>
 	
-	<appender name="daily" class="ch.qos.logback.core.RollingFileAppender">
+	<appender name="daily" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${catalina.base}/logs/spec-cdb</file>
 		<append>true</append>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">

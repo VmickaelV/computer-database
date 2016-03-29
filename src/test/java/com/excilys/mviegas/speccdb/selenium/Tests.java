@@ -1,6 +1,6 @@
 package com.excilys.mviegas.speccdb.selenium;
 
-import com.excilys.mviegas.speccdb.persist.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -14,7 +14,7 @@ public class Tests extends BaseSeleniumTest {
 
 	@Override
 	public void tearDown() throws Exception {
-		super.tearDown();
+//		super.tearDown();
 	}
 
 	@Test
