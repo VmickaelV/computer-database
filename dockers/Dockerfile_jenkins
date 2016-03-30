@@ -1,0 +1,4 @@
+FROM jenkins
+
+MAINTAINER Viegas Mickael <mviegas@excilys.com>
+
