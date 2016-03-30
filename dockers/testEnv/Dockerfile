@@ -14,4 +14,6 @@ COPY . /project
 
 WORKDIR /project
 
-ENTRYPOINT [ "/bin/bash" ]
+#ENTRYPOINT [ "/bin/bash" ]
+
+CMD ["mvn", "test"]
