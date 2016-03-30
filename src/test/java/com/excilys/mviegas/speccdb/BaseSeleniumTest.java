@@ -1,4 +1,4 @@
-package com.excilys.mviegas.speccdb;
+package com.excilys.mviegas.speccdb.selenium;
 
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.LifecycleState;
@@ -11,7 +11,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
 import javax.servlet.ServletException;
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.core.IsNot.not;
@@ -19,7 +21,11 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 /**
+ * Classe de base pour des tests avec Selenium avec
+ * des méthodes de bases pour les tests
+ *
  * Created by excilys on 17/03/16.
+ * @author Mickael
  */
 public abstract class BaseSeleniumTest {
 
@@ -27,6 +33,9 @@ public abstract class BaseSeleniumTest {
 		return "speccdb";
 	}
 
+	//=============================================================
+	// Constantes
+	//=============================================================
 	public static class Properties {
 		public static final String TMP_WORKING_DIR = "tomcat.tmpworkingdir";
 		public static final String TMP_PORT = "tomcat.tmpport";
@@ -34,12 +43,16 @@ public abstract class BaseSeleniumTest {
 		public static final String TMP_CONTEXT = "tomcat.tmpcontext";
 	}
 
-	public static final String TMP_WORKING_DIR = System.getProperty(Properties.TMP_WORKING_DIR, ".");
+	public static final String TMP_WORKING_DIR = System.getProperty(Properties.TMP_WORKING_DIR, "target/tomcatembedded");
 	public static final String TMP_DEPLOY_DIR = TMP_WORKING_DIR + "/webapps";
 	public static final String TMP_URL = System.getProperty(Properties.TMP_URL, "localhost");
-	public static final int TMP_PORT = Integer.parseInt(System.getProperty(Properties.TMP_PORT, String.valueOf(8081)));
+	public static final int TMP_PORT = Integer.parseInt(System.getProperty(Properties.TMP_PORT, String.valueOf(8080)));
 	public static final String TMP_CONTEXT = System.getProperty(Properties.TMP_CONTEXT, "/");
 
+	//=============================================================
+	// Attributs
+	//=============================================================
+	
 	protected WebDriver mWebDriver;
 	protected WebDriver driver;
 	protected String mBaseUrl;
@@ -50,6 +63,9 @@ public abstract class BaseSeleniumTest {
 
 	protected Tomcat mTomcat;
 
+	//=============================================================
+	// Callbacks
+	//=============================================================
 	@Before
 	public void setUp() throws Exception {
 
@@ -76,6 +92,9 @@ public abstract class BaseSeleniumTest {
 		stopServer();
 	}
 
+	//=============================================================
+	// Functions
+	//=============================================================
 	protected boolean isElementPresent(By by) {
 		try {
 			mWebDriver.findElement(by);
@@ -109,6 +128,25 @@ public abstract class BaseSeleniumTest {
 		}
 	}
 
+	public String getApplicationUrl(String appName) {
+//		return String.format("http://%s:%d/%s", mTomcat.getHost().getName(),
+//				mTomcat.getConnector().getLocalPort(), appName);
+		return String.format("http://%s:%d/%s", TMP_URL,
+				TMP_PORT, appName);
+	}
+
+	public String getApplicationUrl() {
+		return getApplicationUrl(getApplicationId());
+	}
+
+	protected String getTargetUrl(String pTarget) {
+		return String.format("http://%s:%d/%s/views/%s.jsp", TMP_URL,
+				TMP_PORT, getApplicationId(), pTarget);
+	}
+
+	//=============================================================
+	// Méthodes - for init
+	//=============================================================
 	protected void initServer() throws IOException, LifecycleException, ServletException {
 		if (mTomcat != null) {
 			stopServer();
@@ -130,7 +168,9 @@ public abstract class BaseSeleniumTest {
 //		new ZipExporterImpl(createWebArchive()).exportTo(new File(TMP_WORKING_DIR + "/" + getApplicationId() + ".war"),
 //				true);
 //		mTomcat.addWebapp(mTomcat.getHost(), contextPath, webApp.getAbsolutePath());
-		mTomcat.addWebapp(mTomcat.getHost(), "/"+getApplicationId(), "src/main/webapp");
+//		mTomcat.addContext(contextPath, "src/main/webapp");
+	//		mTomcat.addWebapp(contextPath, new File("target/speccdb").getAbsolutePath());
+		mTomcat.addContext(contextPath, new File("target/speccdb").getAbsolutePath());
 	}
 
 	protected void startServer() throws LifecycleException {
@@ -138,7 +178,7 @@ public abstract class BaseSeleniumTest {
 	}
 
 	protected void stopServer() throws LifecycleException {
-		if (mTomcat.getServer() != null
+		if (mTomcat != null && mTomcat.getServer() != null
 				&& mTomcat.getServer().getState() != LifecycleState.DESTROYED) {
 			if (mTomcat.getServer().getState() != LifecycleState.STOPPED) {
 				mTomcat.stop();
@@ -149,26 +189,55 @@ public abstract class BaseSeleniumTest {
 		mTomcat = null;
 	}
 
+	//=============================================================
+	// Méthodes Actions
+	//=============================================================
 	protected void openTarget(String pTarget) {
 		assertThat(pTarget, not(CoreMatchers.containsString(".")));
 	}
 
-	public String getApplicationUrl(String appName) {
-		return String.format("http://%s:%d/%s", mTomcat.getHost().getName(),
-				mTomcat.getConnector().getLocalPort(), appName);
+	protected void open(URL pURL) {
+		mWebDriver.get(pURL.toString());
 	}
 
-	public String getApplicationUrl() {
-		return getApplicationUrl(getApplicationId());
-	}
 
-	protected String getTargetUrl(String pTarget) {
-		return String.format("http://%s:%d/%s/views/%s.jsp", mTomcat.getHost().getName(),
-				mTomcat.getConnector().getLocalPort(), getApplicationId(), pTarget);
-	}
+	//=============================================================
+	// Méthodes Asserts
+	//=============================================================
 
 	protected void assert404() {
-		throw new UnsupportedOperationException();
+		mWebDriver.findElement(By.id("error_404"));
+	}
+
+	protected void assert403() {
+		mWebDriver.findElement(By.id("error_403"));
+	}
+
+	protected void assert500() {
+		mWebDriver.findElement(By.id("error_500"));
+	}
+	
+	public static void main(String[] args) {
+		BaseSeleniumTest baseSeleniumTest = new BaseSeleniumTest() {
+			
+		};
+		
+		try {
+			baseSeleniumTest.initServer();
+			baseSeleniumTest.startServer();
+			baseSeleniumTest.deploy();
+		} catch (LifecycleException | IOException | ServletException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("END");
 	}
 
 }

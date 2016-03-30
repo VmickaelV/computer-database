@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+	docker:
+		image:gind
+		networks:
+			- private
+
+	jenkins:
+		build:
+  			context: .
+  			dockerfile: dockers/Dockerfile_jenkins
+  			args:
+    			buildno: 1
+		ports:
+			- "8080:8080"
+		networks:
+			- private
+
+networks:
+	private:
+		driver:bridge
