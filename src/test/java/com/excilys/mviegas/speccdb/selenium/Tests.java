@@ -2,6 +2,7 @@ package com.excilys.mviegas.speccdb.selenium;
 
 import com.excilys.mviegas.speccdb.BaseSeleniumTest;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,6 +12,7 @@ import org.openqa.selenium.lift.Matchers;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
+@Ignore
 public class Tests extends BaseSeleniumTest {
 
 	@org.junit.Test

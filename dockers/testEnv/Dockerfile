@@ -1,0 +1,17 @@
+FROM java:8
+
+MAINTAINER Viegas Mickael <mviegas@excilys.com>
+
+ENV MAVEN_VERSION 3.3.3
+ENV PATH /usr/share/apache-maven-$MAVEN_VERSION/bin:${PATH}
+
+RUN curl http://apache.mirror.anlx.net/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz > /usr/share/maven.tar.gz && \
+    cd /usr/share && \
+    tar xvzf maven.tar.gz && \
+    rm -f maven.tar.gz
+
+COPY . /project
+
+WORKDIR /project
+
+ENTRYPOINT [ "/bin/bash" ]
