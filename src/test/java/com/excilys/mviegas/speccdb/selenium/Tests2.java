@@ -1,11 +1,13 @@
 package com.excilys.mviegas.speccdb.selenium;
 
 import com.excilys.mviegas.speccdb.BaseSeleniumTest;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
 import java.util.concurrent.TimeUnit;
 
+@Ignore
 public class Tests2 extends BaseSeleniumTest {
 
 	@Override

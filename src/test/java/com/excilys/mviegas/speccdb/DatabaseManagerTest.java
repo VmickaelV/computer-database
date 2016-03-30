@@ -68,9 +68,11 @@ public class DatabaseManagerTest {
     					}
     				}
     			}
-    			
-    			Statement statement = connection.createStatement();
-    			statement.executeUpdate(builder.toString());
+
+				if (!builder.toString().isEmpty()) {
+					Statement statement = connection.createStatement();
+					statement.executeUpdate(builder.toString());
+				}
     		}
     		connection.commit();
 		}
