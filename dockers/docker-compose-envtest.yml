@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  bdd:
+    build:
+      context: ..
+      dockerfile: dockers/db/Dockerfile_mysql
+    networks:
+      - back
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    privileged: true
+
+  test:
+    build:
+      context: ..
+      dockerfile: dockers/Dockerfile_java_maven
+    networks:
+      - back
+    depends_on:
+      - bdd
+    volumes:
+      - ~/.m2/repository:/root/.m2/repository
+
+networks:
+  back:
+    driver: bridge
