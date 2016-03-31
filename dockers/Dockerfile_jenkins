@@ -2,8 +2,6 @@ FROM jenkins
 
 MAINTAINER Viegas Mickael <mviegas@excilys.com>
 
-
-
 COPY config/jenkins/plugins.txt /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 
@@ -13,17 +11,15 @@ USER root
 RUN chown -R jenkins:jenkins /var/jenkins_home/jobs/
 RUN chown -R jenkins:jenkins /var/jenkins_home/jobs/docker-test
 
-#RUN wget https://get.docker.com/builds/Linux/i386/docker-latest.tgz -o /tmp/docker-latest.tgz
-#RUN gzip -d < /tmp/docker-latest.tgz | tar xvf - -C /
-#
-#RUN ls /tmp
+RUN cd /tmp && \
+    wget https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz && \
+    tar zxvf docker-latest.tgz -C / && \
+    rm docker-latest.tgz
 
-RUN curl -fsSL https://get.docker.com/ | sh
 
-RUN usermod -aG docker root
-RUN usermod -aG docker jenkins
+#RUN curl -fsSL https://get.docker.com/ | sh
+#RUN usermod -aG docker root
+#RUN usermod -aG docker jenkins
 
-ENV DOCKER_HOST tcp://docker:2375
+ENV DOCKER_HOST tcp://doocker:2375
 #USER jenkins
-
-#RUN java -jar jenkins-cli.jar -s `http://localhost:8080` install-plugin github

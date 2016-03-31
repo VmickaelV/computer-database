@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+  docker:
+    image: docker:dind
+    networks:
+      - back
+    privileged: true
+
+  jenkins:
+    build:
+      context: ..
+      dockerfile: dockers/Dockerfile_jenkins
+    ports:
+      - "8080:8080"
+    networks:
+      - back
+    depends_on:
+      - docker
+
+networks:
+  back:
+    driver: bridge
