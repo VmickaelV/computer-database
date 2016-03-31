@@ -6,3 +6,6 @@ token-macro
 github
 scm-api
 credentials
+postbuildscript
+ssh-credentials
+icon-shim

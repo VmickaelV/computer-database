@@ -38,22 +38,56 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
+      <command>rm -R -f target
+
+if [[ -n $(docker ps -q -f status=running -f name=bdd) ]]
+then
+	docker stop bdd
+fi
+if [[ -n  $(docker ps -q -f name=bdd) ]]; then
+	docker rm bdd
+fi</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>if [[ -z  $(docker network ls -f name=private -q) ]]; then
+	docker network create private;
+fi
+</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
       <command>docker build -t bdd-mysql -f dockers/db/Dockerfile_mysql .
 docker run --name bdd -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d --net=private bdd-mysql
 </command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>docker build -t envtest -f dockers/testEnv/Dockerfile .</command>
+      <command>docker-compose -f dockers/docker-compose-envtest.yml up --no-color</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>docker run -v /home/excilys/.m2/repository:/root/.m2/repository --rm --net=private envtest
-#--name envtest</command>
+      <command>if [[ -n  $(docker ps -q -f status=running -f name=bdd) ]]; then
+	docker stop bdd
+fi
+
+</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>docker stop bdd
-docker rm bdd</command>
+      <command>if [[ -n  $(docker ps -q -f name=bdd) ]]; then
+	docker rm bdd
+fi</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>docker cp dockers_test_1:/project/target target</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>docker-compose -f dockers/docker-compose-envtest.yml down</command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers/>
+  <publishers>
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.11">
+      <testResults>target/surefire-reports/*.xml</testResults>
+      <keepLongStdio>false</keepLongStdio>
+      <healthScaleFactor>1.0</healthScaleFactor>
+      <allowEmptyResults>false</allowEmptyResults>
+    </hudson.tasks.junit.JUnitResultArchiver>
+  </publishers>
   <buildWrappers/>
 </project>

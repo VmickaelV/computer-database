@@ -11,15 +11,21 @@ USER root
 RUN chown -R jenkins:jenkins /var/jenkins_home/jobs/
 RUN chown -R jenkins:jenkins /var/jenkins_home/jobs/docker-test
 
+# installation de docker client
 RUN cd /tmp && \
     wget https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz && \
     tar zxvf docker-latest.tgz -C / && \
     rm docker-latest.tgz
+
+#Installation de docke-compose
+RUN curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose && \
+    chmod +x /usr/local/bin/docker-compose && \
+    docker-compose --version
 
 
 #RUN curl -fsSL https://get.docker.com/ | sh
 #RUN usermod -aG docker root
 #RUN usermod -aG docker jenkins
 
-ENV DOCKER_HOST tcp://doocker:2375
+ENV DOCKER_HOST tcp://docker:2375
 #USER jenkins
