@@ -9,7 +9,6 @@ services:
       - back
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
-    privileged: true
 
   test:
     build:
