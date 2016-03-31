@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.18.1">
+      <projectUrl>https://github.com/VmickaelV/spec-db/</projectUrl>
+      <displayName></displayName>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.4">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://github.com/VmickaelV/spec-db</url>
+        <credentialsId>089882c5-f739-4d50-91bc-a4979bc3b721</credentialsId>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.18.1">
+      <spec></spec>
+    </com.cloudbees.jenkins.GitHubPushTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>docker build -t bdd-mysql -f dockers/db/Dockerfile_mysql .
+docker run --name bdd -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d --net=private bdd-mysql
+</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>docker build -t envtest -f dockers/testEnv/Dockerfile .</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>docker run -v /home/excilys/.m2/repository:/root/.m2/repository --rm --net=private envtest
+#--name envtest</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>docker stop bdd
+docker rm bdd</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
