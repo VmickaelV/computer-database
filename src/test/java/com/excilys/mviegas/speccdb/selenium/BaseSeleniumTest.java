@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import javax.servlet.ServletException;
 import java.io.File;
@@ -38,16 +40,26 @@ public abstract class BaseSeleniumTest {
 	//=============================================================
 	public static class Properties {
 		public static final String TMP_WORKING_DIR = "tomcat.tmpworkingdir";
-		public static final String TMP_PORT = "tomcat.tmpport";
-		public static final String TMP_URL = "tomcat.tmpurl";
+		public static final String SERVER_PORT = "tomcat.tmpport";
 		public static final String TMP_CONTEXT = "tomcat.tmpcontext";
+
+		public static final String URL_REMOTE_WEBDRIVER = "webdriver.url";
+		public static final String SERVER_IP = "server.ip";
 	}
+
+	public static final String DEFAULT_URL_REMOTE_WEBDRIVER = "http://localhost:4444/wd/hub";
+	public static final String DEFAULT_SERVER_PORT = "8080";
+	public static final String DEFAULT_SERVER_IP = "localhost";
 
 	public static final String TMP_WORKING_DIR = System.getProperty(Properties.TMP_WORKING_DIR, "target/tomcatembedded");
 	public static final String TMP_DEPLOY_DIR = TMP_WORKING_DIR + "/webapps";
-	public static final String TMP_URL = System.getProperty(Properties.TMP_URL, "localhost");
-	public static final int TMP_PORT = Integer.parseInt(System.getProperty(Properties.TMP_PORT, String.valueOf(8080)));
+	public static final String SERVER_IP = System.getProperty(Properties.SERVER_IP, DEFAULT_SERVER_IP);
+	public static final int SERVER_PORT = Integer.parseInt(System.getProperty(Properties.SERVER_PORT, DEFAULT_SERVER_PORT));
 	public static final String TMP_CONTEXT = System.getProperty(Properties.TMP_CONTEXT, "/");
+
+	public static final String URL_REMOTE_WEBDRIVER = System.getProperties().getProperty(Properties.URL_REMOTE_WEBDRIVER, DEFAULT_URL_REMOTE_WEBDRIVER);
+
+
 
 	//=============================================================
 	// Attributs
@@ -69,11 +81,15 @@ public abstract class BaseSeleniumTest {
 	@Before
 	public void setUp() throws Exception {
 
-		initServer();
-		startServer();
-		deploy();
+//		initServer();
+//		startServer();
+//		deploy();
 
-		mWebDriver = new FirefoxDriver(mFirefoxProfile);
+		if (URL_REMOTE_WEBDRIVER == null || URL_REMOTE_WEBDRIVER.isEmpty()) {
+			mWebDriver = new FirefoxDriver(mFirefoxProfile);
+		} else {
+			mWebDriver = new RemoteWebDriver(new URL(URL_REMOTE_WEBDRIVER), DesiredCapabilities.firefox());
+		}
 		mWebDriver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 		mWebDriver.manage().timeouts().setScriptTimeout(3000, TimeUnit.MICROSECONDS);
 		driver = mWebDriver;
@@ -131,8 +147,8 @@ public abstract class BaseSeleniumTest {
 	public String getApplicationUrl(String appName) {
 //		return String.format("http://%s:%d/%s", mTomcat.getHost().getName(),
 //				mTomcat.getConnector().getLocalPort(), appName);
-		return String.format("http://%s:%d/%s", TMP_URL,
-				TMP_PORT, appName);
+		return String.format("http://%s:%d/%s", SERVER_IP,
+				SERVER_PORT, appName);
 	}
 
 	public String getApplicationUrl() {
@@ -140,8 +156,8 @@ public abstract class BaseSeleniumTest {
 	}
 
 	protected String getTargetUrl(String pTarget) {
-		return String.format("http://%s:%d/%s/views/%s.jsp", TMP_URL,
-				TMP_PORT, getApplicationId(), pTarget);
+		return String.format("http://%s:%d/%s/views/%s.jsp", SERVER_IP,
+				SERVER_PORT, getApplicationId(), pTarget);
 	}
 
 	//=============================================================
@@ -153,7 +169,7 @@ public abstract class BaseSeleniumTest {
 		}
 
 		mTomcat = new Tomcat();
-		mTomcat.setPort(TMP_PORT);
+		mTomcat.setPort(SERVER_PORT);
 		mTomcat.setBaseDir(TMP_WORKING_DIR);
 		mTomcat.getHost().setAppBase(TMP_WORKING_DIR);
 		mTomcat.getHost().setAutoDeploy(true);
