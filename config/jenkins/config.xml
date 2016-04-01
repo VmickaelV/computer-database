@@ -38,41 +38,10 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>rm -R -f target
-
-if [[ -n $(docker ps -q -f status=running -f name=bdd) ]]
-then
-	docker stop bdd
-fi
-if [[ -n  $(docker ps -q -f name=bdd) ]]; then
-	docker rm bdd
-fi</command>
-    </hudson.tasks.Shell>
-    <hudson.tasks.Shell>
-      <command>if [[ -z  $(docker network ls -f name=private -q) ]]; then
-	docker network create private;
-fi
-</command>
-    </hudson.tasks.Shell>
-    <hudson.tasks.Shell>
-      <command>docker build -t bdd-mysql -f dockers/db/Dockerfile_mysql .
-docker run --name bdd -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d --net=private bdd-mysql
-</command>
+      <command>rm -R -f target</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>docker-compose -f dockers/docker-compose-envtest.yml up --no-color</command>
-    </hudson.tasks.Shell>
-    <hudson.tasks.Shell>
-      <command>if [[ -n  $(docker ps -q -f status=running -f name=bdd) ]]; then
-	docker stop bdd
-fi
-
-</command>
-    </hudson.tasks.Shell>
-    <hudson.tasks.Shell>
-      <command>if [[ -n  $(docker ps -q -f name=bdd) ]]; then
-	docker rm bdd
-fi</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>docker cp dockers_test_1:/project/target target</command>
@@ -82,6 +51,9 @@ fi</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
+    <hudson.tasks.test.AggregatedTestResultPublisher plugin="junit@1.11">
+      <includeFailedBuilds>false</includeFailedBuilds>
+    </hudson.tasks.test.AggregatedTestResultPublisher>
     <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.11">
       <testResults>target/surefire-reports/*.xml</testResults>
       <keepLongStdio>false</keepLongStdio>
