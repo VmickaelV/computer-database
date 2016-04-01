@@ -52,7 +52,7 @@ public abstract class BaseSeleniumTest {
 	//=============================================================
 	// Attributs
 	//=============================================================
-	
+
 	protected WebDriver mWebDriver;
 	protected WebDriver driver;
 	protected String mBaseUrl;
@@ -216,12 +216,12 @@ public abstract class BaseSeleniumTest {
 	protected void assert500() {
 		mWebDriver.findElement(By.id("error_500"));
 	}
-	
+
 	public static void main(String[] args) {
 		BaseSeleniumTest baseSeleniumTest = new BaseSeleniumTest() {
-			
+
 		};
-		
+
 		try {
 			baseSeleniumTest.initServer();
 			baseSeleniumTest.startServer();
@@ -230,7 +230,7 @@ public abstract class BaseSeleniumTest {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		try {
 			System.in.read();
 		} catch (IOException e) {

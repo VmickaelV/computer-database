@@ -6,7 +6,10 @@ import com.jolbox.bonecp.BoneCPConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -102,10 +105,8 @@ public class DatabaseManager {
 			try (FileInputStream file = new FileInputStream(new File(CONFIG_FILENAME))) {
 				prefs.load(file);
 				file.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				throw new RuntimeException(e);
 			} catch (IOException e) {
+				LOGGER.error(e.getMessage(), e);
 				throw new RuntimeException(e);
 			}
 
@@ -115,6 +116,7 @@ public class DatabaseManager {
 				try {
 					prefs.load(inputStream);
 				} catch (IOException e) {
+					LOGGER.error(e.getMessage(), e);
 					throw new RuntimeException(e);
 				}
 			} else {
@@ -173,10 +175,15 @@ public class DatabaseManager {
 								}
 							}
 						}
-						
-						Statement statement = connection.createStatement();
-						statement.executeUpdate(builder.toString());
+
+						if (!builder.toString().trim().isEmpty()) {
+							try (Statement statement = connection.createStatement()) {
+								statement.executeUpdate(builder.toString());
+							}
+						}
+
 					} catch (IOException e) {
+						LOGGER.error(e.getMessage(), e);
 						throw new RuntimeException("Error with the file "+fileLink, e);
 					}
 				}

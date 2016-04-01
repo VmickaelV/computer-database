@@ -1,16 +1,19 @@
 package com.excilys.mviegas.speccdb.selenium;
 
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.lift.Matchers;
+
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
-public class Tests extends BaseSeleniumTest {
+@Ignore
+public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest {
 
 	@Override
 	public void tearDown() throws Exception {
