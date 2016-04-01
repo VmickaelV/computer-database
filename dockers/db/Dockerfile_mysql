@@ -3,3 +3,4 @@ FROM mysql/mysql-server:5.5
 MAINTAINER Viegas Mickael <mviegas@excilys.com>
 
 COPY ./config/db/init.sql /docker-entrypoint-initdb.d/
+COPY ./config/db/my.cnf /etc/my.cnf

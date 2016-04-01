@@ -10,17 +10,71 @@ services:
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
 
-  test:
+  base_test:
+    build:
+      context: ..
+      dockerfile: dockers/Dockerfile_java_maven
+    volumes:
+          - ~/.m2/repository:/root/.m2/repository
+
+  unit_test:
+    extends: base_test
+    networks:
+      - back
+      - front
+    depends_on:
+      - bdd
+      - firefox
+    command:
+      - "mvn"
+      - "test"
+      - "-server.ip=server"
+      - "-Dwebdriver.url=http://firefox:4444/wd/hub"
+      - "-Dtest=Tests#start"
+
+  selenium_test:
+    extends: base_test
     build:
       context: ..
       dockerfile: dockers/Dockerfile_java_maven
     networks:
       - back
+      - front
     depends_on:
       - bdd
-    volumes:
-      - ~/.m2/repository:/root/.m2/repository
+      - firefox
+    command:
+      - "mvn"
+      - "test"
+      - "-server.ip=server"
+      - "-Dwebdriver.url=http://firefox:4444/wd/hub"
+      - "-Dtest=Tests#start"
+
+  firefox:
+    image: selenium/standalone-firefox-debug:2.52.0
+    ports:
+      - "4444:4444"
+      - "5900:5900"
+    networks:
+      - front
+
+  server:
+    extends: base_test
+
+    networks:
+      - back
+      - front
+
+    expose:
+      - "8080"
+
+    ports:
+      - "8080:8080"
+
+    command: ["mvn", "tomcat7:run"]
 
 networks:
+  front:
+
   back:
     driver: bridge
