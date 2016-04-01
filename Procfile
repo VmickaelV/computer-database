@@ -1,1 +1,1 @@
-web: mvn tomcat7:run
+web: mvnw tomcat7:run
