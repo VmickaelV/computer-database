@@ -1,6 +1,8 @@
 {
   "name": "Example Name",
   "description": "An example app.json for heroku-docker",
-  "image": "vmickaelv/vmickaelv",
-  "addons": [ "heroku-postgresql" ]
+  "image": "heroku/ruby",
+  "addons": [
+    "heroku-postgresql"
+  ]
 }

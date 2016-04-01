@@ -7,10 +7,8 @@ services:
       - back
     privileged: true
     volumes:
-#      - /var/lib/docker:/var/lib/docker
       - var_docker:/var/lib/docker
       - m2_repository:/root/.m2/repository
-#      - /var/lib/docker
 
   jenkins:
     build:
