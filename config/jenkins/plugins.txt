@@ -1,0 +1,11 @@
+github-api
+plain-credentials
+git
+git-client
+token-macro
+github
+scm-api
+credentials
+postbuildscript
+ssh-credentials
+icon-shim
