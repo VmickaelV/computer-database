@@ -1,7 +1,6 @@
 package com.excilys.mviegas.speccdb.selenium;
 
-import org.apache.catalina.LifecycleException;
-import org.apache.catalina.LifecycleState;
+import org.apache.catalina.*;
 import org.apache.catalina.startup.Tomcat;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
@@ -16,6 +15,7 @@ import javax.servlet.ServletException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.core.IsNot.not;
@@ -47,7 +47,7 @@ public abstract class BaseSeleniumTest {
 		public static final String SERVER_IP = "server.ip";
 	}
 
-	public static final String DEFAULT_URL_REMOTE_WEBDRIVER = "http://localhost:4444/wd/hub";
+	public static final String DEFAULT_URL_REMOTE_WEBDRIVER = null;
 	public static final String DEFAULT_SERVER_PORT = "8080";
 	public static final String DEFAULT_SERVER_IP = "localhost";
 
@@ -178,6 +178,8 @@ public abstract class BaseSeleniumTest {
 ;
 	protected void deploy() throws ServletException {
 		String contextPath = "/" + getApplicationId();
+//		String contextPath = "/";
+		System.out.println("contextPath = " + contextPath);
 //		File webApp = new File(TMP_WORKING_DIR, getApplicationId());
 //		File oldWebApp = new File(webApp.getAbsolutePath());
 //		FileUtils.deleteDirectory(oldWebApp);
@@ -185,12 +187,36 @@ public abstract class BaseSeleniumTest {
 //				true);
 //		mTomcat.addWebapp(mTomcat.getHost(), contextPath, webApp.getAbsolutePath());
 //		mTomcat.addContext(contextPath, "src/main/webapp");
-//		mTomcat.addWebapp(contextPath, new File("target/speccdb").getAbsolutePath());
-		mTomcat.addContext(contextPath, new File("target/speccdb").getAbsolutePath());
+		Context context = mTomcat.addWebapp(contextPath, new File("src/main/webapp").getAbsolutePath());
+//		Context context = mTomcat.addContext(contextPath, new File("src/main/webapp").getAbsolutePath());
+		System.out.println(Arrays.toString(context.findApplicationListeners()));
+		System.out.println(Arrays.toString(context.findErrorPages()));
+		System.out.println(Arrays.toString(context.findParameters()));
+		System.out.println(Arrays.toString(context.findStatusPages()));
+//		mTomcat.addContext(contextPath, new File("src/main/webapp").getAbsolutePath());
+
+
+//		StandardContext ctx = (StandardContext) mTomcat.addWebapp("/", new File("src/main/webapp").getAbsolutePath());
+//		System.out.println("configuring app with basedir: " + new File("./" + "src/main/webapp").getAbsolutePath());
+//		File additionWebInfClasses = new File("target/classes");
+//		WebResourceRoot resources = new StandardRoot(ctx);
+//		resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes",
+//				additionWebInfClasses.getAbsolutePath(), contextPath));
+//		ctx.setResources(resources);
+
 	}
 
 	protected void startServer() throws LifecycleException {
 		mTomcat.start();
+		mTomcat.getServer().addLifecycleListener(new LifecycleListener() {
+			@Override
+			public void lifecycleEvent(final LifecycleEvent pLifecycleEvent) {
+				System.out.println("BaseSeleniumTest.lifecycleEvent");
+				System.out.println("pLifecycleEvent = [" + pLifecycleEvent + "]");
+			}
+		});
+
+		System.out.println(Arrays.toString(mTomcat.getServer().findServices()));
 	}
 
 	protected void stopServer() throws LifecycleException {
@@ -240,13 +266,16 @@ public abstract class BaseSeleniumTest {
 
 		try {
 			baseSeleniumTest.initServer();
-			baseSeleniumTest.startServer();
+
 			baseSeleniumTest.deploy();
+			baseSeleniumTest.startServer();
+
 		} catch (LifecycleException | IOException | ServletException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
+		System.out.println("Waiting input for shuting down...");
 		try {
 			System.in.read();
 		} catch (IOException e) {

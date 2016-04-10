@@ -1,10 +1,8 @@
-package com.excilys.mviegas.speccdb;
-
-import static org.junit.Assert.*;
+package com.excilys.mviegas.speccdb.selenium;
 
 import org.junit.Test;
 
-import com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest;
+import static org.junit.Assert.fail;
 
 /**
  * Sert juste à vérifier que le Embedded marche bien
