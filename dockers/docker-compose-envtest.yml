@@ -1,6 +1,8 @@
 version: '2'
 
 services:
+
+  # Lance la BDD
   bdd:
     build:
       context: ..
@@ -10,6 +12,7 @@ services:
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
 
+  # Service mère pour les tests
   base_test:
     build:
       context: ..
@@ -17,6 +20,7 @@ services:
     volumes:
           - ~/.m2/repository:/root/.m2/repository
 
+  # LAncement des tests unitaires
   unit_test:
     extends: base_test
     networks:
@@ -32,24 +36,22 @@ services:
       - "-Dwebdriver.url=http://firefox:4444/wd/hub"
       - "-Dtest=Tests#start"
 
+  # Lancement des tests fonctionnels
   selenium_test:
     extends: base_test
-    build:
-      context: ..
-      dockerfile: dockers/Dockerfile_java_maven
     networks:
-      - back
       - front
     depends_on:
-      - bdd
+      - test_server
       - firefox
     command:
       - "mvn"
       - "test"
       - "-server.ip=server"
       - "-Dwebdriver.url=http://firefox:4444/wd/hub"
-      - "-Dtest=Tests#start"
+      - "-Dtest="
 
+  # Lance le firefox Distant pour les tests fonctionnelles
   firefox:
     image: selenium/standalone-firefox-debug:2.52.0
     ports:
@@ -58,23 +60,39 @@ services:
     networks:
       - front
 
-  server:
+  # Serveur de tests
+  test_server:
     extends: base_test
 
     networks:
       - back
       - front
 
-    expose:
-      - "8080"
+    depends_on:
+      - bdd
 
     ports:
       - "8080:8080"
 
     command: ["mvn", "tomcat7:run"]
 
+  # Serveur de Production ?
+  tomcat_webapp:
+    build:
+      context: ..
+      dockerfile: dockers/Dockerfile_tomcat_server
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - bdd
+
+    networks:
+      - back
+      - front
+
 networks:
   front:
 
   back:
-    driver: bridge

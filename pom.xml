@@ -20,6 +20,7 @@
         <!-- Miscallaneous -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <name.finale>speccdb</name.finale>
+        <maven-checkstyle-plugin.configLocation>config/checkstyle/checkstyle.xml</maven-checkstyle-plugin.configLocation>
 
         <!-- Versions -->
         <java.version>1.8</java.version>
@@ -32,8 +33,6 @@
         <maven-jxr-plugin.version>2.3</maven-jxr-plugin.version>
         <maven-surefire-report-plugin.version>2.19.1</maven-surefire-report-plugin.version>
         <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
-        <maven-checkstyle-plugin.configLocation>config/checkstyle/checkstyle.xml
-        </maven-checkstyle-plugin.configLocation>
         <versions-maven-plugin.version>2.2</versions-maven-plugin.version>
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
         <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
@@ -49,6 +48,7 @@
         <mockito.version>1.9.5</mockito.version>
         <maven-dependency-plugin.version>2.3</maven-dependency-plugin.version>
         <webapp-runner.version>8.0.30.2</webapp-runner.version>
+        <tomcat-el-api.version>8.5.0</tomcat-el-api.version>
     </properties>
 
     <build>
@@ -98,6 +98,7 @@
                 <version>${maven-jxr-plugin.version}</version>
             </plugin>
 
+            <!-- TODO ajouter commentaire -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -122,6 +123,7 @@
                 </executions>
             </plugin>
 
+
             <!-- Tomcat7 embarqué à Maven -->
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
@@ -130,6 +132,16 @@
                 <configuration>
                     <path>/${project.build.finalName}</path>
                     <port>8080</port>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19</version>
+                <configuration>
+                    <excludes>
+                        <exclude>*/com/excilys/mviegas/speccdb/selenium/*</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
 
@@ -386,12 +398,19 @@
             <scope>test</scope>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>org.apache.tomcat.embed</groupId>-->
-        <!--<artifactId>tomcat-embed-jasper</artifactId>-->
-        <!--<version>${tomcat.version}</version>-->
-        <!--<scope>test</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-el</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.tomcat</groupId>
@@ -415,11 +434,12 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-el</artifactId>
-            <version>${tomcat.version}</version>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-el-api</artifactId>
+            <version>${tomcat-el-api.version}</version>
             <scope>test</scope>
         </dependency>
+
         <!-- FIN - Tomcat Embarqué -->
     </dependencies>
 </project>
