@@ -64,15 +64,10 @@ public enum CompanyDao implements ICrudService<Company> {
 	@Override
 	public boolean delete(long pId) throws DAOException {
 		Connection connection = ThreadLocals.CONNECTIONS.get();
-		try {
+		try (Statement statement = connection.createStatement()) {
 			if (connection.getAutoCommit()) {
 				throw new IllegalStateException();
 			}
-		} catch (SQLException pE) {
-			// TODO a logger
-			throw new DAOException(pE);
-		}
-		try (Statement statement = connection.createStatement()) {
 
 			statement.executeUpdate("DELETE FROM COMPUTER WHERE company_id = "+pId);
 			if (statement.executeUpdate("DELETE FROM COMPANY WHERE id = "+pId) != 1) {
@@ -121,10 +116,6 @@ public enum CompanyDao implements ICrudService<Company> {
 		Paginator<Company> paginator;
 		Connection connection = ThreadLocals.CONNECTIONS.get();
 		ResultSet resultSet = null;
-
-		// TODO: 25/03/2016 effacer ²²
-		System.out.println(Thread.activeCount());
-		System.out.println(Thread.currentThread().getId());
 
 		try (Statement statement = connection.createStatement()){
 

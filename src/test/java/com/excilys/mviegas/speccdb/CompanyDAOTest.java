@@ -2,16 +2,18 @@ package com.excilys.mviegas.speccdb;
 
 import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Company;
+import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.junit.Assert.*;
 
@@ -206,6 +208,16 @@ public class CompanyDAOTest {
 	}
 
 	@Test
+	public void delete3_1() throws Exception {
+		mConnection.setAutoCommit(false);
+		mCompanyDao.delete(mCompanyDao.find(1));
+		mConnection.commit();
+
+		assertEquals(41, mCompanyDao.size());
+		assertEquals(574-39, ComputerDao.INSTANCE.size());
+	}
+
+	@Test
 	public void delete4() throws Exception {
 		try {
 			mConnection.setAutoCommit(false);
@@ -213,6 +225,36 @@ public class CompanyDAOTest {
 			mConnection.commit();
 			fail();
 		} catch (IllegalArgumentException ignored) {
+
+		}
+	}
+
+	@Test
+	public void findSQLException() throws Exception {
+		Connection connection = Mockito.mock(Connection.class);
+		Mockito.when(connection.createStatement()).thenThrow(new SQLException());
+
+		ThreadLocals.CONNECTIONS.set(connection);
+
+		try {
+			find1();
+			fail();
+		} catch (DAOException ignored) {
+
+		}
+	}
+
+	@Test
+	public void deleteSQLException() throws Exception {
+		Connection connection = Mockito.mock(Connection.class);
+		Mockito.when(connection.createStatement()).thenThrow(new SQLException());
+
+		ThreadLocals.CONNECTIONS.set(connection);
+
+		try {
+			delete3();
+			fail();
+		} catch (DAOException ignored) {
 
 		}
 	}
