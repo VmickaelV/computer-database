@@ -11,6 +11,9 @@ services:
       - back
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    # TODO a supprimer
+    ports :
+      - "3306:3306"
 
   # Service mère pour les tests
   base_test:
@@ -20,7 +23,7 @@ services:
     volumes:
           - ~/.m2/repository:/root/.m2/repository
 
-  # LAncement des tests unitaires
+  # Lancement des tests unitaires
   unit_test:
     extends: base_test
     networks:
@@ -83,7 +86,7 @@ services:
       dockerfile: dockers/Dockerfile_tomcat_server
 
     ports:
-      - "8080:8080"
+      - "8888:8080"
 
     depends_on:
       - bdd
