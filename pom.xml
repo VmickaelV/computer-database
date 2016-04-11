@@ -49,6 +49,7 @@
         <maven-dependency-plugin.version>2.3</maven-dependency-plugin.version>
         <webapp-runner.version>8.0.30.2</webapp-runner.version>
         <tomcat-el-api.version>8.5.0</tomcat-el-api.version>
+        <maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
     </properties>
 
     <build>
@@ -135,12 +136,13 @@
                 </configuration>
             </plugin>
 
+            <!-- Configuration des tests -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>*/com/excilys/mviegas/speccdb/selenium/*</exclude>
+                        <exclude>com/excilys/mviegas/speccdb/selenium/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -240,6 +242,35 @@
 
         </plugins>
     </reporting>
+
+    <profiles>
+        <profile>
+            <id>seleniumTest</id>
+
+            <build>
+                <testResources>
+                    <testResource>
+                        <directory>src/seleniumTest/resources</directory>
+                    </testResource>
+                </testResources>
+
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>${maven-surefire-plugin.version}</version>
+                        <configuration>
+                            <includes>
+                                <include>com/excilys/mviegas/speccdb/selenium/*</include>
+                            </includes>
+                            <excludes>
+                                <exclude></exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <dependencies>
         <!-- ========== Dépedances incluses ============== -->
