@@ -1,9 +1,9 @@
 package com.excilys.mviegas.speccdb.ui.cligui;
 
-import java.util.Scanner;
-
 import com.excilys.mviegas.speccdb.controlers.IComputersListViewControler;
 import com.excilys.mviegas.speccdb.controlers.IMainMenuControler;
+
+import java.util.Scanner;
 
 public enum MainMenuControleur implements IMainMenuControler {
 	
@@ -15,6 +15,7 @@ public enum MainMenuControleur implements IMainMenuControler {
 		
 
 
+	@SuppressWarnings("UnnecessaryEnumModifier")
 	private MainMenuControleur(IComputersListViewControler pComputersListViewControler) {
 		mComputersListViewControler = pComputersListViewControler;
 	}

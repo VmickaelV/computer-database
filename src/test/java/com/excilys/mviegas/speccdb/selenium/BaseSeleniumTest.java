@@ -29,6 +29,7 @@ import static org.junit.Assert.fail;
  * Created by excilys on 17/03/16.
  * @author Mickael
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class BaseSeleniumTest {
 
 	public String getApplicationId() {
@@ -184,7 +185,7 @@ public abstract class BaseSeleniumTest {
 		mTomcat.getHost().setAutoDeploy(true);
 		mTomcat.getHost().setDeployOnStartup(true);
 	}
-;
+
 	protected void deploy() throws ServletException {
 		String contextPath = "/" + getApplicationId();
 //		String contextPath = "/";
