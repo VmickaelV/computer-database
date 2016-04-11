@@ -47,8 +47,9 @@ public class Message {
 	//===========================================================
 	// Inner Class
 	//===========================================================
+	@SuppressWarnings("unused")
 	public enum Level {
-		DEBUG, INFO, WARN, ERROR, SUCCESS;
+		DEBUG, INFO, WARN, ERROR, SUCCESS
 	}
 
 }

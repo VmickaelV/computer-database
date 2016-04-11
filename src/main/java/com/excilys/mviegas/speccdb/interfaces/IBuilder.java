@@ -10,6 +10,7 @@ import com.excilys.mviegas.speccdb.exceptions.BuilderException;
  *
  * @author Mickael
  */
+@SuppressWarnings("UnnecessaryInterfaceModifier")
 public interface IBuilder<T extends IBuilder, Q> {
 
 	/**

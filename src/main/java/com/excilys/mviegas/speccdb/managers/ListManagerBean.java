@@ -7,21 +7,19 @@ import com.excilys.mviegas.speccdb.persistence.ICrudService;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.QueryParameter;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
-import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.Order;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.TypeOrder;
+import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
 import java.sql.Connection;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.annotation.ManagedBean;
-import javax.annotation.PostConstruct;
 
 /**
  * Bean permettant de gérer une liste de Computeurs
@@ -133,6 +131,7 @@ public class ListManagerBean {
 
 	@Override
 	public String toString() {
+		//noinspection StringBufferReplaceableByString
 		StringBuilder builder = new StringBuilder();
 		builder.append("ListManagerBean [mPage=");
 		builder.append(mPage);
