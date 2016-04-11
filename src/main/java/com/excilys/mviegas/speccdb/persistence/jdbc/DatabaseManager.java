@@ -131,8 +131,14 @@ public class DatabaseManager {
 		CREATE_SCRIPTS = prefs.getProperty(KEY_CREATE_SCRIPTS, "");
 		INSERT_SCRIPTS = prefs.getProperty(KEY_INSERT_SCRIPTS, "");
 		MIN_SIZE_POOL = Integer.parseInt(prefs.getProperty(KEY_MIN_SIZE, String.valueOf(DEFAULT_MIN_SIZE_POOL)));
-		MAX_SIZE_POOL = Integer.parseInt(prefs.getProperty(KEY_MAX_SIZE, String.valueOf(DEFAULT_MAX_SIZE_POOL )));
-		
+		MAX_SIZE_POOL = Integer.parseInt(prefs.getProperty(KEY_MAX_SIZE, String.valueOf(DEFAULT_MAX_SIZE_POOL)));
+
+
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info("Connecting to "+USER+"@"+URL+"...");
+			LOGGER.info("with these scripts : "+CREATE_SCRIPTS+", "+INSERT_SCRIPTS);
+		}
+
 		// Chargement des pilotes 
 		try {
             Class.forName(CLASS_NAME_JDBC_DRIVER).newInstance();

@@ -48,7 +48,7 @@ public abstract class BaseSeleniumTest {
 	}
 
 	public static final String DEFAULT_URL_REMOTE_WEBDRIVER = null;
-	public static final String DEFAULT_SERVER_PORT = "8080";
+	public static final String DEFAULT_SERVER_PORT = "8888";
 	public static final String DEFAULT_SERVER_IP = "localhost";
 
 	public static final String TMP_WORKING_DIR = System.getProperty(Properties.TMP_WORKING_DIR, "target/tomcatembedded");
@@ -90,7 +90,7 @@ public abstract class BaseSeleniumTest {
 		} else {
 			mWebDriver = new RemoteWebDriver(new URL(URL_REMOTE_WEBDRIVER), DesiredCapabilities.firefox());
 		}
-		mWebDriver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		mWebDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		mWebDriver.manage().timeouts().setScriptTimeout(3000, TimeUnit.MICROSECONDS);
 		driver = mWebDriver;
 	}
@@ -114,6 +114,15 @@ public abstract class BaseSeleniumTest {
 	protected boolean isElementPresent(By by) {
 		try {
 			mWebDriver.findElement(by);
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
+
+	protected boolean isElementPresent(WebElement pWebElement, By by) {
+		try {
+			pWebElement.findElement(by);
 			return true;
 		} catch (NoSuchElementException e) {
 			return false;
@@ -238,8 +247,18 @@ public abstract class BaseSeleniumTest {
 		assertThat(pTarget, not(CoreMatchers.containsString(".")));
 	}
 
-	protected void open(URL pURL) {
-		mWebDriver.get(pURL.toString());
+	protected void open(String pURL) {
+		mWebDriver.get(pURL);
+	}
+
+	protected void open() {
+		open(getApplicationUrl());
+	}
+
+	protected void openAndWait() {
+		open();
+		mWebDriver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
 	}
 
 
@@ -259,6 +278,9 @@ public abstract class BaseSeleniumTest {
 		mWebDriver.findElement(By.id("error_500"));
 	}
 
+	//=============================================================
+	// Main Method
+	//=============================================================
 	public static void main(String[] args) {
 		BaseSeleniumTest baseSeleniumTest = new BaseSeleniumTest() {
 
