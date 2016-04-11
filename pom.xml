@@ -263,7 +263,7 @@
                                 <include>com/excilys/mviegas/speccdb/selenium/*</include>
                             </includes>
                             <excludes>
-                                <exclude></exclude>
+                                <exclude>none</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
