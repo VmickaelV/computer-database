@@ -227,14 +227,6 @@ public enum ComputerDao implements ICrudService<Computer> {
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
-		} finally {
-			try {
-				if (mCreateStatement != null && !mCreateStatement.isClosed()) {
-					mCreateStatement.close();
-				}
-			} catch (SQLException pE) {
-				throw new DAOException(pE);
-			}
 		}
 	}
 
