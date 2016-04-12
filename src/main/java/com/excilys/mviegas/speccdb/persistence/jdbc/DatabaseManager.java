@@ -140,12 +140,12 @@ public class DatabaseManager {
 		}
 
 		// Chargement des pilotes 
-		try {
-            Class.forName(CLASS_NAME_JDBC_DRIVER).newInstance();
-        } catch (Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
-			throw new RuntimeException(ex);
-        }
+//		try {
+//            Class.forName(CLASS_NAME_JDBC_DRIVER).newInstance();
+//        } catch (Exception ex) {
+//            LOGGER.error(ex.getMessage(), ex);
+//			throw new RuntimeException(ex);
+//        }
 		
 		// Scripts SQL à lancer au démarrage
 		if (!CREATE_SCRIPTS.isEmpty() || INSERT_SCRIPTS.isEmpty()) {

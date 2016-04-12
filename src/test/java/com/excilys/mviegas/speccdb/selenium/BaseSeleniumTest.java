@@ -40,23 +40,23 @@ public abstract class BaseSeleniumTest {
 	// Constantes
 	//=============================================================
 	public static class Properties {
-		public static final String TMP_WORKING_DIR = "tomcat.tmpworkingdir";
-		public static final String SERVER_PORT = "tomcat.tmpport";
-		public static final String TMP_CONTEXT = "tomcat.tmpcontext";
+		public static final String TOMCAT_WORKING_DIR = "tomcat.workingdir";
+		public static final String TOMCAT_CONTEXT = "tomcat.context";
 
 		public static final String URL_REMOTE_WEBDRIVER = "webdriver.url";
 		public static final String SERVER_IP = "server.ip";
+		public static final String SERVER_PORT = "server.port";
 	}
 
 	public static final String DEFAULT_URL_REMOTE_WEBDRIVER = null;
 	public static final String DEFAULT_SERVER_PORT = "8888";
 	public static final String DEFAULT_SERVER_IP = "localhost";
 
-	public static final String TMP_WORKING_DIR = System.getProperty(Properties.TMP_WORKING_DIR, "target/tomcatembedded");
-	public static final String TMP_DEPLOY_DIR = TMP_WORKING_DIR + "/webapps";
+	public static final String TOMCAT_WORKING_DIR = System.getProperty(Properties.TOMCAT_WORKING_DIR, "target/tomcatembedded");
+	public static final String TOMCAT_DEPLOY_DIR = TOMCAT_WORKING_DIR + "/webapps";
 	public static final String SERVER_IP = System.getProperty(Properties.SERVER_IP, DEFAULT_SERVER_IP);
 	public static final int SERVER_PORT = Integer.parseInt(System.getProperty(Properties.SERVER_PORT, DEFAULT_SERVER_PORT));
-	public static final String TMP_CONTEXT = System.getProperty(Properties.TMP_CONTEXT, "/");
+	public static final String TOMCAT_CONTEXT = System.getProperty(Properties.TOMCAT_CONTEXT, "/");
 
 	public static final String URL_REMOTE_WEBDRIVER = System.getProperties().getProperty(Properties.URL_REMOTE_WEBDRIVER, DEFAULT_URL_REMOTE_WEBDRIVER);
 
@@ -180,8 +180,8 @@ public abstract class BaseSeleniumTest {
 
 		mTomcat = new Tomcat();
 		mTomcat.setPort(SERVER_PORT);
-		mTomcat.setBaseDir(TMP_WORKING_DIR);
-		mTomcat.getHost().setAppBase(TMP_WORKING_DIR);
+		mTomcat.setBaseDir(TOMCAT_WORKING_DIR);
+		mTomcat.getHost().setAppBase(TOMCAT_WORKING_DIR);
 		mTomcat.getHost().setAutoDeploy(true);
 		mTomcat.getHost().setDeployOnStartup(true);
 	}
@@ -190,10 +190,10 @@ public abstract class BaseSeleniumTest {
 		String contextPath = "/" + getApplicationId();
 //		String contextPath = "/";
 		System.out.println("contextPath = " + contextPath);
-//		File webApp = new File(TMP_WORKING_DIR, getApplicationId());
+//		File webApp = new File(TOMCAT_WORKING_DIR, getApplicationId());
 //		File oldWebApp = new File(webApp.getAbsolutePath());
 //		FileUtils.deleteDirectory(oldWebApp);
-//		new ZipExporterImpl(createWebArchive()).exportTo(new File(TMP_WORKING_DIR + "/" + getApplicationId() + ".war"),
+//		new ZipExporterImpl(createWebArchive()).exportTo(new File(TOMCAT_WORKING_DIR + "/" + getApplicationId() + ".war"),
 //				true);
 //		mTomcat.addWebapp(mTomcat.getHost(), contextPath, webApp.getAbsolutePath());
 //		mTomcat.addContext(contextPath, "src/main/webapp");
