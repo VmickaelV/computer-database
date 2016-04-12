@@ -16,4 +16,6 @@ COPY . /project
 
 WORKDIR /project
 
+RUN mvn clean
+
 CMD ["mvn", "test"]

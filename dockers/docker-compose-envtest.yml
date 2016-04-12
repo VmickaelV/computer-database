@@ -31,13 +31,10 @@ services:
       - front
     depends_on:
       - bdd
-      - firefox
+#      - firefox
     command:
       - "mvn"
       - "test"
-      - "-server.ip=server"
-      - "-Dwebdriver.url=http://firefox:4444/wd/hub"
-      - "-Dtest=Tests#start"
 
   # Lancement des tests fonctionnels
   selenium_test:
@@ -50,9 +47,15 @@ services:
     command:
       - "mvn"
       - "test"
-      - "-server.ip=server"
+      - "-P"
+      - "seleniumTest"
+      - "-Dserver.ip=test_server"
+      - "-Dserver.port=8888"
       - "-Dwebdriver.url=http://firefox:4444/wd/hub"
-      - "-Dtest="
+#      TODO trouver un moyen de lancer de multiples commandes en dockers
+#       - "sh"
+#       - "-c"
+#       - "'<sleep 3 && mvn -P seleniumTest -server.ip=server -Dwebdriver.url=http://firefox:4444/wd/hub>'"
 
   # Lance le firefox Distant pour les tests fonctionnelles
   firefox:
@@ -71,13 +74,21 @@ services:
       - back
       - front
 
+#    expose:
+#      - "8888"
+
+    ports:
+      - "8888:8888"
+
     depends_on:
       - bdd
 
-    ports:
-      - "8080:8080"
 
-    command: ["mvn", "tomcat7:run"]
+    command:
+      - "mvn"
+      - "-P"
+      - "docker"
+      - "tomcat7:run"
 
   # Serveur de Production ?
   tomcat_webapp:
