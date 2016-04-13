@@ -2,18 +2,19 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="/WEB-INF/tagslib.tld" prefix="my" %>
 <%@taglib tagdir="/WEB-INF/tags" prefix="my2" %>
-<jsp:useBean id="listManager" scope="page"
-             class="com.excilys.mviegas.speccdb.managers.ListManagerBean">
-    <jsp:setProperty name="listManager" property="*"/>
-</jsp:useBean>
+<%--<jsp:useBean id="dashboardManager" scope="page"--%>
+             <%--class="com.excilys.mviegas.speccdb.managers.DashboardManagerBean">--%>
+    <%--<jsp:setProperty name="dashboardManager" property="*"/>--%>
+<%--</jsp:useBean>--%>
 <%-- <%@page import="com.excilys.mviegas.speccdb.managers.ListManager"%> --%>
-<%-- <%!ListManager listManager = new ListManager();%> --%>
+<%-- <%!ListManager dashboardManager = new ListManager();%> --%>
 <%-- <% --%>
-<%-- 	listManager.init();--%>
+<%-- 	dashboardManager.init();--%>
 <%-- %> --%>
 <c:choose>
     <c:when test="${pageContext.request.method=='POST' && not empty param.selection}">
-        <c:if test="${listManager.delete(param.selection)}" var="deleteSuccessful">
+        <%--@elvariable id="dashboardManager" type="com.excilys.mviegas.speccdb.managers.DashboardManagerBean"--%>
+        <c:if test="${dashboardManager.delete(param.selection)}" var="deleteSuccessful">
             <c:if test="${param.selection}"/>
         </c:if>
 
@@ -21,7 +22,7 @@
     <c:when test="${param.add!=null}">
     </c:when>
 </c:choose>
-<c:if test="${listManager.update()}"/>
+<c:if test="${dashboardManager.update()}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,7 +91,7 @@
 	<%-- Début contenu de la page --%>
     <div class="container">
         <h1 id="homeTitle">
-            ${listManager.paginator.elementsCount} Computers found
+            ${dashboardManager.paginator.elementsCount} Computers found
         </h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
@@ -131,16 +132,16 @@
                         class="fa fa-trash-o fa-lg"></i>
                 </a>
 						</span></th>
-                <th><a href="${my:linkSort('dashboard', param, 'name', (listManager.order == 'name' && listManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${listManager.order == 'name'}"><span class="glyphicon glyphicon-chevron-${listManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Computer name <span class="glyphicon glyphicon-sort-by-attributes${listManager.order == 'name' && listManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
-                <th><a href="${my:linkSort('dashboard', param, 'introduced', (listManager.order == 'introduced' && listManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${listManager.order == 'introduced'}"><span class="glyphicon glyphicon-chevron-${listManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Introduced date <span class="glyphicon glyphicon-sort-by-attributes${listManager.order == 'introduced' && listManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
-                <th><a href="${my:linkSort('dashboard', param, 'discontinued', (listManager.order == 'discontinued' && listManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${listManager.order == 'discontinued'}"><span class="glyphicon glyphicon-chevron-${listManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Discontinued date <span class="glyphicon glyphicon-sort-by-attributes${listManager.order == 'discontinued' && listManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
-                <th><a href="${my:linkSort('dashboard', param, 'company_name', (listManager.order == 'company_name' && listManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${listManager.order == 'company_name'}"><span class="glyphicon glyphicon-chevron-${listManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Company <span class="glyphicon glyphicon-sort-by-attributes${listManager.order == 'company_name' && listManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${my:linkSort('dashboard', param, 'name', (dashboardManager.order == 'name' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'name'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Computer name <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'name' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${my:linkSort('dashboard', param, 'introduced', (dashboardManager.order == 'introduced' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'introduced'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Introduced date <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'introduced' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${my:linkSort('dashboard', param, 'discontinued', (dashboardManager.order == 'discontinued' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'discontinued'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Discontinued date <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'discontinued' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${my:linkSort('dashboard', param, 'company_name', (dashboardManager.order == 'company_name' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'company_name'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Company <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'company_name' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
             </tr>
             </thead>
             <!-- Browse attribute computers -->
             <tbody id="results">
 
-            <c:forEach items="${listManager.paginator.values}" var="computer">
+            <c:forEach items="${dashboardManager.paginator.values}" var="computer">
                 <tr>
                     <td class="editMode"><input type="checkbox" name="cb" class="cb" value="${computer.id}"></td>
                     <td>
@@ -166,7 +167,7 @@
 
 <footer class="navbar-fixed-bottom">
     <div class="container text-center">
-        <my:pagination paginator="${listManager.paginator}"
+        <my:pagination paginator="${dashboardManager.paginator}"
                        parameters="${param}"/>
 
         <div class="btn-group btn-group-sm pull-right" role="group">

@@ -72,10 +72,18 @@
 	</error-page>
 
 	<servlet>
+		<servlet-name>DashboardServlet</servlet-name>
+		<servlet-class>com.excilys.mviegas.speccdb.servlets.DashboardServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DashboardServlet</servlet-name>
+		<url-pattern>/views/dashboard.html</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>EditionComputerServlet</servlet-name>
-		<servlet-class>
-			com.excilys.mviegas.speccdb.servlets.EditComputerServlet
-		</servlet-class>
+		<servlet-class>com.excilys.mviegas.speccdb.servlets.EditComputerServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
