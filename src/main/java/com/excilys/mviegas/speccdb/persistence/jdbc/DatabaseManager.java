@@ -35,14 +35,14 @@ public class DatabaseManager {
 	public static final String CONFIG_FILENAME = "config_bd.properties";
 
 	// Liste de constantes de clés propriété systèmes
-	public static final String KEY_URL = "url";
-	public static final String KEY_USER = "user";
-	public static final String KEY_PASSWORD = "password";
-	public static final String KEY_SCHEMA = "schema";
-	public static final String KEY_CREATE_SCRIPTS = "createScripts";
-	public static final String KEY_INSERT_SCRIPTS = "insertScripts";
-	public static final String KEY_MIN_SIZE = "min_size";
-	public static final String KEY_MAX_SIZE = "max_size";
+	public static final String KEY_URL = "db.url";
+	public static final String KEY_USER = "db.username";
+	public static final String KEY_PASSWORD = "db.password";
+	public static final String KEY_SCHEMA = "db.schema";
+	public static final String KEY_CREATE_SCRIPTS = "db.createScripts";
+	public static final String KEY_INSERT_SCRIPTS = "db.insertScripts";
+	public static final String KEY_MIN_SIZE = "db.min_size";
+	public static final String KEY_MAX_SIZE = "db.max_size";
 
 	public static final int DEFAULT_MIN_SIZE_POOL = 25;
 	public static final int DEFAULT_MAX_SIZE_POOL = 200;

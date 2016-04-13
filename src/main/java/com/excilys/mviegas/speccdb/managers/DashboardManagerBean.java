@@ -14,12 +14,17 @@ import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Bean permettant de gérer une liste de Computeurs
@@ -27,13 +32,13 @@ import java.util.List;
  * @author Mickael
  */
 @ManagedBean
-public class ListManagerBean {
+public class DashboardManagerBean {
 
 	//===========================================================
 	// Attributes static
 	//===========================================================
 
-	public static final Logger LOGGER = LoggerFactory.getLogger(ListManagerBean.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(DashboardManagerBean.class);
 	
 	public static final int DEFAULT_SIZE_PAGE = 10;
 
@@ -56,20 +61,49 @@ public class ListManagerBean {
 	private String mTypeOrder;
 	
 	private List<Message> mMessages = new LinkedList<>();
-	
+
+	private Connection mConnection;
+
 	//===========================================================
 	// Constructeur
 	//===========================================================
 
-	public ListManagerBean() {
+	public DashboardManagerBean() {
 		init();
 	}
-	
+
+	public DashboardManagerBean(HttpServletRequest pHttpServletRequest) {
+		this();
+
+		Map<String, String[]> map = pHttpServletRequest.getParameterMap();
+		if (map.containsKey("page")) {
+			mPage = Integer.parseInt(pHttpServletRequest.getParameter("page"));
+		}
+
+		if (map.containsKey("size")) {
+			mSize = Integer.parseInt(pHttpServletRequest.getParameter("size"));
+		}
+
+		if (map.containsKey("search")) {
+			mSearch = pHttpServletRequest.getParameter("search");
+		}
+
+		if (map.containsKey("order")) {
+			mOrder = pHttpServletRequest.getParameter("order");
+		}
+
+		if (map.containsKey("typeOrder")) {
+			mTypeOrder = pHttpServletRequest.getParameter("typeOrder");
+		}
+
+	}
+
 	//===========================================================
 	// Callback
 	//===========================================================
 	@PostConstruct
 	public void init() {
+		System.out.println(this);
 		mPage = 1;
 		mSize = DEFAULT_SIZE_PAGE;
 		mComputerDao = ComputerDao.INSTANCE;
@@ -125,32 +159,36 @@ public class ListManagerBean {
 		mTypeOrder = pTypeOrder;
 	}
 
+	public Connection getConnection() {
+		return mConnection;
+	}
+
+	@Autowired
+	public void setDataSource(DataSource dataSource) {
+		try {
+			mConnection = dataSource.getConnection();
+		} catch (SQLException pE) {
+			LOGGER.error(pE.getMessage(), pE);
+		}
+	}
 	//===========================================================
 	// Méthodes - Object
 	//===========================================================	
 
 	@Override
 	public String toString() {
-		//noinspection StringBufferReplaceableByString
-		StringBuilder builder = new StringBuilder();
-		builder.append("ListManagerBean [mPage=");
-		builder.append(mPage);
-		builder.append(", mSize=");
-		builder.append(mSize);
-		builder.append(", mSearch=");
-		builder.append(mSearch);
-		builder.append(", mPaginator=");
-		builder.append(mPaginator);
-		builder.append(", mComputerDao=");
-		builder.append(mComputerDao);
-		builder.append(", mOrder=");
-		builder.append(mOrder);
-		builder.append(", mTypeOrder=");
-		builder.append(mTypeOrder);
-		builder.append(", mMessages=");
-		builder.append(mMessages);
-		builder.append("]");
-		return builder.toString();
+		final StringBuilder sb = new StringBuilder("DashboardManagerBean{");
+		sb.append("mPage=").append(mPage);
+		sb.append(", mSize=").append(mSize);
+		sb.append(", mSearch='").append(mSearch).append('\'');
+		sb.append(", mPaginator=").append(mPaginator);
+		sb.append(", mComputerDao=").append(mComputerDao);
+		sb.append(", mOrder='").append(mOrder).append('\'');
+		sb.append(", mTypeOrder='").append(mTypeOrder).append('\'');
+		sb.append(", mMessages=").append(mMessages);
+		sb.append(", mConnection=").append(mConnection);
+		sb.append('}');
+		return sb.toString();
 	}
 
 	//===========================================================
@@ -161,15 +199,23 @@ public class ListManagerBean {
 			mPage = 1;
 		}
 		
-		Connection connection;
-		
-		try {
-			connection = DatabaseManager.getConnection();
-			ThreadLocals.CONNECTIONS.set(connection);
-		} catch (ConnectionException e) {
-			mMessages.add(new Message("Internal Error", "We got an internal Error .\nPlease, retry later.", Level.ERROR));
-			return; 
+		Connection connection = mConnection;
+		ThreadLocals.CONNECTIONS.set(connection);
+
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info(String.valueOf(this));
+			LOGGER.info(String.valueOf(hashCode()));
+			LOGGER.info(String.valueOf(mConnection));
 		}
+
+		
+//		try {
+//			connection = DatabaseManager.getConnection();
+//
+//		} catch (ConnectionException e) {
+//			mMessages.add(new Message("Internal Error", "We got an internal Error .\nPlease, retry later.", Level.ERROR));
+//			return;
+//		}
 
 		if ((mSearch != null && !mSearch.isEmpty()) || (mOrder != null && !mOrder.isEmpty())) {
 			ThreadLocals.CONNECTIONS.set(connection);
@@ -197,13 +243,13 @@ public class ListManagerBean {
 		}
 		
 		mMessages.add(new Message("Successful Update", "Successful Update", Level.SUCCESS));
-		
-		try {
-			DatabaseManager.releaseConnection(connection);
-		} catch (ConnectionException e) {
-			LOGGER.error(e.getMessage(), e);
-			mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nRetrieve later", Level.ERROR));
-		}
+
+//		try {
+//			DatabaseManager.releaseConnection(connection);
+//		} catch (ConnectionException e) {
+//			LOGGER.error(e.getMessage(), e);
+//			mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nRetrieve later", Level.ERROR));
+//		}
 	}
 
 	public boolean delete(String pIntegers) {
@@ -211,15 +257,15 @@ public class ListManagerBean {
 		
 		boolean result = true;
 		
-		Connection connection;
+		Connection connection = mConnection;
 		
-		try {
-			connection = DatabaseManager.getConnection();
-			ThreadLocals.CONNECTIONS.set(connection);
-		} catch (ConnectionException e) {
-			mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nPlease, retry later.", Level.ERROR));
-			return false; 
-		}
+//		try {
+//			connection = DatabaseManager.getConnection();
+//			ThreadLocals.CONNECTIONS.set(connection);
+//		} catch (ConnectionException e) {
+//			mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nPlease, retry later.", Level.ERROR));
+//			return false;
+//		}
 		
 
 		// TODO à optimiser

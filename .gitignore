@@ -2,10 +2,11 @@
 # Personaliser à partir d'ici
 # ============
 
-# fichiers générés automatiquement par JPA
+# Conf du serveur
 src/main/resources/config_bd.properties
-log
-log.*.txt
+
+# tomcat7 embedded plugin maven
+/work
 
 # ============
 # FIN

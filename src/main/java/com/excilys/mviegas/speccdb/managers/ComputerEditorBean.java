@@ -12,13 +12,10 @@ import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
-
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,7 +28,6 @@ import java.util.List;
  *
  * @author Mickael
  */
-@ManagedBean
 public class ComputerEditorBean implements IEditorComputerControler {
 
 	//=============================================================
