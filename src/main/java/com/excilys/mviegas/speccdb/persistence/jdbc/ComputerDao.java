@@ -6,11 +6,17 @@ import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.ICrudService;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.wrappers.ComputerJdbcWrapper;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,10 +29,12 @@ import java.util.Map;
  *
  * TODO voir si on raoute une vérif de présence de connexion dans ThreadLocal
  */
-public enum ComputerDao implements ICrudService<Computer> {
+@Repository
+public class ComputerDao implements ICrudService<Computer> {
 
-	INSTANCE;
-
+	//=============================================================
+	// Constantes
+	//=============================================================
 	/**
 	 * Logger de la classe
 	 */
@@ -36,6 +44,12 @@ public enum ComputerDao implements ICrudService<Computer> {
 	 * Taille par défaut d'une page
 	 */
 	public static final int BASE_SIZE_PAGE = 100;
+
+	//=============================================================
+	// Attributs
+	//=============================================================
+	private JdbcTemplate mJdbcTemplate;
+
 
 	//=============================================================
 	// Inner Classes
@@ -114,11 +128,6 @@ public enum ComputerDao implements ICrudService<Computer> {
 	}
 
 	//=============================================================
-	// Attributs static
-	//=============================================================
-
-
-	//=============================================================
 	// Attributres - private
 	//=============================================================
 	private PreparedStatement mCreateStatement;
@@ -148,6 +157,11 @@ public enum ComputerDao implements ICrudService<Computer> {
 //	public void setConnection(Connection pConnection) {
 //		mConnection = pConnection;
 //	}
+
+	@Autowired
+	public void setDataSource(DataSource dataSource) {
+		this.mJdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	//===========================================================
 	// Methods - private
@@ -188,105 +202,61 @@ public enum ComputerDao implements ICrudService<Computer> {
 
 	@Override
 	public Computer create(Computer pT) throws DAOException {
-		
 		if (pT == null || pT.getId() > 0) {
 			throw new IllegalArgumentException("null or already persisted object are illegales values");
 		}
 
-		Connection connection = ThreadLocals.CONNECTIONS.get();
+		final KeyHolder holder = new GeneratedKeyHolder();
 
-		if (mCreateStatement == null) {
-			// TODO à vérifier
-			try {
-				mCreateStatement = connection.prepareStatement("INSERT INTO `computer` (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
-			} catch (SQLException pE) {
-				throw new DAOException(pE);
-			}
-		}
+		if (mJdbcTemplate.update(connection -> {
+			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `computer` (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+			prepareStatement(pT, preparedStatement);
 
-		try {
-//			mCreateStatement.clearParameters();
-			
-			prepareStatement(pT, mCreateStatement);
-			
-			int nbResult = mCreateStatement.executeUpdate();
-			if (nbResult == 1) {
-				ResultSet a = mCreateStatement.getGeneratedKeys();
-				a.next();
-				pT.setId(a.getInt(1));
-				if (LOGGER.isInfoEnabled()) {
-					LOGGER.info("Persist of "+pT);
-				}
-				
-				return pT;
-				
+			return preparedStatement;
+		}, holder) == 1) {
+			pT.setId(holder.getKey().intValue());
+			if (LOGGER.isInfoEnabled()) {
+				LOGGER.info("Persist of "+pT);
 			}
 
-			LOGGER.error("Erreur lors de la persistance d'un objet");
-			throw new DAOException("Erreur lors de la persistance d'un objet");
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new DAOException(e);
+			return pT;
 		}
+
+		LOGGER.error("Erreur lors de la persistance d'un objet");
+		throw new DAOException("Erreur lors de la persistance d'un objet");
 	}
 
 	@Override
 	public Computer find(long pId) throws DAOException {
-
-		// TODO peut être programmer un callable
-		Connection connection = ThreadLocals.CONNECTIONS.get();
-		if (mFindStatement == null) {
+		return mJdbcTemplate.query("SELECT * FROM `computer` WHERE id = ?", new Object[] {pId}, (rs) -> {
+			rs.next();
 			try {
-				mFindStatement = connection.prepareStatement("SELECT * FROM `computer` WHERE id = ?");
-			} catch (SQLException pE) {
-				throw new DAOException(pE);
+				return ComputerJdbcWrapper.fromJdbc(rs);
+			} catch (DAOException pE) {
+				throw ((SQLException) pE.getCause());
 			}
-		}
-
-		try {
-			mFindStatement.setLong(1, pId);
-			ResultSet resultSet = mFindStatement.executeQuery();
-			
-			if (!resultSet.isBeforeFirst()) {
-				return null;
-			}
-			resultSet.next();
-			return ComputerJdbcWrapper.fromJdbc(resultSet);
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new DAOException(e);
-		}
+		});
 	}
 
 	@Override
 	public Computer update(Computer pT) throws DAOException {
-		Connection connection = ThreadLocals.CONNECTIONS.get();
 		if (pT == null || pT.getId() <= 0) {
 			throw new IllegalArgumentException("Null or Not Persisted Object");
 		}
-
-		if (mUpdateStatement == null) {
-			try {
-				mUpdateStatement = connection.prepareStatement("UPDATE `computer` SET name=?, introduced=?, discontinued=?, company_id=? WHERE id = ?;");
-			} catch (SQLException pE) {
-				throw new DAOException();
-			}
-		}
-		
 		try {
-			prepareStatement(pT, mUpdateStatement);
-			mUpdateStatement.setInt(5, pT.getId());
-			int nbResult = mUpdateStatement.executeUpdate();
-			if (nbResult == 1) {
+			if (mJdbcTemplate.update("UPDATE `computer` SET name=?, introduced=?, discontinued=?, company_id=? WHERE id = ?;", ps -> {
+				prepareStatement(pT, ps);
+				ps.setInt(5, pT.getId());
+			}) == 1) {
 				if (LOGGER.isInfoEnabled()) {
 					LOGGER.info("Update of "+pT.getId()+" successfull");
 				}
-				
 				return pT;
+			} else {
+				LOGGER.error("Error on update");
+				return null;
 			}
-			LOGGER.error("Error on update");
-			return null;
-		} catch (SQLException e) {
+		} catch (DataAccessException e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
@@ -297,31 +267,17 @@ public enum ComputerDao implements ICrudService<Computer> {
 		if (pId <= 0) {
 			throw new IllegalArgumentException("Null or Not Persisted Object");
 		}
-		
-		Connection connection = ThreadLocals.CONNECTIONS.get();
-		
-		if (mDeleteStatement == null) {
-			// TODO à vérifier
-			try {
-				mDeleteStatement = connection.prepareStatement("DELETE FROM `computer` WHERE id = ?");
-			} catch (SQLException pE) {
-				throw new DAOException(pE);
-			}
-		}	
-		
-		
+
 		try {
-			mDeleteStatement.setLong(1, pId);
-			int nbLines = mDeleteStatement.executeUpdate();
-			
-			if (LOGGER.isInfoEnabled()) {
-				LOGGER.info("Delete of "+pId+(nbLines == 1 ? " successfull" : " failed"));
-			}
-			return nbLines == 1;
-		} catch (SQLException e) {
+			return mJdbcTemplate.update("DELETE FROM `computer` WHERE id = ?", new Object[]{pId}) == 1;
+		} catch (DataAccessException e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
+		
+//		if (LOGGER.isInfoEnabled()) {
+//			LOGGER.info("Delete of "+pId+(nbLines == 1 ? " successfull" : " failed"));
+//		}
 	}
 	
 	
@@ -375,29 +331,25 @@ public enum ComputerDao implements ICrudService<Computer> {
 	public Paginator<Computer> findAllWithPaginator(int pStart, int pSize) throws DAOException {
 		Paginator<Computer> paginator;
 
-		Connection connection = ThreadLocals.CONNECTIONS.get();
-		try (Statement statement = connection.createStatement()) {
-			if (pSize > 0) {
-				statement.setMaxRows(pSize);
-			} else {
-				statement.setMaxRows(0);
-				pSize = 0;
-			}
-			
-			
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM computer LIMIT " + pSize + " OFFSET "+pStart);
-			List<Computer> mCompanies = new ArrayList<>(resultSet.getFetchSize());
-			
-			while (resultSet.next()) {
-				Computer computer = ComputerJdbcWrapper.fromJdbc(resultSet);
-				mCompanies.add(computer);
-			}
+//			if (pSize > 0) {
+//				statement.setMaxRows(pSize);
+//			} else {
+//				statement.setMaxRows(0);
+//				pSize = 0;
+//			}
+
+		try {
+			List<Computer> mCompanies = mJdbcTemplate.query("SELECT * FROM computer LIMIT " + pSize + " OFFSET "+pStart, (rs, introw) -> {
+				try {
+					return ComputerJdbcWrapper.fromJdbc(rs);
+				} catch (DAOException pE) {
+					throw ((SQLException) pE.getCause());
+				}
+			});
 
 			int nbCount;
 			if (pSize > 0) {
-				resultSet = statement.executeQuery("SELECT COUNT(*) FROM computer");
-				resultSet.next();
-				nbCount = resultSet.getInt(1);
+				nbCount = mJdbcTemplate.queryForObject("SELECT COUNT(*) FROM computer", Integer.class);
 			} else {
 				nbCount = mCompanies.size();
 			}
@@ -405,7 +357,7 @@ public enum ComputerDao implements ICrudService<Computer> {
 			paginator = new Paginator<>(pStart, nbCount, pSize, mCompanies);
 
 			return paginator;
-		} catch (SQLException e) {
+		} catch (DataAccessException e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
@@ -424,33 +376,12 @@ public enum ComputerDao implements ICrudService<Computer> {
 
 	@Override
 	public int size() throws DAOException {
-
-		System.out.println(String.valueOf(Thread.activeCount()));
-		System.out.println(String.valueOf(Thread.currentThread().getId()));
-
-		Connection connection = ThreadLocals.CONNECTIONS.get();
-
-		try (Statement statement = connection.createStatement()) {
-			
-			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM computer");
-			
-			if (!resultSet.isBeforeFirst()) {
-				throw new DAOException();
-			}
-			
-			resultSet.next();
-			return resultSet.getInt(1);
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new DAOException(e);
-		}
+		return mJdbcTemplate.queryForObject("SELECT COUNT(*) FROM computer", Integer.TYPE);
 	}
 
 	@Override
 	public Paginator<Computer> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
 		Paginator<Computer> paginator;
-		ResultSet resultSet;
-		Connection connection = ThreadLocals.CONNECTIONS.get();
 
 		switch (namedQueryName) {
 			case NamedQueries.SEARCH:
@@ -461,13 +392,13 @@ public enum ComputerDao implements ICrudService<Computer> {
 				TypeOrder typeOrder = (TypeOrder) parameters.getOrDefault(Parameters.TYPE_ORDER, TypeOrder.ASC);
 
 
-				try (Statement statement = connection.createStatement()) {
-					if (size > 0) {
-						statement.setMaxRows(size);
-					} else {
-						statement.setMaxRows(0);
-						size = 0;
-					}
+				try {
+//					if (size > 0) {
+//						statement.setMaxRows(size);
+//					} else {
+//						statement.setMaxRows(0);
+//						size = 0;
+//					}
 
 					StringBuilder stringBuilder = new StringBuilder();
 
@@ -475,6 +406,7 @@ public enum ComputerDao implements ICrudService<Computer> {
 
 					if (search != null && !search.isEmpty()) {
 						stringBuilder.append(" WHERE lcase(name) LIKE '%")
+								// TODO echapper la string des caractères spéciales de SQL
 								.append(search)
 								.append("%'");
 					}
@@ -483,12 +415,9 @@ public enum ComputerDao implements ICrudService<Computer> {
 						LOGGER.info(stringBuilder.toString());
 					}
 
-
 					int nbCount = 0;
 					if (size > 0) {
-						resultSet = statement.executeQuery(stringBuilder.toString());
-						resultSet.next();
-						nbCount = resultSet.getInt(1);
+						nbCount = mJdbcTemplate.queryForObject(stringBuilder.toString(), Integer.TYPE);
 					}
 
 					stringBuilder.replace(0, "SELECT COUNT(*) FROM computer".length(), "SELECT * FROM computer");
@@ -509,15 +438,13 @@ public enum ComputerDao implements ICrudService<Computer> {
 						LOGGER.info("Query : "+stringBuilder.toString());
 					}
 
-
-					resultSet = statement.executeQuery(stringBuilder.toString());
-
-					List<Computer> mComputers = new ArrayList<>(resultSet.getFetchSize());
-
-					while (resultSet.next()) {
-						Computer computer = ComputerJdbcWrapper.fromJdbc(resultSet);
-						mComputers.add(computer);
-					}
+					List<Computer> mComputers = mJdbcTemplate.query(stringBuilder.toString(), (rs, introw) -> {
+						try {
+							return ComputerJdbcWrapper.fromJdbc(rs);
+						} catch (DAOException pE) {
+							throw ((SQLException) pE.getCause());
+						}
+					});
 
 					if (size == 0) {
 						nbCount = mComputers.size();
@@ -527,7 +454,7 @@ public enum ComputerDao implements ICrudService<Computer> {
 					paginator = new Paginator<>(start, nbCount, size, mComputers);
 
 					return paginator;
-				} catch (SQLException e) {
+				} catch (DataAccessException e) {
 					LOGGER.error(e.getMessage(), e);
 					throw new DAOException(e);
 				}
@@ -546,6 +473,6 @@ public enum ComputerDao implements ICrudService<Computer> {
 	// Methods statics
 	// ===========================================================
 	public static ComputerDao getInstance() {
-		return INSTANCE;
+		return null;
 	}
 }

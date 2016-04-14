@@ -1,11 +1,15 @@
 package com.excilys.mviegas.speccdb.wrappers;
 
 import com.excilys.mviegas.speccdb.data.Company;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CompanyJdbcWrapper extends Company {
+
+	public static final Logger LOGGER = LoggerFactory.getLogger(CompanyJdbcWrapper.class);
 
 	public static Company fromJdbc(ResultSet pResultSet) {
 		try {
@@ -14,6 +18,8 @@ public class CompanyJdbcWrapper extends Company {
 			company.setName(pResultSet.getString("name"));
 			return company;
 		} catch (SQLException e) {
+			LOGGER.error(e.getMessage(), e);
+
 			// TODO Auto-generated catch block
 			throw new RuntimeException(e);
 		}

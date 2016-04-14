@@ -1,28 +1,40 @@
 package com.excilys.mviegas.speccdb.persistence.jdbc;
 
-import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.ICrudService;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.wrappers.CompanyJdbcWrapper;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Dao d'une companie ({@link Company})
  */
-public enum CompanyDao implements ICrudService<Company> {
+@Repository
+public class CompanyDao implements ICrudService<Company> {
 
-	INSTANCE;
+	//=============================================================
+	// Attributs
+	//=============================================================
+	private JdbcTemplate mJdbcTemplate;
+
+	//=============================================================
+	// Getters & Setters
+	//=============================================================
+
+	@Autowired
+	public void setDataSource(DataSource dataSource) {
+		this.mJdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	// ============================================================
 	//	Constantes
@@ -39,19 +51,13 @@ public enum CompanyDao implements ICrudService<Company> {
 
 	@Override
 	public Company find(long pId) throws DAOException {
-		Connection connection = ThreadLocals.CONNECTIONS.get();
-		try (Statement statement = connection.createStatement()) {
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM `company` WHERE id = "+pId);
-			
-			if (!resultSet.isBeforeFirst()) {
-				return null;
-			}
-			resultSet.next();
-			return CompanyJdbcWrapper.fromJdbc(resultSet);
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new DAOException(e);
+		List<Company> companies = mJdbcTemplate.query("SELECT * FROM `company` WHERE id = " + pId, (rs, introw) -> {
+			return CompanyJdbcWrapper.fromJdbc(rs);
+		});
+		if (companies.size() != 1) {
+			return null;
 		}
+		return companies.get(0);
 	}
 	
 
@@ -63,27 +69,15 @@ public enum CompanyDao implements ICrudService<Company> {
 
 	@Override
 	public boolean delete(long pId) throws DAOException {
-		Connection connection = ThreadLocals.CONNECTIONS.get();
-		try (Statement statement = connection.createStatement()) {
-			if (connection.getAutoCommit()) {
-				throw new IllegalStateException();
-			}
-
-			statement.executeUpdate("DELETE FROM COMPUTER WHERE company_id = "+pId);
-			if (statement.executeUpdate("DELETE FROM COMPANY WHERE id = "+pId) != 1) {
-				connection.rollback();
-				throw new IllegalArgumentException("Not persisted company");
+		try {
+			mJdbcTemplate.update("DELETE FROM COMPUTER WHERE company_id = " + pId);
+			if (mJdbcTemplate.update("DELETE FROM COMPANY WHERE id = "+pId) != 1) {
+				throw new IllegalStateException("Not persisted company");
 			}
 			return true;
-		} catch (SQLException pE) {
-			try {
-				connection.rollback();
-			} catch (SQLException pE1) {
-				LOGGER.error(pE1.getMessage(), pE1);
-			}
-
-			LOGGER.error(pE.getMessage(), pE);
-			throw new DAOException(pE);
+		} catch (DataAccessException e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DAOException(e);
 		}
 	}
 	
@@ -114,17 +108,15 @@ public enum CompanyDao implements ICrudService<Company> {
 	@Override
 	public Paginator<Company> findAllWithPaginator(int pStart, int pSize) throws DAOException {
 		Paginator<Company> paginator;
-		Connection connection = ThreadLocals.CONNECTIONS.get();
-		ResultSet resultSet = null;
 
-		try (Statement statement = connection.createStatement()){
+		try {
 
-			if (pSize > 0) {
-				statement.setMaxRows(pSize);
-			} else {
-				statement.setMaxRows(0);
-				pSize = 0;
-			}
+//			if (pSize > 0) {
+//				statement.setMaxRows(pSize);
+//			} else {
+//				statement.setMaxRows(0);
+//				pSize = 0;
+//			}
 
 			String sqlQuery;
 
@@ -134,26 +126,12 @@ public enum CompanyDao implements ICrudService<Company> {
 				sqlQuery = "SELECT * FROM company";
 			}
 
-			resultSet = statement.executeQuery(sqlQuery);
 
-			List<Company> mCompanies = new ArrayList<>(resultSet.getFetchSize());
-
-			while (resultSet.next()) {
-				Company company = CompanyJdbcWrapper.fromJdbc(resultSet);
-				mCompanies.add(company);
-			}
-
-			resultSet.close();
-			resultSet = null;
+			List<Company> mCompanies = mJdbcTemplate.query(sqlQuery, (r, i) -> CompanyJdbcWrapper.fromJdbc(r));
 
 			int nbCount;
 			if (pSize > 0) {
-				resultSet = statement.executeQuery("SELECT COUNT(*) FROM company");
-
-				resultSet.next();
-				nbCount = resultSet.getInt(1);
-				resultSet.close();
-				resultSet = null;
+				nbCount = mJdbcTemplate.queryForObject("SELECT COUNT(*) FROM company", Integer.class);
 			} else {
 				nbCount = mCompanies.size();
 			}
@@ -161,18 +139,9 @@ public enum CompanyDao implements ICrudService<Company> {
 			paginator = new Paginator<>(pStart, nbCount, pSize, mCompanies);
 
 			return paginator;
-		} catch (SQLException e) {
+		} catch (DataAccessException e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
-		} finally {
-			if (resultSet != null) {
-				try {
-					resultSet.close();
-				} catch (SQLException pE) {
-					// TODO
-					throw new DAOException(pE);
-				}
-			}
 		}
 	}
 
@@ -202,27 +171,10 @@ public enum CompanyDao implements ICrudService<Company> {
 
 	@Override
 	public int size() throws DAOException {
-		Connection connection = ThreadLocals.CONNECTIONS.get();
-
-		try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM company")) {
-
-			
-			if (!resultSet.isBeforeFirst()) {
-				throw new DAOException();
-			}
-
-			resultSet.next();
-			return resultSet.getInt(1);
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new DAOException(e);
-		}
+		return mJdbcTemplate.queryForObject("SELECT COUNT(*) FROM company", Integer.class);
 	}
 
 	// ===========================================================
 	// Methods statics
 	// ===========================================================
-	public static CompanyDao getInstance() {
-		return INSTANCE;
-	}
 }
