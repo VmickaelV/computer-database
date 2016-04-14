@@ -79,6 +79,7 @@ public class ComputerDetail implements IComputerDetailControler {
 				
 			default:
 				System.err.println("Choix invalide.\nVeuillez ressaisir votre choix.\n");
+				//noinspection UnnecessaryContinue
 				continue;
 			}
 		}
@@ -89,7 +90,7 @@ public class ComputerDetail implements IComputerDetailControler {
 		
 		if (MainMenuControleur.SCANNER.next().equals("O")) {
 			try {
-				if (!ComputerDao.INSTANCE.delete(mComputer)) {
+				if (!ComputerDao.getInstance().delete(mComputer)) {
 					throw new RuntimeException();
 				}
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
@@ -113,7 +114,7 @@ public class ComputerDetail implements IComputerDetailControler {
 	public static IComputerDetailControler make(int pId) {
 		Computer computer;
 		try {
-			computer = ComputerDao.INSTANCE.find(pId);
+			computer = ComputerDao.getInstance().find(pId);
 		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 			// TODO à refaire
 			throw new RuntimeException(pE);
@@ -134,7 +135,7 @@ public class ComputerDetail implements IComputerDetailControler {
 		}
 
 		try {
-			pComputer = ComputerDao.INSTANCE.find(pComputer.getId());
+			pComputer = ComputerDao.getInstance().find(pComputer.getId());
 		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 			// TODO à refaire
 			throw new RuntimeException(pE);

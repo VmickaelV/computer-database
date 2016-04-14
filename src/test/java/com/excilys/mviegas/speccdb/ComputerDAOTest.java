@@ -1,30 +1,31 @@
 package com.excilys.mviegas.speccdb;
 
-import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.QueryParameter;
 import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
-import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/beans.xml" })
 public class ComputerDAOTest {
 	
 	//===========================================================
@@ -36,28 +37,19 @@ public class ComputerDAOTest {
 	//===========================================================
 	// Attribut s- private
 	//===========================================================
-	
-	private ComputerDao mComputerDao = ComputerDao.INSTANCE;
-	private CompanyDao mCompanyDao = CompanyDao.INSTANCE;
-	
-	private Connection mConnection;
+
+	@Autowired
+	private ComputerDao mComputerDao;
+
+	@Autowired
+	private CompanyDao mCompanyDao;
 	
 	//===========================================================
 	// Callbacks
 	//===========================================================
-
 	@Before
 	public void before() throws Exception {
-		mConnection = DatabaseManager.getConnection();
-		ThreadLocals.CONNECTIONS.set(mConnection);
-		
 		DatabaseManagerTest.resetDatabase();
-	}
-	
-	@After
-	public void tearDown() throws Exception {
-		ThreadLocals.CONNECTIONS.remove();
-		DatabaseManager.releaseConnection(mConnection);
 	}
 	
 	//===========================================================
@@ -131,7 +123,7 @@ public class ComputerDAOTest {
 		assertEquals("CM-5", computer.getName());
 		assertNull(computer.getDiscontinuedDate());
 		assertEquals(LocalDate.of(1991, 1, 1), computer.getIntroducedDate());
-		assertEquals(computer.getManufacturer(), CompanyDao.INSTANCE.find(2));
+		assertEquals(computer.getManufacturer(), mCompanyDao.find(2));
 	}
 
 	@Test

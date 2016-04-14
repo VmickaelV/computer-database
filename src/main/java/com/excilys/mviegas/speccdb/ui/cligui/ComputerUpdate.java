@@ -11,6 +11,8 @@ import java.time.format.DateTimeParseException;
 
 public class ComputerUpdate implements IComputerUpdateControler {
 
+	private CompanyDao mCompanyDao;
+
 	private Computer mComputer;
 
 	private ComputerUpdate(Computer pComputer) {
@@ -140,7 +142,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 				}
 
 				try {
-					company = CompanyDao.INSTANCE.find(id);
+					company = mCompanyDao.find(id);
 				} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 					// TODO à refaire
 					throw new RuntimeException(pE);
@@ -162,7 +164,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 			mComputer = builder.build();
 
 			try {
-				ComputerDao.INSTANCE.create(mComputer);
+				ComputerDao.getInstance().create(mComputer);
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				// TODO à refaire
 				throw new RuntimeException(pE);
@@ -172,7 +174,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 			mComputer.setIntroducedDate(dateIntroduced);
 
 			try {
-				ComputerDao.INSTANCE.update(mComputer);
+				ComputerDao.getInstance().update(mComputer);
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				// TODO à refaire
 				throw new RuntimeException(pE);
@@ -200,7 +202,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 	public static IComputerUpdateControler make(int pId) {
 		Computer computer;
 		try {
-			computer = ComputerDao.INSTANCE.find(pId);
+			computer = ComputerDao.getInstance().find(pId);
 		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 			// TODO à refaire
 			throw new RuntimeException(pE);
@@ -221,7 +223,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 		}
 
 		try {
-			pComputer = ComputerDao.INSTANCE.find(pComputer.getId());
+			pComputer = ComputerDao.getInstance().find(pComputer.getId());
 		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 			// TODO à refaire
 			throw new RuntimeException(pE);

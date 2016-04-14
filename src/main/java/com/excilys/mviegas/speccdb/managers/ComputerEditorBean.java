@@ -7,8 +7,6 @@ import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.ICrudService;
-import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
-import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
@@ -53,7 +51,7 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	private List<Company> mCompanies;
 	private ICrudService<Company> mCompanyCrudService;
 	private ICrudService<Computer> mComputerCrudService;
-	
+
 	private List<Message> mMessages = new LinkedList<>();
 	
 	//===========================================================
@@ -264,9 +262,6 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	@Override
 	@PostConstruct
 	public void init() {
-		mCompanyCrudService = CompanyDao.INSTANCE;
-		mComputerCrudService = ComputerDao.INSTANCE;
-		
 		Connection connection = null;
 		try {
 			connection = DatabaseManager.getConnection();

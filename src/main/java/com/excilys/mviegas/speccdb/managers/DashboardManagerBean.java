@@ -106,7 +106,7 @@ public class DashboardManagerBean {
 		System.out.println(this);
 		mPage = 1;
 		mSize = DEFAULT_SIZE_PAGE;
-		mComputerDao = ComputerDao.INSTANCE;
+		mComputerDao = ComputerDao.getInstance();
 	}
 	
 	//===========================================================

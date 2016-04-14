@@ -74,7 +74,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 	@Test
 	public void nameEmpty() throws Exception {
 
-		int n = ComputerDao.INSTANCE.size();
+		int n = ComputerDao.getInstance().size();
 
 		assertFalse(isElementPresent(By.id("name-error")));
 
@@ -83,7 +83,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 		assertEquals("This field is required.", driver.findElement(By.id("name-error")).getText());
 
-		assertEquals(n, ComputerDao.INSTANCE.size());
+		assertEquals(n, ComputerDao.getInstance().size());
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 	 */
 	@Test
 	public void onlyName() throws Exception {
-		int n = ComputerDao.INSTANCE.size();
+		int n = ComputerDao.getInstance().size();
 
 		// assert Base
 		assertEquals("Computer Database", driver.getTitle());
@@ -113,7 +113,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 		assertFalse(isElementPresent(By.id("name-error")));
 
-		assertEquals(n+1, ComputerDao.INSTANCE.size());
+		assertEquals(n+1, ComputerDao.getInstance().size());
 
 		assertTrue(mWebDriver.getCurrentUrl().endsWith("dashboard.jsp"));
 
@@ -130,7 +130,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 	 */
 	@Test
 	public void wrongIntroducedDate() throws Exception {
-		int n = ComputerDao.INSTANCE.size();
+		int n = ComputerDao.getInstance().size();
 
 		// assert Base
 		assertEquals("Computer Database", driver.getTitle());
@@ -150,7 +150,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 		assertFalse(isElementPresent(By.id("name-error")));
 
-		assertEquals(n+1, ComputerDao.INSTANCE.size());
+		assertEquals(n+1, ComputerDao.getInstance().size());
 
 		assertTrue(mWebDriver.getCurrentUrl().endsWith("dashboard.jsp"));
 

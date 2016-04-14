@@ -1,11 +1,14 @@
 package com.excilys.mviegas.speccdb;
 
-import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
+import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.sql.DataSource;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,15 +22,23 @@ public class DatabaseManagerTest {
 	public static final String DB_CREATE = "db/1-SCHEMA.sql";
 	public static final String DB_INSERT = "db/3-ENTRIES.sql";
 
+	public static final Logger LOGGER = LoggerFactory.getLogger(DatabaseManagerTest.class);
+	private Connection mConnection;
+
+	@Before
+	public void setUp() throws Exception {
+		DataSource source = (DataSource) C.appContext.getBean("dataSource");
+		mConnection = source.getConnection();
+	}
+
 	@Test
 	public void connection() throws Exception {
-		Connection connection = DatabaseManager.getConnection();
 
-		try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery("SELECt * FROM computer")) {
+		try (Statement statement = mConnection.createStatement(); ResultSet resultSet = statement.executeQuery("SELECt * FROM computer")) {
 			
 		}
 
-		DatabaseManager.releaseConnection(connection);
+		DatabaseManager.releaseConnection(mConnection);
 	}
 	
 	@Test
@@ -37,14 +48,11 @@ public class DatabaseManagerTest {
 	
 	@Test
 	public void testResetDatabase() throws Exception {
-		Connection connection = DatabaseManager.getConnection();
-		ThreadLocals.CONNECTIONS.set(connection);
 		resetDatabase();
-		
-		DatabaseManager.releaseConnection(connection);
 	}
 
 	public static void resetDatabase() throws Exception {
+
 		Connection connection = DatabaseManager.getConnection();
 
 		connection.setAutoCommit(false);
@@ -79,10 +87,18 @@ public class DatabaseManagerTest {
 		
 		connection.setAutoCommit(true);
 		
-		assertEquals(574, ComputerDao.INSTANCE.size());
-		assertEquals(42, CompanyDao.INSTANCE.size());
+		assertEquals(574, sComputerDao.size());
+		assertEquals(42, sCompanyDao.size());
 
 		DatabaseManager.releaseConnection(connection);
 		
 	}
+
+	private static CompanyDao sCompanyDao = C.appContext.getBean(CompanyDao.class);
+	private static ComputerDao sComputerDao = C.appContext.getBean(ComputerDao.class);
+
+//	static {
+//		ApplicationContext appContext = new ClassPathXmlApplicationContext("beans.xml");
+//		sCompanyDao = appContext.getBean(CompanyDao.class);
+//	}
 }

@@ -30,7 +30,7 @@ public enum ComputersListView implements IComputersListViewControler {
 	@Override
 	public void nextPage() {
 		try {
-			if ((mStart + mSize) < ComputerDao.INSTANCE.size()) {
+			if ((mStart + mSize) < ComputerDao.getInstance().size()) {
 				mStart += mSize;
 			} else {
 				System.err.println("Fin de liste atteinte !");
@@ -69,7 +69,7 @@ public enum ComputersListView implements IComputersListViewControler {
 		printHeaderList();
 		List<Computer> computers;
 		try {
-			computers = ComputerDao.INSTANCE.findAll(mStart, mSize);
+			computers = ComputerDao.getInstance().findAll(mStart, mSize);
 		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 			// TODO a modifier
 			throw new RuntimeException(pE);
@@ -145,7 +145,7 @@ public enum ComputersListView implements IComputersListViewControler {
 			id = MainMenuControleur.SCANNER.nextInt();
 			Computer computer;
 			try {
-				computer = ComputerDao.INSTANCE.find(id);
+				computer = ComputerDao.getInstance().find(id);
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				// TODO a modifier
 				throw new RuntimeException(pE);
@@ -156,7 +156,7 @@ public enum ComputersListView implements IComputersListViewControler {
 			}
 
 			try {
-				if (!ComputerDao.INSTANCE.delete(computer)) {
+				if (!ComputerDao.getInstance().delete(computer)) {
 					throw new RuntimeException();
 				}
 			} catch (DAOException pE) {
@@ -199,7 +199,7 @@ public enum ComputersListView implements IComputersListViewControler {
 
 			Computer computer;
 			try {
-				computer = ComputerDao.INSTANCE.find(id);
+				computer = ComputerDao.getInstance().find(id);
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				// TODO à refaire
 				throw new RuntimeException(pE);
