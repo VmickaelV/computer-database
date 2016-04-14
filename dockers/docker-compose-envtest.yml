@@ -52,10 +52,11 @@ services:
       - "-Dserver.ip=test_server"
       - "-Dserver.port=8888"
       - "-Dwebdriver.url=http://firefox:4444/wd/hub"
-#      TODO trouver un moyen de lancer de multiples commandes en dockers
+
+        # TODO Voir si sleep important ou pas
 #       - "sh"
 #       - "-c"
-#       - "'<sleep 3 && mvn -P seleniumTest -server.ip=server -Dwebdriver.url=http://firefox:4444/wd/hub>'"
+#       - "sleep 3 && mvn test -P seleniumTest -Dserver.ip=server -Dwebdriver.url=http://firefox:4444/wd/hub"
 
   # Lance le firefox Distant pour les tests fonctionnelles
   firefox:
