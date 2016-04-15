@@ -43,10 +43,10 @@ public class DatabaseManager {
 	public static final String KEY_INSERT_SCRIPTS = "db.insertScripts";
 	public static final String KEY_MIN_SIZE = "db.min_size";
 	public static final String KEY_MAX_SIZE = "db.max_size";
+	public static final String KEY_CLASSNAME = "db.className";
 
 	public static final int DEFAULT_MIN_SIZE_POOL = 25;
 	public static final int DEFAULT_MAX_SIZE_POOL = 200;
-	public static final String CLASS_NAME_JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	public static final String SQL_STATEMENT_SEPARATOR = ";";
 
 	/**
@@ -89,6 +89,11 @@ public class DatabaseManager {
 	 */
 	public static final int MAX_SIZE_POOL;
 
+	/**
+	 * Nom de la classe du driver à charger
+	 */
+	public static final String CLASS_NAME_JDBC_DRIVER;
+
 	// ============================================================
 	//	Bloc static
 	// ============================================================
@@ -119,10 +124,10 @@ public class DatabaseManager {
 					LOGGER.error(e.getMessage(), e);
 					throw new RuntimeException(e);
 				}
-			} else {
-				prefs = System.getProperties();
 			}
 		}
+
+		prefs.putAll(System.getProperties());
 
 		// Assignation des préférences
 		URL = prefs.getProperty(KEY_URL, "");
@@ -132,6 +137,7 @@ public class DatabaseManager {
 		INSERT_SCRIPTS = prefs.getProperty(KEY_INSERT_SCRIPTS, "");
 		MIN_SIZE_POOL = Integer.parseInt(prefs.getProperty(KEY_MIN_SIZE, String.valueOf(DEFAULT_MIN_SIZE_POOL)));
 		MAX_SIZE_POOL = Integer.parseInt(prefs.getProperty(KEY_MAX_SIZE, String.valueOf(DEFAULT_MAX_SIZE_POOL)));
+		CLASS_NAME_JDBC_DRIVER = prefs.getProperty(KEY_CLASSNAME, "");
 
 
 		if (LOGGER.isInfoEnabled()) {

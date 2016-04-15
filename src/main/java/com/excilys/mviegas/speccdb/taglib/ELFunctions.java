@@ -67,9 +67,9 @@ public class ELFunctions {
 			if (stringBuilder.length() > 0) {
 				stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 			}
-			return pTarget+".jsp"+(stringBuilder.length() > 0 ? '?' + stringBuilder.toString() : "");
+			return pTarget+".html"+(stringBuilder.length() > 0 ? '?' + stringBuilder.toString() : "");
 		} else {
-			return pTarget+".jsp";
+			return pTarget+".html";
 		}
 	}
 
@@ -113,9 +113,9 @@ public class ELFunctions {
 				stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 			}
 
-			return pTarget+".jsp"+(stringBuilder.length() > 0 ? '?' + stringBuilder.toString() : "");
+			return pTarget+".html"+(stringBuilder.length() > 0 ? '?' + stringBuilder.toString() : "");
 		} else {
-			return pTarget+".jsp";
+			return pTarget+".html";
 		}
 	}
 

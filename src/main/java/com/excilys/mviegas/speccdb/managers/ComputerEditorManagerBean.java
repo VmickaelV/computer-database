@@ -8,30 +8,34 @@ import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.ICrudService;
 import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
+import com.excilys.mviegas.speccdb.spring.ListOfCompanies;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Bean lié à la gestion d'un ordinateur
  *
  * @author Mickael
  */
-public class ComputerEditorBean implements IEditorComputerControler {
+@Component
+public class ComputerEditorManagerBean implements IEditorComputerControler {
 
 	//=============================================================
 	// Constantes
 	//=============================================================
-	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerEditorBean.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerEditorManagerBean.class);
 	public static final String PATTERN_DATE = "dd/MM/yyyy";
 	public static final DateTimeFormatter sDateTimeFormatter = DateTimeFormatter.ofPattern(PATTERN_DATE);
 	
@@ -48,8 +52,13 @@ public class ComputerEditorBean implements IEditorComputerControler {
 
 	private Computer mComputer;
 
-	private List<Company> mCompanies;
+	@Autowired
+	private ListOfCompanies mListOfCompanies;
+
+	@Autowired
 	private ICrudService<Company> mCompanyCrudService;
+
+	@Autowired
 	private ICrudService<Computer> mComputerCrudService;
 
 	private List<Message> mMessages = new LinkedList<>();
@@ -57,7 +66,7 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	//===========================================================
 	// Constructeurs
 	//===========================================================
-	public ComputerEditorBean() {
+	public ComputerEditorManagerBean() {
 		init();
 	}
 
@@ -71,7 +80,7 @@ public class ComputerEditorBean implements IEditorComputerControler {
 
 	@Override
 	public List<Company> getCompanies() {
-		return mCompanies;
+		return mListOfCompanies;
 	}
 
 	@Override
@@ -216,7 +225,7 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	}
 
 	private static boolean isValidOptionnalDate(String pDate) {
-		if (pDate == null) {
+		if (pDate == null || pDate.isEmpty()) {
 			return true;
 		} else {
 			try {
@@ -233,13 +242,13 @@ public class ComputerEditorBean implements IEditorComputerControler {
 			if (mComputer == null) {
 				return new Computer.Builder()
 						.setName(mName)
-						.setIntroducedDate(mIntroducedDate == null ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter))
-						.setDiscontinuedDate(mDiscontinuedDate == null ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter))
+						.setIntroducedDate(mIntroducedDate == null || mIntroducedDate.isEmpty() ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter))
+						.setDiscontinuedDate(mDiscontinuedDate == null || mDiscontinuedDate.isEmpty() ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter))
 						.setManufacturer(mCompanyCrudService.find(mIdCompany)).build();
 			} else {				
 				mComputer.setName(mName);
-				mComputer.setIntroducedDate(mIntroducedDate == null ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter));
-				mComputer.setDiscontinuedDate(mDiscontinuedDate == null ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter));
+				mComputer.setIntroducedDate(mIntroducedDate == null || mDiscontinuedDate.isEmpty() ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter));
+				mComputer.setDiscontinuedDate(mDiscontinuedDate == null || mDiscontinuedDate.isEmpty() ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter));
 				mComputer.setManufacturer(mCompanyCrudService.find(mIdCompany));
 				
 				if (LOGGER.isDebugEnabled()) {
@@ -259,28 +268,20 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	// ============================================================
 	//	Méthodes - Callback
 	// ============================================================
-	@Override
-	@PostConstruct
+//	@PostConstruct
 	public void init() {
-		Connection connection = null;
-		try {
-			connection = DatabaseManager.getConnection();
-			ThreadLocals.CONNECTIONS.set(connection);
-			mCompanies = mCompanyCrudService.findAll(0, 0);
-		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException | ConnectionException pE) {
-			LOGGER.error(pE.getMessage(), pE);
-			throw new RuntimeException(pE);
-		} finally {
-			if (connection == null) {
-				ThreadLocals.CONNECTIONS.remove();
-				try {
-					DatabaseManager.releaseConnection(connection);
-				} catch (ConnectionException e) {
-					LOGGER.error(e.getMessage(), e);
-					throw new RuntimeException(e);
-				}
-			}
-		}
+
+	}
+
+	public void reset() {
+		mAction = null;
+		mComputer = null;
+		mDiscontinuedDate = null;
+		mId = 0;
+		mIdCompany = 0;
+		mIntroducedDate = null;
+		mMessages.clear();
+		mName = null;
 	}
 
 	//===========================================================
@@ -290,15 +291,8 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	public boolean addComputer() {
 		if (isValidForm()) {
 			try {
-				Connection connection = DatabaseManager.getConnection();
-				ThreadLocals.CONNECTIONS.set(connection);
-				
 				mComputerCrudService.create(makeComputer());
-				
-				ThreadLocals.CONNECTIONS.remove();
-				DatabaseManager.releaseConnection(connection);
-				
-			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException | ConnectionException pE) {
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
 				return false;
 			}
@@ -314,14 +308,8 @@ public class ComputerEditorBean implements IEditorComputerControler {
 	public boolean editComputer() {
 		if (isValidForm()) {
 			try {
-				Connection connection = DatabaseManager.getConnection();
-				ThreadLocals.CONNECTIONS.set(connection);
-				
 				mComputerCrudService.update(makeComputer());
-				
-				ThreadLocals.CONNECTIONS.remove();
-				DatabaseManager.releaseConnection(connection);
-			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException | ConnectionException pE) {
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
 				return false;
 			}
@@ -333,4 +321,35 @@ public class ComputerEditorBean implements IEditorComputerControler {
 		}
 	}
 
+	public void map(Map<String, String> map) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("map = " + map);
+			LOGGER.debug("this = " + this);
+
+		}
+
+		if (map.containsKey("id")) {
+			mId = Integer.parseInt(map.get("id"));
+		}
+
+		if (map.containsKey("name")) {
+			mName = map.get("name");
+		}
+
+		if (map.containsKey("companyId")) {
+			mIdCompany = Integer.parseInt(map.get("companyId"));
+		}
+
+		if (map.containsKey("introducedDate")) {
+			mIntroducedDate = map.get("introducedDate");
+		}
+
+		if (map.containsKey("discontinuedDate")) {
+			mDiscontinuedDate = map.get("discontinuedDate");
+		}
+
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("this = " + this);
+		}
+	}
 }

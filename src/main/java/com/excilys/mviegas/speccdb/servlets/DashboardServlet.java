@@ -31,7 +31,6 @@ public class DashboardServlet extends HttpServlet {
 			LOGGER.info("Datasource");
 			LOGGER.info(String.valueOf(bean));
 			LOGGER.info(String.valueOf(bean.hashCode()));
-			LOGGER.info(String.valueOf(bean.getConnection()));
 		}
 		mDashboardManagerBean = bean;
 	}
