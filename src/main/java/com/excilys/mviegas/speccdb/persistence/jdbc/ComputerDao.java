@@ -14,7 +14,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.Map;
  *
  * TODO voir si on raoute une vérif de présence de connexion dans ThreadLocal
  */
-@Component
+@Repository
 public class ComputerDao implements ICrudService<Computer> {
 
 	//=============================================================
@@ -139,7 +139,7 @@ public class ComputerDao implements ICrudService<Computer> {
 	// Constructors
 	//=============================================================
 
-	ComputerDao() {
+	public ComputerDao() {
 //			mCreateStatement = mConnection.prepareStatement("INSERT INTO `computer` (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
 //			mUpdateStatement = mConnection.prepareStatement("UPDATE `computer` SET name=?, introduced=?, discontinued=?, company_id=? WHERE id = ?;");
 //			mDeleteStatement = mConnection.prepareStatement("DELETE FROM `computer` WHERE id = ?");
@@ -329,6 +329,11 @@ public class ComputerDao implements ICrudService<Computer> {
 
 	@Override
 	public Paginator<Computer> findAllWithPaginator(int pStart, int pSize) throws DAOException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("ComputerDao.findAllWithPaginator");
+			LOGGER.debug("pStart = [" + pStart + "], pSize = [" + pSize + "]");
+		}
+
 		Paginator<Computer> paginator;
 
 //			if (pSize > 0) {
@@ -346,6 +351,11 @@ public class ComputerDao implements ICrudService<Computer> {
 					throw ((SQLException) pE.getCause());
 				}
 			});
+
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("mCompanies = " + mCompanies);
+			}
+
 
 			int nbCount;
 			if (pSize > 0) {
@@ -381,6 +391,11 @@ public class ComputerDao implements ICrudService<Computer> {
 
 	@Override
 	public Paginator<Computer> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("ComputerDao.findWithNamedQueryWithPaginator");
+			LOGGER.debug("namedQueryName = [" + namedQueryName + "], parameters = [" + parameters + "]");
+		}
+		
 		Paginator<Computer> paginator;
 
 		switch (namedQueryName) {

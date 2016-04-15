@@ -46,11 +46,14 @@ public abstract class BaseSeleniumTest {
 		public static final String URL_REMOTE_WEBDRIVER = "webdriver.url";
 		public static final String SERVER_IP = "server.ip";
 		public static final String SERVER_PORT = "server.port";
+
+		public static final String DONT_CLOSE = "test.dont_close";
 	}
 
 	public static final String DEFAULT_URL_REMOTE_WEBDRIVER = null;
 	public static final String DEFAULT_SERVER_PORT = "8888";
 	public static final String DEFAULT_SERVER_IP = "localhost";
+	public static final boolean DEFAULT_DONT_CLOSE = false;
 
 	public static final String TOMCAT_WORKING_DIR = System.getProperty(Properties.TOMCAT_WORKING_DIR, "target/tomcatembedded");
 	public static final String TOMCAT_DEPLOY_DIR = TOMCAT_WORKING_DIR + "/webapps";
@@ -59,6 +62,7 @@ public abstract class BaseSeleniumTest {
 	public static final String TOMCAT_CONTEXT = System.getProperty(Properties.TOMCAT_CONTEXT, "/");
 
 	public static final String URL_REMOTE_WEBDRIVER = System.getProperties().getProperty(Properties.URL_REMOTE_WEBDRIVER, DEFAULT_URL_REMOTE_WEBDRIVER);
+	public static final boolean DONT_CLOSE = Boolean.parseBoolean(System.getProperty(Properties.DONT_CLOSE, String.valueOf(DEFAULT_DONT_CLOSE)));
 
 
 
@@ -98,7 +102,7 @@ public abstract class BaseSeleniumTest {
 
 	@After
 	public void tearDown() throws Exception {
-		if (mWebDriver != null) {
+		if (mWebDriver != null && !DONT_CLOSE) {
 			mWebDriver.quit();
 		}
 		String verificationErrorString = mVerificationErrors.toString();
@@ -246,6 +250,8 @@ public abstract class BaseSeleniumTest {
 	//=============================================================
 	protected void openTarget(String pTarget) {
 		assertThat(pTarget, not(CoreMatchers.containsString(".")));
+
+		open(getTargetUrl(pTarget));
 	}
 
 	protected void open(String pURL) {

@@ -6,23 +6,18 @@
              <%--class="com.excilys.mviegas.speccdb.managers.DashboardManagerBean">--%>
     <%--<jsp:setProperty name="dashboardManager" property="*"/>--%>
 <%--</jsp:useBean>--%>
-<%-- <%@page import="com.excilys.mviegas.speccdb.managers.ListManager"%> --%>
-<%-- <%!ListManager dashboardManager = new ListManager();%> --%>
-<%-- <% --%>
-<%-- 	dashboardManager.init();--%>
-<%-- %> --%>
-<c:choose>
-    <c:when test="${pageContext.request.method=='POST' && not empty param.selection}">
-        <%--@elvariable id="dashboardManager" type="com.excilys.mviegas.speccdb.managers.DashboardManagerBean"--%>
-        <c:if test="${dashboardManager.delete(param.selection)}" var="deleteSuccessful">
-            <c:if test="${param.selection}"/>
-        </c:if>
-
-    </c:when>
-    <c:when test="${param.add!=null}">
-    </c:when>
-</c:choose>
-<c:if test="${dashboardManager.update()}"/>
+<%--<c:choose>--%>
+    <%--<c:when test="${pageContext.request.method=='POST' && not empty param.selection}">--%>
+        <%--&lt;%&ndash;@elvariable id="dashboardManager" type="com.excilys.mviegas.speccdb.managers.DashboardManagerBean"&ndash;%&gt;--%>
+        <%--<c:if test="${dashboardManager.delete(param.selection)}" var="deleteSuccessful">--%>
+            <%--<c:if test="${param.selection}"/>--%>
+        <%--</c:if>--%>
+<%--&lt;%&ndash;&ndash;%&gt;--%>
+    <%--</c:when>--%>
+    <%--<c:when test="${param.add!=null}">--%>
+    <%--</c:when>--%>
+<%--</c:choose>--%>
+<%--<c:if test="${dashboardManager.update()}"/>--%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,21 +25,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="../css/font-awesome.css" rel="stylesheet" media="screen">
-    <link href="../css/main.css" rel="stylesheet" media="screen">
+    <link href="/speccdb/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/speccdb/css/font-awesome.css" rel="stylesheet" media="screen">
+    <link href="/speccdb/css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
 <header class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="dashboard.jsp"> Application -
+        <a class="navbar-brand" href="dashboard.html"> Application -
             Computer Database </a>
     </div>
 </header>
 <section id="main">
     
     <%-- Message de confirmations --%>
-    <c:if test="${computerAdded}">
+    <c:if test="${computerAdded || param.computerAdded}">
         <c:remove var="computerAdded" scope="session"/>
         <div class="alert alert-success alert-dismissible fade in" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
@@ -107,7 +102,7 @@
                 </form>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" id="addComputer" href="addComputer.jsp">Add
+                <a class="btn btn-success" id="addComputer" href="addComputer.html">Add
                     Computer</a> <a class="btn btn-default" id="editComputer" href="#"
                                     onclick="$.fn.toggleEditMode();">Edit</a>
             </div>
@@ -147,7 +142,7 @@
                     <td>
                         <jsp:element name="a">
 								<jsp:attribute name="href">
-									editComputer.jsp?id=${computer.id}
+									editComputer.html?id=${computer.id}
 								</jsp:attribute>
                             <jsp:body>
                                 <c:out value="${computer.name}"/>
@@ -178,9 +173,9 @@
         </div>
     </div>
 </footer>
-<script src="../js/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/dashboard.js"></script>
+<script src="/speccdb/js/jquery.min.js"></script>
+<script src="/speccdb/js/bootstrap.min.js"></script>
+<script src="/speccdb/js/dashboard.js"></script>
 
 </body>
 </html>

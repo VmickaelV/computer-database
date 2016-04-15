@@ -4,10 +4,20 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.sql.Connection;
+import java.util.concurrent.TimeUnit;
+
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest {
+
+	private Connection mConnection;
+
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+	}
 
 	@Override
 	public void tearDown() throws Exception {
@@ -16,8 +26,7 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 
 	@Test
 	public void start() throws Exception {
-		System.out.println(getApplicationUrl());
-		mWebDriver.get(getApplicationUrl());
+		openAndWait();
 
 		assertEquals("Computer Database", driver.getTitle());
 
@@ -71,7 +80,8 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 
 	@Test
 	public void switchPage1() throws Exception {
-		mWebDriver.get(getApplicationUrl());
+		openAndWait();
+
 		driver.findElement(By.linkText("1")).click();
 
 		assertEquals("Computer Database", driver.getTitle());
@@ -117,7 +127,8 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 
 	@Test
 	public void switchPage2() throws Exception {
-		mWebDriver.get(getApplicationUrl());
+		openAndWait();
+
 		driver.findElement(By.linkText("2")).click();
 
 		assertEquals("Computer Database", driver.getTitle());
@@ -158,7 +169,9 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 
 	@Test
 	public void switchLastPage() throws Exception {
-		driver.get(getApplicationUrl() + "/views/dashboard.jsp?size=50&page=12");
+		mWebDriver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+
+		driver.get(getApplicationUrl() + "/dashboard.html?size=50&page=12");
 
 		assertEquals("Computer Database", driver.getTitle());
 
@@ -172,7 +185,7 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 
 	@Test
 	public void switchPagePlusSize() throws Exception {
-		open();
+		openAndWait();
 
 		driver.findElement(By.linkText("4")).click();
 		driver.findElement(By.linkText("7")).click();
@@ -248,7 +261,7 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 
 	@Test
 	public void autreCombinaison() throws Exception {
-		open();
+		openAndWait();
 
 		driver.findElement(By.linkText("3")).click();
 		driver.findElement(By.linkText("100")).click();
@@ -266,7 +279,7 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 
 	@Test
 	public void autreCombinaison2() throws Exception {
-		open();
+		openAndWait();
 
 		driver.findElement(By.linkText("4")).click();
 		driver.findElement(By.linkText("6")).click();
@@ -285,7 +298,7 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 
 	@Test
 	public void autrecombinaison3() throws Exception {
-		open();
+		openAndWait();
 
 		driver.findElement(By.id("searchbox")).clear();
 		driver.findElement(By.id("searchbox")).sendKeys("apple");
@@ -300,7 +313,7 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 
 	@Test
 	public void autrecombinaison4() throws Exception {
-		open();
+		openAndWait();
 
 		driver.findElement(By.id("searchbox")).clear();
 		driver.findElement(By.id("searchbox")).sendKeys("apple");
@@ -317,7 +330,7 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 
 	@Test
 	public void autrecombinaison5() throws Exception {
-		open();
+		openAndWait();
 
 		driver.findElement(By.id("searchbox")).clear();
 		driver.findElement(By.id("searchbox")).sendKeys("apple");

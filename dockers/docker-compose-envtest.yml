@@ -87,8 +87,8 @@ services:
 
     command:
       - "mvn"
-      - "-P"
-      - "docker"
+#      - "-P"
+#      - "docker"
       - "tomcat7:run"
 
   # Serveur de Production ?

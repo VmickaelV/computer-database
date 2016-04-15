@@ -1,26 +1,19 @@
 package com.excilys.mviegas.speccdb.managers;
 
-import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
-import com.excilys.mviegas.speccdb.persistence.ICrudService;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.QueryParameter;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.Order;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.TypeOrder;
-import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +23,7 @@ import java.util.Map;
  *
  * @author Mickael
  */
+@Component
 public class DashboardManagerBean {
 
 	//===========================================================
@@ -52,7 +46,7 @@ public class DashboardManagerBean {
 	
 	private Paginator<Computer> mPaginator;
 	
-	private ICrudService<Computer> mComputerDao;
+
 	
 	private String mOrder;
 	
@@ -60,7 +54,10 @@ public class DashboardManagerBean {
 	
 	private List<Message> mMessages = new LinkedList<>();
 
-	private Connection mConnection;
+//	private Connection mConnection;
+
+	@Autowired
+	private ComputerDao mComputerDao;
 
 	//===========================================================
 	// Constructeur
@@ -70,43 +67,41 @@ public class DashboardManagerBean {
 		init();
 	}
 
-	public DashboardManagerBean(HttpServletRequest pHttpServletRequest) {
-		this();
-
-		Map<String, String[]> map = pHttpServletRequest.getParameterMap();
-		if (map.containsKey("page")) {
-			mPage = Integer.parseInt(pHttpServletRequest.getParameter("page"));
-		}
-
-		if (map.containsKey("size")) {
-			mSize = Integer.parseInt(pHttpServletRequest.getParameter("size"));
-		}
-
-		if (map.containsKey("search")) {
-			mSearch = pHttpServletRequest.getParameter("search");
-		}
-
-		if (map.containsKey("order")) {
-			mOrder = pHttpServletRequest.getParameter("order");
-		}
-
-		if (map.containsKey("typeOrder")) {
-			mTypeOrder = pHttpServletRequest.getParameter("typeOrder");
-		}
-
-	}
+//	public DashboardManagerBean(HttpServletRequest pHttpServletRequest) {
+//		this();
+//
+//		Map<String, String[]> map = pHttpServletRequest.getParameterMap();
+//
+//		map(map);
+//	}
 
 	//===========================================================
 	// Callback
 	//===========================================================
 	@PostConstruct
 	public void init() {
-		System.out.println(this);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("initialisation");
+			LOGGER.debug("this = " + this);
+		}
+
+		reset();
+
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("this.hashCode() = " + this.hashCode());
+		}
+
+	}
+
+	public void reset() {
 		mPage = 1;
 		mSize = DEFAULT_SIZE_PAGE;
-		mComputerDao = ComputerDao.getInstance();
+		mSearch = null;
+		mOrder = null;
+		mTypeOrder = null;
+		mPaginator = null;
+		mMessages.clear();
 	}
-	
 	//===========================================================
 	// Méthodes controleurs
 	//===========================================================
@@ -157,18 +152,6 @@ public class DashboardManagerBean {
 		mTypeOrder = pTypeOrder;
 	}
 
-	public Connection getConnection() {
-		return mConnection;
-	}
-
-	@Autowired
-	public void setDataSource(DataSource dataSource) {
-		try {
-			mConnection = dataSource.getConnection();
-		} catch (SQLException pE) {
-			LOGGER.error(pE.getMessage(), pE);
-		}
-	}
 	//===========================================================
 	// Méthodes - Object
 	//===========================================================	
@@ -184,7 +167,6 @@ public class DashboardManagerBean {
 		sb.append(", mOrder='").append(mOrder).append('\'');
 		sb.append(", mTypeOrder='").append(mTypeOrder).append('\'');
 		sb.append(", mMessages=").append(mMessages);
-		sb.append(", mConnection=").append(mConnection);
 		sb.append('}');
 		return sb.toString();
 	}
@@ -193,19 +175,16 @@ public class DashboardManagerBean {
 	// Méthodes - Object
 	//===========================================================
 	public void update() {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("DashboardManagerBean.update");
+			LOGGER.debug("");
+			LOGGER.debug(String.valueOf(this.hashCode()));
+			LOGGER.debug(String.valueOf(this));
+		}
+		
 		if (mPage == 0) {
 			mPage = 1;
 		}
-		
-		Connection connection = mConnection;
-		ThreadLocals.CONNECTIONS.set(connection);
-
-		if (LOGGER.isInfoEnabled()) {
-			LOGGER.info(String.valueOf(this));
-			LOGGER.info(String.valueOf(hashCode()));
-			LOGGER.info(String.valueOf(mConnection));
-		}
-
 		
 //		try {
 //			connection = DatabaseManager.getConnection();
@@ -216,7 +195,6 @@ public class DashboardManagerBean {
 //		}
 
 		if ((mSearch != null && !mSearch.isEmpty()) || (mOrder != null && !mOrder.isEmpty())) {
-			ThreadLocals.CONNECTIONS.set(connection);
 			QueryParameter parameter = QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, mSearch);
 			parameter
 					.and(ComputerDao.Parameters.SIZE, mSize)
@@ -255,17 +233,6 @@ public class DashboardManagerBean {
 		
 		boolean result = true;
 		
-		Connection connection = mConnection;
-		
-//		try {
-//			connection = DatabaseManager.getConnection();
-//			ThreadLocals.CONNECTIONS.set(connection);
-//		} catch (ConnectionException e) {
-//			mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nPlease, retry later.", Level.ERROR));
-//			return false;
-//		}
-		
-
 		// TODO à optimiser
 		for (String index : indexes) {
 			int i = Integer.parseInt(index);
@@ -281,14 +248,39 @@ public class DashboardManagerBean {
 			}
 		}
 		
-		try {
-			DatabaseManager.releaseConnection(connection);
-		} catch (ConnectionException e) {
-			LOGGER.error(e.getMessage(), e);
-			result = false;
-		}
-		
 		mMessages.add(new Message("Successful Deletion", "All selectede computers are deleted from the Database.", Level.SUCCESS));
 		return result;
+	}
+
+	public void map(Map<String, String> map) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("map = " + map);
+			LOGGER.debug("this = " + this);
+
+		}
+
+		if (map.containsKey("page")) {
+			mPage = Integer.parseInt(map.get("page"));
+		}
+
+		if (map.containsKey("size")) {
+			mSize = Integer.parseInt(map.get("size"));
+		}
+
+		if (map.containsKey("search")) {
+			mSearch = map.get("search");
+		}
+
+		if (map.containsKey("order")) {
+			mOrder = map.get("order");
+		}
+
+		if (map.containsKey("typeOrder")) {
+			mTypeOrder = map.get("typeOrder");
+		}
+
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("this = " + this);
+		}
 	}
 }
