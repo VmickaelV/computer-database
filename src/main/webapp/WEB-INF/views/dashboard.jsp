@@ -1,7 +1,9 @@
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib uri="/WEB-INF/tagslib.tld" prefix="my" %>
-<%@taglib tagdir="/WEB-INF/tags" prefix="my2" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="/WEB-INF/tagslib.tld" prefix="my" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="my2" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%--@elvariable id="dashboardManager" type="com.excilys.mviegas.speccdb.managers.DashboardManagerBean"--%>
 <%--<jsp:useBean id="dashboardManager" scope="page"--%>
              <%--class="com.excilys.mviegas.speccdb.managers.DashboardManagerBean">--%>
     <%--<jsp:setProperty name="dashboardManager" property="*"/>--%>
@@ -32,8 +34,7 @@
 <body>
 <header class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="dashboard.html"> Application -
-            Computer Database </a>
+        <a class="navbar-brand" href="dashboard.html"><spring:message code="lbl.title"/></a>
     </div>
 </header>
 <section id="main">
@@ -86,7 +87,7 @@
 	<%-- Début contenu de la page --%>
     <div class="container">
         <h1 id="homeTitle">
-            ${dashboardManager.paginator.elementsCount} Computers found
+            <spring:message arguments="${dashboardManager.paginator.elementsCount}" code="lbl.computers_found"/>
         </h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
