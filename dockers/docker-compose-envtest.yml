@@ -7,11 +7,15 @@ services:
     build:
       context: ..
       dockerfile: dockers/db/Dockerfile_mysql
+    image: vmickaelv/bdd_computer_database
     networks:
       - back
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
     # TODO a supprimer
+
+  test_bdd:
+    extends: bdd
     ports :
       - "3306:3306"
 
@@ -21,7 +25,7 @@ services:
       context: ..
       dockerfile: dockers/Dockerfile_java_maven
     volumes:
-          - ~/.m2/repository:/root/.m2/repository
+      - ~/.m2/repository:/root/.m2/repository
 
   # Lancement des tests unitaires
   unit_test:

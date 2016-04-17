@@ -6,18 +6,26 @@ import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Connection;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/beans.xml" })
 public class AddComputerTest extends BaseSeleniumTest {
 
 	private Connection mConnection;
-	private ComputerDao mComputerDao = ComputerDao.INSTANCE;
+
+	@Autowired
+	private ComputerDao mComputerDao;
 
 	@Override
 	public void tearDown() throws Exception {

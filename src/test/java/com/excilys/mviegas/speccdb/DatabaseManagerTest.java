@@ -43,7 +43,7 @@ public class DatabaseManagerTest {
 	
 	@Test
 	public void testName() throws Exception {
-		
+
 	}
 	
 	@Test
@@ -51,47 +51,48 @@ public class DatabaseManagerTest {
 		resetDatabase();
 	}
 
-	public static void resetDatabase() throws Exception {
-
-		Connection connection = DatabaseManager.getConnection();
-
+	public static void resetDatabase(Connection connection) throws Exception {
 		connection.setAutoCommit(false);
-		
+
 		StringBuilder builder = new StringBuilder();
-		
+
 		for(File file : new File[] {
 				new File(DatabaseManager.class.getClassLoader().getResource(DB_INSERT).getFile())
-			}) {
+		}) {
 
-    		try (Scanner scanner = new Scanner(file)) {
-    			while (scanner.hasNextLine()) {
-    				String line = scanner.nextLine();
-    				if (!line.trim().isEmpty()) {
-    					builder.append(line);
-    					
-    					if (line.trim().endsWith(";")) {
-    						Statement statement = connection.createStatement();
-    						statement.executeUpdate(builder.toString());
-    						builder = new StringBuilder();
-    					}
-    				}
-    			}
+			try (Scanner scanner = new Scanner(file)) {
+				while (scanner.hasNextLine()) {
+					String line = scanner.nextLine();
+					if (!line.trim().isEmpty()) {
+						builder.append(line);
+
+						if (line.trim().endsWith(";")) {
+							Statement statement = connection.createStatement();
+							statement.executeUpdate(builder.toString());
+							builder = new StringBuilder();
+						}
+					}
+				}
 
 				if (!builder.toString().isEmpty()) {
 					Statement statement = connection.createStatement();
 					statement.executeUpdate(builder.toString());
 				}
-    		}
-    		connection.commit();
+			}
+			connection.commit();
 		}
-		
+
 		connection.setAutoCommit(true);
-		
+
 		assertEquals(574, sComputerDao.size());
 		assertEquals(42, sCompanyDao.size());
 
 		DatabaseManager.releaseConnection(connection);
-		
+
+	}
+
+	public static void resetDatabase() throws Exception {
+		resetDatabase(DatabaseManager.getConnection());
 	}
 
 	private static CompanyDao sCompanyDao = C.appContext.getBean(CompanyDao.class);
