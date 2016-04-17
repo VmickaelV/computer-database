@@ -8,6 +8,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import java.sql.Connection;
 
@@ -181,7 +182,31 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 	}
 
+	@Test
+	public void addMoreComplete() throws Exception {
+
+		openAndWait();
+		driver.findElement(By.linkText("100")).click();
+		driver.findElement(By.linkText("4")).click();
+		driver.findElement(By.linkText("6")).click();
+		assertFalse(isElementPresent(By.xpath("//tbody[@id='results']/tr[75]")));
+		mWebDriver.findElement(By.id("addComputer")).click();
 
 
+		driver.findElement(By.id("name")).clear();
+		driver.findElement(By.id("name")).sendKeys("Nouvel Ordinateur");
+		driver.findElement(By.id("introducedDate")).click();
+		driver.findElement(By.linkText("8")).click();
+		new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("NeXT");
+		driver.findElement(By.id("btnSubmit")).click();
+		driver.findElement(By.linkText("100")).click();
+		driver.findElement(By.linkText("4")).click();
+		driver.findElement(By.linkText("6")).click();
 
+//		 04/05/2016
+		assertEquals("Nouvel Ordinateur", driver.findElement(By.xpath("//tbody[@id='results']/tr[75]/td[2]")).getText());
+		assertEquals("2016-08-04", driver.findElement(By.xpath("//tbody[@id='results']/tr[75]/td[3]")).getText());
+		assertEquals("", driver.findElement(By.xpath("//tbody[@id='results']/tr[75]/td[4]")).getText());
+		assertEquals("NeXT", driver.findElement(By.xpath("//tbody[@id='results']/tr[75]/td[5]")).getText());
+	}
 }
