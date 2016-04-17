@@ -91,6 +91,10 @@ public abstract class BaseSeleniumTest {
 //		deploy();
 
 		if (URL_REMOTE_WEBDRIVER == null || URL_REMOTE_WEBDRIVER.isEmpty()) {
+			if (mFirefoxProfile == null) {
+				mFirefoxProfile = new FirefoxProfile();
+			}
+			mFirefoxProfile.setPreference("intl.accept_languages", "en");
 			mWebDriver = new FirefoxDriver(mFirefoxProfile);
 		} else {
 			mWebDriver = new RemoteWebDriver(new URL(URL_REMOTE_WEBDRIVER), DesiredCapabilities.firefox());

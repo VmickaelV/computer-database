@@ -1,28 +1,34 @@
 package com.excilys.mviegas.speccdb.selenium;
 
-import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
-import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Connection;
 
 import static org.junit.Assert.assertEquals;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/beans.xml" })
 public class EditComputerTest extends BaseSeleniumTest {
 
 	private Connection mConnection;
-	private ComputerDao mComputerDao = ComputerDao.INSTANCE;
+
+	@Autowired
+	private ComputerDao mComputerDao;
 
 	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 
-		ThreadLocals.CONNECTIONS.remove();
-		DatabaseManager.releaseConnection(mConnection);
+//		ThreadLocals.CONNECTIONS.remove();
+//		DatabaseManager.releaseConnection(mConnection);
 	}
 
 	@Override
@@ -31,8 +37,8 @@ public class EditComputerTest extends BaseSeleniumTest {
 
 		openAndWait();
 
-		mConnection = DatabaseManager.getConnection();
-		ThreadLocals.CONNECTIONS.set(mConnection);
+//		mConnection = DatabaseManager.getConnection();
+//		ThreadLocals.CONNECTIONS.set(mConnection);
 	}
 
 	@Test
