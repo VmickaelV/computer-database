@@ -31,12 +31,14 @@ public class DeleteComputerTest extends BaseSeleniumTest {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		openAndWait();
+
 
 		mConnection = DatabaseManager.getConnection();
 		ThreadLocals.CONNECTIONS.set(mConnection);
 
 		DatabaseManagerTest.resetDatabase();
+
+		openAndWait();
 	}
 
 	/**
