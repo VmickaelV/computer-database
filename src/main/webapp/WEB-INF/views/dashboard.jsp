@@ -56,7 +56,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                     aria-hidden="true">×</span>
             </button>
-            <h4>Modifications are successfully saved into Database</h4>
+            <h4><spring:message code="lbl.modification_successful"/></h4>
         </div>
     </c:if>
     
@@ -68,7 +68,7 @@
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                             aria-hidden="true">×</span>
                     </button>
-                    <h4>Computer successfully deleted from the Database</h4>
+                    <h4><spring:message code="lbl.deleted_computers"/></h4>
                 </div>
             </c:when>
             <c:otherwise>
@@ -76,7 +76,7 @@
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                             aria-hidden="true">×</span>
                     </button>
-                    <h4>Error on deletion of the selected computers.</h4>
+                    <h4><spring:message code="lbl.error_deletion"/></h4>
                 </div>
             </c:otherwise>
         </c:choose>
@@ -96,16 +96,25 @@
                     <c:if test="${not empty param.size}">
                         <input type="hidden" name="size" value="${param.size}">
                     </c:if>
-                    <input type="search" id="searchbox" name="search"
-                           class="form-control" placeholder="Search name" value="${param.search}"/> <input
-                        type="submit" id="searchsubmit" value="Filter by name"
-                        class="btn btn-primary"/>
+                    <jsp:element name="input">
+                        <jsp:attribute name="type">search</jsp:attribute>
+                        <jsp:attribute name="id">searchbox</jsp:attribute>
+                        <jsp:attribute name="name">search</jsp:attribute>
+                        <jsp:attribute name="class">form-control</jsp:attribute>
+                        <jsp:attribute name="placeholder"><spring:message code="lbl.help_search"/></jsp:attribute>
+                        <jsp:attribute name="value">${param.search}</jsp:attribute>
+                    </jsp:element>
+                    <jsp:element name="input">
+                        <jsp:attribute name="type">submit</jsp:attribute>
+                        <jsp:attribute name="id">searchsubmit</jsp:attribute>
+                        <jsp:attribute name="value"><spring:message code="lbl.filter_lbl"/></jsp:attribute>
+                        <jsp:attribute name="class">btn btn-primary</jsp:attribute>
+                    </jsp:element>
+
                 </form>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" id="addComputer" href="addComputer.html">Add
-                    Computer</a> <a class="btn btn-default" id="editComputer" href="#"
-                                    onclick="$.fn.toggleEditMode();">Edit</a>
+                <a class="btn btn-success" id="addComputer" href="addComputer.html"><spring:message code="lbl.add_computer"/></a> <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="lbl.edit"/></a>
             </div>
         </div>
     </div>
@@ -128,10 +137,10 @@
                         class="fa fa-trash-o fa-lg"></i>
                 </a>
 						</span></th>
-                <th><a href="${my:linkSort('dashboard', param, 'name', (dashboardManager.order == 'name' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'name'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Computer name <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'name' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
-                <th><a href="${my:linkSort('dashboard', param, 'introduced', (dashboardManager.order == 'introduced' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'introduced'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Introduced date <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'introduced' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
-                <th><a href="${my:linkSort('dashboard', param, 'discontinued', (dashboardManager.order == 'discontinued' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'discontinued'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Discontinued date <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'discontinued' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
-                <th><a href="${my:linkSort('dashboard', param, 'company_name', (dashboardManager.order == 'company_name' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'company_name'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> Company <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'company_name' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${my:linkSort('dashboard', param, 'name', (dashboardManager.order == 'name' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'name'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.computer_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'name' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${my:linkSort('dashboard', param, 'introduced', (dashboardManager.order == 'introduced' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'introduced'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.introduced_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'introduced' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${my:linkSort('dashboard', param, 'discontinued', (dashboardManager.order == 'discontinued' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'discontinued'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.discontinued_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'discontinued' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${my:linkSort('dashboard', param, 'company_name', (dashboardManager.order == 'company_name' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'company_name'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.company_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'company_name' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
             </tr>
             </thead>
             <!-- Browse attribute computers -->
