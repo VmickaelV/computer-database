@@ -3,6 +3,8 @@ package com.excilys.mviegas.speccdb.selenium;
 import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
+import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -14,6 +16,7 @@ import static org.junit.Assert.*;
 public class AddComputerTest extends BaseSeleniumTest {
 
 	private Connection mConnection;
+	private ComputerDao mComputerDao = ComputerDao.INSTANCE;
 
 	@Override
 	public void tearDown() throws Exception {
@@ -73,17 +76,16 @@ public class AddComputerTest extends BaseSeleniumTest {
 	 */
 	@Test
 	public void nameEmpty() throws Exception {
-
-		int n = ComputerDao.INSTANCE.size();
+		int n = mComputerDao.size();
 
 		assertFalse(isElementPresent(By.id("name-error")));
-
 
 		mWebDriver.findElement(By.id("btnSubmit")).click();
 
 		assertEquals("This field is required.", driver.findElement(By.id("name-error")).getText());
 
-		assertEquals(n, ComputerDao.INSTANCE.size());
+		assertEquals(n, mComputerDao.size());
+		assertThat(mWebDriver.getCurrentUrl(), Matchers.endsWith("/addComputer.jsp"));
 	}
 
 	/**
@@ -93,7 +95,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 	 */
 	@Test
 	public void onlyName() throws Exception {
-		int n = ComputerDao.INSTANCE.size();
+		int n = mComputerDao.size();
 
 		// assert Base
 		assertEquals("Computer Database", driver.getTitle());
@@ -113,7 +115,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 		assertFalse(isElementPresent(By.id("name-error")));
 
-		assertEquals(n+1, ComputerDao.INSTANCE.size());
+		assertEquals(n+1, mComputerDao.size());
 
 		assertTrue(mWebDriver.getCurrentUrl().endsWith("dashboard.jsp"));
 
@@ -125,12 +127,11 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 	/**
 	 * Test de validation champ vide pour nom
-	 *
-	 * @throws Exception
 	 */
 	@Test
+	@Ignore
 	public void wrongIntroducedDate() throws Exception {
-		int n = ComputerDao.INSTANCE.size();
+		int n = mComputerDao.size();
 
 		// assert Base
 		assertEquals("Computer Database", driver.getTitle());
@@ -150,7 +151,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 		assertFalse(isElementPresent(By.id("name-error")));
 
-		assertEquals(n+1, ComputerDao.INSTANCE.size());
+		assertEquals(n+1, mComputerDao.size());
 
 		assertTrue(mWebDriver.getCurrentUrl().endsWith("dashboard.jsp"));
 
@@ -159,4 +160,28 @@ public class AddComputerTest extends BaseSeleniumTest {
 		assertTrue(webElement.getAttribute("class").contains("alert"));
 		assertTrue(webElement.getAttribute("class").contains("alert-success"));
 	}
+
+	@Test
+	@Ignore
+	/**
+	 * Test d'une date après aujourd'hui
+	 */
+	public void wrongDiscontinuedDate1() throws Exception {
+
+
+	}
+
+	@Test
+	@Ignore
+	/**
+	 * Test d'une date avent date début
+	 */
+	public void wrongDiscontinuedDate2() throws Exception {
+
+
+	}
+
+
+
+
 }
