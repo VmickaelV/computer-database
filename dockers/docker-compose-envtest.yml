@@ -2,17 +2,33 @@ version: '2'
 
 services:
 
+  bdd_h2:
+    build:
+      context: ..
+      dockerfile: dockers/db/Dockerfile_h2
+    image: vmickaelv/bdd_computer_database:h2
+
+    networks:
+      - back
+
+    ports:
+      - "8081:81"
+      - "1521:1521"
+
   # Lance la BDD
-  bdd:
+  bdd_mysql:
     build:
       context: ..
       dockerfile: dockers/db/Dockerfile_mysql
-    image: vmickaelv/bdd_computer_database
+    image: vmickaelv/bdd_computer_database:mysql
     networks:
       - back
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
     # TODO a supprimer
+
+  bdd:
+    extends: bdd_h2
 
   test_bdd:
     extends: bdd
@@ -93,12 +109,12 @@ services:
       - "mvn"
       - "-P"
       - "docker"
-      #- "-Ddb.username=sasa"
-      #- "-Ddb.password="
-      #- "-Ddb.createScripts=db/1-SCHEMA.sql"
-      #- "-Ddb.min_size=25"
-      #- "-Ddb.className=org.h2.Driver"
-      #- "-Ddb.url=jdbc:h2:tcp://bdd/~/testsdsdf"
+      - "-Ddb.username=sa"
+      - "-Ddb.password="
+      - "-Ddb.createScripts=db/1-SCHEMA.sql"
+      - "-Ddb.min_size=25"
+      - "-Ddb.className=org.h2.Driver"
+      - "-Ddb.url=jdbc:h2:tcp://bdd:1521/~/test"
       - "tomcat7:run"
 
   # Serveur de Production ?

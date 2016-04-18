@@ -8,12 +8,16 @@ import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.Order;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.TypeOrder;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +28,7 @@ import java.util.Map;
  * @author Mickael
  */
 @Component
+@org.springframework.context.annotation.Scope("prototype")
 public class DashboardManagerBean {
 
 	//===========================================================
@@ -37,24 +42,30 @@ public class DashboardManagerBean {
 	//===========================================================
 	// Attributes - privates
 	//===========================================================
-	
+
+
+	@Min(1)
 	private int mPage = 1;
-	
+
+	@Min(0)
 	private int mSize = DEFAULT_SIZE_PAGE;
-	
+
+	@NotNull
+	@NotEmpty
+	@Size(min = 3)
 	private String mSearch;
 	
 	private Paginator<Computer> mPaginator;
-	
 
-	
 	private String mOrder;
-	
+
 	private String mTypeOrder;
 	
 	private List<Message> mMessages = new LinkedList<>();
 
 //	private Connection mConnection;
+
+	private String mSelection;
 
 	@Autowired
 	private ComputerDao mComputerDao;
@@ -152,6 +163,22 @@ public class DashboardManagerBean {
 		mTypeOrder = pTypeOrder;
 	}
 
+	public String getSelection() {
+		return mSelection;
+	}
+
+	public void setSelection(String pSelection) {
+		mSelection = pSelection;
+	}
+
+	public List<Message> getMessages() {
+		return mMessages;
+	}
+
+	public void setComputerDao(ComputerDao pComputerDao) {
+		mComputerDao = pComputerDao;
+	}
+
 	//===========================================================
 	// Méthodes - Object
 	//===========================================================	
@@ -218,7 +245,7 @@ public class DashboardManagerBean {
 			}
 		}
 		
-		mMessages.add(new Message("Successful Update", "Successful Update", Level.SUCCESS));
+//		mMessages.add(new Message("Successful Update", "Successful Update", Level.SUCCESS));
 
 //		try {
 //			DatabaseManager.releaseConnection(connection);
@@ -226,6 +253,10 @@ public class DashboardManagerBean {
 //			LOGGER.error(e.getMessage(), e);
 //			mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nRetrieve later", Level.ERROR));
 //		}
+	}
+
+	public boolean delete() {
+		return delete(mSelection);
 	}
 
 	public boolean delete(String pIntegers) {

@@ -1,11 +1,11 @@
 package com.excilys.mviegas.speccdb.selenium;
 
+import com.excilys.mviegas.speccdb.DatabaseManagerTest;
+import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import com.excilys.mviegas.speccdb.DatabaseManagerTest;
 
 import java.sql.Connection;
 import java.util.concurrent.TimeUnit;
@@ -16,8 +16,10 @@ import static org.junit.Assert.*;
 public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest {
 	
 	@BeforeClass
-	private static void beforeClass() throws Exception {
-		DatabaseManagerTest.resetDatabase();
+	public static void beforeClass() throws Exception {
+		Connection connection = DatabaseManager.getConnection();
+		DatabaseManagerTest.resetDatabase(connection);
+		DatabaseManager.releaseConnection(connection);
 	}
 
 	private Connection mConnection;
