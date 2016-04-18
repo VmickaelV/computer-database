@@ -4,7 +4,8 @@ import com.excilys.mviegas.speccdb.controlers.IEditorComputerControler;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persistence.ICrudService;
+import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.spring.ListOfCompanies;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
@@ -56,10 +57,10 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 	private ListOfCompanies mListOfCompanies;
 
 	@Autowired
-	private ICrudService<Company> mCompanyCrudService;
+	private CompanyDao mCompanyCrudService;
 
 	@Autowired
-	private ICrudService<Computer> mComputerCrudService;
+	private ComputerDao mComputerCrudService;
 
 	private List<Message> mMessages = new LinkedList<>();
 	
