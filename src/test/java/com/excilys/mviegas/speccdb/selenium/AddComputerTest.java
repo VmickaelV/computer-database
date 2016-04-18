@@ -1,9 +1,7 @@
 package com.excilys.mviegas.speccdb.selenium;
 
 import com.excilys.mviegas.speccdb.DatabaseManagerTest;
-import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
-import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -132,7 +130,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 		assertEquals(n+1, mComputerDao.size());
 
-		assertTrue(mWebDriver.getCurrentUrl().endsWith("dashboard.jsp"));
+		assertThat(mWebDriver.getCurrentUrl(), Matchers.endsWith("dashboard.html"));
 
 		WebElement webElement = driver.findElement(By.xpath("//section[@id='main']/div"));
 		assertEquals("×\nComputer successfully added into Database", webElement.getText());

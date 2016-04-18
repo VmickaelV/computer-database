@@ -1,16 +1,17 @@
 package com.excilys.mviegas.speccdb.spring.controllers;
 
 import com.excilys.mviegas.speccdb.managers.DashboardManagerBean;
+import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Map;
+import javax.validation.Valid;
 
 /**
  * Created by excilys on 14/04/16.
@@ -18,39 +19,56 @@ import java.util.Map;
 @Controller
 public class DashboardController {
 
+//	@Autowired
+//	private DashboardManagerBean mDashboardManagerBean;
+
 	@Autowired
-	private DashboardManagerBean mDashboardManagerBean;
+	private ComputerDao mComputerDao;
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(DashboardController.class);
 
 	@RequestMapping(value = "/dashboard", method = {RequestMethod.GET})
-	public String get(@RequestParam Map<String,String> allRequestParams, ModelMap pModelMap) {
+	public String get(@Valid DashboardManagerBean pDashboardManagerBean, BindingResult bindingResult, ModelMap pModelMap) {
 
-		mDashboardManagerBean.init();
-		mDashboardManagerBean.map(allRequestParams);
-		mDashboardManagerBean.update();
+//		mDashboardManagerBean.init();
+//		mDashboardManagerBean.map(allRequestParams);
+//		mDashboardManagerBean.update();
+
+		pDashboardManagerBean.setComputerDao(mComputerDao);
+		pDashboardManagerBean.update();
+
+
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("m = " + mDashboardManagerBean.getPaginator());
+			LOGGER.debug("pDashboardManagerBean = " + pDashboardManagerBean);
+			LOGGER.debug("bindingResult = " + bindingResult);
+
+		}
+//		mDashboardManagerBean = pDashboardManagerBean;
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("m = " + pDashboardManagerBean.getPaginator());
 		}
 
-		pModelMap.put("dashboardManager", mDashboardManagerBean);
+		pModelMap.put("dashboardManager", pDashboardManagerBean);
 		return "dashboard";
 	}
 	
 	@RequestMapping(value = "/dashboard", method = {RequestMethod.POST})
-	public String delete(@RequestParam Map<String,String> allRequestParams, ModelMap pModelMap) {
-		mDashboardManagerBean.init();
-		
-		mDashboardManagerBean.map(allRequestParams);
-		
-		if (!allRequestParams.containsKey("selection")) {
+	public String delete(DashboardManagerBean pDashboardManagerBean, ModelMap pModelMap) {
+//		mDashboardManagerBean.init();
+//
+//		mDashboardManagerBean.map(allRequestParams);
+//
+		if (pDashboardManagerBean.getSelection() == null  || pDashboardManagerBean.getSelection().isEmpty()) {
 			throw new RuntimeException();
 		}
+
+		pDashboardManagerBean.setComputerDao(mComputerDao);
+
+		boolean result = pDashboardManagerBean.delete();
 		
-		boolean result = mDashboardManagerBean.delete(allRequestParams.get("selection"));
-		
-		pModelMap.put("dashboardManager", mDashboardManagerBean);
+		pModelMap.put("dashboardManager", pDashboardManagerBean);
 		pModelMap.put("deleteSuccessful", result);
+		pDashboardManagerBean.update();
 		
 		return "dashboard";
 	}

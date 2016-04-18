@@ -38,9 +38,11 @@ public class EditionComputerController {
 		mComputerEditorManagerBean.map(allRequestParams);
 		if (mComputerEditorManagerBean.addComputer()) {
 			pModelMap.put("computerAdded", true);
+//			return new ModelAndView(new RedirectView("dashboard"), pModelMap);
 			return "redirect:dashboard.html";
 		} else {
 			pModelMap.put("computerEditor", mComputerEditorManagerBean);
+//			return new ModelAndView("addComputer");
 			return "addComputer";
 		}
 	}
@@ -68,22 +70,4 @@ public class EditionComputerController {
 			return "addComputer";
 		}
 	}
-
-//	public String get(@RequestParam Map<String,String> allRequestParams, ModelMap pModelMap) {
-//
-//		mComputerEditorBean.init();
-//		mComputerEditorBean.map(allRequestParams);
-//		mComputerEditorBean.update();
-//		if (LOGGER.isDebugEnabled()) {
-//			LOGGER.debug("m = " + mComputerEditorBean.getPaginator());
-//		}
-//
-//		pModelMap.put("dashboardManager", mComputerEditorBean);
-//		return "dashboard";
-//	}
-//
-//	@RequestMapping("/addComputer")
-//	public String addComputer() {
-//		return "addComputer";
-//	}
 }

@@ -1,4 +1,4 @@
-<%@page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 <%--@elvariable id="computerEditor" type="com.excilys.mviegas.speccdb.managers.ComputerEditorManagerBean"--%>
@@ -9,7 +9,8 @@
 	<%--<jsp:setProperty name="computerEditor" property="idCompany"--%>
 		<%--param="companyId" />--%>
 <%--</jsp:useBean>--%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%--<c:choose>--%>
 	<%--<c:when--%>

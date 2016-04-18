@@ -84,6 +84,16 @@
         <c:remove var="deleteSuccessful"/>
     </c:if>
 
+    <%--<c:forEach items="${dashboardManager.messages}" var="message">--%>
+        <%--<div class="alert alert-warning alert-dismissible fade in" role="alert">--%>
+            <%--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span--%>
+                    <%--aria-hidden="true">×</span>--%>
+            <%--</button>--%>
+            <%--<h4>${message.title}</h4>--%>
+            <%--<div>${message.description}</div>--%>
+        <%--</div>--%>
+    <%--</c:forEach>--%>
+
 	<%-- Début contenu de la page --%>
     <div class="container">
         <h1 id="homeTitle">

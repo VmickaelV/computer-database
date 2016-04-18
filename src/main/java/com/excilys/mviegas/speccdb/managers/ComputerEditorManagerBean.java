@@ -1,13 +1,10 @@
 package com.excilys.mviegas.speccdb.managers;
 
-import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.controlers.IEditorComputerControler;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.ICrudService;
-import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import com.excilys.mviegas.speccdb.spring.ListOfCompanies;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
@@ -16,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Min;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -46,6 +44,8 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 	private String mIntroducedDate;
 	private String mDiscontinuedDate;
 	private int mIdCompany;
+
+	@Min(1)
 	private long mId;
 
 	private String mAction;
@@ -128,8 +128,8 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 		mId = pId;
 		if (pId > 0) {
 			try {
-				Connection connection = DatabaseManager.getConnection();
-				ThreadLocals.CONNECTIONS.set(connection);
+//				Connection connection = DatabaseManager.getConnection();
+//				ThreadLocals.CONNECTIONS.set(connection);
 				
 				mComputer = mComputerCrudService.find(pId);
 				
@@ -146,9 +146,9 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 					mIdCompany = mComputer.getManufacturer().getId();
 				}
 				
-				ThreadLocals.CONNECTIONS.remove();
-				DatabaseManager.releaseConnection(connection);
-			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException | ConnectionException pE) {
+//				ThreadLocals.CONNECTIONS.remove();
+//				DatabaseManager.releaseConnection(connection);
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				mComputer = null;
 				mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
 			}
@@ -199,25 +199,26 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 	public boolean hasValidIdCompany() {
 		Connection connection = null;
 		try {
-			connection = DatabaseManager.getConnection();
-			ThreadLocals.CONNECTIONS.set(connection);
+//			connection = DatabaseManager.getConnection();
+//			ThreadLocals.CONNECTIONS.set(connection);
 			return mIdCompany == 0 || mCompanyCrudService.find(mIdCompany) != null;
-		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException | ConnectionException pE) {
+		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 			LOGGER.error(pE.getMessage(), pE);
 			mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
 			return false;
-		} finally {
-			if (connection !=  null) {
-				ThreadLocals.CONNECTIONS.remove();
-				try {
-					DatabaseManager.releaseConnection(connection);
-				} catch (ConnectionException e) {
-					LOGGER.error(e.getMessage(), e);
-					throw new RuntimeException(e);
-				}
-				
-			}
 		}
+//		} finally {
+//			if (connection !=  null) {
+//				ThreadLocals.CONNECTIONS.remove();
+//				try {
+//					DatabaseManager.releaseConnection(connection);
+//				} catch (ConnectionException e) {
+//					LOGGER.error(e.getMessage(), e);
+//					throw new RuntimeException(e);
+//				}
+//
+//			}
+//		}
 	}
 
 	public boolean isValidForm() {

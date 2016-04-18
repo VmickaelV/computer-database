@@ -154,7 +154,7 @@ public class DatabaseManager {
 //        }
 		
 		// Scripts SQL à lancer au démarrage
-		if (!CREATE_SCRIPTS.isEmpty() || INSERT_SCRIPTS.isEmpty()) {
+		if (!CREATE_SCRIPTS.isEmpty() || !INSERT_SCRIPTS.isEmpty()) {
 			try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
 				
 				connection.setAutoCommit(false);

@@ -50,9 +50,12 @@ public abstract class BaseSeleniumTest {
 		public static final String DONT_CLOSE = "test.dont_close";
 	}
 
+//	public static final String DEFAULT_URL_REMOTE_WEBDRIVER = "http://localhost:4444/wd/hub";
 	public static final String DEFAULT_URL_REMOTE_WEBDRIVER = null;
-	public static final String DEFAULT_SERVER_PORT = "8888";
+//public static final String DEFAULT_SERVER_IP = "test_server";
 	public static final String DEFAULT_SERVER_IP = "localhost";
+	public static final String DEFAULT_SERVER_PORT = "8888";
+
 	public static final boolean DEFAULT_DONT_CLOSE = false;
 
 	public static final String TOMCAT_WORKING_DIR = System.getProperty(Properties.TOMCAT_WORKING_DIR, "target/tomcatembedded");
