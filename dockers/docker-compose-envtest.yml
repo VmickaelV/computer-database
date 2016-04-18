@@ -16,7 +16,7 @@ services:
 
   test_bdd:
     extends: bdd
-    ports :
+    ports:
       - "3306:3306"
 
   # Service mère pour les tests
@@ -91,8 +91,14 @@ services:
 
     command:
       - "mvn"
-#      - "-P"
-#      - "docker"
+      - "-P"
+      - "docker"
+      #- "-Ddb.username=sasa"
+      #- "-Ddb.password="
+      #- "-Ddb.createScripts=db/1-SCHEMA.sql"
+      #- "-Ddb.min_size=25"
+      #- "-Ddb.className=org.h2.Driver"
+      #- "-Ddb.url=jdbc:h2:tcp://bdd/~/testsdsdf"
       - "tomcat7:run"
 
   # Serveur de Production ?

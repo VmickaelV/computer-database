@@ -25,7 +25,7 @@ public class EditionComputerController {
 
 	@RequestMapping(value = "/addComputer", method = {RequestMethod.GET})
 	public String get(ModelMap pModelMap) {
-		mComputerEditorManagerBean.init();
+		mComputerEditorManagerBean.reset();
 
 		pModelMap.put("computerEditor", mComputerEditorManagerBean);
 		return "addComputer";
@@ -37,6 +37,30 @@ public class EditionComputerController {
 
 		mComputerEditorManagerBean.map(allRequestParams);
 		if (mComputerEditorManagerBean.addComputer()) {
+			pModelMap.put("computerAdded", true);
+			return "redirect:dashboard.html";
+		} else {
+			pModelMap.put("computerEditor", mComputerEditorManagerBean);
+			return "addComputer";
+		}
+	}
+	
+	@RequestMapping(value = "/editComputer", method = {RequestMethod.GET})
+	public String getComputer(@RequestParam Map<String,String> allRequestParams, ModelMap pModelMap) {
+		mComputerEditorManagerBean.reset();
+
+		mComputerEditorManagerBean.map(allRequestParams);
+		
+		pModelMap.put("computerEditor", mComputerEditorManagerBean);
+		return "addComputer";
+	}
+
+	@RequestMapping(value = "/editComputer", method = {RequestMethod.POST}, params = {"action=Edit"})
+	public String edit(@RequestParam Map<String,String> allRequestParams, ModelMap pModelMap) {
+		mComputerEditorManagerBean.reset();
+
+		mComputerEditorManagerBean.map(allRequestParams);
+		if (mComputerEditorManagerBean.editComputer()) {
 			pModelMap.put("computerAdded", true);
 			return "redirect:dashboard.html";
 		} else {

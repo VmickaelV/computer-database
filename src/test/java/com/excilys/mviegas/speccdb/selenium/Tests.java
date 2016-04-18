@@ -1,8 +1,11 @@
 package com.excilys.mviegas.speccdb.selenium;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import com.excilys.mviegas.speccdb.DatabaseManagerTest;
 
 import java.sql.Connection;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +14,11 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest {
+	
+	@BeforeClass
+	private static void beforeClass() throws Exception {
+		DatabaseManagerTest.resetDatabase();
+	}
 
 	private Connection mConnection;
 
