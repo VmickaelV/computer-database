@@ -247,7 +247,7 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 						.setManufacturer(mCompanyCrudService.find(mIdCompany)).build();
 			} else {				
 				mComputer.setName(mName);
-				mComputer.setIntroducedDate(mIntroducedDate == null || mDiscontinuedDate.isEmpty() ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter));
+				mComputer.setIntroducedDate(mIntroducedDate == null || mIntroducedDate.isEmpty() ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter));
 				mComputer.setDiscontinuedDate(mDiscontinuedDate == null || mDiscontinuedDate.isEmpty() ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter));
 				mComputer.setManufacturer(mCompanyCrudService.find(mIdCompany));
 				
@@ -329,7 +329,7 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 		}
 
 		if (map.containsKey("id")) {
-			mId = Integer.parseInt(map.get("id"));
+			setId(Integer.parseInt(map.get("id")));
 		}
 
 		if (map.containsKey("name")) {

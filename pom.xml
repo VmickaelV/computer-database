@@ -453,6 +453,14 @@
             <version>${mysql-connector-java.version}</version>
             <scope>runtime</scope>
         </dependency>
+        
+        <!-- Base de Données pour le Test (en mémoire) -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>runtime</scope>
+        </dependency>
 
         <!-- Bind à log4j -->
         <!--<dependency>-->
@@ -522,13 +530,13 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Base de Données pour le Test (en mémoire) -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
-            <scope>test</scope>
-        </dependency>
+<!--         Base de Données pour le Test (en mémoire) -->
+<!--         <dependency> -->
+<!--             <groupId>com.h2database</groupId> -->
+<!--             <artifactId>h2</artifactId> -->
+<!--             <version>${h2.version}</version> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
 
         <!-- Pour le Mock des objets -->
         <dependency>

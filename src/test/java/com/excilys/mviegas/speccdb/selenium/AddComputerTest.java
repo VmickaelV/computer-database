@@ -1,5 +1,6 @@
 package com.excilys.mviegas.speccdb.selenium;
 
+import com.excilys.mviegas.speccdb.DatabaseManagerTest;
 import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
@@ -31,19 +32,21 @@ public class AddComputerTest extends BaseSeleniumTest {
 	public void tearDown() throws Exception {
 		super.tearDown();
 
-		ThreadLocals.CONNECTIONS.remove();
-		DatabaseManager.releaseConnection(mConnection);
+//		ThreadLocals.CONNECTIONS.remove();
+//		DatabaseManager.releaseConnection(mConnection);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		
+		DatabaseManagerTest.resetDatabase();
 
 		openAndWait();
 		mWebDriver.findElement(By.id("addComputer")).click();
 
-		mConnection = DatabaseManager.getConnection();
-		ThreadLocals.CONNECTIONS.set(mConnection);
+//		mConnection = DatabaseManager.getConnection();
+//		ThreadLocals.CONNECTIONS.set(mConnection);
 	}
 
 	@Test
@@ -88,13 +91,16 @@ public class AddComputerTest extends BaseSeleniumTest {
 		int n = mComputerDao.size();
 
 		assertFalse(isElementPresent(By.id("name-error")));
+		
+		assertEquals("", driver.findElement(By.id("name")).getAttribute("value"));
+
 
 		mWebDriver.findElement(By.id("btnSubmit")).click();
 
 		assertEquals("This field is required.", driver.findElement(By.id("name-error")).getText());
 
 		assertEquals(n, mComputerDao.size());
-		assertThat(mWebDriver.getCurrentUrl(), Matchers.endsWith("/addComputer.jsp"));
+		assertThat(mWebDriver.getCurrentUrl(), Matchers.endsWith("/addComputer.html"));
 	}
 
 	/**
