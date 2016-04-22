@@ -55,7 +55,6 @@ public class DashboardServlet extends HttpServlet {
 			LOGGER.info(String.valueOf(mDashboardManagerBean));
 		}
 
-//		DashboardManagerBean dashboardManagerBean = new DashboardManagerBean(req);
 		mDashboardManagerBean.getOrder();
 		req.setAttribute("dashboardManager", mDashboardManagerBean);
 		getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(req, resp);
@@ -64,14 +63,5 @@ public class DashboardServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);
-//		List<String> errors = FormChecker.validate("/views/addComputer.jsp");
-//		if (errors.isEmpty()) {
-//			ComputerService.getComputerService().addComputer(RequestMapper.toComputer(req));
-//			resp.sendRedirect(req.getContextPath() + "/dashboard");
-//		} else {
-//			req.setAttribute("companies", CompanyService.getCompanyList());
-//			req.setAttribute("errors", errors);
-//			req.getRequestDispatcher("/views/addComputer.jsp").forward(req, resp);
-//		}
 	}
 }

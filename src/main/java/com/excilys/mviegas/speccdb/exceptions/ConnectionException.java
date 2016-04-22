@@ -8,9 +8,7 @@ package com.excilys.mviegas.speccdb.exceptions;
 public class ConnectionException extends Exception {
 
 	public ConnectionException() {
-		super();
-		throw new UnsupportedOperationException("ConnectionException#construcor not implemented yet.");
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public ConnectionException(String pMessage, Throwable pCause, boolean pEnableSuppression, boolean pWritableStackTrace) {

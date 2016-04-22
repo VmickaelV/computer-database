@@ -1,6 +1,6 @@
 package com.excilys.mviegas.speccdb.selenium;
 
-import com.excilys.mviegas.speccdb.DatabaseManagerTest;
+import com.excilys.mviegas.speccdb.DatabaseUtils;
 import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 	@BeforeClass
 	public static void beforeClass() throws Exception {
 		Connection connection = DatabaseManager.getConnection();
-		DatabaseManagerTest.resetDatabase(connection);
+		DatabaseUtils.resetDatabase(connection);
 		DatabaseManager.releaseConnection(connection);
 	}
 

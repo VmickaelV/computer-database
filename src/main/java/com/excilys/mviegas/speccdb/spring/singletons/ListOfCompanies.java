@@ -1,4 +1,4 @@
-package com.excilys.mviegas.speccdb.spring;
+package com.excilys.mviegas.speccdb.spring.singletons;
 
 import com.excilys.mviegas.speccdb.C;
 import com.excilys.mviegas.speccdb.data.Company;
@@ -15,7 +15,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 /**
- * Bean Constant de liste des Companies
+ * Bean Constant et Singleton de liste des Companies
  *
  * Created by excilys on 15/04/16.
  */

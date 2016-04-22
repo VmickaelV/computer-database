@@ -9,14 +9,6 @@ import java.sql.Connection;
  * @author Mickael
  */
 public final class ThreadLocals {
-	public static final ThreadLocal<Connection> CONNECTIONS = new ThreadLocal<Connection>() {
-//		@Override
-//		protected Connection initialValue() {
-//			try {
-//				return DatabaseManager.getConnection();
-//			} catch (SQLException pE) {
-//				return null;
-//			}
-//		}
-	};
+	public static final ThreadLocal<Connection> CONNECTIONS = new ThreadLocal<>();
+	public static final ThreadLocal<Connection> COMPUTER_DAOS = new ThreadLocal<>();
 }

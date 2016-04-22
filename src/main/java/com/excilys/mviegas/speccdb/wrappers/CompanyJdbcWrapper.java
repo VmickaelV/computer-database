@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Deprecated
 public class CompanyJdbcWrapper extends Company {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(CompanyJdbcWrapper.class);

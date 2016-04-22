@@ -8,11 +8,11 @@ import java.util.Map;
 /**
  * Interface global pour tout service de CRUD
  *
- * @param <T> Type que gèrera le prochain ICrudService
+ * @param <T> Type que gèrera le prochain Crudable
  *
  * @author Mickael
  */
-public interface ICrudService<T> {
+public interface Crudable<T> {
     T create(T t) throws DAOException;
 
     T find(long id) throws DAOException;

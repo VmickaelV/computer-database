@@ -1,6 +1,6 @@
 package com.excilys.mviegas.speccdb.selenium;
 
-import com.excilys.mviegas.speccdb.DatabaseManagerTest;
+import com.excilys.mviegas.speccdb.DatabaseUtils;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class DeleteComputerTest extends BaseSeleniumTest {
 //		mConnection = DatabaseManager.getConnection();
 //		ThreadLocals.CONNECTIONS.set(mConnection);
 
-		DatabaseManagerTest.resetDatabase();
+		DatabaseUtils.resetDatabase();
 
 		openAndWait();
 	}

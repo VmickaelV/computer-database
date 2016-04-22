@@ -215,7 +215,6 @@ public class PaginationTag extends SimpleTagSupport {
 		
 		
 		out.append("</ul>");
-//		out.append("<div>Un commentaire "+mCurrentPage+" link:"+mUrl+"</div>");
 	}
 
 	
