@@ -1,10 +1,10 @@
-package com.excilys.mviegas.speccdb.spring.services;
+package com.excilys.mviegas.speccdb.services;
 
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persistence.ICrudService;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +14,9 @@ import java.util.Map;
  * Created by excilys on 18/04/16.
  */
 @Service
-public class CompanyService implements ICrudService<Company> {
+public class CompanyService implements ICompanyService {
 
+	@Autowired
 	private CompanyDao mCompanyDao;
 
 	@Override

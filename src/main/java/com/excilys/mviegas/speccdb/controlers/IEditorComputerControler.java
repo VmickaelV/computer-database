@@ -56,7 +56,7 @@ public interface IEditorComputerControler {
 	/**
 	 * @return Entreprise fabricant l'ordinateur
 	 */
-	int getIdCompany();
+	long getIdCompany();
 
 	/**
 	 * @param pIdCompany Fixe l'entreprise fabricant l'ordinateur

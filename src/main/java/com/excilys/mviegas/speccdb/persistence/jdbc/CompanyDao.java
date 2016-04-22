@@ -2,7 +2,7 @@ package com.excilys.mviegas.speccdb.persistence.jdbc;
 
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persistence.ICrudService;
+import com.excilys.mviegas.speccdb.persistence.Crudable;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.wrappers.CompanyJdbcWrapper;
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -20,7 +20,7 @@ import java.util.Map;
  * Dao d'une companie ({@link Company})
  */
 @Repository
-public class CompanyDao implements ICrudService<Company> {
+public class CompanyDao implements Crudable<Company> {
 
 	//=============================================================
 	// Attributs
@@ -42,7 +42,7 @@ public class CompanyDao implements ICrudService<Company> {
 	public static final Logger LOGGER = LoggerFactory.getLogger(CompanyDao.class);
 
 	// ===========================================================
-	// Methods - ICrudService
+	// Methods - Crudable
 	// ===========================================================
 	@Override
 	public Company create(Company pT) throws DAOException {
@@ -59,12 +59,11 @@ public class CompanyDao implements ICrudService<Company> {
 		}
 		return companies.get(0);
 	}
-	
 
 	@Override
 	public Company update(Company pT) throws DAOException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("ICrudService<Company>#update not implemented yet.");
+		throw new UnsupportedOperationException("Crudable<Company>#update not implemented yet.");
 	}
 
 	@Override
@@ -92,7 +91,7 @@ public class CompanyDao implements ICrudService<Company> {
 	@Override
 	public boolean refresh(Company pT) throws DAOException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("ICrudService<Company>#refresh not implemented yet.");
+		throw new UnsupportedOperationException("Crudable<Company>#refresh not implemented yet.");
 	}
 
 	@Override
@@ -110,18 +109,10 @@ public class CompanyDao implements ICrudService<Company> {
 		Paginator<Company> paginator;
 
 		try {
-
-//			if (pSize > 0) {
-//				statement.setMaxRows(pSize);
-//			} else {
-//				statement.setMaxRows(0);
-//				pSize = 0;
-//			}
-
 			String sqlQuery;
 
 			if (pSize > 0) {
-				sqlQuery = "SELECT * FROM company LIMIT " + pSize + " OFFSET "+pStart;
+				sqlQuery = "SELECT * FROM company LIMIT " + pSize + " OFFSET " + pStart;
 			} else {
 				sqlQuery = "SELECT * FROM company";
 			}
@@ -148,7 +139,7 @@ public class CompanyDao implements ICrudService<Company> {
 	@Override
 	public List<Company> findWithNamedQuery(String pQueryName) throws DAOException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("ICrudService<Company>#findWithNamedQuery not implemented yet.");
+		throw new UnsupportedOperationException("Crudable<Company>#findWithNamedQuery not implemented yet.");
 	}
 
 	@Override
@@ -160,7 +151,7 @@ public class CompanyDao implements ICrudService<Company> {
 	@Override
 	public List<Company> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters) throws DAOException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("ICrudService<Company>#findWithNamedQuery not implemented yet.");
+		throw new UnsupportedOperationException("Crudable<Company>#findWithNamedQuery not implemented yet.");
 	}
 
 	@Override

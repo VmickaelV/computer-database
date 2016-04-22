@@ -1,7 +1,7 @@
 package com.excilys.mviegas.speccdb.wrappers;
 
-import com.excilys.mviegas.speccdb.C;
-import com.excilys.mviegas.speccdb.Converter;
+import com.excilys.mviegas.speccdb.IConverter;
+import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
@@ -11,17 +11,11 @@ import org.slf4j.LoggerFactory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-// TODO revoir la structure de la classe
-public enum ComputerJdbcWrapper implements Converter<ResultSet, Computer> {
+@Deprecated
+public enum ComputerJdbcWrapper implements IConverter<ResultSet, Computer> {
 	INSTANCE;
 
-	ComputerJdbcWrapper() {
-		mCompanyDao = C.appContext.getBean(CompanyDao.class);
-	}
-
 	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerJdbcWrapper.class);
-
-	private CompanyDao mCompanyDao;
 
 	@Override
 	public ResultSet getAsString(Computer pValue) {
@@ -34,6 +28,7 @@ public enum ComputerJdbcWrapper implements Converter<ResultSet, Computer> {
 		Computer company = null;
 		Computer.Builder companyBuilder = new Computer.Builder();
 
+		CompanyDao companyDao = (CompanyDao) ThreadLocals.COMPUTER_DAOS.get();
 		Object object;
 
 		try {
@@ -50,8 +45,7 @@ public enum ComputerJdbcWrapper implements Converter<ResultSet, Computer> {
 			}
 
 			if (pResultSet.getLong("company_id") != 0) {
-				companyBuilder.setManufacturer(mCompanyDao.find(pResultSet.getLong("company_id")))
-						.build();
+				companyBuilder.setManufacturer(companyDao.find(pResultSet.getLong("company_id"))).build();
 			}
 			company = companyBuilder.build();
 			company.setId(pResultSet.getInt("id"));

@@ -29,7 +29,7 @@ public class QueryParameter {
      * @param name Nom du paramètre
      * @param value Valeur associé au nom du paramètre
      */
-    private QueryParameter(String name,Object value){
+    private QueryParameter(String name,Object value) {
         this.parameters = new HashMap<>();
         this.parameters.put(name, value);
     }
@@ -45,7 +45,7 @@ public class QueryParameter {
      * @param value Valeur associé au nom du paramètre
      * @return Renvoie l'objet courant pour chaîner
      */
-    public QueryParameter and(String name,Object value){
+    public QueryParameter and(String name,Object value) {
         this.parameters.put(name, value);
         return this;
     }
@@ -54,7 +54,7 @@ public class QueryParameter {
 	 * Génère une map représentant la liste des paramètres
      * @return Objet Map
      */
-    public Map<String, Object> parameters(){
+    public Map<String, Object> parameters() {
         return this.parameters;
     }
 
@@ -83,7 +83,7 @@ public class QueryParameter {
      * @param value Valeur associé au nom du paramètre
      * @return Nouvel Objet QueryParameter
      */
-    public static QueryParameter with(String name,Object value){
+    public static QueryParameter with(String name,Object value) {
         return new QueryParameter(name, value);
     }
 }

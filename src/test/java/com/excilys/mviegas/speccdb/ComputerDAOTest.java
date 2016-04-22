@@ -49,7 +49,7 @@ public class ComputerDAOTest {
 	//===========================================================
 	@Before
 	public void before() throws Exception {
-		DatabaseManagerTest.resetDatabase();
+		DatabaseUtils.resetDatabase();
 	}
 	
 	//===========================================================
@@ -218,7 +218,7 @@ public class ComputerDAOTest {
 				.build()));
 		assertEquals(SIZE_COMPUTER+1, mComputerDao.size());
 		
-		assertThat(computer.getId(), org.hamcrest.Matchers.greaterThan(0));
+		assertThat(computer.getId(), org.hamcrest.Matchers.greaterThan(0L));
 		
 		assertEquals(desiredName, computer.getName());
 		assertEquals(desiredDiscontinuedDate, computer.getDiscontinuedDate());

@@ -1,9 +1,5 @@
 package com.excilys.mviegas.speccdb.dto;
 
-import com.excilys.mviegas.speccdb.data.Computer;
-
-import java.util.Date;
-
 /**
  * DTO d'un computer d'une formulaire
  */
@@ -14,8 +10,8 @@ public class ComputerDTO {
 	//=============================================================
 	public long mId;
 	public String mName;
-	public Date mIntroducedDate;
-	public Date mDiscontinuedDate;
+	public String mIntroducedDate;
+	public String mDiscontinuedDate;
 	public long mIdCompany;
 
 	//=============================================================
@@ -24,7 +20,7 @@ public class ComputerDTO {
 	public ComputerDTO() {
 	}
 
-	public ComputerDTO(long pId, String pName, Date pIntroducedDate, Date pDiscontinuedDate, long pIdCompany) {
+	public ComputerDTO(long pId, String pName, String pIntroducedDate, String pDiscontinuedDate, long pIdCompany) {
 		mId = pId;
 		mName = pName;
 		mIntroducedDate = pIntroducedDate;
@@ -32,14 +28,10 @@ public class ComputerDTO {
 		mIdCompany = pIdCompany;
 	}
 
-	// TODO à implémenter plus tard
-	public ComputerDTO(Computer pComputer) {
-		throw new UnsupportedOperationException();
-	}
-
 	//=============================================================
 	// Getters & Setters
 	//=============================================================
+
 	public long getId() {
 		return mId;
 	}
@@ -56,19 +48,19 @@ public class ComputerDTO {
 		mName = pName;
 	}
 
-	public Date getIntroducedDate() {
+	public String getIntroducedDate() {
 		return mIntroducedDate;
 	}
 
-	public void setIntroducedDate(Date pIntroducedDate) {
+	public void setIntroducedDate(String pIntroducedDate) {
 		mIntroducedDate = pIntroducedDate;
 	}
 
-	public Date getDiscontinuedDate() {
+	public String getDiscontinuedDate() {
 		return mDiscontinuedDate;
 	}
 
-	public void setDiscontinuedDate(Date pDiscontinuedDate) {
+	public void setDiscontinuedDate(String pDiscontinuedDate) {
 		mDiscontinuedDate = pDiscontinuedDate;
 	}
 
@@ -79,6 +71,4 @@ public class ComputerDTO {
 	public void setIdCompany(long pIdCompany) {
 		mIdCompany = pIdCompany;
 	}
-
-
 }

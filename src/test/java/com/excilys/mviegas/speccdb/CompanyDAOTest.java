@@ -44,7 +44,7 @@ public class CompanyDAOTest {
 	//===========================================================
 	@Before
 	public void before() throws Exception {
-		DatabaseManagerTest.resetDatabase();
+		DatabaseUtils.resetDatabase();
 	}
 
 	@After

@@ -1,6 +1,6 @@
 package com.excilys.mviegas.speccdb.selenium;
 
-import com.excilys.mviegas.speccdb.DatabaseManagerTest;
+import com.excilys.mviegas.speccdb.DatabaseUtils;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
@@ -38,7 +38,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 	public void setUp() throws Exception {
 		super.setUp();
 		
-		DatabaseManagerTest.resetDatabase();
+		DatabaseUtils.resetDatabase();
 
 		openAndWait();
 		mWebDriver.findElement(By.id("addComputer")).click();
@@ -207,8 +207,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 		driver.findElement(By.id("name")).clear();
 		driver.findElement(By.id("name")).sendKeys("Nouvel Ordinateur");
-		driver.findElement(By.id("introducedDate")).click();
-		driver.findElement(By.linkText("8")).click();
+		driver.findElement(By.id("introducedDate")).sendKeys("04/08/2016");
 		new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("NeXT");
 		driver.findElement(By.id("btnSubmit")).click();
 		driver.findElement(By.linkText("100")).click();

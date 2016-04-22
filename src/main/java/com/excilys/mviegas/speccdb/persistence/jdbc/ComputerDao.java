@@ -3,7 +3,7 @@ package com.excilys.mviegas.speccdb.persistence.jdbc;
 import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persistence.ICrudService;
+import com.excilys.mviegas.speccdb.persistence.Crudable;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.wrappers.ComputerJdbcWrapper;
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -30,7 +30,7 @@ import java.util.Map;
  * TODO voir si on raoute une vérif de présence de connexion dans ThreadLocal
  */
 @Repository
-public class ComputerDao implements ICrudService<Computer> {
+public class ComputerDao implements Crudable<Computer> {
 
 	//=============================================================
 	// Constantes
@@ -49,7 +49,6 @@ public class ComputerDao implements ICrudService<Computer> {
 	// Attributs
 	//=============================================================
 	private JdbcTemplate mJdbcTemplate;
-
 
 	//=============================================================
 	// Inner Classes
@@ -130,33 +129,17 @@ public class ComputerDao implements ICrudService<Computer> {
 	//=============================================================
 	// Attributres - private
 	//=============================================================
-	private PreparedStatement mCreateStatement;
-	private PreparedStatement mUpdateStatement;
-	private PreparedStatement mDeleteStatement;
-	private PreparedStatement mFindStatement;
 
 	//=============================================================
 	// Constructors
 	//=============================================================
 
 	public ComputerDao() {
-//			mCreateStatement = mConnection.prepareStatement("INSERT INTO `computer` (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
-//			mUpdateStatement = mConnection.prepareStatement("UPDATE `computer` SET name=?, introduced=?, discontinued=?, company_id=? WHERE id = ?;");
-//			mDeleteStatement = mConnection.prepareStatement("DELETE FROM `computer` WHERE id = ?");
-//			mFindStatement = mConnection.prepareStatement("SELECT * FROM `computer` WHERE id = ?");
 	}
 
 	//===========================================================
 	// Getters & Setters
 	//===========================================================
-
-//	public Connection getConnection() {
-//		return mConnection;
-//	}
-//
-//	public void setConnection(Connection pConnection) {
-//		mConnection = pConnection;
-//	}
 
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
@@ -190,14 +173,14 @@ public class ComputerDao implements ICrudService<Computer> {
 			pPreparedStatement.setDate(3, null);
 		}
 		if (pT.getManufacturer() != null) {
-			pPreparedStatement.setInt(4, pT.getManufacturer().getId());
+			pPreparedStatement.setLong(4, pT.getManufacturer().getId());
 		} else {
 			pPreparedStatement.setNull(4, Types.BIGINT);
 		}
 	}
 
 	// ===========================================================
-	// Methods - ICrudService
+	// Methods - Crudable
 	// ===========================================================
 
 	@Override
@@ -209,16 +192,12 @@ public class ComputerDao implements ICrudService<Computer> {
 		final KeyHolder holder = new GeneratedKeyHolder();
 
 		if (mJdbcTemplate.update(connection -> {
-			PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `computer` (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
-			prepareStatement(pT, preparedStatement);
+				PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `computer` (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+				prepareStatement(pT, preparedStatement);
 
-			return preparedStatement;
+				return preparedStatement;
 		}, holder) == 1) {
 			pT.setId(holder.getKey().intValue());
-			if (LOGGER.isInfoEnabled()) {
-				LOGGER.info("Persist of "+pT);
-			}
-
 			return pT;
 		}
 
@@ -246,7 +225,7 @@ public class ComputerDao implements ICrudService<Computer> {
 		try {
 			if (mJdbcTemplate.update("UPDATE `computer` SET name=?, introduced=?, discontinued=?, company_id=? WHERE id = ?;", ps -> {
 				prepareStatement(pT, ps);
-				ps.setInt(5, pT.getId());
+				ps.setLong(5, pT.getId());
 			}) == 1) {
 				if (LOGGER.isInfoEnabled()) {
 					LOGGER.info("Update of "+pT.getId()+" successfull");
@@ -274,10 +253,6 @@ public class ComputerDao implements ICrudService<Computer> {
 			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
-		
-//		if (LOGGER.isInfoEnabled()) {
-//			LOGGER.info("Delete of "+pId+(nbLines == 1 ? " successfull" : " failed"));
-//		}
 	}
 	
 	
@@ -335,13 +310,6 @@ public class ComputerDao implements ICrudService<Computer> {
 		}
 
 		Paginator<Computer> paginator;
-
-//			if (pSize > 0) {
-//				statement.setMaxRows(pSize);
-//			} else {
-//				statement.setMaxRows(0);
-//				pSize = 0;
-//			}
 
 		try {
 			List<Computer> mCompanies = mJdbcTemplate.query("SELECT * FROM computer LIMIT " + pSize + " OFFSET "+pStart, (rs, introw) -> {
@@ -408,12 +376,6 @@ public class ComputerDao implements ICrudService<Computer> {
 
 
 				try {
-//					if (size > 0) {
-//						statement.setMaxRows(size);
-//					} else {
-//						statement.setMaxRows(0);
-//						size = 0;
-//					}
 
 					StringBuilder stringBuilder = new StringBuilder();
 

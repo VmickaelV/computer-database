@@ -6,7 +6,7 @@ import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
-import com.excilys.mviegas.speccdb.spring.ListOfCompanies;
+import com.excilys.mviegas.speccdb.spring.singletons.ListOfCompanies;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
 import org.slf4j.Logger;
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Min;
-import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -44,7 +43,7 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 	private String mName;
 	private String mIntroducedDate;
 	private String mDiscontinuedDate;
-	private int mIdCompany;
+	private long mIdCompany;
 
 	@Min(1)
 	private long mId;
@@ -62,6 +61,7 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 	@Autowired
 	private ComputerDao mComputerCrudService;
 
+	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	private List<Message> mMessages = new LinkedList<>();
 	
 	//===========================================================
@@ -110,7 +110,7 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 	}
 
 	@Override
-	public int getIdCompany() {
+	public long getIdCompany() {
 		return mIdCompany;
 	}
 
@@ -129,9 +129,6 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 		mId = pId;
 		if (pId > 0) {
 			try {
-//				Connection connection = DatabaseManager.getConnection();
-//				ThreadLocals.CONNECTIONS.set(connection);
-				
 				mComputer = mComputerCrudService.find(pId);
 				
 				mName = mComputer.getName();
@@ -146,9 +143,6 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 				if (mComputer.getManufacturer() != null) {
 					mIdCompany = mComputer.getManufacturer().getId();
 				}
-				
-//				ThreadLocals.CONNECTIONS.remove();
-//				DatabaseManager.releaseConnection(connection);
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				mComputer = null;
 				mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
@@ -198,28 +192,13 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 	}
 
 	public boolean hasValidIdCompany() {
-		Connection connection = null;
 		try {
-//			connection = DatabaseManager.getConnection();
-//			ThreadLocals.CONNECTIONS.set(connection);
 			return mIdCompany == 0 || mCompanyCrudService.find(mIdCompany) != null;
 		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 			LOGGER.error(pE.getMessage(), pE);
 			mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
 			return false;
 		}
-//		} finally {
-//			if (connection !=  null) {
-//				ThreadLocals.CONNECTIONS.remove();
-//				try {
-//					DatabaseManager.releaseConnection(connection);
-//				} catch (ConnectionException e) {
-//					LOGGER.error(e.getMessage(), e);
-//					throw new RuntimeException(e);
-//				}
-//
-//			}
-//		}
 	}
 
 	public boolean isValidForm() {
@@ -270,7 +249,6 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 	// ============================================================
 	//	Méthodes - Callback
 	// ============================================================
-//	@PostConstruct
 	public void init() {
 
 	}

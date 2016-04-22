@@ -6,6 +6,7 @@ import com.excilys.mviegas.speccdb.persistence.QueryParameter;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.Order;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.TypeOrder;
+import com.excilys.mviegas.speccdb.services.ComputerService;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -43,7 +44,6 @@ public class DashboardManagerBean {
 	// Attributes - privates
 	//===========================================================
 
-
 	@Min(1)
 	private int mPage = 1;
 
@@ -63,12 +63,10 @@ public class DashboardManagerBean {
 	
 	private List<Message> mMessages = new LinkedList<>();
 
-//	private Connection mConnection;
-
 	private String mSelection;
 
 	@Autowired
-	private ComputerDao mComputerDao;
+	private ComputerService mComputerService;
 
 	//===========================================================
 	// Constructeur
@@ -78,30 +76,21 @@ public class DashboardManagerBean {
 		init();
 	}
 
-//	public DashboardManagerBean(HttpServletRequest pHttpServletRequest) {
-//		this();
-//
-//		Map<String, String[]> map = pHttpServletRequest.getParameterMap();
-//
-//		map(map);
-//	}
+	public DashboardManagerBean(int pPage, int pSize, String pSearch, String pOrder, String pTypeOrder) {
+		this();
+		mPage = pPage;
+		mSize = pSize;
+		mSearch = pSearch;
+		mOrder = pOrder;
+		mTypeOrder = pTypeOrder;
+	}
 
 	//===========================================================
 	// Callback
 	//===========================================================
 	@PostConstruct
 	public void init() {
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("initialisation");
-			LOGGER.debug("this = " + this);
-		}
-
 		reset();
-
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("this.hashCode() = " + this.hashCode());
-		}
-
 	}
 
 	public void reset() {
@@ -123,7 +112,6 @@ public class DashboardManagerBean {
 
 	public void setPage(int pPage) {
 		mPage = pPage;
-//		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
 	}
 
 	public int getSize() {
@@ -132,7 +120,6 @@ public class DashboardManagerBean {
 
 	public void setSize(int pSize) {
 		mSize = pSize;
-//		mDisplayedComputers = mComputerDao.findAll(mPage*mSize, mSize);
 	}
 	
 	public String getSearch() {
@@ -159,6 +146,7 @@ public class DashboardManagerBean {
 		return mTypeOrder;
 	}
 
+	@SuppressWarnings("unused")
 	public void setTypeOrder(String pTypeOrder) {
 		mTypeOrder = pTypeOrder;
 	}
@@ -167,6 +155,7 @@ public class DashboardManagerBean {
 		return mSelection;
 	}
 
+	@SuppressWarnings("unused")
 	public void setSelection(String pSelection) {
 		mSelection = pSelection;
 	}
@@ -175,8 +164,8 @@ public class DashboardManagerBean {
 		return mMessages;
 	}
 
-	public void setComputerDao(ComputerDao pComputerDao) {
-		mComputerDao = pComputerDao;
+	public void setComputerService(ComputerService pComputerService) {
+		mComputerService = pComputerService;
 	}
 
 	//===========================================================
@@ -190,7 +179,7 @@ public class DashboardManagerBean {
 		sb.append(", mSize=").append(mSize);
 		sb.append(", mSearch='").append(mSearch).append('\'');
 		sb.append(", mPaginator=").append(mPaginator);
-		sb.append(", mComputerDao=").append(mComputerDao);
+		sb.append(", mComputerService=").append(mComputerService);
 		sb.append(", mOrder='").append(mOrder).append('\'');
 		sb.append(", mTypeOrder='").append(mTypeOrder).append('\'');
 		sb.append(", mMessages=").append(mMessages);
@@ -231,28 +220,19 @@ public class DashboardManagerBean {
 			;
 
 			try {
-				mPaginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, parameter.parameters());
+				mPaginator = mComputerService.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, parameter.parameters());
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				LOGGER.error(pE.getMessage(), pE);
 				mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nRetrieve later", Level.ERROR));
 			}
 		} else {
 			try {
-				mPaginator = mComputerDao.findAllWithPaginator((mPage-1)*mSize, mSize);
+				mPaginator = mComputerService.findAllWithPaginator((mPage-1)*mSize, mSize);
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				LOGGER.error(pE.getMessage(), pE);
 				mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nRetrieve later", Level.ERROR));
 			}
 		}
-		
-//		mMessages.add(new Message("Successful Update", "Successful Update", Level.SUCCESS));
-
-//		try {
-//			DatabaseManager.releaseConnection(connection);
-//		} catch (ConnectionException e) {
-//			LOGGER.error(e.getMessage(), e);
-//			mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nRetrieve later", Level.ERROR));
-//		}
 	}
 
 	public boolean delete() {
@@ -268,7 +248,7 @@ public class DashboardManagerBean {
 		for (String index : indexes) {
 			int i = Integer.parseInt(index);
 			try {
-				if (!mComputerDao.delete(i)) {
+				if (!mComputerService.delete(i)) {
 					mMessages.add(new Message("Internal Error", "We have an Eror with the Database when we tried to delete the computer n°"+index+".\nWould you retry later.", Level.ERROR));
 					result = false;
 				}

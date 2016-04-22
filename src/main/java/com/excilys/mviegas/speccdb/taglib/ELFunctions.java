@@ -1,7 +1,5 @@
 package com.excilys.mviegas.speccdb.taglib;
 
-import com.excilys.mviegas.speccdb.C;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -39,10 +37,6 @@ public class ELFunctions {
 	 * @return Lien texte généré
 	 */
 	public static String link(String pTarget, Map<String, String> pQueries, String pQueryToEscape, Object value) {
-
-		C.Loggers.RUNTIME.debug("ELFunctions.link");
-		C.Loggers.RUNTIME.debug("pTarget = [" + pTarget + "], pQueries = [" + pQueries + "], pQueryToEscape = [" + pQueryToEscape + "], value = [" + value + "]");
-
 		if (pQueries != null) {
 			StringBuilder stringBuilder = new StringBuilder(50);
 

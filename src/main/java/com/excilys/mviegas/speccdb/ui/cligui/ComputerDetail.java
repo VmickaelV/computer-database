@@ -130,7 +130,6 @@ public class ComputerDetail implements IComputerDetailControler {
 	
 	public static IComputerDetailControler make(Computer pComputer) {
 		if (pComputer == null) {
-//			throw new IllegalArgumentException();
 			return null;
 		}
 

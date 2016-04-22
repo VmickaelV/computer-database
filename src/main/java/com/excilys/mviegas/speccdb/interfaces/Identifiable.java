@@ -12,5 +12,5 @@ public interface Identifiable<PK extends Serializable> extends Serializable {
 	/**
 	 * @return Id de l'objet
 	 */
-	PK getID();
+	PK getId();
 }

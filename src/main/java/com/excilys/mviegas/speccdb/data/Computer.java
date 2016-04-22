@@ -16,7 +16,7 @@ public class Computer {
 	// Attributs - private
 	// ===========================================================
 
-	private int mId;
+	private long mId;
 
 	private String mName;
 
@@ -38,7 +38,7 @@ public class Computer {
 	// Getters & Setters
 	// ===========================================================
 
-	public int getId() {
+	public long getId() {
 		return mId;
 	}
 
@@ -60,8 +60,7 @@ public class Computer {
 
 	// ------------------------------------------------------------
 
-	// TODO a effacer
-	public void setId(int pId) {
+	public void setId(long pId) {
 		if (mId == 0) {
 			mId = pId;
 		}
@@ -94,10 +93,7 @@ public class Computer {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + mId;
-		return result;
+		return (int) (mId ^ (mId >>> 32));
 	}
 
 	@Override
@@ -114,7 +110,7 @@ public class Computer {
 			return false;
 		return true;
 	}
-	
+
 	// ============================================================
 	//	Inner Class
 	// ============================================================

@@ -14,7 +14,7 @@ public class Company {
 	// Attributes - private
 	// ===========================================================
 
-	private int mId;
+	private long mId;
 
 	private String mName;
 
@@ -30,7 +30,7 @@ public class Company {
 	// Getters & Setters
 	// ===========================================================
 
-	public int getId() {
+	public long getId() {
 		return mId;
 	}
 
@@ -40,7 +40,7 @@ public class Company {
 
 	// -----------------------------------------------------------
 
-	public void setId(final int pId) {
+	public void setId(final long pId) {
 		if (mId == 0 && pId > 0) {
 			mId = pId;
 		}
@@ -61,9 +61,8 @@ public class Company {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + mId;
+		int result = (int) (mId ^ (mId >>> 32));
+		result = 31 * result + (mName != null ? mName.hashCode() : 0);
 		return result;
 	}
 
@@ -76,10 +75,8 @@ public class Company {
 		if (getClass() != obj.getClass())
 			return false;
 		Company other = (Company) obj;
-		//noinspection RedundantIfStatement
-		if (mId != other.mId)
-			return false;
-		return true;
+
+		return mId == other.mId;
 	}
 	
 	// ============================================================
