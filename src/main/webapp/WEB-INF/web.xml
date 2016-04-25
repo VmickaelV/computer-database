@@ -24,12 +24,12 @@
 	
 	<error-page>
 		<error-code>403</error-code>
-		<location>/WEB-INF/views/403.htm</location>
+		<location>/WEB-INF/views/403.html</location>
 	</error-page>
 	
 	<error-page>
 		<error-code>500</error-code>
-		<location>/WEB-INF/views/500.htm</location>
+		<location>/WEB-INF/views/500.html</location>
 	</error-page>
 
 </web-app>
