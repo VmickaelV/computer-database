@@ -1,6 +1,6 @@
 package com.excilys.mviegas.speccdb.spring.controllers;
 
-import com.excilys.mviegas.speccdb.managers.ComputerEditorManagerBean;
+import com.excilys.mviegas.speccdb.managers.ComputerEditorPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class EditionComputerController {
 
 	@Autowired
-	private ComputerEditorManagerBean mComputerEditorManagerBean;
+	private ComputerEditorPage mComputerEditorManagerBean;
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(EditionComputerController.class);
 
@@ -38,11 +38,9 @@ public class EditionComputerController {
 		mComputerEditorManagerBean.map(allRequestParams);
 		if (mComputerEditorManagerBean.addComputer()) {
 			pModelMap.put("computerAdded", true);
-//			return new ModelAndView(new RedirectView("dashboard"), pModelMap);
 			return "redirect:dashboard.html";
 		} else {
 			pModelMap.put("computerEditor", mComputerEditorManagerBean);
-//			return new ModelAndView("addComputer");
 			return "addComputer";
 		}
 	}

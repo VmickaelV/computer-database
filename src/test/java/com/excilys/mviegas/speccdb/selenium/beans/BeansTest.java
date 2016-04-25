@@ -1,6 +1,6 @@
 package com.excilys.mviegas.speccdb.selenium.beans;
 
-import com.excilys.mviegas.speccdb.managers.DashboardManagerBean;
+import com.excilys.mviegas.speccdb.managers.DashboardPage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
 public class BeansTest {
 
 	@Autowired
-	private DashboardManagerBean mDashboardManagerBean;
+	private DashboardPage mDashboardManagerBean;
 
 	@Test
 	public void name() throws Exception {

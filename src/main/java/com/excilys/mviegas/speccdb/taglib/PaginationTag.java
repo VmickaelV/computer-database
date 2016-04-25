@@ -1,7 +1,7 @@
 package com.excilys.mviegas.speccdb.taglib;
 
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.managers.DashboardManagerBean;
+import com.excilys.mviegas.speccdb.managers.DashboardPage;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,7 @@ public class PaginationTag extends SimpleTagSupport {
 	/**
 	 * Nombres d'éléments par pages
 	 */
-	private int mCountByPages = DashboardManagerBean.DEFAULT_SIZE_PAGE;
+	private int mCountByPages = DashboardPage.DEFAULT_SIZE_PAGE;
 
 	/**
 	 * Nombre de pages à afficher en plus de la page actuelle
@@ -162,9 +162,7 @@ public class PaginationTag extends SimpleTagSupport {
 		if (builder.length() > 0) {
 			builder.append("page=");
 		}
-		
-//		mParameters.entrySet().stream().map(mapper -> mapper.getKey()+"="+mapper.getValue())
-		
+
 		JspWriter out = getJspContext().getOut();
 		out.append("<ul class=\"pagination\">");
 		
@@ -177,7 +175,7 @@ public class PaginationTag extends SimpleTagSupport {
 		
 		// TODO à retirer jusqu'à ce que je treouve un moyen de mettre une val par défaut
 		if (mCountByPages == 0) {
-			mCountByPages = DashboardManagerBean.DEFAULT_SIZE_PAGE;
+			mCountByPages = DashboardPage.DEFAULT_SIZE_PAGE;
 		}
 		
 		int pageMax = mCount/mCountByPages;
@@ -211,9 +209,7 @@ public class PaginationTag extends SimpleTagSupport {
 				.append(String.valueOf(mCurrentPage+1))
 				.append("\" aria-label=\"Next\"> <span aria-hidden=\"true\">&raquo;</span></a></li>");
 		}
-		
-		
-		
+
 		out.append("</ul>");
 	}
 

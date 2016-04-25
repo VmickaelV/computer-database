@@ -41,9 +41,7 @@ public class Company {
 	// -----------------------------------------------------------
 
 	public void setId(final long pId) {
-		if (mId == 0 && pId > 0) {
-			mId = pId;
-		}
+		mId = pId;
 	}
 
 	public void setName(String pName) {

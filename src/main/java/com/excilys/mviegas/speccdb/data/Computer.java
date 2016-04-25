@@ -61,9 +61,7 @@ public class Computer {
 	// ------------------------------------------------------------
 
 	public void setId(long pId) {
-		if (mId == 0) {
-			mId = pId;
-		}
+		mId = pId;
 	}
 	
 	public void setName(String pName) {
@@ -152,7 +150,6 @@ public class Computer {
 			computer.mIntroducedDate = mIntroducedDate;
 			computer.mDiscontinuedDate = mDiscontinuedDate;
 			computer.mManufacturer = mManufacturer;
-
 			return computer;
 		}
 

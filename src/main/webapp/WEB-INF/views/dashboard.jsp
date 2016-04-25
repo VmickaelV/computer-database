@@ -3,23 +3,7 @@
 <%@ taglib uri="/WEB-INF/tagslib.tld" prefix="my" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my2" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%--@elvariable id="dashboardManager" type="com.excilys.mviegas.speccdb.managers.DashboardManagerBean"--%>
-<%--<jsp:useBean id="dashboardManager" scope="page"--%>
-             <%--class="com.excilys.mviegas.speccdb.managers.DashboardManagerBean">--%>
-    <%--<jsp:setProperty name="dashboardManager" property="*"/>--%>
-<%--</jsp:useBean>--%>
-<%--<c:choose>--%>
-    <%--<c:when test="${pageContext.request.method=='POST' && not empty param.selection}">--%>
-        <%--&lt;%&ndash;@elvariable id="dashboardManager" type="com.excilys.mviegas.speccdb.managers.DashboardManagerBean"&ndash;%&gt;--%>
-        <%--<c:if test="${dashboardManager.delete(param.selection)}" var="deleteSuccessful">--%>
-            <%--<c:if test="${param.selection}"/>--%>
-        <%--</c:if>--%>
-<%--&lt;%&ndash;&ndash;%&gt;--%>
-    <%--</c:when>--%>
-    <%--<c:when test="${param.add!=null}">--%>
-    <%--</c:when>--%>
-<%--</c:choose>--%>
-<%--<c:if test="${dashboardManager.update()}"/>--%>
+<%--@elvariable id="dashboardManager" type="com.excilys.mviegas.speccdb.managers.DashboardPage"--%>
 <!DOCTYPE html>
 <html>
 <head>

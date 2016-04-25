@@ -1,38 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%--@elvariable id="computerEditor" type="com.excilys.mviegas.speccdb.managers.ComputerEditorManagerBean"--%>
+<%--@elvariable id="computerEditor" type="com.excilys.mviegas.speccdb.managers.ComputerEditorPage"--%>
 
-<%--<jsp:useBean id="computerEditor" scope="request"--%>
-	<%--class="com.excilys.mviegas.speccdb.managers.ComputerEditorBean">--%>
-	<%--<jsp:setProperty name="computerEditor" property="*" />--%>
-	<%--<jsp:setProperty name="computerEditor" property="idCompany"--%>
-		<%--param="companyId" />--%>
-<%--</jsp:useBean>--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
-<%--<c:choose>--%>
-	<%--<c:when--%>
-		<%--test="${pageContext.request.method=='POST' && param.action == 'Add'}">--%>
-		<%--<c:if test="${computerEditor.addComputer()}" var="computerAdded"--%>
-			<%--scope="session">--%>
-			<%--<c:redirect url="dashboard.html" />--%>
-		<%--</c:if>--%>
-	<%--</c:when>--%>
-	<%--<c:when--%>
-		<%--test="${pageContext.request.method=='POST' && param.action == 'Edit'}">--%>
-		<%--<c:if test="${computerEditor.editComputer()}" var="computerEdited"--%>
-			<%--scope="session">--%>
-			<%--<c:redirect url="dashboard.html" />--%>
-		<%--</c:if>--%>
-	<%--</c:when>--%>
-<%--</c:choose>--%>
-<%-- Idées trovuées sur internet --%>
-<%--<c:if test="${param.submitted}">--%>
-<%--<c:if test="${empty param.name}" var="noName" />--%>
-<%--<c:if test="${empty param.email}" var="noEmail" />--%>
-<%--<c:if test="${empty param.age}" var="noAge" />--%>
 
 <!DOCTYPE html>
 <html>

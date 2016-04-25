@@ -28,7 +28,7 @@ public enum ComputerJdbcWrapper implements IConverter<ResultSet, Computer> {
 		Computer company = null;
 		Computer.Builder companyBuilder = new Computer.Builder();
 
-		CompanyDao companyDao = (CompanyDao) ThreadLocals.COMPUTER_DAOS.get();
+		CompanyDao companyDao = ThreadLocals.COMPANY_DAOS.get();
 		Object object;
 
 		try {
