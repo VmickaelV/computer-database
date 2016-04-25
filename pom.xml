@@ -76,6 +76,7 @@
         <webapp-runner.version>8.0.30.2</webapp-runner.version>
         <tomcat-jdbc.version>${tomcat.version}</tomcat-jdbc.version>
         <hibernate-validator.version>5.2.4.Final</hibernate-validator.version>
+        <HikariCP.version>2.4.5</HikariCP.version>
     </properties>
 
     <build>
@@ -379,11 +380,11 @@
             <version>${jcl-over-slf4j.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jdbc</artifactId>
-            <version>${tomcat-jdbc.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.tomcat</groupId>-->
+            <!--<artifactId>tomcat-jdbc</artifactId>-->
+            <!--<version>${tomcat-jdbc.version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -461,9 +462,9 @@
 
         <!-- Ajout d'un pool de connexion JDBC -->
         <dependency>
-            <groupId>com.jolbox</groupId>
-            <artifactId>bonecp</artifactId>
-            <version>${bonecp.version}</version>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${HikariCP.version}</version>
         </dependency>
 
         <!-- ================ Dependances de Tests =============== -->
