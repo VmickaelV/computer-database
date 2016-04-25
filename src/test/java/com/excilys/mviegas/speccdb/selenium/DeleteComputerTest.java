@@ -17,7 +17,7 @@ import java.sql.Connection;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/beans.xml" })
+@ContextConfiguration(locations = {"/beans-front.xml"})
 public class DeleteComputerTest extends BaseSeleniumTest {
 
 	private Connection mConnection;

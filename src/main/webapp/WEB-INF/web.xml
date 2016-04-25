@@ -19,7 +19,7 @@
 	
 	<error-page>
 		<error-code>404</error-code>
-		<location>/WEB-INF/views/404.htm</location>
+		<location>/WEB-INF/views/404.html</location>
 	</error-page>
 	
 	<error-page>

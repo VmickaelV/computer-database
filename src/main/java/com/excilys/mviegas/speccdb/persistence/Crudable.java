@@ -13,31 +13,59 @@ import java.util.Map;
  * @author Mickael
  */
 public interface Crudable<T> {
-    T create(T t) throws DAOException;
+	default T create(T t) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 
-    T find(long id) throws DAOException;
+	default T find(long id) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 
-    T update(T t) throws DAOException;
-    
-    int size() throws DAOException;
+	default T update(T t) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 
-    boolean delete(long id) throws DAOException;
-    
-    boolean delete(T t) throws DAOException;
+	default int size() throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 
-    boolean refresh(T t) throws DAOException;
+	default boolean delete(long id) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 
-    List<T> findAll() throws DAOException;
-    
-    List<T> findAll(int start, int size) throws DAOException;
+	default boolean delete(T t) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 
-    Paginator<T> findAllWithPaginator(int start, int size) throws DAOException;
+	default boolean refresh(T t) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 
-    List<T> findWithNamedQuery(String queryName) throws DAOException;
+	default List<T> findAll() throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 
-    Paginator<T> findWithNamedQueryWithPaginator(String queryName) throws DAOException;
+	default List<T> findAll(int start, int size) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 
-    List<T> findWithNamedQuery(String namedQueryName, Map<String, Object> parameters) throws DAOException;
+	default Paginator<T> findAllWithPaginator(int start, int size) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 
-    Paginator<T> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException;
+	default List<T> findWithNamedQuery(String queryName) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
+
+	default Paginator<T> findWithNamedQueryWithPaginator(String queryName) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
+
+	default List<T> findWithNamedQuery(String namedQueryName, Map<String, Object> parameters) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
+
+	default Paginator<T> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
 }

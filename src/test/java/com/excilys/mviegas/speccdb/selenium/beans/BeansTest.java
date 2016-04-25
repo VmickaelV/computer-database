@@ -13,7 +13,7 @@ import static org.junit.Assert.assertNotNull;
  * Created by excilys on 15/04/16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/beans.xml" })
+@ContextConfiguration(locations = {"/beans-front.xml"})
 public class BeansTest {
 
 	@Autowired
