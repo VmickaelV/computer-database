@@ -20,7 +20,7 @@ import java.sql.Statement;
 import static com.excilys.mviegas.speccdb.DatabaseUtils.resetDatabase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/beans.xml" })
+@ContextConfiguration(locations = {"/beans-front.xml"})
 public class DatabaseManagerTest {
 
 	public static final String DB_CREATE = "db/1-SCHEMA.sql";

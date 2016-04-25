@@ -15,7 +15,7 @@ import java.sql.Connection;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/beans.xml" })
+@ContextConfiguration(locations = {"/beans-front.xml"})
 public class EditComputerTest extends BaseSeleniumTest {
 
 	private Connection mConnection;

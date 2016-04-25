@@ -342,6 +342,10 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 	public void autrecombinaison5() throws Exception {
 		openAndWait();
 
+		Connection connection = DatabaseManager.getConnection();
+		DatabaseUtils.resetDatabase(connection);
+		DatabaseManager.releaseConnection(connection);
+
 		driver.findElement(By.id("searchbox")).clear();
 		driver.findElement(By.id("searchbox")).sendKeys("apple");
 		driver.findElement(By.id("searchsubmit")).click();
