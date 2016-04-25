@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/beans-front.xml"})
+@ContextConfiguration(locations = {"/beans-back.xml"})
 public class ComputerDAOTest {
 	
 	//===========================================================

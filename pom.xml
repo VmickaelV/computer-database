@@ -380,12 +380,6 @@
             <version>${jcl-over-slf4j.version}</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.apache.tomcat</groupId>-->
-            <!--<artifactId>tomcat-jdbc</artifactId>-->
-            <!--<version>${tomcat-jdbc.version}</version>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
