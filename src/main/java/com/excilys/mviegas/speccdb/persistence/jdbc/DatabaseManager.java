@@ -1,8 +1,8 @@
 package com.excilys.mviegas.speccdb.persistence.jdbc;
 
 import com.excilys.mviegas.speccdb.exceptions.ConnectionException;
-import com.jolbox.bonecp.BoneCP;
-import com.jolbox.bonecp.BoneCPConfig;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +52,7 @@ public class DatabaseManager {
 	/**
 	 * Pool de Connexion
 	 */
-	private static final BoneCP sConnectionPool;
+	private static final HikariDataSource sConnectionPool;
 
 	/**
 	 * The Constant password.
@@ -208,20 +208,14 @@ public class DatabaseManager {
 			}
 		}
 
-		try {
-			// Mise en plase du pool de connexion
-			BoneCPConfig config = new BoneCPConfig();
-			config.setJdbcUrl(URL);
-			config.setUsername(USER); 
-			config.setPassword(PASSWORD);
-			config.setMinConnectionsPerPartition(MIN_SIZE_POOL);
-			config.setMaxConnectionsPerPartition(MAX_SIZE_POOL);
-			config.setPartitionCount(1); // TODO a revoir
-			sConnectionPool = new BoneCP(config);
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new RuntimeException(e);
-		}
+		// Mise en plase du pool de connexion
+		HikariConfig config = new HikariConfig();
+		config.setJdbcUrl(URL);
+		config.setUsername(USER);
+		config.setPassword(PASSWORD);
+		config.setMinimumIdle(MIN_SIZE_POOL);
+		config.setMaximumPoolSize(MAX_SIZE_POOL);
+		sConnectionPool = new HikariDataSource(config);
 	}
 
 	// ============================================================

@@ -5,7 +5,6 @@ import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.Crudable;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.wrappers.CompanyJdbcWrapper;
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
 
