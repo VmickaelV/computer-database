@@ -129,6 +129,9 @@ public class ComputerDao implements Crudable<Computer> {
 	//=============================================================
 	// Attributres - private
 	//=============================================================
+	@Autowired
+	private CompanyDao mCompanyDao;
+
 
 	//=============================================================
 	// Constructors
@@ -207,6 +210,7 @@ public class ComputerDao implements Crudable<Computer> {
 
 	@Override
 	public Computer find(long pId) throws DAOException {
+		ThreadLocals.COMPANY_DAOS.set(mCompanyDao);
 		return mJdbcTemplate.query("SELECT * FROM `computer` WHERE id = ?", new Object[] {pId}, (rs) -> {
 			rs.next();
 			try {
@@ -310,6 +314,7 @@ public class ComputerDao implements Crudable<Computer> {
 		}
 
 		Paginator<Computer> paginator;
+		ThreadLocals.COMPANY_DAOS.set(mCompanyDao);
 
 		try {
 			List<Computer> mCompanies = mJdbcTemplate.query("SELECT * FROM computer LIMIT " + pSize + " OFFSET "+pStart, (rs, introw) -> {
@@ -365,6 +370,8 @@ public class ComputerDao implements Crudable<Computer> {
 		}
 		
 		Paginator<Computer> paginator;
+
+		ThreadLocals.COMPANY_DAOS.set(mCompanyDao);
 
 		switch (namedQueryName) {
 			case NamedQueries.SEARCH:
