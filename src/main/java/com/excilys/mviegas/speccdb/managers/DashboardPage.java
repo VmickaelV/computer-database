@@ -28,7 +28,6 @@ import java.util.Map;
  * @author Mickael
  */
 @Component
-@org.springframework.context.annotation.Scope("prototype")
 public class DashboardPage {
 
 	//===========================================================

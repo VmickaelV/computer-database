@@ -60,7 +60,7 @@ public class EditComputerTest extends BaseSeleniumTest {
 		driver.findElement(By.linkText("8")).click();
 		driver.findElement(By.id("name")).clear();
 		driver.findElement(By.id("name")).sendKeys("Plus de Matc");
-		new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("Nokia");
+		new Select(driver.findElement(By.id("idCompany"))).selectByVisibleText("Nokia");
 		assertEquals("id: 36", driver.findElement(By.xpath("//section[@id='main']/div/div/div/div")).getText());
 		assertEquals("Edit Computer", driver.findElement(By.cssSelector("h1")).getText());
 		assertEquals("", driver.findElement(By.id("btnSubmit")).getText());

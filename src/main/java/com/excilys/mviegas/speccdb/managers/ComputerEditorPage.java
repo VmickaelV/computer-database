@@ -4,8 +4,8 @@ import com.excilys.mviegas.speccdb.controlers.IEditorComputerControler;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
-import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.services.CompanyService;
+import com.excilys.mviegas.speccdb.services.ComputerService;
 import com.excilys.mviegas.speccdb.spring.singletons.ListOfCompanies;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -45,7 +44,7 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	private String mDiscontinuedDate;
 	private long mIdCompany;
 
-	@Min(1)
+//	@Min(1)
 	private long mId;
 
 	private String mAction;
@@ -56,10 +55,10 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	private ListOfCompanies mListOfCompanies;
 
 	@Autowired
-	private CompanyDao mCompanyCrudService;
+	private CompanyService mCompanyService;
 
 	@Autowired
-	private ComputerDao mComputerCrudService;
+	private ComputerService mComputerService;
 
 	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	private List<Message> mMessages = new LinkedList<>();
@@ -127,29 +126,6 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	@Override
 	public void setId(long pId) {
 		mId = pId;
-		if (pId > 0) {
-			try {
-				mComputer = mComputerCrudService.find(pId);
-				
-				mName = mComputer.getName();
-				if (mComputer.getIntroducedDate() != null) {
-					mIntroducedDate = mComputer.getIntroducedDate().format(sDateTimeFormatter);
-				}
-				
-				if (mComputer.getDiscontinuedDate() != null) {
-					mDiscontinuedDate = mComputer.getDiscontinuedDate().format(sDateTimeFormatter);
-				}
-				
-				if (mComputer.getManufacturer() != null) {
-					mIdCompany = mComputer.getManufacturer().getId();
-				}
-			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				mComputer = null;
-				mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
-			}
-		} else {
-			mComputer = null;
-		}
 	}
 
 	@Override
@@ -169,6 +145,22 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	@Override
 	public void setAction(String pAction) {
 		mAction = pAction;
+	}
+
+	public CompanyService getCompanyService() {
+		return mCompanyService;
+	}
+
+	public void setCompanyService(CompanyService pCompanyService) {
+		mCompanyService = pCompanyService;
+	}
+
+	public ComputerService getComputerService() {
+		return mComputerService;
+	}
+
+	public void setComputerService(ComputerService pComputerService) {
+		mComputerService = pComputerService;
 	}
 
 	//===========================================================
@@ -193,7 +185,7 @@ public class ComputerEditorPage implements IEditorComputerControler {
 
 	public boolean hasValidIdCompany() {
 		try {
-			return mIdCompany == 0 || mCompanyCrudService.find(mIdCompany) != null;
+			return mIdCompany == 0 || mCompanyService.find(mIdCompany) != null;
 		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 			LOGGER.error(pE.getMessage(), pE);
 			mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
@@ -225,12 +217,12 @@ public class ComputerEditorPage implements IEditorComputerControler {
 						.setName(mName)
 						.setIntroducedDate(mIntroducedDate == null || mIntroducedDate.isEmpty() ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter))
 						.setDiscontinuedDate(mDiscontinuedDate == null || mDiscontinuedDate.isEmpty() ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter))
-						.setManufacturer(mCompanyCrudService.find(mIdCompany)).build();
+						.setManufacturer(mCompanyService.find(mIdCompany)).build();
 			} else {				
 				mComputer.setName(mName);
 				mComputer.setIntroducedDate(mIntroducedDate == null || mIntroducedDate.isEmpty() ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter));
 				mComputer.setDiscontinuedDate(mDiscontinuedDate == null || mDiscontinuedDate.isEmpty() ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter));
-				mComputer.setManufacturer(mCompanyCrudService.find(mIdCompany));
+				mComputer.setManufacturer(mCompanyService.find(mIdCompany));
 				
 				if (LOGGER.isDebugEnabled()) {
 					LOGGER.debug(mComputer.toString());
@@ -264,6 +256,35 @@ public class ComputerEditorPage implements IEditorComputerControler {
 		mName = null;
 	}
 
+	/**
+	 * Action sp&écialie pour télécharger des données après l'assignation des différences services
+	 */
+	public void refresh() {
+		if (mId > 0) {
+			try {
+				mComputer = mComputerService.find(mId);
+
+				mName = mComputer.getName();
+				if (mComputer.getIntroducedDate() != null) {
+					mIntroducedDate = mComputer.getIntroducedDate().format(sDateTimeFormatter);
+				}
+
+				if (mComputer.getDiscontinuedDate() != null) {
+					mDiscontinuedDate = mComputer.getDiscontinuedDate().format(sDateTimeFormatter);
+				}
+
+				if (mComputer.getManufacturer() != null) {
+					mIdCompany = mComputer.getManufacturer().getId();
+				}
+			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+				mComputer = null;
+				mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
+			}
+		} else {
+			mComputer = null;
+		}
+	}
+
 	//===========================================================
 	// Méthodes Controleurs
 	//===========================================================
@@ -271,7 +292,7 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	public boolean addComputer() {
 		if (isValidForm()) {
 			try {
-				mComputerCrudService.create(makeComputer());
+				mComputerService.create(makeComputer());
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
 				return false;
@@ -288,7 +309,7 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	public boolean editComputer() {
 		if (isValidForm()) {
 			try {
-				mComputerCrudService.update(makeComputer());
+				mComputerService.update(makeComputer());
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
 				return false;

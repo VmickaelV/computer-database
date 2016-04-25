@@ -93,9 +93,6 @@ services:
       - back
       - front
 
-#    expose:
-#      - "8888"
-
     ports:
       - "8888:8888"
 

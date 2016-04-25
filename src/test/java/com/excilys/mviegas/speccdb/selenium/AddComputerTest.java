@@ -67,8 +67,8 @@ public class AddComputerTest extends BaseSeleniumTest {
 		assertEquals("", driver.findElement(By.id("discontinuedDate")).getAttribute("value"));
 		assertEquals("", driver.findElement(By.id("discontinuedDate")).getText());
 
-		assertEquals("0", driver.findElement(By.id("companyId")).getAttribute("value"));
-//		assertEquals("-- Apple Inc. Thinking Machines RCA Netronics Tandy Corporation Commodore International MOS Technology Micro Instrumentation and Telemetry Systems IMS Associates, Inc. Digital Equipment Corporation Lincoln Laboratory Moore School of Electrical Engineering IBM Amiga Corporation Canon Nokia Sony OQO NeXT Atari Acorn computer Timex Sinclair Nintendo Sinclair Research Ltd Xerox Hewlett-Packard Zemmix ACVS Sanyo Cray Evans & Sutherland E.S.R. Inc. OMRON BBN Technologies Lenovo Group ASUS Amstrad Sun Microsystems Texas Instruments HTC Corporation Research In Motion Samsung Electronics", driver.findElement(By.id("companyId")).getText());
+		assertEquals("0", driver.findElement(By.id("idCompany")).getAttribute("value"));
+//		assertEquals("-- Apple Inc. Thinking Machines RCA Netronics Tandy Corporation Commodore International MOS Technology Micro Instrumentation and Telemetry Systems IMS Associates, Inc. Digital Equipment Corporation Lincoln Laboratory Moore School of Electrical Engineering IBM Amiga Corporation Canon Nokia Sony OQO NeXT Atari Acorn computer Timex Sinclair Nintendo Sinclair Research Ltd Xerox Hewlett-Packard Zemmix ACVS Sanyo Cray Evans & Sutherland E.S.R. Inc. OMRON BBN Technologies Lenovo Group ASUS Amstrad Sun Microsystems Texas Instruments HTC Corporation Research In Motion Samsung Electronics", driver.findElement(By.id("idCompany")).getText());
 		assertEquals("Company", driver.findElement(By.xpath("//section[@id='main']/div/div/div/form/fieldset/div[4]/label")).getText());
 		assertEquals("Application - Computer Database", driver.findElement(By.cssSelector("div.container")).getText());
 	}
@@ -201,7 +201,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 		driver.findElement(By.id("name")).clear();
 		driver.findElement(By.id("name")).sendKeys("Nouvel Ordinateur");
 		driver.findElement(By.id("introducedDate")).sendKeys("04/08/2016");
-		new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("NeXT");
+		new Select(driver.findElement(By.id("idCompany"))).selectByVisibleText("NeXT");
 		driver.findElement(By.id("btnSubmit")).click();
 		driver.findElement(By.linkText("100")).click();
 		driver.findElement(By.linkText("4")).click();

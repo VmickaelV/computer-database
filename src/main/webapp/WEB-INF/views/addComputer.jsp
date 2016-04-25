@@ -79,8 +79,8 @@
 								</c:if>
 							</div>
 							<div class="form-group">
-								<label for="companyId" class="control-label">Company</label> <select
-									class="form-control" id="companyId" name="companyId">
+								<label for="idCompany" class="control-label">Company</label> <select
+									class="form-control" id="idCompany" name="idCompany">
 									<option value="0">--</option>
 
 									<c:forEach items="${computerEditor.companies}" var="company">

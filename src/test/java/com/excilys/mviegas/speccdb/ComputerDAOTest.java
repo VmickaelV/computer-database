@@ -1,5 +1,6 @@
 package com.excilys.mviegas.speccdb;
 
+import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
@@ -50,8 +51,16 @@ public class ComputerDAOTest {
 	@Before
 	public void before() throws Exception {
 		DatabaseUtils.resetDatabase();
+
+		ThreadLocals.COMPANY_DAOS.set(mCompanyDao);
 	}
-	
+
+	@Before
+	public void setUp() throws Exception {
+		ThreadLocals.COMPANY_DAOS.remove();
+
+	}
+
 	//===========================================================
 	// Tests
 	//===========================================================

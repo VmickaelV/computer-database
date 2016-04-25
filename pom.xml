@@ -120,14 +120,14 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <!-- Ajout de lien pour le rapport de checkstyle -->
+            <!-- Ajout de lien vers ligne de fichier pour le rapport de checkstyle -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
                 <version>${maven-jxr-plugin.version}</version>
             </plugin>
 
-            <!-- TODO ajouter commentaire -->
+            <!-- Pour heroku -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -206,13 +206,6 @@
                 <version>${maven-checkstyle-plugin.version}</version>
                 <configuration>
                     <configLocation>${maven-checkstyle-plugin.configLocation}</configLocation>
-                    <!-- <suppressionsLocation>config/checkstyle/suppressions.xml</suppressionsLocation> -->
-                    <!-- <configLocation>config/checkstyle/checkstyle.xml</configLocation> --><!-- <suppressionsLocation>config/checkstyke/suppressions.xml</suppressionsLocation> -->
-
-                    <!-- <configLocation>config/sun_checks.xml</configLocation> --><!-- default -->
-                    <!-- <configLocation>config/maven_checks.xml</configLocation> -->
-                    <!-- <configLocation>config/turbine_checks.xml</configLocation> -->
-                    <!-- <configLocation>config/avalon_checks.xml</configLocation> -->
                 </configuration>
 
                 <reportSets>
@@ -318,6 +311,9 @@
                     </resource>
                 </resources>
                 <testResources>
+                	<testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
                     <testResource>
                         <directory>src/inDocker/resources</directory>
                     </testResource>
@@ -463,14 +459,6 @@
         </dependency>
 
         <!-- ============== Dépendances globales =============== -->
-
-
-        <!-- <dependency> -->
-        <!-- <groupId>log4j</groupId> -->
-        <!-- <artifactId>log4j</artifactId> -->
-        <!-- <version>1.2.17</version> -->
-        <!-- </dependency> -->
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
