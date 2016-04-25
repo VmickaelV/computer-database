@@ -181,7 +181,6 @@ public enum ComputersListView implements IComputersListViewControler {
 	 */
 	@Override
 	public void addComputer() {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("ComputersListView#addComputer not implemented yet.");
 	}
 
@@ -190,7 +189,6 @@ public enum ComputersListView implements IComputersListViewControler {
 	 */
 	@Override
 	public void searchById() {
-		// TODO Auto-generated method stub
 		int id;
 		while (true) {
 			System.out.println(MainMenuControleur.SEPARATOR);
@@ -221,7 +219,6 @@ public enum ComputersListView implements IComputersListViewControler {
 
 	@Override
 	public void setPage(int pPage) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("ComputersListView#setPage not implemented yet.");
 	}
 	

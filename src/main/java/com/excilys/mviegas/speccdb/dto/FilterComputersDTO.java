@@ -1,12 +1,10 @@
 package com.excilys.mviegas.speccdb.dto;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import static com.excilys.mviegas.speccdb.managers.DashboardManagerBean.DEFAULT_SIZE_PAGE;
+import static com.excilys.mviegas.speccdb.managers.DashboardPage.DEFAULT_SIZE_PAGE;
 
 /**
  * DTO de filtres de recherches d'ordinateurs
@@ -26,7 +24,6 @@ public class FilterComputersDTO {
 	private int mSize = DEFAULT_SIZE_PAGE;
 
 	@NotNull
-	@NotEmpty
 	@Size(min = 3)
 	private String mSearch;
 

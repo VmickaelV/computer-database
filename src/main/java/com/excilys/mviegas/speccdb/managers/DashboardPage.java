@@ -9,7 +9,6 @@ import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.TypeOrder;
 import com.excilys.mviegas.speccdb.services.ComputerService;
 import com.excilys.mviegas.speccdb.ui.webapp.Message;
 import com.excilys.mviegas.speccdb.ui.webapp.Message.Level;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +29,13 @@ import java.util.Map;
  */
 @Component
 @org.springframework.context.annotation.Scope("prototype")
-public class DashboardManagerBean {
+public class DashboardPage {
 
 	//===========================================================
 	// Attributes static
 	//===========================================================
 
-	public static final Logger LOGGER = LoggerFactory.getLogger(DashboardManagerBean.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(DashboardPage.class);
 	
 	public static final int DEFAULT_SIZE_PAGE = 10;
 
@@ -51,7 +50,6 @@ public class DashboardManagerBean {
 	private int mSize = DEFAULT_SIZE_PAGE;
 
 	@NotNull
-	@NotEmpty
 	@Size(min = 3)
 	private String mSearch;
 	
@@ -72,11 +70,11 @@ public class DashboardManagerBean {
 	// Constructeur
 	//===========================================================
 
-	public DashboardManagerBean() {
+	public DashboardPage() {
 		init();
 	}
 
-	public DashboardManagerBean(int pPage, int pSize, String pSearch, String pOrder, String pTypeOrder) {
+	public DashboardPage(int pPage, int pSize, String pSearch, String pOrder, String pTypeOrder) {
 		this();
 		mPage = pPage;
 		mSize = pSize;

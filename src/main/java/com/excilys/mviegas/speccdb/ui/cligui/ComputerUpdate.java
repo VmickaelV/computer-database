@@ -190,7 +190,6 @@ public class ComputerUpdate implements IComputerUpdateControler {
 
 	@Override
 	public void cancel() {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("ComputerUpdate#cancel not implemented yet.");
 	}
 
@@ -218,7 +217,6 @@ public class ComputerUpdate implements IComputerUpdateControler {
 
 	public static IComputerUpdateControler make(Computer pComputer) {
 		if (pComputer == null) {
-			// throw new IllegalArgumentException();
 			return null;
 		}
 

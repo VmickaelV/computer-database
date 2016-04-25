@@ -121,7 +121,6 @@ public class ComputerDetail implements IComputerDetailControler {
 		}
 
 		if (computer == null) {
-//			throw new IllegalArgumentException();
 			return null;
 		} else {
 			return new ComputerDetail(computer);

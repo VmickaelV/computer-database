@@ -1,6 +1,6 @@
 package com.excilys.mviegas.speccdb.spring.controllers;
 
-import com.excilys.mviegas.speccdb.managers.DashboardManagerBean;
+import com.excilys.mviegas.speccdb.managers.DashboardPage;
 import com.excilys.mviegas.speccdb.services.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class DashboardController {
 	public static final Logger LOGGER = LoggerFactory.getLogger(DashboardController.class);
 
 	@RequestMapping(value = "/dashboard", method = {RequestMethod.GET})
-	public String get(@Valid DashboardManagerBean pDashboardManagerBean, BindingResult bindingResult, ModelMap pModelMap) {
+	public String get(@Valid DashboardPage pDashboardManagerBean, BindingResult bindingResult, ModelMap pModelMap) {
 		pDashboardManagerBean.setComputerService(mComputerService);
 		pDashboardManagerBean.update();
 
@@ -33,7 +33,7 @@ public class DashboardController {
 	}
 	
 	@RequestMapping(value = "/dashboard", method = {RequestMethod.POST})
-	public String delete(DashboardManagerBean pDashboardManagerBean, ModelMap pModelMap) {
+	public String delete(DashboardPage pDashboardManagerBean, ModelMap pModelMap) {
 		if (pDashboardManagerBean.getSelection() == null  || pDashboardManagerBean.getSelection().isEmpty()) {
 			throw new RuntimeException();
 		}

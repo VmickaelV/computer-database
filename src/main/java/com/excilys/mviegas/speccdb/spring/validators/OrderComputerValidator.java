@@ -7,7 +7,6 @@ import org.springframework.validation.Validator;
 /**
  * Created by excilys on 18/04/16.
  */
-
 public class OrderComputerValidator implements Validator {
 	@Override
 	public boolean supports(Class<?> pClass) {

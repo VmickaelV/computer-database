@@ -28,12 +28,12 @@ import java.util.Map;
  * @author Mickael
  */
 @Component
-public class ComputerEditorManagerBean implements IEditorComputerControler {
+public class ComputerEditorPage implements IEditorComputerControler {
 
 	//=============================================================
 	// Constantes
 	//=============================================================
-	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerEditorManagerBean.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerEditorPage.class);
 	public static final String PATTERN_DATE = "dd/MM/yyyy";
 	public static final DateTimeFormatter sDateTimeFormatter = DateTimeFormatter.ofPattern(PATTERN_DATE);
 	
@@ -67,7 +67,7 @@ public class ComputerEditorManagerBean implements IEditorComputerControler {
 	//===========================================================
 	// Constructeurs
 	//===========================================================
-	public ComputerEditorManagerBean() {
+	public ComputerEditorPage() {
 		init();
 	}
 

@@ -12,21 +12,15 @@ public enum MainMenuControleur implements IMainMenuControler {
 	private IComputersListViewControler mComputersListViewControler;
 
 	private MainMenuConsole mMainMenuConsole = new MainMenuConsole(this);
-		
-
 
 	@SuppressWarnings("UnnecessaryEnumModifier")
 	private MainMenuControleur(IComputersListViewControler pComputersListViewControler) {
 		mComputersListViewControler = pComputersListViewControler;
 	}
 
-
 	public static final String SEPARATOR = "-------------------------------------------------------------------";
 	
 	public static final Scanner SCANNER = new Scanner(System.in);
-	
-	
-	
 
 	@Override
 	public void launch() {
@@ -51,13 +45,8 @@ public enum MainMenuControleur implements IMainMenuControler {
 	public void addComputer() {
 		ComputerUpdate.make().launch();
 	}
-
-	
-	
 	
 	public static void main(String[] args) {
 		INSTANCE.launch();
 	}
-
-	
 }

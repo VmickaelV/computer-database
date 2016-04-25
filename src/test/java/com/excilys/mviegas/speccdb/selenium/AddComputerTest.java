@@ -29,9 +29,6 @@ public class AddComputerTest extends BaseSeleniumTest {
 	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
-
-//		ThreadLocals.CONNECTIONS.remove();
-//		DatabaseManager.releaseConnection(mConnection);
 	}
 
 	@Override
@@ -42,9 +39,6 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 		openAndWait();
 		mWebDriver.findElement(By.id("addComputer")).click();
-
-//		mConnection = DatabaseManager.getConnection();
-//		ThreadLocals.CONNECTIONS.set(mConnection);
 	}
 
 	@Test
@@ -155,7 +149,6 @@ public class AddComputerTest extends BaseSeleniumTest {
 		assertEquals("", element.getAttribute("value"));
 
 		element.clear();
-//		element.sendKeys("UnNom");
 
 		assertFalse(isElementPresent(By.id("name-error")));
 
