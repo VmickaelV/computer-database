@@ -98,11 +98,13 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 	 * Liste des Champs ordonnable
 	 */
 	public enum Order {
-		NAME("name"), INTRODUCED_DATE("introduced"), DISCONTINUED_DATE("discontinued"), ID_COMPANY("company_id"), NAME_COMPANY("company_name");
+		NAME("name", "mName"), INTRODUCED_DATE("introduced", "mIntroducedDate"), DISCONTINUED_DATE("discontinued", "mDiscontinuedDate"), ID_COMPANY("company_id", ""), NAME_COMPANY("company_name", "");
 
 		public final String queryName;
+		public final String attributeName;
 
-		Order(String pQueryName) {
+		Order(final String pQueryName, final String pAttributeName) {
+			attributeName = pAttributeName;
 			queryName = pQueryName;
 		}
 
@@ -173,9 +175,9 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 
 				if (order != null) {
 					if (typeOrder == TypeOrder.DESC) {
-						cq.orderBy(cb.desc(computerRoot.get(order.queryName)));
+						cq.orderBy(cb.desc(computerRoot.get(order.attributeName)));
 					} else {
-						cq.orderBy(cb.asc(computerRoot.get(order.queryName)));
+						cq.orderBy(cb.asc(computerRoot.get(order.attributeName)));
 					}
 				}
 
