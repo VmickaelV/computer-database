@@ -57,8 +57,8 @@
         <property name="entityManagerFactory" ref="myEmf" />
     </bean>
 
-    <bean id="persistenceExceptionTranslationPostProcessor"
-          class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+    <!--<bean id="persistenceExceptionTranslationPostProcessor"-->
+          <!--class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />-->
 
     <!-- Bean de fournisseur de messages internationnalisées -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">

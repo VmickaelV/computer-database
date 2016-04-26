@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Map;
 
@@ -162,14 +161,14 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 				CriteriaQuery<Long> cqCount = cb.createQuery(Long.class);
 				CriteriaQuery<Computer> cq = cb.createQuery(Computer.class);
 				Root<Computer> computerRoot = cq.from(Computer.class);
+				Root<Computer> cqCountcomputerRoot = cqCount.from(Computer.class);
 
 				cq.select(computerRoot);
 				cqCount.select(cb.count(computerRoot));
 
 				if (search != null && !search.isEmpty()) {
-					Predicate predicateComputer = cb.like(cb.lower(computerRoot.get("name")), search.toLowerCase());
-					cq.where(predicateComputer);
-					cqCount.where(predicateComputer);
+					cq.where(cb.like(cb.lower(computerRoot.get("mName")), search.toLowerCase()));
+					cqCount.where(cb.like(cb.lower(cqCountcomputerRoot.get("mName")), "%"+search.toLowerCase()+"%"));
 				}
 
 				if (order != null) {
