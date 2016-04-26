@@ -2,8 +2,8 @@ package com.excilys.mviegas.speccdb.services;
 
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
+import com.excilys.mviegas.speccdb.persistence.IComputerDao;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
-import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.Map;
 public class ComputerService implements IComputerService {
 
 	@Autowired
-	private ComputerDao mComputerDao;
+	private IComputerDao mComputerDao;
 
 	@Override
 	public Paginator<Computer> findWithNamedQueryWithPaginator(String queryName) throws DAOException {

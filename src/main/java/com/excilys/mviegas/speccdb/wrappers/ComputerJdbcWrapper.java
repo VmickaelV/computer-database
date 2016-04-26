@@ -4,7 +4,7 @@ import com.excilys.mviegas.speccdb.IConverter;
 import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persistence.ICompanyDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public enum ComputerJdbcWrapper implements IConverter<ResultSet, Computer> {
 		Computer company = null;
 		Computer.Builder companyBuilder = new Computer.Builder();
 
-		CompanyDao companyDao = ThreadLocals.COMPANY_DAOS.get();
+		ICompanyDao companyDao = ThreadLocals.COMPANY_DAOS.get();
 		Object object;
 
 		try {
@@ -50,8 +50,10 @@ public enum ComputerJdbcWrapper implements IConverter<ResultSet, Computer> {
 			company = companyBuilder.build();
 			company.setId(pResultSet.getInt("id"));
 
-		} catch (SQLException | DAOException pE) {
+		} catch (SQLException pE) {
 			LOGGER.error(pE.getMessage(), pE);
+		} catch (DAOException pE) {
+			pE.printStackTrace();
 		}
 
 		return company;

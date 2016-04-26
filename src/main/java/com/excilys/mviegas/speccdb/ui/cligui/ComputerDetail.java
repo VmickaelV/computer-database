@@ -113,12 +113,7 @@ public class ComputerDetail implements IComputerDetailControler {
 
 	public static IComputerDetailControler make(int pId) {
 		Computer computer;
-		try {
-			computer = ComputerDao.getInstance().find(pId);
-		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-			// TODO à refaire
-			throw new RuntimeException(pE);
-		}
+		computer = ComputerDao.getInstance().find(pId);
 
 		if (computer == null) {
 			return null;
@@ -132,12 +127,7 @@ public class ComputerDetail implements IComputerDetailControler {
 			return null;
 		}
 
-		try {
-			pComputer = ComputerDao.getInstance().find(pComputer.getId());
-		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-			// TODO à refaire
-			throw new RuntimeException(pE);
-		}
+		pComputer = ComputerDao.getInstance().find(pComputer.getId());
 		if (pComputer == null) {
 			return null;
 		}

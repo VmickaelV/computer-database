@@ -2,7 +2,7 @@ package com.excilys.mviegas.speccdb.ui.cligui;
 
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persistence.ICompanyDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 
 import java.time.LocalDate;
@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
 
 public class ComputerUpdate implements IComputerUpdateControler {
 
-	private CompanyDao mCompanyDao;
+	private ICompanyDao mCompanyDao;
 
 	private Computer mComputer;
 
@@ -163,22 +163,12 @@ public class ComputerUpdate implements IComputerUpdateControler {
 
 			mComputer = builder.build();
 
-			try {
-				ComputerDao.getInstance().create(mComputer);
-			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				// TODO à refaire
-				throw new RuntimeException(pE);
-			}
+			ComputerDao.getInstance().create(mComputer);
 		} else {
 			mComputer.setName(name);
 			mComputer.setIntroducedDate(dateIntroduced);
 
-			try {
-				ComputerDao.getInstance().update(mComputer);
-			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				// TODO à refaire
-				throw new RuntimeException(pE);
-			}
+			ComputerDao.getInstance().update(mComputer);
 		}
 		
 		valid();
@@ -200,12 +190,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 
 	public static IComputerUpdateControler make(int pId) {
 		Computer computer;
-		try {
-			computer = ComputerDao.getInstance().find(pId);
-		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-			// TODO à refaire
-			throw new RuntimeException(pE);
-		}
+		computer = ComputerDao.getInstance().find(pId);
 
 		if (computer == null) {
 			// throw new IllegalArgumentException();
@@ -220,12 +205,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 			return null;
 		}
 
-		try {
-			pComputer = ComputerDao.getInstance().find(pComputer.getId());
-		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-			// TODO à refaire
-			throw new RuntimeException(pE);
-		}
+		pComputer = ComputerDao.getInstance().find(pComputer.getId());
 		if (pComputer == null) {
 			return null;
 		}

@@ -3,9 +3,10 @@ package com.excilys.mviegas.speccdb;
 import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
+import com.excilys.mviegas.speccdb.persistence.ICompanyDao;
+import com.excilys.mviegas.speccdb.persistence.IComputerDao;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.QueryParameter;
-import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,10 +41,10 @@ public class ComputerDAOTest {
 	//===========================================================
 
 	@Autowired
-	private ComputerDao mComputerDao;
+	private IComputerDao mComputerDao;
 
 	@Autowired
-	private CompanyDao mCompanyDao;
+	private ICompanyDao mCompanyDao;
 	
 	//===========================================================
 	// Callbacks

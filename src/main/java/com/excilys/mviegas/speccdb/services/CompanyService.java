@@ -2,8 +2,8 @@ package com.excilys.mviegas.speccdb.services;
 
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
+import com.excilys.mviegas.speccdb.persistence.ICompanyDao;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
-import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.Map;
 public class CompanyService implements ICompanyService {
 
 	@Autowired
-	private CompanyDao mCompanyDao;
+	private ICompanyDao mCompanyDao;
 
 	@Override
 	public Company create(Company pT) throws DAOException {

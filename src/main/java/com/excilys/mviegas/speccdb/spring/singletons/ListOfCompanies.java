@@ -3,7 +3,7 @@ package com.excilys.mviegas.speccdb.spring.singletons;
 import com.excilys.mviegas.speccdb.C;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persistence.ICompanyDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 public class ListOfCompanies implements List<Company> {
 
 	@Autowired
-	private CompanyDao mCompanyDao;
+	private ICompanyDao mCompanyDao;
 
 	private List<Company> mCompanies;
 

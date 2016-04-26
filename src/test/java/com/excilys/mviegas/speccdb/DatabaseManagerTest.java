@@ -1,7 +1,7 @@
 package com.excilys.mviegas.speccdb;
 
-import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
-import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.ICompanyDao;
+import com.excilys.mviegas.speccdb.persistence.IComputerDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,10 +30,10 @@ public class DatabaseManagerTest {
 	private Connection mConnection;
 
 	@Autowired
-	private ComputerDao mComputerDao;
+	private IComputerDao mComputerDao;
 
 	@Autowired
-	private CompanyDao mCompanyDao;
+	private ICompanyDao mCompanyDao;
 
 	@Autowired
 	private void setDatasource(DataSource pDatasource) {
