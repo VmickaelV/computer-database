@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -44,7 +45,7 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	private String mDiscontinuedDate;
 	private long mIdCompany;
 
-//	@Min(1)
+	@Min(0)
 	private long mId;
 
 	private String mAction;

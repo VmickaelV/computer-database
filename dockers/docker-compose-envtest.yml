@@ -25,14 +25,14 @@ services:
       - back
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    ports:
+      - "3306:3306"
 
   bdd:
-    extends: bdd_h2
+    extends: bdd_mysql
 
   test_bdd:
     extends: bdd
-    ports:
-      - "3306:3306"
 
   # Service mère pour les tests
   base_test:
@@ -103,12 +103,18 @@ services:
       - "mvn"
       - "-P"
       - "docker"
+      - "-Ddb.min_size=25"
+
       - "-Ddb.username=sa"
       - "-Ddb.password="
-      - "-Ddb.createScripts=db/1-SCHEMA.sql"
-      - "-Ddb.min_size=25"
       - "-Ddb.className=org.h2.Driver"
       - "-Ddb.url=jdbc:h2:tcp://bdd:1521/~/test"
+
+      - "-Ddb.url=jdbc:mysql://bdd/computer-database-db?zeroDateTimeBehavior=convertToNull"
+      - "-Ddb.className=com.mysql.jdbc.Driver"
+      - "-Ddb.username=root"
+      - "-Ddb.password="
+
       - "tomcat7:run"
 
   # TODO créer un service pour créer un serveur de production avec Tomcat

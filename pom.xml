@@ -47,6 +47,8 @@
         <spring-web.version>${spring.version}</spring-web.version>
         <spring-webmvc.version>${spring.version}</spring-webmvc.version>
         <spring-test.version>${spring.version}</spring-test.version>
+        <spring-boot.version>1.3.3.RELEASE</spring-boot.version>
+        <spring-boot-starter-test.version>${spring-boot.version}</spring-boot-starter-test.version>
         <jcl-over-slf4j.version>1.7.21</jcl-over-slf4j.version>
 
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
@@ -587,7 +589,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>1.3.3.RELEASE</version>
+            <version>${spring-boot-starter-test.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

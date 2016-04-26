@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,7 +47,6 @@ public class DashboardPage {
 	@Min(0)
 	private int mSize = DEFAULT_SIZE_PAGE;
 
-	@NotNull
 	@Size(min = 3)
 	private String mSearch;
 	
