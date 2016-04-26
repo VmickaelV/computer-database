@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Dao d'une companie ({@link Company})
@@ -45,11 +44,6 @@ public class CompanyDao implements Crudable<Company> {
 	// Methods - Crudable
 	// ===========================================================
 	@Override
-	public Company create(Company pT) throws DAOException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public Company find(long pId) throws DAOException {
 		List<Company> companies = mJdbcTemplate.query("SELECT * FROM `company` WHERE id = " + pId, (rs, introw) -> {
 			return CompanyJdbcWrapper.fromJdbc(rs);
@@ -58,12 +52,6 @@ public class CompanyDao implements Crudable<Company> {
 			return null;
 		}
 		return companies.get(0);
-	}
-
-	@Override
-	public Company update(Company pT) throws DAOException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Crudable<Company>#update not implemented yet.");
 	}
 
 	@Override
@@ -86,12 +74,6 @@ public class CompanyDao implements Crudable<Company> {
 			throw new IllegalArgumentException();
 		}
 		return delete(pT.getId());
-	}
-	
-	@Override
-	public boolean refresh(Company pT) throws DAOException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Crudable<Company>#refresh not implemented yet.");
 	}
 
 	@Override
@@ -134,30 +116,6 @@ public class CompanyDao implements Crudable<Company> {
 			LOGGER.error(e.getMessage(), e);
 			throw new DAOException(e);
 		}
-	}
-
-	@Override
-	public List<Company> findWithNamedQuery(String pQueryName) throws DAOException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Crudable<Company>#findWithNamedQuery not implemented yet.");
-	}
-
-	@Override
-	public Paginator<Company> findWithNamedQueryWithPaginator(String queryName) throws DAOException {
-		// ${todo} To Implement
-		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
-	}
-
-	@Override
-	public List<Company> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters) throws DAOException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Crudable<Company>#findWithNamedQuery not implemented yet.");
-	}
-
-	@Override
-	public Paginator<Company> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
-		// ${todo} To Implement
-		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao#findWithNamedQueryWithPaginator not implemented yet.");
 	}
 
 	@Override

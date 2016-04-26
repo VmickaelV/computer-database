@@ -5,7 +5,7 @@
     <!-- Identifiant de base de POM -->
     <groupId>spec-cdb</groupId>
     <artifactId>spec-cdb</artifactId>
-    <version>0.22-SNAPSHOT</version>
+    <version>0.22.1</version>
     <packaging>war</packaging>
 
     <!-- Informations sur le projet -->
@@ -33,7 +33,7 @@
 
         <!-- Versions -->
         <java.version>1.8</java.version>
-        <logback.version>1.1.1</logback.version>
+        <logback.version>1.1.2</logback.version>
         <slf4j-api.version>1.7.21</slf4j-api.version>
         <tomcat.version>8.5.0</tomcat.version>
         <tomcat-el-api.version>${tomcat.version}</tomcat-el-api.version>
@@ -66,13 +66,16 @@
         <jsp-api.version>6.0.29</jsp-api.version>
         <jstl.version>1.2</jstl.version>
 
-        <mysql-connector-java.version>5.1.18</mysql-connector-java.version>
+        <mysql-connector-java.version>5.1.19</mysql-connector-java.version>
 
-        <selenium.version>2.52.0</selenium.version>
+        <selenium.version>2.53.0</selenium.version>
+        <selenium-java.version>${selenium.version}</selenium-java.version>
+        <selenium-htmlunit-driver.version>2.52.0</selenium-htmlunit-driver.version>
+        <selenium-firefox-driver.version>${selenium.version}</selenium-firefox-driver.version>
         <junit.version>4.12</junit.version>
         <hamcrest.version>1.3</hamcrest.version>
         <h2.version>1.4.191</h2.version>
-        <mockito.version>1.10.7</mockito.version>
+        <mockito.version>1.10.8</mockito.version>
 
         <webapp-runner.version>8.0.30.2</webapp-runner.version>
         <hibernate-validator.version>5.2.4.Final</hibernate-validator.version>
@@ -169,7 +172,7 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>com/excilys/mviegas/speccdb/selenium/*</exclude>
+                        <exclude>com/excilys/mviegas/speccdb/selenium/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -286,7 +289,7 @@
                         <version>${maven-surefire-plugin.version}</version>
                         <configuration>
                             <includes>
-                                <include>com/excilys/mviegas/speccdb/selenium/*</include>
+                                <include>com/excilys/mviegas/speccdb/selenium/**</include>
                             </includes>
                             <excludes>
                                 <exclude>none</exclude>
@@ -499,21 +502,21 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
+            <version>${selenium-java.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-htmlunit-driver</artifactId>
-            <version>${selenium.version}</version>
+            <version>${selenium-htmlunit-driver.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-firefox-driver</artifactId>
-            <version>${selenium.version}</version>
+            <version>${selenium-firefox-driver.version}</version>
             <scope>test</scope>
         </dependency>
 
