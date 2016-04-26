@@ -7,10 +7,10 @@ import java.io.Serializable;
  *
  * Created by Mickael on 21/03/2016.
  */
-public interface Identifiable extends Serializable {
+public interface IdentifiableForm<PK extends Serializable> extends Serializable {
 
 	/**
 	 * @return Id de l'objet
 	 */
-	long getId();
+	PK getId();
 }

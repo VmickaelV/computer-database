@@ -2,6 +2,7 @@ package com.excilys.mviegas.speccdb.data;
 
 import com.excilys.mviegas.speccdb.exceptions.BuilderException;
 import com.excilys.mviegas.speccdb.interfaces.IBuilder;
+import com.excilys.mviegas.speccdb.interfaces.Identifiable;
 
 import javax.persistence.*;
 
@@ -12,7 +13,7 @@ import javax.persistence.*;
  */
 @Entity
 @Access(AccessType.PROPERTY)
-public class Company {
+public class Company implements Identifiable {
 
 	// ===========================================================
 	// Attributes - private

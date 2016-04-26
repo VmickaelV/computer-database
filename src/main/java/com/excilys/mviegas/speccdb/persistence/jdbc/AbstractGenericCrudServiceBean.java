@@ -1,6 +1,7 @@
 package com.excilys.mviegas.speccdb.persistence.jdbc;
 
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
+import com.excilys.mviegas.speccdb.interfaces.Identifiable;
 import com.excilys.mviegas.speccdb.persistence.Crudable;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ import java.util.Map;
  *
  * Created by excilys on 14/04/16.
  */
-public abstract class AbstractGenericCrudServiceBean<T> implements Crudable<T> {
+public abstract class AbstractGenericCrudServiceBean<T extends Identifiable> implements Crudable<T> {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(AbstractGenericCrudServiceBean.class);
 
@@ -70,12 +71,12 @@ public abstract class AbstractGenericCrudServiceBean<T> implements Crudable<T> {
 	public boolean delete(long id) {
 		// TODO revoir cette méthode
 		Object ref;
+		ref = mEntityManager.getReference(entityBeanType, id);
 		try {
-			ref = mEntityManager.getReference(entityBeanType, id);
+			mEntityManager.remove(ref);
 		} catch (EntityNotFoundException pE) {
 			return false;
 		}
-		mEntityManager.remove(ref);
 		return true;
 	}
 
@@ -85,7 +86,11 @@ public abstract class AbstractGenericCrudServiceBean<T> implements Crudable<T> {
 		if (pT == null) {
 			throw new IllegalArgumentException("null value with Dao#delete");
 		}
-		mEntityManager.remove(pT);
+		if (mEntityManager.contains(pT)) {
+			mEntityManager.remove(pT);
+		} else {
+			delete(pT.getId());
+		}
 		return true;
 	}
 

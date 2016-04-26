@@ -2,8 +2,7 @@ package com.excilys.mviegas.speccdb.data;
 
 import com.excilys.mviegas.speccdb.exceptions.BuilderException;
 import com.excilys.mviegas.speccdb.interfaces.IBuilder;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import com.excilys.mviegas.speccdb.interfaces.Identifiable;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,14 +14,15 @@ import java.time.LocalDate;
  */
 @Entity
 //@Access(AccessType.PROPERTY)
-public class Computer {
+public class Computer implements Identifiable {
 
 	// ===========================================================
 	// Attributs - private
 	// ===========================================================
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "id", initialValue = 600)
 	@Column(name = "id")
 	private long mId;
 
@@ -37,7 +37,6 @@ public class Computer {
 
 	@ManyToOne
 	@JoinColumn(name = "company_id")
-	@Cascade(CascadeType.ALL)
 	private Company mManufacturer;
 
 	// ===========================================================
