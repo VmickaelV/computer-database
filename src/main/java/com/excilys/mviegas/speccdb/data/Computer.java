@@ -21,8 +21,8 @@ public class Computer implements Identifiable {
 	// ===========================================================
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@SequenceGenerator(name = "id", initialValue = 600)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator")
+	@SequenceGenerator(name = "idGenerator", sequenceName = "idGenerator", initialValue = 600)
 	@Column(name = "id")
 	private long mId;
 

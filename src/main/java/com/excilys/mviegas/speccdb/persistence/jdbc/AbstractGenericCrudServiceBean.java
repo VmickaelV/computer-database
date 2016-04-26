@@ -71,8 +71,12 @@ public abstract class AbstractGenericCrudServiceBean<T extends Identifiable> imp
 	public boolean delete(long id) {
 		// TODO revoir cette méthode
 		Object ref;
-		ref = mEntityManager.getReference(entityBeanType, id);
+		ref = mEntityManager.find(entityBeanType, id);
+		if (ref == null) {
+			return false;
+		}
 		try {
+
 			mEntityManager.remove(ref);
 		} catch (EntityNotFoundException pE) {
 			return false;
