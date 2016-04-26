@@ -3,6 +3,7 @@ package com.excilys.mviegas.speccdb.spring.controllers;
 import com.excilys.mviegas.speccdb.managers.ComputerEditorPage;
 import com.excilys.mviegas.speccdb.services.CompanyService;
 import com.excilys.mviegas.speccdb.services.ComputerService;
+import com.excilys.mviegas.speccdb.spring.singletons.ListOfCompanies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class EditionComputerController {
 	@Autowired
 	private ComputerService mComputerService;
 
+	@Autowired
+	private ListOfCompanies mListOfCompanies;
+
 	@RequestMapping(value = "/addComputer", method = {RequestMethod.GET})
 	public String get(@Valid ComputerEditorPage pComputerEditorPage, ModelMap  pModelMap) {
 		pComputerEditorPage.setCompanyService(mCompanyService);
@@ -34,6 +38,7 @@ public class EditionComputerController {
 		pComputerEditorPage.refresh();
 
 		pModelMap.put("computerEditor", pComputerEditorPage);
+		pModelMap.put("listOfCompanies", mListOfCompanies);
 		return "addComputer";
 	}
 
@@ -48,6 +53,7 @@ public class EditionComputerController {
 			return "redirect:dashboard.html";
 		} else {
 			pModelMap.put("computerEditor", pComputerEditorPage);
+			pModelMap.put("listOfCompanies", mListOfCompanies);
 			return "addComputer";
 		}
 	}
@@ -59,6 +65,7 @@ public class EditionComputerController {
 		pComputerEditorPage.refresh();
 		
 		pModelMap.put("computerEditor", pComputerEditorPage);
+		pModelMap.put("listOfCompanies", mListOfCompanies);
 		return "addComputer";
 	}
 
@@ -73,6 +80,7 @@ public class EditionComputerController {
 			return "redirect:dashboard.html";
 		} else {
 			pModelMap.put("computerEditor", pComputerEditorPage);
+			pModelMap.put("listOfCompanies", mListOfCompanies);
 			return "addComputer";
 		}
 	}
