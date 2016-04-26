@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -24,7 +23,7 @@ public class DashboardController {
 	public static final Logger LOGGER = LoggerFactory.getLogger(DashboardController.class);
 
 	@RequestMapping(value = "/dashboard", method = {RequestMethod.GET})
-	public String get(@Valid DashboardPage pDashboardManagerBean, BindingResult bindingResult, ModelMap pModelMap) {
+	public String get(@Valid DashboardPage pDashboardManagerBean, ModelMap pModelMap) {
 		pDashboardManagerBean.setComputerService(mComputerService);
 		pDashboardManagerBean.update();
 
