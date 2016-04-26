@@ -3,21 +3,16 @@ package com.excilys.mviegas.speccdb.persistence.jdbc;
 import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persistence.Crudable;
+import com.excilys.mviegas.speccdb.persistence.IComputerDao;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
-import com.excilys.mviegas.speccdb.wrappers.ComputerJdbcWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.sql.*;
-import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.Map;
 
 /**
@@ -30,7 +25,7 @@ import java.util.Map;
  * TODO voir si on raoute une vérif de présence de connexion dans ThreadLocal
  */
 @Repository
-public class ComputerDao implements Crudable<Computer> {
+public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implements IComputerDao {
 
 	//=============================================================
 	// Constantes
@@ -48,7 +43,6 @@ public class ComputerDao implements Crudable<Computer> {
 	//=============================================================
 	// Attributs
 	//=============================================================
-	private JdbcTemplate mJdbcTemplate;
 
 	//=============================================================
 	// Inner Classes
@@ -129,14 +123,10 @@ public class ComputerDao implements Crudable<Computer> {
 	//=============================================================
 	// Attributres - private
 	//=============================================================
-	@Autowired
-	private CompanyDao mCompanyDao;
-
 
 	//=============================================================
 	// Constructors
 	//=============================================================
-
 	public ComputerDao() {
 	}
 
@@ -144,223 +134,13 @@ public class ComputerDao implements Crudable<Computer> {
 	// Getters & Setters
 	//===========================================================
 
-	@Autowired
-	public void setDataSource(DataSource dataSource) {
-		this.mJdbcTemplate = new JdbcTemplate(dataSource);
-	}
-
 	//===========================================================
 	// Methods - private
 	//===========================================================
 
-	/**
-	 * Genere le prépareStatement d'un ordinateur
-	 * @param pT Ordinateur à mapper
-	 * @param pPreparedStatement PreparedStatement à mapper
-	 * @throws SQLException Si une erreur SQL est levée
-	 */
-	private void prepareStatement(Computer pT, PreparedStatement pPreparedStatement) throws SQLException {
-		
-		if (pT == null) {
-			throw new IllegalArgumentException("computer must not be null");
-		}
-		pPreparedStatement.setString(1, pT.getName());
-		if (pT.getIntroducedDate() != null) {
-			pPreparedStatement.setDate(2, Date.valueOf(pT.getIntroducedDate()));
-		} else {
-			pPreparedStatement.setDate(2, null);
-		}
-		if (pT.getDiscontinuedDate() != null) {
-			pPreparedStatement.setDate(3, Date.valueOf(pT.getDiscontinuedDate()));
-		} else {
-			pPreparedStatement.setDate(3, null);
-		}
-		if (pT.getManufacturer() != null) {
-			pPreparedStatement.setLong(4, pT.getManufacturer().getId());
-		} else {
-			pPreparedStatement.setNull(4, Types.BIGINT);
-		}
-	}
-
 	// ===========================================================
 	// Methods - Crudable
 	// ===========================================================
-
-	@Override
-	public Computer create(Computer pT) throws DAOException {
-		if (pT == null || pT.getId() > 0) {
-			throw new IllegalArgumentException("null or already persisted object are illegales values");
-		}
-
-		final KeyHolder holder = new GeneratedKeyHolder();
-
-		if (mJdbcTemplate.update(connection -> {
-				PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `computer` (name, introduced, discontinued, company_id) VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
-				prepareStatement(pT, preparedStatement);
-
-				return preparedStatement;
-		}, holder) == 1) {
-			pT.setId(holder.getKey().intValue());
-			return pT;
-		}
-
-		LOGGER.error("Erreur lors de la persistance d'un objet");
-		throw new DAOException("Erreur lors de la persistance d'un objet");
-	}
-
-	@Override
-	public Computer find(long pId) throws DAOException {
-		ThreadLocals.COMPANY_DAOS.set(mCompanyDao);
-		return mJdbcTemplate.query("SELECT * FROM `computer` WHERE id = ?", new Object[] {pId}, (rs) -> {
-			rs.next();
-			try {
-				return ComputerJdbcWrapper.fromJdbc(rs);
-			} catch (DAOException pE) {
-				throw ((SQLException) pE.getCause());
-			}
-		});
-	}
-
-	@Override
-	public Computer update(Computer pT) throws DAOException {
-		if (pT == null || pT.getId() <= 0) {
-			throw new IllegalArgumentException("Null or Not Persisted Object");
-		}
-		try {
-			if (mJdbcTemplate.update("UPDATE `computer` SET name=?, introduced=?, discontinued=?, company_id=? WHERE id = ?;", ps -> {
-				prepareStatement(pT, ps);
-				ps.setLong(5, pT.getId());
-			}) == 1) {
-				if (LOGGER.isInfoEnabled()) {
-					LOGGER.info("Update of "+pT.getId()+" successfull");
-				}
-				return pT;
-			} else {
-				LOGGER.error("Error on update");
-				return null;
-			}
-		} catch (DataAccessException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new DAOException(e);
-		}
-	}
-
-	@Override
-	public boolean delete(long pId) throws DAOException {
-		if (pId <= 0) {
-			throw new IllegalArgumentException("Null or Not Persisted Object");
-		}
-
-		try {
-			return mJdbcTemplate.update("DELETE FROM `computer` WHERE id = ?", new Object[]{pId}) == 1;
-		} catch (DataAccessException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new DAOException(e);
-		}
-	}
-	
-	
-
-	@Override
-	public boolean delete(Computer pT) throws DAOException {
-		if (pT == null) {
-			throw new IllegalArgumentException("Null or Not Persisted Object");
-		}		
-		return delete(pT.getId());
-	}
-
-	@Override
-	public boolean refresh(Computer pT) throws DAOException {
-		if (pT == null || pT.getId() <= 0) {
-			throw new IllegalArgumentException("Null or Not Persisted Object");
-		}
-
-		Computer computer;
-		try {
-			computer = find(pT.getId());
-		} catch (DAOException pE) {
-			// TODO à refaire
-			throw new RuntimeException(pE);
-		}
-
-		if (computer == null) {
-			return false;
-		}
-		
-		pT.setName(computer.getName());
-		pT.setIntroducedDate(computer.getIntroducedDate());
-		pT.setDiscontinuedDate(computer.getDiscontinuedDate());
-		pT.setManufacturer(computer.getManufacturer());
-		
-		return true;
-	}
-
-	@Override
-	public List<Computer> findAll() throws DAOException {
-		return findAllWithPaginator(0, BASE_SIZE_PAGE).getValues();
-	}
-
-	@Override
-	public List<Computer> findAll(int start, int size) throws DAOException {
-		// TODO To Implement
-		return findAllWithPaginator(start, size).getValues();
-	}
-
-	@Override
-	public Paginator<Computer> findAllWithPaginator(int pStart, int pSize) throws DAOException {
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("ComputerDao.findAllWithPaginator");
-			LOGGER.debug("pStart = [" + pStart + "], pSize = [" + pSize + "]");
-		}
-
-		Paginator<Computer> paginator;
-		ThreadLocals.COMPANY_DAOS.set(mCompanyDao);
-
-		try {
-			List<Computer> mCompanies = mJdbcTemplate.query("SELECT * FROM computer LIMIT " + pSize + " OFFSET "+pStart, (rs, introw) -> {
-				try {
-					return ComputerJdbcWrapper.fromJdbc(rs);
-				} catch (DAOException pE) {
-					throw ((SQLException) pE.getCause());
-				}
-			});
-
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("mCompanies = " + mCompanies);
-			}
-
-
-			int nbCount;
-			if (pSize > 0) {
-				nbCount = mJdbcTemplate.queryForObject("SELECT COUNT(*) FROM computer", Integer.class);
-			} else {
-				nbCount = mCompanies.size();
-			}
-
-			paginator = new Paginator<>(pStart, nbCount, pSize, mCompanies);
-
-			return paginator;
-		} catch (DataAccessException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new DAOException(e);
-		}
-	}
-
-	@Override
-	public List<Computer> findWithNamedQuery(String pQueryName) throws DAOException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("ComputerDao#findWithNamedQuery not implemented yet.");
-	}
-
-	@Override
-	public List<Computer> findWithNamedQuery(String pNamedQueryName, Map<String, Object> pParameters) throws DAOException {
-		return findWithNamedQueryWithPaginator(pNamedQueryName, pParameters).getValues();
-	}
-
-	@Override
-	public int size() throws DAOException {
-		return mJdbcTemplate.queryForObject("SELECT COUNT(*) FROM computer", Integer.TYPE);
-	}
 
 	@Override
 	public Paginator<Computer> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
@@ -368,10 +148,6 @@ public class ComputerDao implements Crudable<Computer> {
 			LOGGER.debug("ComputerDao.findWithNamedQueryWithPaginator");
 			LOGGER.debug("namedQueryName = [" + namedQueryName + "], parameters = [" + parameters + "]");
 		}
-		
-		Paginator<Computer> paginator;
-
-		ThreadLocals.COMPANY_DAOS.set(mCompanyDao);
 
 		switch (namedQueryName) {
 			case NamedQueries.SEARCH:
@@ -381,81 +157,44 @@ public class ComputerDao implements Crudable<Computer> {
 				Order order = (Order) parameters.get(Parameters.ORDER);
 				TypeOrder typeOrder = (TypeOrder) parameters.getOrDefault(Parameters.TYPE_ORDER, TypeOrder.ASC);
 
+				CriteriaBuilder cb = mEntityManager.getCriteriaBuilder();
 
-				try {
+				CriteriaQuery<Long> cqCount = cb.createQuery(Long.class);
+				CriteriaQuery<Computer> cq = cb.createQuery(Computer.class);
+				Root<Computer> computerRoot = cq.from(Computer.class);
 
-					StringBuilder stringBuilder = new StringBuilder();
+				cq.select(computerRoot);
+				cqCount.select(cb.count(computerRoot));
 
-					stringBuilder.append("SELECT COUNT(*) FROM computer");
-
-					if (search != null && !search.isEmpty()) {
-						stringBuilder.append(" WHERE lcase(name) LIKE '%")
-								// TODO echapper la string des caractères spéciales de SQL
-								.append(search)
-								.append("%'");
-					}
-
-					if (LOGGER.isInfoEnabled()) {
-						LOGGER.info(stringBuilder.toString());
-					}
-
-					int nbCount = 0;
-					if (size > 0) {
-						nbCount = mJdbcTemplate.queryForObject(stringBuilder.toString(), Integer.TYPE);
-					}
-
-					stringBuilder.replace(0, "SELECT COUNT(*) FROM computer".length(), "SELECT * FROM computer");
-
-					if (order != null) {
-						stringBuilder
-								.append(" ORDER BY ")
-								.append(order.queryName);
-
-						if (typeOrder == TypeOrder.DESC) {
-							stringBuilder.append(" DESC");
-						}
-					}
-
-					stringBuilder.append(" LIMIT ").append(size).append(" OFFSET ").append(start);
-
-					if (LOGGER.isInfoEnabled()) {
-						LOGGER.info("Query : "+stringBuilder.toString());
-					}
-
-					List<Computer> mComputers = mJdbcTemplate.query(stringBuilder.toString(), (rs, introw) -> {
-						try {
-							return ComputerJdbcWrapper.fromJdbc(rs);
-						} catch (DAOException pE) {
-							throw ((SQLException) pE.getCause());
-						}
-					});
-
-					if (size == 0) {
-						nbCount = mComputers.size();
-					}
-
-
-					paginator = new Paginator<>(start, nbCount, size, mComputers);
-
-					return paginator;
-				} catch (DataAccessException e) {
-					LOGGER.error(e.getMessage(), e);
-					throw new DAOException(e);
+				if (search != null && !search.isEmpty()) {
+					Predicate predicateComputer = cb.like(cb.lower(computerRoot.get("name")), search.toLowerCase());
+					cq.where(predicateComputer);
+					cqCount.where(predicateComputer);
 				}
+
+				if (order != null) {
+					if (typeOrder == TypeOrder.DESC) {
+						cq.orderBy(cb.desc(computerRoot.get(order.queryName)));
+					} else {
+						cq.orderBy(cb.asc(computerRoot.get(order.queryName)));
+					}
+				}
+
+
+				int nbCount = Math.toIntExact(mEntityManager.createQuery(cqCount.select(cb.count(cqCount.from(entityBeanType)))).getSingleResult());
+
+				cq.select(computerRoot);
+
+				return new Paginator<>(start, nbCount, size,mEntityManager.createQuery(cq).setMaxResults(size).setFirstResult(start).getResultList());
 			default:
 				throw new UnsupportedOperationException("NamedQueries not supported : " + namedQueryName);
 		}
 	}
 
-	@Override
-	public Paginator<Computer> findWithNamedQueryWithPaginator(String queryName) throws DAOException {
-		// TODO To Implement
-		throw new UnsupportedOperationException("com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao#findWithNamedQueryWithPaginator not implemented yet.");
-	}
-
 	// ===========================================================
 	// Methods statics
 	// ===========================================================
+	@Deprecated
 	public static ComputerDao getInstance() {
 		return null;
 	}

@@ -3,9 +3,9 @@ package com.excilys.mviegas.speccdb;
 import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
+import com.excilys.mviegas.speccdb.persistence.ICompanyDao;
+import com.excilys.mviegas.speccdb.persistence.IComputerDao;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
-import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
-import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -27,17 +27,17 @@ import static org.junit.Assert.*;
  * @author Mickael
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/beans-back.xml"})
+@ContextConfiguration(locations = {"classpath*:beans-back.xml"})
 public class CompanyDAOTest {
 	
 	//===========================================================
 	// Attributs - Private
 	//===========================================================
 	@Autowired
-	private CompanyDao mCompanyDao;
+	private ICompanyDao mCompanyDao;
 
 	@Autowired
-	private ComputerDao mComputerDao;
+	private IComputerDao mComputerDao;
 	
 	//===========================================================
 	// Callbacks

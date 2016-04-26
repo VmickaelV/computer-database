@@ -4,8 +4,8 @@ package com.excilys.mviegas.speccdb;
  * Created by excilys on 22/04/16.
  */
 
-import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
-import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.ICompanyDao;
+import com.excilys.mviegas.speccdb.persistence.IComputerDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.DatabaseManager;
 
 import java.io.File;
@@ -74,7 +74,7 @@ public class DatabaseUtils {
 		resetDatabase(DatabaseManager.getConnection());
 	}
 
-	public static CompanyDao sCompanyDao;
-	public static ComputerDao sComputerDao;
+	public static ICompanyDao sCompanyDao;
+	public static IComputerDao sComputerDao;
 }
 

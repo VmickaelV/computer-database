@@ -1,6 +1,6 @@
 package com.excilys.mviegas.speccdb.concurrency;
 
-import com.excilys.mviegas.speccdb.persistence.jdbc.CompanyDao;
+import com.excilys.mviegas.speccdb.persistence.ICompanyDao;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 
 import java.sql.Connection;
@@ -14,5 +14,5 @@ import java.sql.Connection;
 public final class ThreadLocals {
 	public static final ThreadLocal<Connection> CONNECTIONS = new ThreadLocal<>();
 	public static final ThreadLocal<ComputerDao> COMPUTER_DAOS = new ThreadLocal<>();
-	public static final ThreadLocal<CompanyDao> COMPANY_DAOS = new ThreadLocal<>();
+	public static final ThreadLocal<ICompanyDao> COMPANY_DAOS = new ThreadLocal<>();
 }

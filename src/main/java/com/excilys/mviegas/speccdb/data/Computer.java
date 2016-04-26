@@ -2,7 +2,10 @@ package com.excilys.mviegas.speccdb.data;
 
 import com.excilys.mviegas.speccdb.exceptions.BuilderException;
 import com.excilys.mviegas.speccdb.interfaces.IBuilder;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
 /**
@@ -10,20 +13,31 @@ import java.time.LocalDate;
  *
  * @author Mickael
  */
+@Entity
+//@Access(AccessType.PROPERTY)
 public class Computer {
 
 	// ===========================================================
 	// Attributs - private
 	// ===========================================================
 
+	@Id
+	@GeneratedValue
+	@Column(name = "id")
 	private long mId;
 
+	@Column(name = "name")
 	private String mName;
 
+	@Column(name = "introduced")
 	private LocalDate mIntroducedDate;
 
+	@Column(name = "discontinued")
 	private LocalDate mDiscontinuedDate;
 
+	@ManyToOne
+	@JoinColumn(name = "company_id")
+	@Cascade(CascadeType.ALL)
 	private Company mManufacturer;
 
 	// ===========================================================

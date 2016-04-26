@@ -3,11 +3,15 @@ package com.excilys.mviegas.speccdb.data;
 import com.excilys.mviegas.speccdb.exceptions.BuilderException;
 import com.excilys.mviegas.speccdb.interfaces.IBuilder;
 
+import javax.persistence.*;
+
 /**
  * Objet représentant une compagnie
  *
  * @author Mickael
  */
+@Entity
+@Access(AccessType.PROPERTY)
 public class Company {
 
 	// ===========================================================
@@ -30,6 +34,8 @@ public class Company {
 	// Getters & Setters
 	// ===========================================================
 
+	@Id
+	@GeneratedValue
 	public long getId() {
 		return mId;
 	}

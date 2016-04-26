@@ -144,12 +144,7 @@ public enum ComputersListView implements IComputersListViewControler {
 			
 			id = MainMenuControleur.SCANNER.nextInt();
 			Computer computer;
-			try {
-				computer = ComputerDao.getInstance().find(id);
-			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				// TODO a modifier
-				throw new RuntimeException(pE);
-			}
+			computer = ComputerDao.getInstance().find(id);
 			if (computer == null) {
 				System.err.printf("Ordinateur avec l'ID n°%d introuvable%nVeuillez saisir un ID valide%n", id);
 				continue;
@@ -196,12 +191,7 @@ public enum ComputersListView implements IComputersListViewControler {
 			id = Integer.valueOf(MainMenuControleur.SCANNER.next());
 
 			Computer computer;
-			try {
-				computer = ComputerDao.getInstance().find(id);
-			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				// TODO à refaire
-				throw new RuntimeException(pE);
-			}
+			computer = ComputerDao.getInstance().find(id);
 
 			if (computer == null) {
 				System.err.printf("Ordinateur avec l'ID n°%d introuvable%nVeuillez saisir un ID valide%n", id);
