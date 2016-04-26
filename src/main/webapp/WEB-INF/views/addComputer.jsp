@@ -83,7 +83,7 @@
 									class="form-control" id="idCompany" name="idCompany">
 									<option value="0">--</option>
 
-									<c:forEach items="${computerEditor.companies}" var="company">
+									<c:forEach items="${listOfCompanies}" var="company">
 										<!-- ${computerEditor.idCompany} ${company.id} -->
 										<option value="${company.id}"
 											${computerEditor.idCompany eq company.id ? 'selected=\"selected\"' : ''}>${company.name}</option>

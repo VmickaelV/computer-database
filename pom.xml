@@ -38,7 +38,6 @@
         <tomcat.version>8.5.0</tomcat.version>
         <tomcat-el-api.version>${tomcat.version}</tomcat-el-api.version>
         <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
-        <bonecp.version>0.8.0.RELEASE</bonecp.version>
 
         <spring.version>4.2.5.RELEASE</spring.version>
         <spring-core.version>${spring.version}</spring-core.version>
@@ -76,7 +75,6 @@
         <mockito.version>1.10.7</mockito.version>
 
         <webapp-runner.version>8.0.30.2</webapp-runner.version>
-        <tomcat-jdbc.version>${tomcat.version}</tomcat-jdbc.version>
         <hibernate-validator.version>5.2.4.Final</hibernate-validator.version>
         <HikariCP.version>2.4.5</HikariCP.version>
     </properties>
