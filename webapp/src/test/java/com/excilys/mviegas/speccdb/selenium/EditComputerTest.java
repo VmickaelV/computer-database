@@ -1,5 +1,6 @@
 package com.excilys.mviegas.speccdb.selenium;
 
+import com.excilys.mviegas.speccdb.DatabaseUtils;
 import com.excilys.mviegas.speccdb.persistence.IComputerDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,9 +27,6 @@ public class EditComputerTest extends BaseSeleniumTest {
 	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
-
-//		ThreadLocals.CONNECTIONS.remove();
-//		DatabaseManager.releaseConnection(mConnection);
 	}
 
 	@Override
@@ -37,8 +35,7 @@ public class EditComputerTest extends BaseSeleniumTest {
 
 		openAndWait();
 
-//		mConnection = DatabaseManager.getConnection();
-//		ThreadLocals.CONNECTIONS.set(mConnection);
+		DatabaseUtils.resetDatabase();
 	}
 
 	@Test
