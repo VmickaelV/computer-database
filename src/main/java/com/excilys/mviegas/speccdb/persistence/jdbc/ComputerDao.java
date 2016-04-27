@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -142,7 +144,7 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 	// ===========================================================
 	// Methods - Crudable
 	// ===========================================================
-
+	
 	@Override
 	public Paginator<Computer> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
 		if (LOGGER.isDebugEnabled()) {
@@ -189,6 +191,16 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 				return new Paginator<>(start, nbCount, size,mEntityManager.createQuery(cq).setMaxResults(size).setFirstResult(start).getResultList());
 			default:
 				throw new UnsupportedOperationException("NamedQueries not supported : " + namedQueryName);
+		}
+	}
+
+	@Override
+	public List<Computer> findAll() {
+		try {
+			return this.findAll(0, BASE_SIZE_PAGE);
+		} catch (DAOException e) {
+			LOGGER.error(e.getMessage(), e);
+			return null;
 		}
 	}
 

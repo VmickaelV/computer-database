@@ -54,6 +54,9 @@ public abstract class AbstractGenericCrudServiceBean<T extends Identifiable> imp
 	@Override
 	@Transactional
 	public T create(T t) {
+		if (t == null || t.getId() > 0) {
+			throw new IllegalArgumentException();
+		}
 		mEntityManager.persist(t);
 		mEntityManager.flush();
 		mEntityManager.refresh(t);
@@ -92,10 +95,11 @@ public abstract class AbstractGenericCrudServiceBean<T extends Identifiable> imp
 		}
 		if (mEntityManager.contains(pT)) {
 			mEntityManager.remove(pT);
+			return true;
 		} else {
-			delete(pT.getId());
+			return delete(pT.getId());
 		}
-		return true;
+
 	}
 
 	@Override
