@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
  * @author Mickael
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:beans-back.xml"})
+@ContextConfiguration(locations = {"classpath:beans-back.xml"})
 public class CompanyDAOTest {
 	
 	//===========================================================

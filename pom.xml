@@ -109,6 +109,7 @@
         <hibernate-entitymanager.version>${hibernate.version}</hibernate-entitymanager.version>
         <hibernate-java8.version>${hibernate.version}</hibernate-java8.version>
         <hibernate-annotations.version>3.5.6-Final</hibernate-annotations.version>
+        <hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
     </properties>
 
     <build>
@@ -211,12 +212,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>${versions-maven-plugin.version}</version>
-            </plugin>
-
-            <!-- Spring -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
@@ -528,6 +523,13 @@
                 <artifactId>hibernate-java8</artifactId>
                 <version>${hibernate-java8.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.hibernate.javax.persistence</groupId>
+                <artifactId>hibernate-jpa-2.1-api</artifactId>
+                <version>${hibernate-jpa-2.1-api.version}</version>
+            </dependency>
+
 
             <!-- ================ Dependances internes =============== -->
             <dependency>
