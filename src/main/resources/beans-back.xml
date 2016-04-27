@@ -17,69 +17,74 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-    <!-- Bean de connexion à la BDD-->
+	<!-- Bean de connexion à la BDD -->
 
-    <!-- Pool de connexion -->
-    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-        <property name="poolName" value="springHikariCP" />
-        <property name="connectionTestQuery" value="SELECT 1" />
-        <property name="driverClassName" value="${db.className}"/>
-        <property name="jdbcUrl" value="${db.url}" />
-        <property name="username" value="${db.username}"/>
-        <property name="password" value="${db.password}" />
-        <property name="minimumIdle" value="${db.min_size}"/>
-        <!-- TODO rajouter un maxpoolsize ? -->
-    </bean>
+	<!-- Pool de connexion -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="poolName" value="springHikariCP" />
+		<property name="connectionTestQuery" value="SELECT 1" />
+		<property name="driverClassName" value="${db.className}" />
+		<property name="jdbcUrl" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+		<property name="minimumIdle" value="${db.min_size}" />
+		<!-- TODO rajouter un maxpoolsize ? -->
+	</bean>
 
-    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
-        <constructor-arg ref="hikariConfig" />
-    </bean>
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
+		destroy-method="close">
+		<constructor-arg ref="hikariConfig" />
+	</bean>
 
-    <!-- Entity Manager -->
-    <bean id="myEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="com.excilys.mviegas.speccdb.data" />
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
-        </property>
-        <property name="jpaProperties">
-            <props>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
-                <prop key="hibernate.hbm2ddl.import_files">/3-ENTRIES.sql</prop>
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>-->
-                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
-            </props>
-        </property>
-    </bean>
+	<!-- Entity Manager -->
+	<bean id="myEmf"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.excilys.mviegas.speccdb.data" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="javax.persistence.schema-generation.database.action">drop-and-create</prop>
+				<prop key="javax.persistence.schema-generation.create-source">metadata</prop>
+				<prop key="javax.persistence.sql-load-script-source">META-INF/db/3-ENTRIES.sql</prop>
+				<prop key="javax.persistence.schema-generation.drop-source">metadata</prop>
+			</props>
+		</property>
+	</bean>
 
-    <!-- Base de Transaction -->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="myEmf" />
-    </bean>
+	<!-- Base de Transaction -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="myEmf" />
+	</bean>
 
-    <!--<bean id="persistenceExceptionTranslationPostProcessor"-->
-          <!--class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />-->
+	<!--<bean id="persistenceExceptionTranslationPostProcessor" -->
+	<!--class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" 
+		/> -->
 
-    <!-- Bean de fournisseur de messages internationnalisées -->
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basenames">
-            <list>
-                <value>messages</value>
-                <value>errors</value>
-            </list>
-        </property>
-        <property name="defaultEncoding" value="UTF-8"/>
-    </bean>
+	<!-- Bean de fournisseur de messages internationnalisées -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages</value>
+				<value>errors</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
 
-    <!-- Validateur -->
-    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+	<!-- Validateur -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-    <context:property-placeholder location="classpath:config_bd.properties"/>
+	<context:property-placeholder location="classpath:config_bd.properties" />
 
-    <context:component-scan base-package="com.excilys.mviegas.speccdb.persistence.jdbc" />
-    <context:component-scan base-package="com.excilys.mviegas.speccdb.services" />
+	<context:component-scan base-package="com.excilys.mviegas.speccdb.persistence.jdbc" />
+	<context:component-scan base-package="com.excilys.mviegas.speccdb.services" />
 
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+	<tx:annotation-driven transaction-manager="transactionManager" />
 
-    <jpa:repositories base-package="com.excilys.mviegas.speccdb.persistence" />
+	<jpa:repositories base-package="com.excilys.mviegas.speccdb.persistence" />
 </beans>

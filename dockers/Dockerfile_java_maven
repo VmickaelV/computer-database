@@ -16,6 +16,6 @@ COPY . /project
 
 WORKDIR /project
 
-RUN rm -R target
+RUN rm -Rf target
 
 CMD ["mvn", "test"]

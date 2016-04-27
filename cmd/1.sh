@@ -22,3 +22,6 @@ docker run -p 8080:8080 -p 50000:50000 --net=private --rm --name jenkins mviegas
 mvn package -Dmaven.test.skip=true && docker build -f dockers/Dockerfile_tomcat_server -t vmickaelv/prodserver .
 
 docker run -it --rm -p 8888:8080 --net=private vmickaelv/prodserver
+
+# Copie du ficheir de config de jenkins
+cp /var/lib/jenkins/jobs/docker-test/config.xml config/jenkins/
