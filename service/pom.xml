@@ -12,5 +12,14 @@
     <artifactId>service</artifactId>
     <name>service</name>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.excilys.mviegas.speccdb</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.excilys.mviegas.speccdb</groupId>
+            <artifactId>persistence</artifactId>
+        </dependency>
+    </dependencies>
 </project>
