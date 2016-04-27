@@ -1,6 +1,8 @@
 package com.excilys.mviegas.speccdb;
 
 /**
+ * TODO trouver un meilleur moyen de partager dette class entre tests
+ *
  * Created by excilys on 22/04/16.
  */
 
@@ -20,8 +22,8 @@ import static org.junit.Assert.assertEquals;
  * Created by excilys on 20/04/16.
  */
 public class DatabaseUtils {
-	public static final String DB_CREATE = "META-INF/db/1-SCHEMA.sql";
-	public static final String DB_INSERT = "META-INF/db/3-ENTRIES.sql";
+	public static final String DB_CREATE = "db/1-SCHEMA.sql";
+	public static final String DB_INSERT = "db/3-ENTRIES.sql";
 
 	public static void resetDatabase(Connection connection) throws Exception {
 		connection.setAutoCommit(false);
