@@ -1,5 +1,6 @@
 package com.excilys.mviegas.speccdb.selenium;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.fail;
@@ -10,6 +11,7 @@ import static org.junit.Assert.fail;
  * @author excilys
  *
  */
+@Ignore
 public class EmbeddedTest extends BaseSeleniumTest {
 
 	//===========================================================
