@@ -20,7 +20,7 @@ public class Paginator<T> {
 	 */
 	private int mCurrentPage;
 
-	/***
+	/**
 	 * Nombre d'éléments totales
 	 */
 	private int mElementsCount;
@@ -43,7 +43,6 @@ public class Paginator<T> {
 	//===========================================================
 	// Constructors
 	//===========================================================
-
 	/**
 	 *
 	 * @param pStartIndex Début de l'index de début
@@ -94,16 +93,16 @@ public class Paginator<T> {
 	//===========================================================
 	// Méthodes - Object
 	//===========================================================
-
-
 	@Override
 	public String toString() {
-		return "Paginator{" +
-				"mCurrentPage=" + mCurrentPage +
-				", mElementsCount=" + mElementsCount +
-				", mElementsByPage=" + mElementsByPage +
-				", mValues=" + mValues +
-				", mNbPages=" + mNbPages +
-				'}';
+		//noinspection StringBufferReplaceableByString
+		final StringBuilder sb = new StringBuilder("Paginator{");
+		sb.append("mCurrentPage=").append(mCurrentPage);
+		sb.append(", mElementsCount=").append(mElementsCount);
+		sb.append(", mElementsByPage=").append(mElementsByPage);
+		sb.append(", mValues=").append(mValues);
+		sb.append(", mNbPages=").append(mNbPages);
+		sb.append('}');
+		return sb.toString();
 	}
 }

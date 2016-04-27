@@ -218,15 +218,23 @@ public class CompanyDAOTest {
 
 	@Test
 	public void delete4() throws Exception {
-		try {
-			mCompanyDao.delete(413213);
-			fail();
-		} catch (IllegalStateException ignored) {
-
-		}
+		assertFalse(mCompanyDao.delete(413213));
 		assertEquals(42, mCompanyDao.size());
 		assertEquals(574, mComputerDao.size());
 	}
+
+//	Voiri si on peut créer un test pour vérifier qu'une transaction est bien présente
+//	@Test
+//	public void delete4() throws Exception {
+//		try {
+//			mCompanyDao.delete(413213);
+//			fail();
+//		} catch (IllegalStateException ignored) {
+//
+//		}
+//		assertEquals(42, mCompanyDao.size());
+//		assertEquals(574, mComputerDao.size());
+//	}
 
 	@Test
 	@Ignore("Non disponible...")

@@ -111,6 +111,9 @@ public abstract class AbstractGenericCrudServiceBean<T extends Identifiable> imp
 	@Override
 	@Transactional
 	public  T update(T t) {
+		if (t == null || mEntityManager.find(entityBeanType, t.getId()) == null) {
+			throw new IllegalArgumentException();
+		}
 		return mEntityManager.merge(t);
 	}
 
