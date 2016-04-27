@@ -100,20 +100,21 @@ public abstract class BaseSeleniumTest {
 			System.out.println(SERVER_IP);
 			mFirefoxProfile.setPreference("intl.accept_languages", "en");
 			mWebDriver = new FirefoxDriver(mFirefoxProfile);
-			Cookie cookie = new Cookie.Builder("org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE", "en")
-					.isSecure(false)
-					.isHttpOnly(false)
-					.domain(SERVER_IP)
-					.path("/")
-					.build();
-			open();
-			mWebDriver.manage().addCookie(cookie);
+
 		} else {
 			mWebDriver = new RemoteWebDriver(new URL(URL_REMOTE_WEBDRIVER), DesiredCapabilities.firefox());
 		}
 		mWebDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		mWebDriver.manage().timeouts().setScriptTimeout(3000, TimeUnit.MICROSECONDS);
 		driver = mWebDriver;
+
+		Cookie cookie = new Cookie.Builder("org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE", "en")
+				.isSecure(false)
+				.isHttpOnly(false)
+				.path("/")
+				.build();
+		open();
+		mWebDriver.manage().addCookie(cookie);
 	}
 
 	@After
