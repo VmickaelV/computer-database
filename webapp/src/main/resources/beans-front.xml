@@ -12,7 +12,7 @@
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
-    <import resource="../../../persistence/src/main/resources/beans-back.xml"/>
+    <import resource="classpath:beans-back.xml"/>
 
     <!-- Bean de resolveur de Vue-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

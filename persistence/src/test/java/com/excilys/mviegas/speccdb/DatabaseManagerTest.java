@@ -23,8 +23,8 @@ import static com.excilys.mviegas.speccdb.DatabaseUtils.resetDatabase;
 @ContextConfiguration(locations = {"/beans-back.xml"})
 public class DatabaseManagerTest {
 
-	public static final String DB_CREATE = "db/1-SCHEMA.sql";
-	public static final String DB_INSERT = "db/3-ENTRIES.sql";
+	public static final String DB_CREATE = "META-INF/db/1-SCHEMA.sql";
+	public static final String DB_INSERT = "META-INF/db/3-ENTRIES.sql";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(DatabaseManagerTest.class);
 	private Connection mConnection;
