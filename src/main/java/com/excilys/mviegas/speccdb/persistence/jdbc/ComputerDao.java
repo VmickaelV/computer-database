@@ -166,10 +166,10 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 				Root<Computer> cqCountcomputerRoot = cqCount.from(Computer.class);
 
 				cq.select(computerRoot);
-				cqCount.select(cb.count(computerRoot));
+				cqCount.select(cb.count(cqCountcomputerRoot));
 
 				if (search != null && !search.isEmpty()) {
-					cq.where(cb.like(cb.lower(computerRoot.get("mName")), search.toLowerCase()));
+					cq.where(cb.like(cb.lower(computerRoot.get("mName")), "%"+search.toLowerCase()+"%"));
 					cqCount.where(cb.like(cb.lower(cqCountcomputerRoot.get("mName")), "%"+search.toLowerCase()+"%"));
 				}
 
@@ -182,7 +182,7 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 				}
 
 
-				int nbCount = Math.toIntExact(mEntityManager.createQuery(cqCount.select(cb.count(cqCount.from(entityBeanType)))).getSingleResult());
+				int nbCount = Math.toIntExact(mEntityManager.createQuery(cqCount).getSingleResult());
 
 				cq.select(computerRoot);
 

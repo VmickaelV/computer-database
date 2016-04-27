@@ -9,6 +9,7 @@ import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.QueryParameter;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -241,6 +242,7 @@ public class ComputerDAOTest {
 	}
 	
 	@Test
+	@Ignore("Voir si on décide d'interge l'update sur un objet non persisté")
 	public void update1() throws Exception {
 		try {
 			mComputerDao.update(new Computer.Builder().setName("name").build());
@@ -425,6 +427,7 @@ public class ComputerDAOTest {
 
 	@Test
 	public void searchByName2() throws Exception {
+		assertEquals(574, mComputerDao.size());
 		Paginator<Computer> paginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, "pow").and(ComputerDao.Parameters.SIZE, 20).parameters());
 
 		assertNotNull(paginator);
