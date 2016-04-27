@@ -1,7 +1,7 @@
 package com.excilys.mviegas.speccdb.selenium;
 
 import com.excilys.mviegas.speccdb.DatabaseUtils;
-import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.IComputerDao;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ public class DeleteComputerTest extends BaseSeleniumTest {
 	private Connection mConnection;
 
 	@Autowired
-	private ComputerDao mComputerDao;
+	private IComputerDao mComputerDao;
 
 	@Override
 	public void tearDown() throws Exception {

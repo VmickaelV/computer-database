@@ -260,22 +260,22 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	/**
 	 * Action sp&écialie pour télécharger des données après l'assignation des différences services
 	 */
-	public void refresh() {
+	public void refresh(boolean isEditing) {
 		if (mId > 0) {
 			try {
 				mComputer = mComputerService.find(mId);
 
-				mName = mComputer.getName();
-				if (mComputer.getIntroducedDate() != null) {
-					mIntroducedDate = mComputer.getIntroducedDate().format(sDateTimeFormatter);
-				}
-
-				if (mComputer.getDiscontinuedDate() != null) {
-					mDiscontinuedDate = mComputer.getDiscontinuedDate().format(sDateTimeFormatter);
-				}
-
-				if (mComputer.getManufacturer() != null) {
-					mIdCompany = mComputer.getManufacturer().getId();
+				if (!isEditing) {
+					mName = mComputer.getName();
+					if (mComputer.getIntroducedDate() != null) {
+						mIntroducedDate = mComputer.getIntroducedDate().format(sDateTimeFormatter);
+					}
+					if (mComputer.getDiscontinuedDate() != null) {
+						mDiscontinuedDate = mComputer.getDiscontinuedDate().format(sDateTimeFormatter);
+					}
+					if (mComputer.getManufacturer() != null) {
+						mIdCompany = mComputer.getManufacturer().getId();
+					}
 				}
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				mComputer = null;
@@ -284,6 +284,10 @@ public class ComputerEditorPage implements IEditorComputerControler {
 		} else {
 			mComputer = null;
 		}
+	}
+
+	public void refresh() {
+		refresh(false);
 	}
 
 	//===========================================================
