@@ -1,7 +1,7 @@
 package com.excilys.mviegas.speccdb.selenium;
 
 import com.excilys.mviegas.speccdb.DatabaseUtils;
-import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.IComputerDao;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 	private Connection mConnection;
 
 	@Autowired
-	private ComputerDao mComputerDao;
+	private IComputerDao mComputerDao;
 
 	@Override
 	public void tearDown() throws Exception {
@@ -124,7 +124,8 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 		assertEquals(n+1, mComputerDao.size());
 
-		assertThat(mWebDriver.getCurrentUrl(), Matchers.endsWith("dashboard.html"));
+		// TODO revoir cette condition
+		assertThat(mWebDriver.getCurrentUrl(), Matchers.endsWith("dashboard.html?computerAdded=true"));
 
 		WebElement webElement = driver.findElement(By.xpath("//section[@id='main']/div"));
 		assertEquals("×\nComputer successfully added into Database", webElement.getText());

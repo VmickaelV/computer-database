@@ -1,6 +1,6 @@
 package com.excilys.mviegas.speccdb.selenium;
 
-import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.IComputerDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -21,7 +21,7 @@ public class EditComputerTest extends BaseSeleniumTest {
 	private Connection mConnection;
 
 	@Autowired
-	private ComputerDao mComputerDao;
+	private IComputerDao mComputerDao;
 
 	@Override
 	public void tearDown() throws Exception {

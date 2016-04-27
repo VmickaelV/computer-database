@@ -73,7 +73,7 @@ public class EditionComputerController {
 	public String edit(@Valid ComputerEditorPage pComputerEditorPage, ModelMap pModelMap) {
 		pComputerEditorPage.setCompanyService(mCompanyService);
 		pComputerEditorPage.setComputerService(mComputerService);
-		pComputerEditorPage.refresh();
+		pComputerEditorPage.refresh(true);
 		
 		if (pComputerEditorPage.editComputer()) {
 			pModelMap.put("computerAdded", true);

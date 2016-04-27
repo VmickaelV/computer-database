@@ -283,6 +283,24 @@ public class ComputerDAOTest {
 		
 		assertEquals(mCompanyDao.find(80), computer.getManufacturer());
 	}
+	@Test
+	public void update31OnlyName() throws Exception {
+
+		Computer computer = mComputerDao.find(4);
+		assertEquals("CM-5e", computer.getName());
+
+		computer.setName("Hasard");
+
+		computer = mComputerDao.update(computer);
+
+		assertNotNull(computer);
+
+		assertEquals("Hasard", computer.getName());
+
+		computer = mComputerDao.find(4);
+
+		assertEquals("Hasard", computer.getName());
+	}
 	
 	@Test
 	public void update4() throws Exception {
@@ -299,7 +317,8 @@ public class ComputerDAOTest {
 		
 		computer.setDiscontinuedDate(localDateDesiredDiscontinued);
 		
-		computer = mComputerDao.update(computer);
+		mComputerDao.update(computer);
+		computer = mComputerDao.find(5);
 		
 		assertNotNull(computer);
 		
@@ -313,25 +332,31 @@ public class ComputerDAOTest {
 	public void update6() throws Exception {
 		
 		Computer computer = mComputerDao.find(5);
-		
+
+		String previousName = computer.getName();
+		String desiredName = "Un nom désiré";
 		LocalDate localDateIntroduced = computer.getIntroducedDate();
 		LocalDate localDateDiscontinued = computer.getDiscontinuedDate();
 		LocalDate localDateDesiredIntroduced = LocalDate.of(1926, 3, 30);
 		LocalDate localDateDesiredDiscontinued = LocalDate.of(1950, 6, 3);
-		
+
+		assertEquals(previousName, computer.getName());
 		assertEquals(LocalDate.of(1991, 1, 1), computer.getIntroducedDate());
 		assertEquals(null, computer.getDiscontinuedDate());
 		
 		computer.setDiscontinuedDate(localDateDesiredDiscontinued);
+		computer.setName(desiredName);
 		
-		computer = mComputerDao.update(computer);
+		mComputerDao.update(computer);
+		computer = mComputerDao.find(5);
 		
 		assertNotNull(computer);
-		
+
 		assertEquals(localDateDesiredDiscontinued, computer.getDiscontinuedDate());
 		assertEquals(localDateDesiredDiscontinued, mComputerDao.find(5).getDiscontinuedDate());
 		assertNotEquals(localDateDiscontinued, mComputerDao.find(5).getDiscontinuedDate());
 		assertEquals(LocalDate.of(1991, 1, 1), mComputerDao.find(5).getIntroducedDate());
+		assertEquals(desiredName, computer.getName());
 	}
 	
 	@Test
@@ -349,7 +374,8 @@ public class ComputerDAOTest {
 		
 		computer.setDiscontinuedDate(localDateDesiredDiscontinued);
 		
-		computer = mComputerDao.update(computer);
+		mComputerDao.update(computer);
+		computer = mComputerDao.find(5);
 		
 		assertNotNull(computer);
 		
@@ -373,7 +399,8 @@ public class ComputerDAOTest {
 		
 		computer.setIntroducedDate(localDateDesiredIntroduced);
 		
-		computer = mComputerDao.update(computer);
+		mComputerDao.update(computer);
+		computer = mComputerDao.find(5);
 		
 		assertNotNull(computer);
 		
