@@ -4,8 +4,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import static com.excilys.mviegas.speccdb.managers.DashboardPage.DEFAULT_SIZE_PAGE;
-
 /**
  * DTO de filtres de recherches d'ordinateurs
  *
@@ -21,7 +19,7 @@ public class FilterComputersDTO {
 	private int mPage = 1;
 
 	@Min(0)
-	private int mSize = DEFAULT_SIZE_PAGE;
+	private int mSize = 0;
 
 	@NotNull
 	@Size(min = 3)

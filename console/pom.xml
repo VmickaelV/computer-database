@@ -12,5 +12,10 @@
     <artifactId>console</artifactId>
     <name>console</name>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.excilys.mviegas.speccdb</groupId>
+            <artifactId>service</artifactId>
+        </dependency>
+    </dependencies>
 </project>
