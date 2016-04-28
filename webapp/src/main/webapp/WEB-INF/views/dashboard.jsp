@@ -142,12 +142,15 @@
 
             <c:forEach items="${dashboardManager.paginator.values}" var="computer">
                 <tr>
-                    <td class="editMode"><input type="checkbox" name="cb" class="cb" value="${computer.id}"></td>
+                    <td class="editMode"><input id="${computer.name}_id" type="checkbox" name="cb" class="cb" value="${computer.id}"></td>
                     <td>
                         <jsp:element name="a">
 								<jsp:attribute name="href">
 									editComputer.html?id=${computer.id}
 								</jsp:attribute>
+                                <jsp:attribute name="id">
+                                    ${computer.name}_name
+                                </jsp:attribute>
                             <jsp:body>
                                 <c:out value="${computer.name}"/>
                             </jsp:body>

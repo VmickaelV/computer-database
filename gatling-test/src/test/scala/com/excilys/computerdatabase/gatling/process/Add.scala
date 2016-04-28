@@ -18,8 +18,9 @@ object Add {
 
   val add = exec(http("Add page")
     .get(config.getString("application.urls.addPage"))
-    .resources(http("Add js")
-      .get(config.getString("application.urls.static.js.add"))))
+//    .resources(http("Add js")
+//      .get(config.getString("application.urls.static.js.add")))
+  )
     .pause(random.nextInt(7) + 3)
     .feed(feederName)
     .feed(feederAdd)
@@ -28,6 +29,7 @@ object Add {
       .formParam(config.getString("application.urls.form.add.name").get, "${addComputerName}")
       .formParam(config.getString("application.urls.form.add.introduced").get, "${addComputerIntroduced}")
       .formParam(config.getString("application.urls.form.add.discontinued").get, "${addComputerDiscontinued}")
-      .formParam(config.getString("application.urls.form.add.companyId").get, "${addComputerCompany}"))
+      .formParam(config.getString("application.urls.form.add.companyId").get, "${addComputerCompany}")
+      .formParam("action", "Add"))
     .pause(random.nextInt(7) + 3)
 }
