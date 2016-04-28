@@ -17,6 +17,7 @@
         <module>binding</module>
         <module>webapp</module>
         <module>console</module>
+        <module>gatling-test</module>
     </modules>
 
     <!-- Informations sur le projet -->
