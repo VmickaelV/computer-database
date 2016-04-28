@@ -5,8 +5,8 @@ MAINTAINER Viegas Mickael <mviegas@excilys.com>
 COPY ./config/db/my.cnf /etc/my.cnf
 
 COPY ./config/db/init.sql /docker-entrypoint-initdb.d/1.sql
-COPY ./src/test/resources/db/1-SCHEMA.sql /docker-entrypoint-initdb.d/2.sql
+COPY ./webapp/src/test/resources/db/1-SCHEMA.sql /docker-entrypoint-initdb.d/2.sql
 RUN sed -i '1iUSE `computer-database-db`;' /docker-entrypoint-initdb.d/2.sql
-COPY ./src/test/resources/db/3-ENTRIES.sql /docker-entrypoint-initdb.d/3.sql
+COPY ./webapp/src/test/resources/db/3-ENTRIES.sql /docker-entrypoint-initdb.d/3.sql
 RUN sed -i '1iUSE `computer-database-db`;' /docker-entrypoint-initdb.d/3.sql
 
