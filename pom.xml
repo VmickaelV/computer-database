@@ -111,6 +111,10 @@
         <hibernate-java8.version>${hibernate.version}</hibernate-java8.version>
         <hibernate-annotations.version>3.5.6-Final</hibernate-annotations.version>
         <hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
+        <spring-security.version>4.0.4.RELEASE</spring-security.version>
+        <spring-security-core.version>${spring-security.version}</spring-security-core.version>
+        <spring-security-web.version>${spring-security.version}</spring-security-web.version>
+        <spring-security-config.version>${spring-security.version}</spring-security-config.version>
     </properties>
 
     <build>
@@ -407,6 +411,24 @@
                 <version>${spring-data-jpa.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring-security-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring-security-web.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring-security-config.version}</version>
+                <scope>runtime</scope>
+            </dependency>
 
             <dependency>
                 <groupId>org.slf4j</groupId>
