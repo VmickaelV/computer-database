@@ -81,7 +81,10 @@ services:
 
   # Lance le firefox Distant pour les tests fonctionnelles
   firefox:
-    image: selenium/standalone-firefox-debug:2.52.0
+    build:
+      context: ..
+      dockerfile: dockers/db/Dockerfile_selenium
+    image: vmickaelv/firefox_standalone
     ports:
       - "4444:4444"
       - "5900:5900"
