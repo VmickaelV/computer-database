@@ -10,25 +10,29 @@
         http://www.springframework.org/schema/security/spring-security.xsd
        ">
 
+    <http pattern="/css/**" security="none"/>
     <http auto-config="true">
-        <intercept-url pattern="/**" access="ROLE_DEFAULT"/>
+        <intercept-url pattern="/**" access="hasRole('DEFAULT')"/>
+        <!--<intercept-url pattern="/login.html" filters="none"/>-->
         <!--<intercept-url pattern="/login.html" filters="none" />-->
-        <http-basic />
+        <!--<http-basic  />-->
         <!--<form-login login-page="/login.html" default-target-url="/home.html" always-use-default-target="true"/>-->
 
-        <!--<logout logout-success-url="/login.jsp" />-->
+        <!--<logout logout-success-url="/login.html" logout-url="/login.html"/>-->
+        <form-login/>
+        <logout/>
     </http>
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="admin" password="admin" authorities="ROLE_DEFAULT, ROLE_ADMIN"/>
+                <user name="martin" password="martin" authorities="ROLE_DEFAULT"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
 
     <!--<jdbc-user-service data-source-ref="dataSource"-->
         <!--users-by-username-query="SELECT... username=?"-->
        <!--authorities-by-username-query="SELECT ...  username=?"/>-->
-
-
-    <user-service>
-        <user name="admin" password="admin" authorities="ROLE_DEFAULT, ROLE_ADMIN"/>
-        <user name="martin" password="admin" authorities="ROLE_DEFAULT"/>
-    </user-service>
-    
-    
 
 </beans:beans>
