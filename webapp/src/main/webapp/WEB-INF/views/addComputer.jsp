@@ -47,6 +47,9 @@
 					<form action="${not empty computerEditor.computer ? 'editComputer.html?id=' : 'addComputer.html'}${not empty computerEditor.computer ? computerEditor.computer.id : ''}" method="POST">
 
                         <input id="id" type="hidden" value="${computerEditor.id}"/>
+                        <input type="hidden"
+                               name="${_csrf.parameterName}"
+                               value="${_csrf.token}"/>
 
 						<fieldset>
 							<div
