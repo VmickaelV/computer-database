@@ -3,7 +3,7 @@
 # ============
 
 # Conf du serveur
-src/main/resources/config_bd.properties
+webapp/src/main/resources/config_bd.properties
 
 # tomcat7 embedded plugin maven
 /work
