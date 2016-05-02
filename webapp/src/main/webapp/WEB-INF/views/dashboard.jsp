@@ -87,6 +87,10 @@
             <div class="pull-left">
                 <form id="searchForm" action="${my:link('dashboard')}" method="GET" class="form-inline">
 
+                    <input type="hidden"
+                           name="${_csrf.parameterName}"
+                           value="${_csrf.token}"/>
+
                     <c:if test="${not empty param.size}">
                         <input type="hidden" name="size" value="${param.size}">
                     </c:if>
@@ -121,9 +125,6 @@
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
-                <!-- Variable declarations for passing labels as parameters -->
-                <!-- Table header for Computer Name -->
-
                 <th class="editMode" style="width: 60px; height: 22px;"><input
                         type="checkbox" id="selectall"/> <span
                         style="vertical-align: top;"> - <a href="#"
@@ -137,7 +138,7 @@
                 <th><a href="${my:linkSort('dashboard', param, 'company_name', (dashboardManager.order == 'company_name' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'company_name'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.company_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'company_name' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
             </tr>
             </thead>
-            <!-- Browse attribute computers -->
+
             <tbody id="results">
 
             <c:forEach items="${dashboardManager.paginator.values}" var="computer">

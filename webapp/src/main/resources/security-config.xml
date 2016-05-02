@@ -14,6 +14,8 @@
     <http use-expressions="true" entry-point-ref="digestEntryPoint">
         <intercept-url pattern="/**" access="hasRole('DEFAULT')"/>
         <custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER" />
+
+        <csrf />
     </http>
     <authentication-manager>
         <authentication-provider user-service-ref="myUserDetailsService"/>
