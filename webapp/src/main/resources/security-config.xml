@@ -23,16 +23,20 @@
         <logout/>
     </http>
     <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="admin" password="admin" authorities="ROLE_DEFAULT, ROLE_ADMIN"/>
-                <user name="martin" password="martin" authorities="ROLE_DEFAULT"/>
-            </user-service>
-        </authentication-provider>
+        <authentication-provider user-service-ref="myUserDetailsService"/>
     </authentication-manager>
 
-    <!--<jdbc-user-service data-source-ref="dataSource"-->
-        <!--users-by-username-query="SELECT... username=?"-->
-       <!--authorities-by-username-query="SELECT ...  username=?"/>-->
+    <!--<beans:bean id="digestFilter" class=-->
+            <!--"org.springframework.security.web.authentication.www.DigestAuthenticationFilter">-->
+        <!--<beans:property name="userDetailsService" ref="jdbcDaoImpl"/>-->
+        <!--<beans:property name="authenticationEntryPoint" ref="digestEntryPoint"/>-->
+        <!--<beans:property name="userCache" ref="userCache"/>-->
+    <!--</beans:bean>-->
 
+    <!--<beans:bean id="digestEntryPoint" class=-->
+            <!--"org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">-->
+        <!--<beans:property name="realmName" value="Contacts Realm via Digest Authentication"/>-->
+        <!--<beans:property name="key" value="acegi"/>-->
+        <!--<beans:property name="nonceValiditySeconds" value="10"/>-->
+    <!--</beans:bean>-->
 </beans:beans>
