@@ -11,32 +11,25 @@
        ">
 
     <http pattern="/css/**" security="none"/>
-    <http auto-config="true">
+    <http use-expressions="true" entry-point-ref="digestEntryPoint">
         <intercept-url pattern="/**" access="hasRole('DEFAULT')"/>
-        <!--<intercept-url pattern="/login.html" filters="none"/>-->
-        <!--<intercept-url pattern="/login.html" filters="none" />-->
-        <!--<http-basic  />-->
-        <!--<form-login login-page="/login.html" default-target-url="/home.html" always-use-default-target="true"/>-->
-
-        <!--<logout logout-success-url="/login.html" logout-url="/login.html"/>-->
-        <form-login/>
-        <logout/>
+        <custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER" />
     </http>
     <authentication-manager>
         <authentication-provider user-service-ref="myUserDetailsService"/>
     </authentication-manager>
 
-    <!--<beans:bean id="digestFilter" class=-->
-            <!--"org.springframework.security.web.authentication.www.DigestAuthenticationFilter">-->
-        <!--<beans:property name="userDetailsService" ref="jdbcDaoImpl"/>-->
-        <!--<beans:property name="authenticationEntryPoint" ref="digestEntryPoint"/>-->
+    <beans:bean id="digestFilter" class=
+            "org.springframework.security.web.authentication.www.DigestAuthenticationFilter">
+        <beans:property name="userDetailsService" ref="myUserDetailsService"/>
+        <beans:property name="authenticationEntryPoint" ref="digestEntryPoint"/>
         <!--<beans:property name="userCache" ref="userCache"/>-->
-    <!--</beans:bean>-->
+    </beans:bean>
 
-    <!--<beans:bean id="digestEntryPoint" class=-->
-            <!--"org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">-->
-        <!--<beans:property name="realmName" value="Contacts Realm via Digest Authentication"/>-->
-        <!--<beans:property name="key" value="acegi"/>-->
-        <!--<beans:property name="nonceValiditySeconds" value="10"/>-->
-    <!--</beans:bean>-->
+    <beans:bean id="digestEntryPoint" class=
+            "org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">
+        <beans:property name="realmName" value="Contacts Realm via Digest Authentication"/>
+        <beans:property name="key" value="acegi"/>
+        <beans:property name="nonceValiditySeconds" value="10"/>
+    </beans:bean>
 </beans:beans>
