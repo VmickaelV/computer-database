@@ -86,11 +86,6 @@
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
                 <form id="searchForm" action="${my:link('dashboard')}" method="GET" class="form-inline">
-
-                    <input type="hidden"
-                           name="${_csrf.parameterName}"
-                           value="${_csrf.token}"/>
-
                     <c:if test="${not empty param.size}">
                         <input type="hidden" name="size" value="${param.size}">
                     </c:if>
@@ -118,6 +113,9 @@
     </div>
 
     <form id="deleteForm" method="POST">
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
         <input type="hidden" name="selection" value="">
     </form>
 
