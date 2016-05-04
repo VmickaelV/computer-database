@@ -8,41 +8,36 @@ import org.openqa.selenium.WebElement;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * Test les pages d'erreurs
+ *
  * Created by excilys on 15/04/16.
  */
 public class PageErorTest extends BaseSeleniumTest {
 	@Test
 	public void test404() throws Exception {
-		openAndWait();
-		openTarget("v/dashbo");
-		check404();
+		check404("v/dashbo");
 	}
 
 	@Test
 	public void test404_2() throws Exception {
-		openAndWait();
-		openTarget("404");
-		check404();
+		check404("404");
 	}
 
 	@Test
 	public void test403() throws Exception {
-		openAndWait();
-		openTarget("403");
-		check404();
+		check404("403");
 	}
 
 	@Test
 	public void test500() throws Exception {
-		openAndWait();
-		openTarget("500");
-		check404();
+		check404("500");
 	}
 
 
 
-	private void check404() throws Exception {
-
+	private void check404(String pUrl) throws Exception {
+		openAndWait();
+		openTarget(pUrl);
 
 		WebElement webElement = driver.findElement(By.cssSelector("div.alert.alert-danger"));
 		assertEquals("Error 404: Page not found. Too bad bitch!", webElement.getText());
@@ -62,7 +57,6 @@ public class PageErorTest extends BaseSeleniumTest {
 		assertEquals("4px", webElement.getCssValue("border-top-right-radius"));
 		assertEquals("4px", webElement.getCssValue("border-bottom-right-radius"));
 		assertEquals("4px", webElement.getCssValue("border-bottom-left-radius"));
-
 
 		assert404();
 	}
