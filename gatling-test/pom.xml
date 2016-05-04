@@ -7,6 +7,7 @@
     <groupId>com.excilys</groupId>
     <artifactId>computer-database-gatling</artifactId>
     <version>1.0.0</version>
+    <name>gatling-test</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
