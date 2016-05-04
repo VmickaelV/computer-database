@@ -10,12 +10,39 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by excilys on 15/04/16.
  */
-public class Page404Test extends BaseSeleniumTest {
+public class PageErorTest extends BaseSeleniumTest {
 	@Test
-	public void test() throws Exception {
+	public void test404() throws Exception {
 		openAndWait();
-
 		openTarget("v/dashbo");
+		check404();
+	}
+
+	@Test
+	public void test404_2() throws Exception {
+		openAndWait();
+		openTarget("404");
+		check404();
+	}
+
+	@Test
+	public void test403() throws Exception {
+		openAndWait();
+		openTarget("403");
+		check404();
+	}
+
+	@Test
+	public void test500() throws Exception {
+		openAndWait();
+		openTarget("500");
+		check404();
+	}
+
+
+
+	private void check404() throws Exception {
+
 
 		WebElement webElement = driver.findElement(By.cssSelector("div.alert.alert-danger"));
 		assertEquals("Error 404: Page not found. Too bad bitch!", webElement.getText());
