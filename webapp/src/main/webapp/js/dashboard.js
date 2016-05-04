@@ -24,10 +24,10 @@ $(function() {
 
     // Initialization of Internationalization
     jQuery.i18n.properties({
-        name: 'messages',
+        name: 'js/localization/messages',
         cache : true,
         mode : 'map',
-        language : $("html").attributes("lang") || navigator.language
+        language : $("html").attr("lang") || navigator.language
     });
 
 });

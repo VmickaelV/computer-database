@@ -119,30 +119,7 @@
 	<script src="/speccdb/js/bootstrap.min.js"></script>
 	<script src="/speccdb/js/jquery-ui.min.js"></script>
 	<script src="/speccdb/js/localization/messages_${pageContext.response.locale}.js"></script>
-	<script type="text/javascript">
-		$("form").validate( {
-			rules : {
-				introducedDate : {
-					date : true
-				}
-			}
-		});
-		
-		$("#introducedDate").datepicker({
-			changeMonth:true,
-			changeYear:true,
-			maxDate: "+0d",
-			buttonText: "Choose"
-		}).change(function () {
-
-		});
-		$("#discontinuedDate").datepicker({
-			changeMonth:true,
-			changeYear:true,
-			maxDate: "+0d",
-			buttonText: "Choose"
-		});
-
-	</script>
+	<script src="/speccdb/js/localization/datepicker-${pageContext.response.locale}.js"></script>
+	<script src="/speccdb/js/addComputer.js"></script>
 </body>
 </html>
