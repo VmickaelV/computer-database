@@ -7,7 +7,6 @@ import com.excilys.mviegas.speccdb.spring.singletons.ListOfCompanies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +39,6 @@ public class EditionComputerController {
 
 		pModelMap.put("computerEditor", pComputerEditorPage);
 		pModelMap.put("listOfCompanies", mListOfCompanies);
-		pModelMap.put("lang", LocaleContextHolder.getLocale());
 		return "addComputer";
 	}
 
@@ -56,7 +54,6 @@ public class EditionComputerController {
 		} else {
 			pModelMap.put("computerEditor", pComputerEditorPage);
 			pModelMap.put("listOfCompanies", mListOfCompanies);
-			pModelMap.put("lang", LocaleContextHolder.getLocale());
 			return "addComputer";
 		}
 	}
@@ -69,7 +66,6 @@ public class EditionComputerController {
 		
 		pModelMap.put("computerEditor", pComputerEditorPage);
 		pModelMap.put("listOfCompanies", mListOfCompanies);
-		pModelMap.put("lang", LocaleContextHolder.getLocale());
 		return "addComputer";
 	}
 
@@ -85,7 +81,6 @@ public class EditionComputerController {
 		} else {
 			pModelMap.put("computerEditor", pComputerEditorPage);
 			pModelMap.put("listOfCompanies", mListOfCompanies);
-			pModelMap.put("lang", LocaleContextHolder.getLocale());
 			return "addComputer";
 		}
 	}

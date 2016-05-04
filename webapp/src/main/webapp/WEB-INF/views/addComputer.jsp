@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
+%><!DOCTYPE html>
 <%--@elvariable id="computerEditor" type="com.excilys.mviegas.speccdb.managers.ComputerEditorPage"--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<!DOCTYPE html>
-<html>
+
+<html lang="${pageContext.response.locale}">
 <head>
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -118,7 +118,7 @@
 	<script src="/speccdb/js/jquery.validate.min.js"></script>
 	<script src="/speccdb/js/bootstrap.min.js"></script>
 	<script src="/speccdb/js/jquery-ui.min.js"></script>
-	<script src="/speccdb/js/localization/messages_${lang}.js"></script>
+	<script src="/speccdb/js/localization/messages_${pageContext.response.locale}.js"></script>
 	<script type="text/javascript">
 		$("form").validate( {
 			rules : {

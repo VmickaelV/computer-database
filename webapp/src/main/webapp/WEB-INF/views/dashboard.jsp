@@ -1,11 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
+%><!DOCTYPE html>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="/WEB-INF/tagslib.tld" prefix="my" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my2" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--@elvariable id="dashboardManager" type="com.excilys.mviegas.speccdb.managers.DashboardPage"--%>
-<!DOCTYPE html>
-<html>
+
+<html lang="${pageContext.response.locale}">
 <head>
     <title>Computer Database</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -186,6 +188,7 @@
 </footer>
 <script src="/speccdb/js/jquery.min.js"></script>
 <script src="/speccdb/js/bootstrap.min.js"></script>
+<script src="/speccdb/js/18next.min.js"></script>
 <script src="/speccdb/js/dashboard.js"></script>
 
 </body>

@@ -35,7 +35,7 @@
 
     <!--<context-param>-->
     <!--<param-name>contextConfigLocation</param-name>-->
-    <!--<param-value>classpath:beans-back.xml</param-value>-->
+    <!--<param-value>classpath:beans-front.xml</param-value>-->
     <!--</context-param>-->
 
     <!--<listener>-->
@@ -56,17 +56,17 @@
     <!-- Personnalisation des pages d'erreurs-->
 	<error-page>
 		<error-code>404</error-code>
-		<location>/WEB-INF/views/404.html</location>
+		<location>/404.html</location>
 	</error-page>
-	
+
 	<error-page>
 		<error-code>403</error-code>
-		<location>/WEB-INF/views/403.html</location>
+		<location>/403.html</location>
 	</error-page>
-	
+
 	<error-page>
 		<error-code>500</error-code>
-		<location>/WEB-INF/views/500.html</location>
+		<location>/500.html</location>
 	</error-page>
 
 </web-app>
