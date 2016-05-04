@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.excilys.mviegas.speccdb</groupId>
         <artifactId>parent</artifactId>
-        <version>0.29-SNAPSHOT</version>
+        <version>0.29</version>
     </parent>
 
     <artifactId>binding</artifactId>
