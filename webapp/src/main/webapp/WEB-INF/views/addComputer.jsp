@@ -118,6 +118,7 @@
 	<script src="/speccdb/js/jquery.validate.min.js"></script>
 	<script src="/speccdb/js/bootstrap.min.js"></script>
 	<script src="/speccdb/js/jquery-ui.min.js"></script>
+	<script src="/speccdb/js/localization/messages_${lang}.js"></script>
 	<script type="text/javascript">
 		$("form").validate( {
 			rules : {
