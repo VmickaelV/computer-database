@@ -22,6 +22,14 @@ $(function() {
         }
     });
 
+    // Initialization of Internationalization
+    jQuery.i18n.properties({
+        name: 'messages',
+        cache : true,
+        mode : 'map',
+        language : $("html").attributes("lang") || navigator.language
+    });
+
 });
 
 
@@ -47,11 +55,11 @@ $(function() {
     $.fn.toggleEditMode = function() {
         if($(".editMode").is(":visible")) {
             $(".editMode").hide();
-            $("#editComputer").text("Edit");
+            $("#editComputer").text(jQuery.i18n.prop('lbl.edit_computers'));
         }
         else {
             $(".editMode").show();
-            $("#editComputer").text("View");
+            $("#editComputer").text(jQuery.i18n.prop('lbl.view_computers'));
         }
         return this;
     };
@@ -62,7 +70,7 @@ $(function() {
 // Function delete selected: Asks for confirmation to delete selected computers, then submits it to the deleteForm
 (function ( $ ) {
     $.fn.deleteSelected = function() {
-        if (confirm("Are you sure you want to delete the selected computers?")) { 
+        if (confirm(jQuery.i18n.prop('lbl.confirm_deletion_computers'))) {
             $('#deleteForm input[name=selection]').setCheckboxValues('selection','cb');
             $('#deleteForm').submit();
         }
