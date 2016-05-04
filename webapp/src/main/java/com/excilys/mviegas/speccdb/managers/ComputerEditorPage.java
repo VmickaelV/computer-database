@@ -173,7 +173,8 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	}
 	
 	public boolean hasValidName() {
-		return mName != null && !mName.isEmpty();
+		// TODO refvoir ce début de condition
+		return (mAction == null || mAction.equals("")) || (mName != null && !mName.isEmpty());
 	}
 
 	public boolean hasValidIntroducedDate() {

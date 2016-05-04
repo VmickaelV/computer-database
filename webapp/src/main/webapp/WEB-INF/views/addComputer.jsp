@@ -120,6 +120,7 @@
 	<script src="/speccdb/js/jquery-ui.min.js"></script>
 	<script src="/speccdb/js/localization/messages_${pageContext.response.locale}.js"></script>
 	<script src="/speccdb/js/localization/datepicker-${pageContext.response.locale}.js"></script>
+    <script src="/speccdb/js/jquery.i18n.properties.min.js"></script>
 	<script src="/speccdb/js/addComputer.js"></script>
 </body>
 </html>
