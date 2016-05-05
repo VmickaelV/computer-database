@@ -42,6 +42,31 @@ public class UserDao extends AbstractGenericCrudServiceBean<User> implements IUs
 	// Methods - Crudable
 	// ===========================================================
 	@Override
+	public User create(final User pUser) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean delete(final long id) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean delete(final User pUser) throws DAOException {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public boolean refresh(final User pUser) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public User update(final User pUser) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public User findByName(String pName) {
 		User result = null;
 

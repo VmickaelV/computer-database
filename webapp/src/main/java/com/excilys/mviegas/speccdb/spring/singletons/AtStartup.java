@@ -8,6 +8,7 @@ import com.excilys.mviegas.speccdb.persistence.IAuthorityDao;
 import com.excilys.mviegas.speccdb.persistence.IGroupDao;
 import com.excilys.mviegas.speccdb.persistence.IUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -29,6 +30,9 @@ public class AtStartup {
 	@Autowired
 	private IGroupDao mGroupDao;
 
+	@Autowired
+	private PasswordEncoder mPasswordEncoder;
+
 	@PostConstruct
 	public void init() {
 		try {
@@ -37,8 +41,8 @@ public class AtStartup {
 			mAuthorityDao.create(defaultRole);
 			mAuthorityDao.create(adminRole);
 
-			User userAdmin = new User("admin", "admin", true);
-			User userUser = new User("martin", "martin", true);
+			User userAdmin = new User("admin", mPasswordEncoder.encode("admin"), true);
+			User userUser = new User("martin", mPasswordEncoder.encode("martin"), true);
 
 
 			Group groupAdmin = new Group("admin");
