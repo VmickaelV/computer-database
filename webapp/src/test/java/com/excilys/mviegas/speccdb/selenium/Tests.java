@@ -28,6 +28,8 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+
+		authentication("admin", "admin");
 	}
 
 	@Override

@@ -38,6 +38,8 @@ public class AddComputerTest extends BaseSeleniumTest {
 		DatabaseUtils.resetDatabase();
 
 		openAndWait();
+		authentication("admin", "admin");
+
 		mWebDriver.findElement(By.id("addComputer")).click();
 	}
 
@@ -55,7 +57,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 		assertEquals("", driver.findElement(By.id("name")).getText());
 		assertEquals("", driver.findElement(By.id("name")).getAttribute("value"));
 		assertEquals("Computer name", driver.findElement(By.cssSelector("label.control-label")).getText());
-		assertEquals("Computer's Name is compulsory.", driver.findElement(By.cssSelector("span.help-block")).getText());
+		assertFalse(isElementPresent(By.cssSelector("span.help-block")));
 		assertFalse(isElementPresent(By.id("name-error")));
 
 
@@ -89,7 +91,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 		mWebDriver.findElement(By.id("btnSubmit")).click();
 
-		assertEquals("This field is required.", driver.findElement(By.id("name-error")).getText());
+		assertEquals("Computers Name is compulsory.", driver.findElement(By.id("name-error")).getText());
 
 		assertEquals(n, mComputerDao.size());
 		assertThat(mWebDriver.getCurrentUrl(), Matchers.endsWith("/addComputer.html"));

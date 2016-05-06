@@ -1,6 +1,7 @@
 package com.excilys.mviegas.speccdb.selenium.errors;
 
 import com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -13,6 +14,14 @@ import static org.junit.Assert.assertEquals;
  * Created by excilys on 15/04/16.
  */
 public class PageErorTest extends BaseSeleniumTest {
+
+	@Override
+	@Before
+	public void setUp() throws Exception {
+		super.setUp();
+		authentication("admin", "admin");
+	}
+
 	@Test
 	public void test404() throws Exception {
 		check404("v/dashbo");

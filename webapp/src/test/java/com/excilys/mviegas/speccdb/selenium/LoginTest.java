@@ -311,4 +311,12 @@ public class LoginTest extends BaseSeleniumTest {
 
 		assert403();
 	}
+
+	@Test
+	public void error404needsLogin() throws Exception {
+		openTarget("zaeopirzeprioze");
+
+		assertPageLogin();
+
+	}
 }

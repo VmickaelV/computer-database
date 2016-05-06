@@ -34,6 +34,7 @@ public class EditComputerTest extends BaseSeleniumTest {
 		super.setUp();
 
 		openAndWait();
+		authentication("admin", "admin");
 
 		DatabaseUtils.resetDatabase();
 	}
@@ -54,13 +55,13 @@ public class EditComputerTest extends BaseSeleniumTest {
 		driver.findElement(By.id("introducedDate")).clear();
 		driver.findElement(By.id("introducedDate")).sendKeys("");
 		driver.findElement(By.id("discontinuedDate")).click();
-		driver.findElement(By.linkText("8")).click();
+		driver.findElement(By.id("discontinuedDate")).sendKeys("08/04/2016");
 		driver.findElement(By.id("name")).clear();
 		driver.findElement(By.id("name")).sendKeys("Plus de Matc");
 		new Select(driver.findElement(By.id("idCompany"))).selectByVisibleText("Nokia");
 		assertEquals("id: 36", driver.findElement(By.xpath("//section[@id='main']/div/div/div/div")).getText());
 		assertEquals("Edit Computer", driver.findElement(By.cssSelector("h1")).getText());
-		assertEquals("", driver.findElement(By.id("btnSubmit")).getText());
+		assertEquals("Add", driver.findElement(By.id("btnSubmit")).getText());
 		driver.findElement(By.id("btnSubmit")).click();
 		driver.findElement(By.linkText("4")).click();
 		assertEquals("Plus de Matc", driver.findElement(By.xpath("//tbody[@id='results']/tr[6]/td[2]")).getText());

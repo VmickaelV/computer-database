@@ -6,9 +6,9 @@
     <title>Computer Database</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/font-awesome.css" rel="stylesheet" media="screen">
-    <link href="css/main.css" rel="stylesheet" media="screen">
+    <link href="/speccdb/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/speccdb/css/font-awesome.css" rel="stylesheet" media="screen">
+    <link href="/speccdb/css/main.css" rel="stylesheet" media="screen">
 </head>
 <body id="error_404">
     <header class="navbar navbar-inverse navbar-fixed-top">
@@ -16,8 +16,8 @@
             <a class="navbar-brand" href="dashboard.html"><spring:message code="lbl.title"/></a>
 
             <div class="navbar-right">
-                <a href="?lang=fr"><img src="images/fr.jpg"></a>
-                <a href="?lang=en"><img src="images/en.jpg"></a>
+                <a href="?lang=fr"><img src="/speccdb/images/fr.jpg"></a>
+                <a href="?lang=en"><img src="/speccdb/images/en.jpg"></a>
             </div>
         </div>
     </header>
@@ -30,9 +30,9 @@
         </div>
     </section>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/dashboard.js"></script>
+    <script src="/speccdb/js/jquery.min.js"></script>
+    <script src="/speccdb/js/bootstrap.min.js"></script>
+    <script src="/speccdb/js/dashboard.js"></script>
 
 </body>
 </html>

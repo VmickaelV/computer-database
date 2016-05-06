@@ -28,19 +28,13 @@ public class DeleteComputerTest extends BaseSeleniumTest {
 	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
-
-//		ThreadLocals.CONNECTIONS.remove();
-//		DatabaseManager.releaseConnection(mConnection);
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 
-
-
-//		mConnection = DatabaseManager.getConnection();
-//		ThreadLocals.CONNECTIONS.set(mConnection);
+		authentication("admin", "admin");
 
 		DatabaseUtils.resetDatabase();
 
