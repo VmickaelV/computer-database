@@ -42,8 +42,6 @@ public class PageErorTest extends BaseSeleniumTest {
 		check404("500");
 	}
 
-
-
 	private void check404(String pUrl) throws Exception {
 		openAndWait();
 		openTarget(pUrl);
