@@ -3,6 +3,7 @@ package com.excilys.mviegas.speccdb.selenium;
 import org.apache.catalina.*;
 import org.apache.catalina.startup.Tomcat;
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.*;
@@ -19,8 +20,7 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Classe de base pour des tests avec Selenium avec
@@ -50,9 +50,7 @@ public abstract class BaseSeleniumTest {
 		public static final String DONT_CLOSE = "test.dont_close";
 	}
 
-//	public static final String DEFAULT_URL_REMOTE_WEBDRIVER = "http://localhost:4444/wd/hub";
 	public static final String DEFAULT_URL_REMOTE_WEBDRIVER = null;
-//public static final String DEFAULT_SERVER_IP = "test_server";
 	public static final String DEFAULT_SERVER_IP = "localhost";
 	public static final String DEFAULT_SERVER_PORT = "8888";
 
@@ -187,7 +185,7 @@ public abstract class BaseSeleniumTest {
 	}
 
 	protected String getTargetUrl(String pTarget) {
-		return String.format("http://%s:%d/%s/views/%s.jsp", SERVER_IP,
+		return String.format("http://%s:%d/%s/%s.html", SERVER_IP,
 				SERVER_PORT, getApplicationId(), pTarget);
 	}
 
@@ -272,6 +270,7 @@ public abstract class BaseSeleniumTest {
 	}
 
 	protected void open(String pURL) {
+		System.out.println("open:"+pURL);
 		mWebDriver.get(pURL);
 	}
 
@@ -282,7 +281,17 @@ public abstract class BaseSeleniumTest {
 	protected void openAndWait() {
 		open();
 		mWebDriver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+	}
 
+	protected void authentication(String pLogin, String pPassword) {
+		openTarget("login");
+		driver.findElement(By.id("username")).clear();
+		driver.findElement(By.id("username")).sendKeys(pLogin);
+		driver.findElement(By.id("password")).clear();
+		driver.findElement(By.id("password")).sendKeys(pPassword);
+		driver.findElement(By.id("btnSubmit")).click();
+
+		assertThat("Wrong Authentication", mWebDriver.getCurrentUrl(), not(Matchers.containsString("login.html")));
 	}
 
 
@@ -292,10 +301,12 @@ public abstract class BaseSeleniumTest {
 
 	protected void assert404() {
 		mWebDriver.findElement(By.id("error_404"));
+		assertEquals("Error 404: Page not found. Too bad bitch!", driver.findElement(By.cssSelector("div.alert.alert-danger")).getText());
 	}
 
 	protected void assert403() {
 		mWebDriver.findElement(By.id("error_403"));
+		assertEquals("Error 403: Access denied!", driver.findElement(By.cssSelector("div.alert.alert-danger")).getText());
 	}
 
 	protected void assert500() {
