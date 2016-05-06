@@ -55,6 +55,7 @@ services:
       - "-P"
       - "docker"
       - "test"
+      - "-Ddb.url=jdbc:h2:tcp://bdd:1521/~/test"
 
   # Lancement des tests fonctionnels
   selenium_test:
@@ -73,6 +74,9 @@ services:
       - "-Dserver.ip=test_server"
       - "-Dserver.port=8888"
       - "-Dwebdriver.url=http://firefox:4444/wd/hub"
+      - "-Ddb.url=jdbc:h2:tcp://bdd:1521/~/test"
+      - "-Dtest=Tests#start"
+      - "-DfailIfNoTests=false"
 
         # TODO Voir si sleep important ou pas
 #       - "sh"
@@ -83,7 +87,7 @@ services:
   firefox:
     build:
       context: ..
-      dockerfile: dockers/db/Dockerfile_selenium
+      dockerfile: dockers/Dockerfile_selenium
     image: vmickaelv/firefox_standalone
     ports:
       - "4444:4444"

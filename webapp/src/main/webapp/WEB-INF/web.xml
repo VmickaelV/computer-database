@@ -41,6 +41,12 @@
     <!--<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
     <!--</listener>-->
 
+    <!--<listener>-->
+        <!--<listener-class>-->
+            <!--org.springframework.security.web.session.HttpSessionEventPublisher-->
+        <!--</listener-class>-->
+    <!--</listener>-->
+
     <!-- Pöur Spring Security-->
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>

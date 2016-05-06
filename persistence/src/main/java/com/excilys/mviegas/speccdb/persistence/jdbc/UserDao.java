@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -42,31 +44,6 @@ public class UserDao extends AbstractGenericCrudServiceBean<User> implements IUs
 	// Methods - Crudable
 	// ===========================================================
 	@Override
-	public User create(final User pUser) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean delete(final long id) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean delete(final User pUser) throws DAOException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean refresh(final User pUser) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public User update(final User pUser) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public User findByName(String pName) {
 		User result = null;
 
@@ -80,7 +57,11 @@ public class UserDao extends AbstractGenericCrudServiceBean<User> implements IUs
 		if (pName != null && !pName.isEmpty()) {
 			cq.where(cb.like(cb.lower(computerRoot.get("mUsername")), pName.toLowerCase()));
 			cq.select(computerRoot);
-			result = mEntityManager.createQuery(cq).getSingleResult();
+			try {
+				result = mEntityManager.createQuery(cq).getSingleResult();
+			} catch (NonUniqueResultException | NoResultException e) {
+				LOGGER.error(e.getMessage(), e);
+			}
 		}
 
 		return result;
