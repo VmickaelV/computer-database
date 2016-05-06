@@ -75,7 +75,6 @@ services:
       - "-Dserver.port=8888"
       - "-Dwebdriver.url=http://firefox:4444/wd/hub"
       - "-Ddb.url=jdbc:h2:tcp://bdd:1521/~/test"
-      - "-Dtest=Tests#start"
       - "-DfailIfNoTests=false"
 
         # TODO Voir si sleep important ou pas

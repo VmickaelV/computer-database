@@ -115,6 +115,7 @@
         <spring-security-core.version>${spring-security.version}</spring-security-core.version>
         <spring-security-web.version>${spring-security.version}</spring-security-web.version>
         <spring-security-config.version>${spring-security.version}</spring-security-config.version>
+        <spring-security-taglibs.version>${spring-security.version}</spring-security-taglibs.version>
     </properties>
 
     <build>
@@ -429,6 +430,13 @@
                 <version>${spring-security-config.version}</version>
                 <scope>runtime</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-taglibs</artifactId>
+                <version>${spring-security-taglibs.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>org.slf4j</groupId>

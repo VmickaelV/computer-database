@@ -17,6 +17,8 @@
 
     <http use-expressions="true">
         <intercept-url pattern="/login.html*" access="isAnonymous()"/>
+        <intercept-url pattern="/addComputer.html*" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/editComputer.html*" access="hasRole('ADMIN')"/>
         <intercept-url pattern="/**" access="hasRole('DEFAULT')"/>
 
         <form-login default-target-url="/dashboard.html" login-page="/login.html" login-processing-url="/login.html"/>

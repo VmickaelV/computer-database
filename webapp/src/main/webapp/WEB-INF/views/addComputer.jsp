@@ -102,8 +102,8 @@
 						</fieldset>
 						<div class="actions pull-right">
                             <button class="btn btn-primary" type="submit" id="btnSubmit" name="action" value="${computerEditor.isEditing() ? 'Edit' : 'Add'}">
-                                <c:if test="${computerEditor.isEditing()}"><spring:message text="Add" code="lbl.add"/></c:if>
-                                <c:if test="${!computerEditor.isEditing()}"><spring:message text="Edit" code="lbl.edit"/></c:if>
+                                <c:if test="${!computerEditor.isEditing()}"><spring:message text="Add" code="lbl.add"/></c:if>
+                                <c:if test="${computerEditor.isEditing()}"><spring:message text="Edit" code="lbl.edit"/></c:if>
                             </button>
                             <spring:message text="or" code="word.or"/> <a href="dashboard.html"
 								class="btn btn-default"><spring:message text="Cancel" code="lbl.cancel"/></a>

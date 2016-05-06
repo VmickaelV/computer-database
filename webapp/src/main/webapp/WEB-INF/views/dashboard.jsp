@@ -5,6 +5,7 @@
 <%@ taglib uri="/WEB-INF/tagslib.tld" prefix="my" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my2" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--@elvariable id="dashboardManager" type="com.excilys.mviegas.speccdb.managers.DashboardPage"--%>
 
 <html lang="${pageContext.response.locale}">
@@ -120,9 +121,11 @@
 
                 </form>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-success" id="addComputer" href="addComputer.html"><spring:message code="lbl.add_computer"/></a> <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="lbl.edit"/></a>
-            </div>
+            <security:authorize access="hasRole('ADMIN')">
+                <div class="pull-right">
+                    <a class="btn btn-success" id="addComputer" href="addComputer.html"><spring:message code="lbl.add_computer"/></a> <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="lbl.edit"/></a>
+                </div>
+            </security:authorize>
         </div>
     </div>
 
@@ -157,17 +160,24 @@
                 <tr>
                     <td class="editMode"><input id="${computer.name}_id" type="checkbox" name="cb" class="cb" value="${computer.id}"></td>
                     <td>
-                        <jsp:element name="a">
-								<jsp:attribute name="href">
-									editComputer.html?id=${computer.id}
-								</jsp:attribute>
+                        <security:authorize access="hasRole('DEFAULT') && !hasRole('ADMIN')">
+                            <c:out value="${computer.name}"/>
+                        </security:authorize>
+
+                        <%-- TODO revoir efficacité de cette partie --%>
+                        <security:authorize access="hasRole('ADMIN')">
+                            <jsp:element name="a">
+                                <jsp:attribute name="href">
+                                    editComputer.html?id=${computer.id}
+                                </jsp:attribute>
                                 <jsp:attribute name="id">
                                     ${computer.name}_name
                                 </jsp:attribute>
-                            <jsp:body>
-                                <c:out value="${computer.name}"/>
-                            </jsp:body>
-                        </jsp:element>
+                                <jsp:body>
+                                    <c:out value="${computer.name}"/>
+                                </jsp:body>
+                            </jsp:element>
+                        </security:authorize>
                     </td>
                     <td><c:out value="${computer.introducedDate}"/></td>
                     <td><c:out value="${computer.discontinuedDate}"/></td>
