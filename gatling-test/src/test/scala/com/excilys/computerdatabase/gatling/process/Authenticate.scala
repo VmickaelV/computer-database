@@ -31,8 +31,8 @@ class Authenticate(csvFile : String) {
         .get(config.getString("application.urls.static.js.bootstrap")),
       http("Get jquery validate")
         .get(config.getString("application.urls.static.js.jqueryValidate")),
-      http("Get login js")
-        .get(config.getString("application.urls.static.js.login")),
+//      http("Get login js")
+//        .get(config.getString("application.urls.static.js.login")),
       http("Get uk png")
         .get(config.getString("application.urls.static.font.ukFlag")),
       http("Get fr png")

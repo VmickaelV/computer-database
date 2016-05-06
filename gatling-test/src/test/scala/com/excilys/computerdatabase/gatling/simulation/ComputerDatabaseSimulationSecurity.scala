@@ -28,7 +28,14 @@ class ComputerDatabaseSimulationSecurity extends Simulation {
 
 
   val users = scenario("Users").exec(new Authenticate("data/user.csv").authenticate, Browse.browse,Search.search)
-  val admins = scenario("Admins").exec(new Authenticate("data/admin.csv").authenticate, Browse.browse,Search.search, AddSecurity.add, EditSecurity.edit, DeleteSecurity.delete)
+  val admins = scenario("Admins").exec(
+    new Authenticate("data/admin.csv").authenticate,
+    Browse.browse,
+    Search.search,
+    AddSecurity.add,
+    EditSecurity.edit,
+    DeleteSecurity.delete
+  )
   var maxUsers = if (System.getProperty("stresstest.maxUsers") != null && System.getProperty("stresstest.maxUsers") != "") System.getProperty("stresstest.maxUsers").toInt else 1000
   var maxAdmins = if (System.getProperty("stresstest.maxAdmins") != null && System.getProperty("stresstest.maxAdmins") != "") System.getProperty("stresstest.maxAdmins").toInt else 10
   var periodTime = 30 seconds

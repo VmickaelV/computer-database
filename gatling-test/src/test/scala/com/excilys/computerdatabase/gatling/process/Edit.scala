@@ -30,5 +30,6 @@ object Edit {
       .formParam(config.getString("application.urls.form.edit.introduced").get, "${addComputerIntroduced}")
       .formParam(config.getString("application.urls.form.edit.discontinued").get, "${addComputerDiscontinued}")
       .formParam(config.getString("application.urls.form.edit.companyId").get, "${addComputerCompany}")
-      .formParam("action", "Edit"))
+      .formParam("action", "Edit")
+    )
 }

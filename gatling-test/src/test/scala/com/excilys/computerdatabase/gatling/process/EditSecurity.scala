@@ -31,5 +31,7 @@ object EditSecurity {
       .formParam(config.getString("application.urls.form.edit.introduced").get, "${addComputerIntroduced}")
       .formParam(config.getString("application.urls.form.edit.discontinued").get, "${addComputerDiscontinued}")
       .formParam(config.getString("application.urls.form.edit.companyId").get, "${addComputerCompany}")
-      .formParam(config.getString("application.urls.form.edit.csrf").get, "${csrf_token}"))
+      .formParam(config.getString("application.urls.form.edit.csrf").get, "${csrf_token}")
+      .formParam("action", "Edit")
+    )
 }
