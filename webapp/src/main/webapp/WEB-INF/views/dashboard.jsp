@@ -23,6 +23,13 @@
         <a class="navbar-brand" href="dashboard.html"><spring:message code="lbl.title"/></a>
 
         <div class="navbar-right">
+            <form id="logoutForm" class="form-inline" method="POST" action="/speccdb/logout">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <button class="btn" type="submit" id="btnLogout" name="action" value="logout">
+                    <spring:message text="Logout" code="lbl.logout"/>
+                </button>
+            </form>
+
             <a href="?lang=fr"><img src="/speccdb/images/fr.jpg"></a>
             <a href="?lang=en"><img src="/speccdb/images/en.jpg"></a>
         </div>

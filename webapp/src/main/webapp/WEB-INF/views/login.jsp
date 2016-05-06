@@ -21,6 +21,7 @@
         <a class="navbar-brand" href="dashboard.html"><spring:message code="lbl.title"/></a>
 
         <div class="navbar-right">
+
             <a href="?lang=fr"><img src="/speccdb/images/fr.jpg"></a>
             <a href="?lang=en"><img src="/speccdb/images/en.jpg"></a>
         </div>
@@ -35,7 +36,7 @@
         </h1>
 
         <%-- Message de confirmations --%>
-        <c:if test="${not empty param.error}">
+        <c:if test="${param.containsKey('error')}">
             <div class="alert alert-danger alert-dismissible fade in" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                         aria-hidden="true">×</span>
@@ -44,8 +45,18 @@
             </div>
         </c:if>
 
+        <c:if test="${param.containsKey('logout')}">
+            <div class="alert alert-success alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">×</span>
+                </button>
+                <div><spring:message code="lbl.successLogout"/></div>
+            </div>
+        </c:if>
+
+        <%-- Formulaire de login--%>
         <form id="loginForm" class="form-horizontal" method="POST">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>.
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" name="selection" value="">
 
             <fieldset>
@@ -89,7 +100,7 @@
 
 <script src="/speccdb/js/jquery.min.js"></script>
 <script src="/speccdb/js/bootstrap.min.js"></script>
-<script src="/speccdb/js/login.js"></script>
+<%--<script src="/speccdb/js/login.js"></script>--%>
 
 </body>
 </html>
