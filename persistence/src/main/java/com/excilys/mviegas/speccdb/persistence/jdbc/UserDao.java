@@ -59,8 +59,8 @@ public class UserDao extends AbstractGenericCrudServiceBean<User> implements IUs
 			cq.select(computerRoot);
 			try {
 				result = mEntityManager.createQuery(cq).getSingleResult();
-			} catch (NonUniqueResultException | NoResultException e) {
-				LOGGER.error(e.getMessage(), e);
+			} catch (NonUniqueResultException | NoResultException ignored) {
+
 			}
 		}
 

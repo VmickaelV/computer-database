@@ -41,7 +41,7 @@ public class AtStartup {
 			mAuthorityDao.create(defaultRole);
 			mAuthorityDao.create(adminRole);
 
-			User userAdmin = new User("a", mPasswordEncoder.encode("a"), true);
+			User userAdmin = new User("admin", mPasswordEncoder.encode("admin"), true);
 			User userUser = new User("martin", mPasswordEncoder.encode("martin"), true);
 
 
