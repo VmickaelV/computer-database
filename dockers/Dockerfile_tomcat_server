@@ -3,4 +3,4 @@ FROM tomcat:jre8
 MAINTAINER Viegas Mickael <mviegas@excilys.com>
 
 # TODO revoir cette ligne pour quelle soit généralisé
-COPY ./webapp/target/*.war $CATALINA_HOME/webapps/
+COPY ./webapp-front/target/*.war $CATALINA_HOME/webapps/
