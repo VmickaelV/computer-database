@@ -186,25 +186,10 @@ public class DashboardPage {
 	// Méthodes - Object
 	//===========================================================
 	public void update() {
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("DashboardManagerBean.update");
-			LOGGER.debug("");
-			LOGGER.debug(String.valueOf(this.hashCode()));
-			LOGGER.debug(String.valueOf(this));
-		}
-		
 		if (mPage == 0) {
 			mPage = 1;
 		}
 		
-//		try {
-//			connection = DatabaseManager.getConnection();
-//
-//		} catch (ConnectionException e) {
-//			mMessages.add(new Message("Internal Error", "We got an internal Error .\nPlease, retry later.", Level.ERROR));
-//			return;
-//		}
-
 		if ((mSearch != null && !mSearch.isEmpty()) || (mOrder != null && !mOrder.isEmpty())) {
 			QueryParameter parameter = QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, mSearch);
 			parameter
