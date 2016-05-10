@@ -39,7 +39,7 @@ public abstract class AbstractGenericCrudServiceBean<T extends Identifiable> imp
 	//=============================================================
 	public AbstractGenericCrudServiceBean() {
 		Class c = getClass();
-		//In case of use with implementation class using raw types (mandatory with EJBs).
+
 		while (!(c.getGenericSuperclass() instanceof ParameterizedType)) {
 			System.out.println(c);
 			c = c.getSuperclass();
