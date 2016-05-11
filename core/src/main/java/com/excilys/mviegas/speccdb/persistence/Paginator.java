@@ -18,31 +18,45 @@ public class Paginator<T> {
 	/**
 	 * Numéro de la page courante
 	 */
-	private int mCurrentPage;
+	public int currentPage;
 
 	/**
 	 * Nombre d'éléments totales
 	 */
-	private int mElementsCount;
+	public int elementsCount;
 
 	/**
 	 * Nom d'éléments par pages
 	 */
-	private int mElementsByPage;
+	public int elementsByPage;
 
 	/**
 	 * Valeurs de la pages
 	 */
-	private List<T> mValues;
+	public List<T> values;
 
 	/**
 	 * Nombre de pages
 	 */
-	private int mNbPages;
+	public int nbPages;
 
 	//===========================================================
 	// Constructors
 	//===========================================================
+
+	/**
+	 * (For JsonMapper)
+	 */
+	public Paginator() {
+	}
+
+	public Paginator(Paginator<?> pPaginator) {
+		currentPage = pPaginator.currentPage;
+		elementsCount = pPaginator.elementsCount;
+		elementsByPage = pPaginator.elementsByPage;
+		nbPages = pPaginator.nbPages;
+	}
+
 	/**
 	 *
 	 * @param pStartIndex Début de l'index de début
@@ -55,39 +69,16 @@ public class Paginator<T> {
 		if (pElementsByPage == 0) {
 			pElementsByPage = -1;
 		}
-		mCurrentPage = pStartIndex/pElementsByPage;
-		mCurrentPage++;
+		currentPage = pStartIndex/pElementsByPage;
+		currentPage++;
 
-		mElementsCount = pElementsCount;
-		mElementsByPage = pElementsByPage;
-		mValues = pValues;
-		mNbPages = mElementsCount/mElementsByPage;
-		if (mElementsCount % mElementsByPage != 0) {
-			mNbPages++;
+		elementsCount = pElementsCount;
+		elementsByPage = pElementsByPage;
+		values = pValues;
+		nbPages = elementsCount / elementsByPage;
+		if (elementsCount % elementsByPage != 0) {
+			nbPages++;
 		}
-	}
-
-	//===========================================================
-	// Getters
-	//===========================================================
-	public int getCurrentPage() {
-		return mCurrentPage;
-	}
-
-	public int getElementsCount() {
-		return mElementsCount;
-	}
-
-	public int getElementsByPage() {
-		return mElementsByPage;
-	}
-
-	public List<T> getValues() {
-		return mValues;
-	}
-
-	public int getNbPages() {
-		return mNbPages;
 	}
 
 	//===========================================================
@@ -97,11 +88,11 @@ public class Paginator<T> {
 	public String toString() {
 		//noinspection StringBufferReplaceableByString
 		final StringBuilder sb = new StringBuilder("Paginator{");
-		sb.append("mCurrentPage=").append(mCurrentPage);
-		sb.append(", mElementsCount=").append(mElementsCount);
-		sb.append(", mElementsByPage=").append(mElementsByPage);
-		sb.append(", mValues=").append(mValues);
-		sb.append(", mNbPages=").append(mNbPages);
+		sb.append("currentPage=").append(currentPage);
+		sb.append(", elementsCount=").append(elementsCount);
+		sb.append(", elementsByPage=").append(elementsByPage);
+		sb.append(", values=").append(values);
+		sb.append(", nbPages=").append(nbPages);
 		sb.append('}');
 		return sb.toString();
 	}

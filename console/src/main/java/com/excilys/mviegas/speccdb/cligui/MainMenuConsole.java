@@ -30,9 +30,7 @@ public class MainMenuConsole {
     		}
     		
     		System.out.print("Menu ? ");
-    		
-		
-		
+
 			switch (MainMenuControleur.SCANNER.nextLine()) {
 			case "0":
 				mMainMenuControler.seeListComputers();

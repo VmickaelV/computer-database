@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author VIEGAS Mickael
@@ -40,7 +41,7 @@ public class ComputerEndpoint {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Paginator<Computer> findAll(@RequestParam Map<String, Object> pMap) throws DAOException {
+	public Paginator<ComputerDto> findAll(@RequestParam Map<String, Object> pMap) throws DAOException {
 
 		if (pMap.containsKey(ComputerDao.Parameters.SIZE)) {
 			pMap.put(ComputerDao.Parameters.SIZE, Integer.valueOf((String) pMap.get(ComputerDao.Parameters.SIZE)));
@@ -51,8 +52,10 @@ public class ComputerEndpoint {
 		}
 
 		Paginator<Computer> paginator = mComputerService.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, pMap);
-		paginator.getValues().stream().map(ComputerDto::new);
-		return paginator;
+
+		Paginator<ComputerDto> paginatorDto = new Paginator<>(paginator);
+		paginatorDto.values = paginator.values.stream().map(ComputerDto::new).collect(Collectors.toList());
+		return paginatorDto;
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

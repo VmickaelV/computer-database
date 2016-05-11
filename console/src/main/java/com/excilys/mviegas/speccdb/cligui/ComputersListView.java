@@ -6,7 +6,6 @@ import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 
 import java.util.List;
-import java.util.Scanner;
 
 public enum ComputersListView implements IComputersListViewControler {
 
@@ -19,8 +18,8 @@ public enum ComputersListView implements IComputersListViewControler {
 	private Paginator<Computer> mPaginator;
 
 	private ComputerService mComputerService;
-	
-	
+
+
 
 	private void printHeaderList() {
 		System.out.println();
@@ -33,16 +32,13 @@ public enum ComputersListView implements IComputersListViewControler {
 	 */
 	@Override
 	public void nextPage() {
-//		try {
-//			if ((mStart + mSize) < ComputerService.INSTANCE.size()) {
-//				mStart += mSize;
-//			} else {
-//				System.err.println("Fin de liste atteinte !");
-//			}
-//		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-//			 TODO à refaire
-//			throw new RuntimeException(pE);
-//		}
+		if (mPaginator.currentPage >= mPaginator.nbPages) {
+			System.err.println("Fin de liste atteinte !");
+		} else {
+			mStart += mSize;
+		}
+
+		invalidatePaginator();
 		printPage();
 	}
 	
@@ -56,6 +52,8 @@ public enum ComputersListView implements IComputersListViewControler {
 			mStart = 0;
 			System.err.println("Début de liste atteinte !");
 		}
+
+		invalidatePaginator();
 		printPage();
 	}
 
@@ -66,19 +64,21 @@ public enum ComputersListView implements IComputersListViewControler {
 	@Override
 	public void setSize(int pSize) {
 		mSize = pSize;
+		invalidatePaginator();
 		printPage();
 	}
 
 	private void printPage() {
 		printHeaderList();
 		List<Computer> computers;
-		computers = ComputerService.INSTANCE.findAll(mStart, mSize);
 
+		computers = mPaginator.values;
 		if (computers.size() == 0) {
 			System.out.println("Aucune donnée.");
 		} else {
 			for (Computer computer : computers) {
 				System.out.printf(FORMAT_LINE, computer.getId(), computer.getName(), computer.getIntroducedDate() == null ?  "" : computer.getIntroducedDate(), computer.getDiscontinuedDate() == null ? "" : computer.getDiscontinuedDate(), computer.getManufacturer() != null ? computer.getManufacturer().getName() : "");
+//				System.out.printf(FORMAT_LINE, computer.getId(), computer.getName(), computer.getIntroducedDate() == null ?  "" : computer.getIntroducedDate().toString(), computer.getDiscontinuedDate() == null ? "" : computer.getDiscontinuedDate()., computer.getIdCompany());
 			}
 		}
 	}
@@ -92,10 +92,9 @@ public enum ComputersListView implements IComputersListViewControler {
 	 */
 	@Override
 	public void launch() {
+		invalidatePaginator();
 		
 		MainMenuConsole.printBread("Liste des ordinateurs");
-
-		Scanner a = new Scanner(System.in);
 
 		printPage();
 
@@ -103,7 +102,7 @@ public enum ComputersListView implements IComputersListViewControler {
 
 			printChoices();
 
-			switch (a.nextLine()) {
+			switch (MainMenuControleur.SCANNER.nextLine()) {
 			case "n":
 				nextPage();
 				break;
@@ -126,8 +125,10 @@ public enum ComputersListView implements IComputersListViewControler {
 				continue;
 			}
 		}
-		
-		a.close();
+	}
+
+	private void invalidatePaginator() {
+		mPaginator = ComputerService.INSTANCE.findAllWithPaginator(mStart, mSize);
 	}
 
 	/* (non-Javadoc)
@@ -153,11 +154,8 @@ public enum ComputersListView implements IComputersListViewControler {
 
 			printPage();
 			
-			
-			
 			System.out.printf("[!] Ordinateur %s (n°%d) supprimé avec succès%n", computer.getName(), computer.getId());
-			
-			
+
 			break;
 		}	
 		

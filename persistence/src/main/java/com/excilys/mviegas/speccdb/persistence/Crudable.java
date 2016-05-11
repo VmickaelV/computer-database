@@ -46,7 +46,7 @@ public interface Crudable<T> {
 	}
 
 	default List<T> findAll(int start, int size) throws DAOException {
-		return findAllWithPaginator(start, size).getValues();
+		return findAllWithPaginator(start, size).values;
 	}
 
 	default Paginator<T> findAllWithPaginator(int start, int size) throws DAOException {
@@ -54,7 +54,7 @@ public interface Crudable<T> {
 	}
 
 	default List<T> findWithNamedQuery(String queryName) throws DAOException {
-		return findWithNamedQueryWithPaginator(queryName).getValues();
+		return findWithNamedQueryWithPaginator(queryName).values;
 	}
 
 	default Paginator<T> findWithNamedQueryWithPaginator(String queryName) throws DAOException {
@@ -62,7 +62,7 @@ public interface Crudable<T> {
 	}
 
 	default List<T> findWithNamedQuery(String namedQueryName, Map<String, Object> parameters) throws DAOException {
-		return findWithNamedQueryWithPaginator(namedQueryName, parameters).getValues();
+		return findWithNamedQueryWithPaginator(namedQueryName, parameters).values;
 	}
 
 	default Paginator<T> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
@@ -70,7 +70,7 @@ public interface Crudable<T> {
 	}
 
 	default List<T> findWithNamedQuery(String namedQueryName, Map<String, Object> parameters, int start, int size) throws DAOException {
-		return findWithNamedQueryWithPaginator(namedQueryName, parameters, start, size).getValues();
+		return findWithNamedQueryWithPaginator(namedQueryName, parameters, start, size).values;
 	}
 
 	default Paginator<T> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters, int start, int size) throws DAOException {

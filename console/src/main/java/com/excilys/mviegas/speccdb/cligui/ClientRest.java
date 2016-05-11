@@ -9,7 +9,7 @@ public enum ClientRest {
 	INSTANCE;
 
 	private RestTemplate mRestTemplate;
-	public static final String BASE_URL = "http://localhost:8888/rest/api/";
+	public static final String BASE_URL = "http://localhost:8888";
 
 	ClientRest() {
 //		Service.create()
