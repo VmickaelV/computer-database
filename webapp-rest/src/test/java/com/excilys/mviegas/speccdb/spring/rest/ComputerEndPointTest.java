@@ -25,6 +25,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -91,9 +92,9 @@ public class ComputerEndPointTest {
 		;
 
 		Paginator<Computer> computerPaginator = mComputerService.findAllWithPaginator(0, 100);
-		computerPaginator.getValues().stream().map(ComputerDto::new);
-
-		assertEquals(mObjectMapper.writeValueAsString(computerPaginator), mvcResult.getResponse().getContentAsString());
+		Paginator<ComputerDto> dtoPaginator = new Paginator<>(computerPaginator);
+		dtoPaginator.values = computerPaginator.values.stream().map(ComputerDto::new).collect(Collectors.toList());
+		assertEquals(mvcResult.getResponse().getContentAsString(), mObjectMapper.writeValueAsString(dtoPaginator));
 	}
 
 	@Test
@@ -104,7 +105,10 @@ public class ComputerEndPointTest {
 				.andReturn()
 				;
 
-		assertEquals(mvcResult.getResponse().getContentAsString(), mObjectMapper.writeValueAsString(mComputerService.findAllWithPaginator(0, 10)));
+		Paginator<Computer> paginator = mComputerService.findAllWithPaginator(0, 10);
+		Paginator<ComputerDto> dtoPaginator = new Paginator<>(paginator);
+		dtoPaginator.values = paginator.values.stream().map(ComputerDto::new).collect(Collectors.toList());
+		assertEquals(mvcResult.getResponse().getContentAsString(), mObjectMapper.writeValueAsString(dtoPaginator));
 	}
 
 	@Test
@@ -115,7 +119,10 @@ public class ComputerEndPointTest {
 				.andReturn()
 				;
 
-		assertEquals(mvcResult.getResponse().getContentAsString(), mObjectMapper.writeValueAsString(mComputerService.findAllWithPaginator(6, 15)));
+		Paginator<Computer> paginator = mComputerService.findAllWithPaginator(6, 15);
+		Paginator<ComputerDto> dtoPaginator = new Paginator<>(paginator);
+		dtoPaginator.values = paginator.values.stream().map(ComputerDto::new).collect(Collectors.toList());
+		assertEquals(mvcResult.getResponse().getContentAsString(), mObjectMapper.writeValueAsString(dtoPaginator));
 	}
 
 	@Test

@@ -67,11 +67,11 @@ public class CompanyDAOTest {
 
 		assertNotNull(paginator);
 
-		assertEquals(1, paginator.getNbPages());
-		assertEquals(50, paginator.getElementsByPage());
-		assertEquals(42, paginator.getElementsCount());
-		assertEquals(1, paginator.getCurrentPage());
-		assertEquals(42, paginator.getValues().size());
+		assertEquals(1, paginator.nbPages);
+		assertEquals(50, paginator.elementsByPage);
+		assertEquals(42, paginator.elementsCount);
+		assertEquals(1, paginator.currentPage);
+		assertEquals(42, paginator.values.size());
 	}
 
 	@Test
@@ -80,11 +80,11 @@ public class CompanyDAOTest {
 
 		assertNotNull(paginator);
 
-		assertEquals(3, paginator.getNbPages());
-		assertEquals(20, paginator.getElementsByPage());
-		assertEquals(42, paginator.getElementsCount());
-		assertEquals(2, paginator.getCurrentPage());
-		assertEquals(20, paginator.getValues().size());
+		assertEquals(3, paginator.nbPages);
+		assertEquals(20, paginator.elementsByPage);
+		assertEquals(42, paginator.elementsCount);
+		assertEquals(2, paginator.currentPage);
+		assertEquals(20, paginator.values.size());
 	}
 	
 	@Test
@@ -106,22 +106,22 @@ public class CompanyDAOTest {
 	public void findPaginationWithPaginator1() throws Exception {
 		Paginator<Company> paginator = mCompanyDao.findAllWithPaginator(0, 40);
 
-		assertEquals(2, paginator.getNbPages());
-		assertEquals(40, paginator.getElementsByPage());
-		assertEquals(42, paginator.getElementsCount());
-		assertEquals(1, paginator.getCurrentPage());
-		assertEquals(40, paginator.getValues().size());
+		assertEquals(2, paginator.nbPages);
+		assertEquals(40, paginator.elementsByPage);
+		assertEquals(42, paginator.elementsCount);
+		assertEquals(1, paginator.currentPage);
+		assertEquals(40, paginator.values.size());
 	}
 
 	@Test
 	public void findPaginationWithPaginator3() throws Exception {
 		Paginator<Company> paginator = mCompanyDao.findAllWithPaginator(40, 10);
 
-		assertEquals(5, paginator.getNbPages());
-		assertEquals(10, paginator.getElementsByPage());
-		assertEquals(42, paginator.getElementsCount());
-		assertEquals(5, paginator.getCurrentPage());
-		assertEquals(2, paginator.getValues().size());
+		assertEquals(5, paginator.nbPages);
+		assertEquals(10, paginator.elementsByPage);
+		assertEquals(42, paginator.elementsCount);
+		assertEquals(5, paginator.currentPage);
+		assertEquals(2, paginator.values.size());
 	}
 	
 	@Test

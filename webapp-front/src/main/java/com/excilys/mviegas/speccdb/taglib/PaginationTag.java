@@ -137,9 +137,9 @@ public class PaginationTag extends SimpleTagSupport {
 		}
 
 		if (mPaginator != null) {
-			mCount = mPaginator.getElementsCount();
-			mCountByPages = mPaginator.getElementsByPage();
-			mCurrentPage = mPaginator.getCurrentPage();
+			mCount = mPaginator.elementsCount;
+			mCountByPages = mPaginator.elementsByPage;
+			mCurrentPage = mPaginator.currentPage;
 		}
 		
 		// TODO attention risque d'injection ?
@@ -224,7 +224,7 @@ public class PaginationTag extends SimpleTagSupport {
 		StringBuilder builder = new StringBuilder();
 		builder.append("PaginationTag [mUrl=");
 		builder.append(mUrl);
-		builder.append(", mCurrentPage=");
+		builder.append(", currentPage=");
 		builder.append(mCurrentPage);
 		builder.append(", mCountByPages=");
 		builder.append(mCountByPages);

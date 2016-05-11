@@ -11,9 +11,9 @@ import java.time.format.DateTimeParseException;
 
 public class ComputerUpdate implements IComputerUpdateControler {
 
-	private CompanyService mCompanyService;
+	private CompanyService mCompanyService = CompanyService.INSTANCE;
 
-	private ComputerService mComputerService;
+	private ComputerService mComputerService = ComputerService.INSTANCE;
 
 	private Computer mComputer;
 
@@ -57,7 +57,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 		// saisie date introduction
 		LocalDate dateIntroduced = null;
 		final String formatDate = "yyyy/MM/dd";
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatDate);
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE;
 
 		do {
 			if (mComputer == null || mComputer.getIntroducedDate() == null) {

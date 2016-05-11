@@ -40,7 +40,7 @@ public class CompanyEndPointTest {
 
 	private MockMvc mockMvc;
 
-	private ObjectMapper mObjectMapper;
+	private ObjectMapper mObjectMapper = new ObjectMapper();
 
 	@Autowired
 	private CompanyService mCompanyService;
@@ -112,7 +112,7 @@ public class CompanyEndPointTest {
 				.andReturn()
 				;
 
-		assertEquals(mvcResult.getResponse().getContentAsString(), objectMapper.writeValueAsString(mCompanyService.findAll(6, 15)));
+		assertEquals(mvcResult.getResponse().getContentAsString(), mObjectMapper.writeValueAsString(mCompanyService.findAll(6, 15)));
 	}
 
 	public void assertCompany(List<Company> pListExcepted, List<Company> pListResult) {

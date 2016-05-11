@@ -143,11 +143,11 @@ public class ComputerDAOTest {
 
 		assertNotNull(paginator);
 
-		assertEquals(12, paginator.getNbPages());
-		assertEquals(50, paginator.getElementsByPage());
-		assertEquals(SIZE_COMPUTER, paginator.getElementsCount());
-		assertEquals(1, paginator.getCurrentPage());
-		assertEquals(50, paginator.getValues().size());
+		assertEquals(12, paginator.nbPages);
+		assertEquals(50, paginator.elementsByPage);
+		assertEquals(SIZE_COMPUTER, paginator.elementsCount);
+		assertEquals(1, paginator.currentPage);
+		assertEquals(50, paginator.values.size());
 	}
 
 	@Test
@@ -156,11 +156,11 @@ public class ComputerDAOTest {
 
 		assertNotNull(paginator);
 
-		assertEquals(SIZE_COMPUTER/ComputerDao.BASE_SIZE_PAGE+1, paginator.getNbPages());
-		assertEquals(ComputerDao.BASE_SIZE_PAGE, paginator.getElementsByPage());
-		assertEquals(SIZE_COMPUTER, paginator.getElementsCount());
-		assertEquals(2, paginator.getCurrentPage());
-		assertEquals(ComputerDao.BASE_SIZE_PAGE, paginator.getValues().size());
+		assertEquals(SIZE_COMPUTER/ComputerDao.BASE_SIZE_PAGE+1, paginator.nbPages);
+		assertEquals(ComputerDao.BASE_SIZE_PAGE, paginator.elementsByPage);
+		assertEquals(SIZE_COMPUTER, paginator.elementsCount);
+		assertEquals(2, paginator.currentPage);
+		assertEquals(ComputerDao.BASE_SIZE_PAGE, paginator.values.size());
 	}
 	
 	@Test
@@ -169,11 +169,11 @@ public class ComputerDAOTest {
 
 		assertNotNull(paginator);
 
-		assertEquals(1, paginator.getNbPages());
-		assertEquals(1000, paginator.getElementsByPage());
-		assertEquals(SIZE_COMPUTER, paginator.getElementsCount());
-		assertEquals(1, paginator.getCurrentPage());
-		assertEquals(SIZE_COMPUTER, paginator.getValues().size());
+		assertEquals(1, paginator.nbPages);
+		assertEquals(1000, paginator.elementsByPage);
+		assertEquals(SIZE_COMPUTER, paginator.elementsCount);
+		assertEquals(1, paginator.currentPage);
+		assertEquals(SIZE_COMPUTER, paginator.values.size());
 	}
 
 	@Test
@@ -182,11 +182,11 @@ public class ComputerDAOTest {
 
 		assertNotNull(paginator);
 
-		assertEquals(6, paginator.getNbPages());
-		assertEquals(100, paginator.getElementsByPage());
-		assertEquals(SIZE_COMPUTER, paginator.getElementsCount());
-		assertEquals(6, paginator.getCurrentPage());
-		assertEquals(SIZE_COMPUTER-500, paginator.getValues().size());
+		assertEquals(6, paginator.nbPages);
+		assertEquals(100, paginator.elementsByPage);
+		assertEquals(SIZE_COMPUTER, paginator.elementsCount);
+		assertEquals(6, paginator.currentPage);
+		assertEquals(SIZE_COMPUTER-500, paginator.values.size());
 	}
 
 	@Test
@@ -445,11 +445,11 @@ public class ComputerDAOTest {
 		Paginator<Computer> paginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, "apple").and(ComputerDao.Parameters.SIZE, 20).parameters());
 
 		assertNotNull(paginator);
-		assertEquals("Error on "+paginator.toString(), 1, paginator.getNbPages());
-		assertEquals(20, paginator.getElementsByPage());
-		assertEquals(13, paginator.getElementsCount());
-		assertEquals(1, paginator.getCurrentPage());
-		assertEquals(13, paginator.getValues().size());
+		assertEquals("Error on "+paginator.toString(), 1, paginator.nbPages);
+		assertEquals(20, paginator.elementsByPage);
+		assertEquals(13, paginator.elementsCount);
+		assertEquals(1, paginator.currentPage);
+		assertEquals(13, paginator.values.size());
 	}
 
 	@Test
@@ -458,11 +458,11 @@ public class ComputerDAOTest {
 		Paginator<Computer> paginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, "pow").and(ComputerDao.Parameters.SIZE, 20).parameters());
 
 		assertNotNull(paginator);
-		assertEquals("Error on "+paginator.toString(), 3, paginator.getNbPages());
-		assertEquals(20, paginator.getElementsByPage());
-		assertEquals(47, paginator.getElementsCount());
-		assertEquals(1, paginator.getCurrentPage());
-		assertEquals(20, paginator.getValues().size());
+		assertEquals("Error on "+paginator.toString(), 3, paginator.nbPages);
+		assertEquals(20, paginator.elementsByPage);
+		assertEquals(47, paginator.elementsCount);
+		assertEquals(1, paginator.currentPage);
+		assertEquals(20, paginator.values.size());
 	}
 
 	@Test
@@ -470,11 +470,11 @@ public class ComputerDAOTest {
 		Paginator<Computer> paginator = mComputerDao.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, "pow").and(ComputerDao.Parameters.START, 40).and(ComputerDao.Parameters.SIZE, 20).parameters());
 
 		assertNotNull(paginator);
-		assertEquals("Error on "+paginator.toString(), 3, paginator.getNbPages());
-		assertEquals(20, paginator.getElementsByPage());
-		assertEquals(47, paginator.getElementsCount());
-		assertEquals(3, paginator.getCurrentPage());
-		assertEquals(7, paginator.getValues().size());
+		assertEquals("Error on "+paginator.toString(), 3, paginator.nbPages);
+		assertEquals(20, paginator.elementsByPage);
+		assertEquals(47, paginator.elementsCount);
+		assertEquals(3, paginator.currentPage);
+		assertEquals(7, paginator.values.size());
 	}
 
 	@Test
@@ -509,13 +509,13 @@ public class ComputerDAOTest {
 		}).collect(Collectors.toList());
 
 		assertNotNull(paginator);
-		assertEquals("Error on "+paginator.toString(), 3, paginator.getNbPages());
-		assertEquals(20, paginator.getElementsByPage());
-		assertEquals(47, paginator.getElementsCount());
-		assertEquals(1, paginator.getCurrentPage());
-		assertEquals(20, paginator.getValues().size());
+		assertEquals("Error on "+paginator.toString(), 3, paginator.nbPages);
+		assertEquals(20, paginator.elementsByPage);
+		assertEquals(47, paginator.elementsCount);
+		assertEquals(1, paginator.currentPage);
+		assertEquals(20, paginator.values.size());
 
-		assertEquals(list, paginator.getValues());
+		assertEquals(list, paginator.values);
 	}
 
 	@Test
@@ -532,13 +532,13 @@ public class ComputerDAOTest {
 		}).collect(Collectors.toList());
 
 		assertNotNull(paginator);
-		assertEquals("Error on "+paginator.toString(), 3, paginator.getNbPages());
-		assertEquals(20, paginator.getElementsByPage());
-		assertEquals(47, paginator.getElementsCount());
-		assertEquals(1, paginator.getCurrentPage());
-		assertEquals(20, paginator.getValues().size());
+		assertEquals("Error on "+paginator.toString(), 3, paginator.nbPages);
+		assertEquals(20, paginator.elementsByPage);
+		assertEquals(47, paginator.elementsCount);
+		assertEquals(1, paginator.currentPage);
+		assertEquals(20, paginator.values.size());
 
-		assertNotEquals(list, paginator.getValues());
+		assertNotEquals(list, paginator.values);
 	}
 
 }
