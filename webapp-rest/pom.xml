@@ -18,15 +18,45 @@
 
   <dependencies>
       <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+      </dependency>
+
+      <!-- Internal -->
+      <dependency>
           <groupId>com.excilys.mviegas.speccdb</groupId>
           <artifactId>service</artifactId>
       </dependency>
 
       <dependency>
+          <groupId>com.excilys.mviegas.speccdb</groupId>
+          <artifactId>binding</artifactId>
+      </dependency>
+
+      <!-- Validator -->
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-validator</artifactId>
+      </dependency>
+
+      <!-- Spring -->
+      <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-webmvc</artifactId>
       </dependency>
 
+      <!-- ORM -->
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-entitymanager</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-java8</artifactId>
+      </dependency>
+
+      <!-- Drivers BDD JDBC -->
       <dependency>
           <groupId>com.h2database</groupId>
           <artifactId>h2</artifactId>
@@ -40,6 +70,7 @@
           <scope>runtime</scope>
       </dependency>
 
+      <!-- Logs -->
       <dependency>
           <groupId>org.slf4j</groupId>
           <artifactId>jcl-over-slf4j</artifactId>
@@ -55,6 +86,32 @@
           <groupId>ch.qos.logback</groupId>
           <artifactId>logback-classic</artifactId>
           <scope>runtime</scope>
+      </dependency>
+
+      <!-- Tests -->
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-test</artifactId>
+          <scope>test</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.tomcat.embed</groupId>
+          <artifactId>tomcat-embed-core</artifactId>
+          <scope>test</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>com.jayway.jsonpath</groupId>
+          <artifactId>json-path</artifactId>
+          <scope>test</scope>
+      </dependency>
+
+      <!-- TODO Voir à quelle niveau il est utilisé -->
+      <dependency>
+          <groupId>org.apache.tomcat</groupId>
+          <artifactId>tomcat-el-api</artifactId>
+          <scope>test</scope>
       </dependency>
   </dependencies>
 </project>

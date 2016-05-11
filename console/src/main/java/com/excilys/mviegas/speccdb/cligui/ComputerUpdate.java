@@ -1,9 +1,9 @@
 package com.excilys.mviegas.speccdb.cligui;
 
+import com.excilys.mviegas.speccdb.cligui.services.CompanyService;
+import com.excilys.mviegas.speccdb.cligui.services.ComputerService;
 import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.persistence.ICompanyDao;
-import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +11,9 @@ import java.time.format.DateTimeParseException;
 
 public class ComputerUpdate implements IComputerUpdateControler {
 
-	private ICompanyDao mCompanyDao;
+	private CompanyService mCompanyService;
+
+	private ComputerService mComputerService;
 
 	private Computer mComputer;
 
@@ -141,12 +143,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 					continue;
 				}
 
-				try {
-					company = mCompanyDao.find(id);
-				} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-					// TODO à refaire
-					throw new RuntimeException(pE);
-				}
+				company = mCompanyService.find(id);
 
 				if (company == null) {
 					System.err.println("Saisissez un ID valide");
@@ -163,17 +160,15 @@ public class ComputerUpdate implements IComputerUpdateControler {
 
 			mComputer = builder.build();
 
-			ComputerDao.getInstance().create(mComputer);
+			mComputerService.create(mComputer);
 		} else {
 			mComputer.setName(name);
 			mComputer.setIntroducedDate(dateIntroduced);
 
-			ComputerDao.getInstance().update(mComputer);
+			mComputerService.update(mComputer);
 		}
 		
 		valid();
-
-		
 	}
 	
 	
@@ -190,7 +185,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 
 	public static IComputerUpdateControler make(int pId) {
 		Computer computer;
-		computer = ComputerDao.getInstance().find(pId);
+		computer = ComputerService.INSTANCE.find(pId);
 
 		if (computer == null) {
 			// throw new IllegalArgumentException();
@@ -205,7 +200,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 			return null;
 		}
 
-		pComputer = ComputerDao.getInstance().find(pComputer.getId());
+		pComputer = ComputerService.INSTANCE.find(pComputer.getId());
 		if (pComputer == null) {
 			return null;
 		}

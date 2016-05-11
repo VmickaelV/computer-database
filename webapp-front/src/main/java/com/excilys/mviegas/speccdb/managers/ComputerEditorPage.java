@@ -9,6 +9,7 @@ import com.excilys.mviegas.speccdb.services.ComputerService;
 import com.excilys.mviegas.speccdb.spring.Message;
 import com.excilys.mviegas.speccdb.spring.Message.Level;
 import com.excilys.mviegas.speccdb.spring.singletons.ListOfCompanies;
+import com.excilys.mviegas.speccdb.validators.CompanyIdValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import static com.excilys.mviegas.speccdb.validators.ComputerDateValidator.isValidDate;
+import static com.excilys.mviegas.speccdb.validators.ComputerNameValidator.isValidName;
 
 /**
  * Bean lié à la gestion d'un ordinateur
@@ -171,45 +175,17 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	public boolean isEditing() {
 		return mId > 0;
 	}
-	
-	public boolean hasValidName() {
-		// TODO refvoir ce début de condition
-		return (mAction == null || mAction.equals("")) || (mName != null && !mName.isEmpty());
-	}
 
 	public boolean hasValidIntroducedDate() {
-		return isValidOptionnalDate(mIntroducedDate);
+		return isValidDate(mIntroducedDate, sDateTimeFormatter);
 	}
 
 	public boolean hasValidDiscontinuedDate() {
-		return isValidOptionnalDate(mDiscontinuedDate);
-	}
-
-	public boolean hasValidIdCompany() {
-		try {
-			return mIdCompany == 0 || mCompanyService.find(mIdCompany) != null;
-		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-			LOGGER.error(pE.getMessage(), pE);
-			mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
-			return false;
-		}
+		return isValidDate(mDiscontinuedDate, sDateTimeFormatter);
 	}
 
 	public boolean isValidForm() {
-		return hasValidName() && hasValidIntroducedDate() && hasValidDiscontinuedDate() && hasValidIdCompany();
-	}
-
-	private static boolean isValidOptionnalDate(String pDate) {
-		if (pDate == null || pDate.isEmpty()) {
-			return true;
-		} else {
-			try {
-				LocalDate.parse(pDate, sDateTimeFormatter);
-				return true;
-			} catch (DateTimeParseException e) {
-				return false;
-			}
-		}
+		return (mAction == null || mAction.equals("")) && isValidName(mName) && hasValidIntroducedDate() && hasValidDiscontinuedDate() && CompanyIdValidator.isValidIdCompany(mIdCompany);
 	}
 
 	private Computer makeComputer() {

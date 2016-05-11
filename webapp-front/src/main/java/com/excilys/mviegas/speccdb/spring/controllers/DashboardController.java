@@ -23,27 +23,27 @@ public class DashboardController {
 	public static final Logger LOGGER = LoggerFactory.getLogger(DashboardController.class);
 
 	@RequestMapping(value = "/dashboard", method = {RequestMethod.GET})
-	public String get(@Valid DashboardPage pDashboardManagerBean, ModelMap pModelMap) {
-		pDashboardManagerBean.setComputerService(mComputerService);
-		pDashboardManagerBean.update();
+	public String get(@Valid DashboardPage pDashboardPage, ModelMap pModelMap) {
+		pDashboardPage.setComputerService(mComputerService);
+		pDashboardPage.update();
 
-		pModelMap.put("dashboardManager", pDashboardManagerBean);
+		pModelMap.put("dashboardManager", pDashboardPage);
 		return "dashboard";
 	}
 	
 	@RequestMapping(value = "/dashboard", method = {RequestMethod.POST})
-	public String delete(DashboardPage pDashboardManagerBean, ModelMap pModelMap) {
-		if (pDashboardManagerBean.getSelection() == null  || pDashboardManagerBean.getSelection().isEmpty()) {
+	public String delete(DashboardPage pDashboardPage, ModelMap pModelMap) {
+		if (pDashboardPage.getSelection() == null  || pDashboardPage.getSelection().isEmpty()) {
 			throw new RuntimeException();
 		}
 
-		pDashboardManagerBean.setComputerService(mComputerService);
+		pDashboardPage.setComputerService(mComputerService);
 
-		boolean result = pDashboardManagerBean.delete();
+		boolean result = pDashboardPage.delete();
 		
-		pModelMap.put("dashboardManager", pDashboardManagerBean);
+		pModelMap.put("dashboardManager", pDashboardPage);
 		pModelMap.put("deleteSuccessful", result);
-		pDashboardManagerBean.update();
+		pDashboardPage.update();
 		
 		return "dashboard";
 	}
