@@ -1,11 +1,13 @@
 package com.excilys.mviegas.speccdb.cligui;
 
+import com.excilys.mviegas.speccdb.cligui.services.ComputerService;
 import com.excilys.mviegas.speccdb.controlers.IComputerDetailControler;
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 
 public class ComputerDetail implements IComputerDetailControler {
-	
+
+	private ComputerService mComputerService;
+
 	private Computer mComputer;
 	
 	private ComputerDetail(Computer pComputer) {
@@ -89,14 +91,7 @@ public class ComputerDetail implements IComputerDetailControler {
 		System.out.println("Êtes-vous sur ? (O/n)");
 		
 		if (MainMenuControleur.SCANNER.next().equals("O")) {
-			try {
-				if (!ComputerDao.getInstance().delete(mComputer)) {
-					throw new RuntimeException();
-				}
-			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-				// TODO à refaire
-				throw new RuntimeException(pE);
-			}
+			mComputerService.delete(mComputer);
 
 			System.out.printf("[!] Ordinateur %s (n°%d) supprimé avec succès%n", mComputer.getName(), mComputer.getId());
 			return true;
@@ -113,7 +108,7 @@ public class ComputerDetail implements IComputerDetailControler {
 
 	public static IComputerDetailControler make(int pId) {
 		Computer computer;
-		computer = ComputerDao.getInstance().find(pId);
+		computer = ComputerService.INSTANCE.find(pId);
 
 		if (computer == null) {
 			return null;
@@ -127,7 +122,7 @@ public class ComputerDetail implements IComputerDetailControler {
 			return null;
 		}
 
-		pComputer = ComputerDao.getInstance().find(pComputer.getId());
+		pComputer = ComputerService.INSTANCE.find(pComputer.getId());
 		if (pComputer == null) {
 			return null;
 		}

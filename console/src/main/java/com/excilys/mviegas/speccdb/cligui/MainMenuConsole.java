@@ -1,6 +1,5 @@
 package com.excilys.mviegas.speccdb.cligui;
 
-import com.excilys.mviegas.speccdb.C;
 import com.excilys.mviegas.speccdb.controlers.IMainMenuControler;
 
 public class MainMenuConsole {
@@ -14,8 +13,7 @@ public class MainMenuConsole {
 	}
 	
 	public void display() {
-		
-		C.Loggers.RUNTIME.info("Lancement du programme");
+
 		System.out.println("*******************************************************************");
 		System.out.println("***                                                             ***");
 		System.out.println("***                  Gestionaire d'ordinateurs                  ***");
@@ -55,8 +53,6 @@ public class MainMenuConsole {
 	public void close() {
 		System.out.println("\n\n-------------------------------------------------------------------");
 		System.out.print("FIN");
-		
-		C.Loggers.RUNTIME.info("Exctinction du programme");
 	}
 	
 	public static void printBread(String pLink) {

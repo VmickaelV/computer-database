@@ -1,9 +1,9 @@
 package com.excilys.mviegas.speccdb.cligui;
 
+import com.excilys.mviegas.speccdb.cligui.services.ComputerService;
 import com.excilys.mviegas.speccdb.controlers.IComputersListViewControler;
 import com.excilys.mviegas.speccdb.data.Computer;
-import com.excilys.mviegas.speccdb.exceptions.DAOException;
-import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.persistence.Paginator;
 
 import java.util.List;
 import java.util.Scanner;
@@ -15,6 +15,10 @@ public enum ComputersListView implements IComputersListViewControler {
 	public static final String FORMAT_LINE = "%3s | %15.15s | %10s | %10s | %10s%n";
 	private int mStart = 0;
 	private int mSize = 20;
+
+	private Paginator<Computer> mPaginator;
+
+	private ComputerService mComputerService;
 	
 	
 
@@ -29,16 +33,16 @@ public enum ComputersListView implements IComputersListViewControler {
 	 */
 	@Override
 	public void nextPage() {
-		try {
-			if ((mStart + mSize) < ComputerDao.getInstance().size()) {
-				mStart += mSize;
-			} else {
-				System.err.println("Fin de liste atteinte !");
-			}
-		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-			// TODO à refaire
-			throw new RuntimeException(pE);
-		}
+//		try {
+//			if ((mStart + mSize) < ComputerService.INSTANCE.size()) {
+//				mStart += mSize;
+//			} else {
+//				System.err.println("Fin de liste atteinte !");
+//			}
+//		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
+//			 TODO à refaire
+//			throw new RuntimeException(pE);
+//		}
 		printPage();
 	}
 	
@@ -68,12 +72,7 @@ public enum ComputersListView implements IComputersListViewControler {
 	private void printPage() {
 		printHeaderList();
 		List<Computer> computers;
-		try {
-			computers = ComputerDao.getInstance().findAll(mStart, mSize);
-		} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
-			// TODO a modifier
-			throw new RuntimeException(pE);
-		}
+		computers = ComputerService.INSTANCE.findAll(mStart, mSize);
 
 		if (computers.size() == 0) {
 			System.out.println("Aucune donnée.");
@@ -144,20 +143,13 @@ public enum ComputersListView implements IComputersListViewControler {
 			
 			id = MainMenuControleur.SCANNER.nextInt();
 			Computer computer;
-			computer = ComputerDao.getInstance().find(id);
+			computer = ComputerService.INSTANCE.find(id);
 			if (computer == null) {
 				System.err.printf("Ordinateur avec l'ID n°%d introuvable%nVeuillez saisir un ID valide%n", id);
 				continue;
 			}
 
-			try {
-				if (!ComputerDao.getInstance().delete(computer)) {
-					throw new RuntimeException();
-				}
-			} catch (DAOException pE) {
-				// TODO a implémenter
-				throw new RuntimeException();
-			}
+			ComputerService.INSTANCE.delete(computer);
 
 			printPage();
 			
@@ -191,7 +183,7 @@ public enum ComputersListView implements IComputersListViewControler {
 			id = Integer.valueOf(MainMenuControleur.SCANNER.next());
 
 			Computer computer;
-			computer = ComputerDao.getInstance().find(id);
+			computer = ComputerService.INSTANCE.find(id);
 
 			if (computer == null) {
 				System.err.printf("Ordinateur avec l'ID n°%d introuvable%nVeuillez saisir un ID valide%n", id);

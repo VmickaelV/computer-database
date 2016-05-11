@@ -35,7 +35,7 @@ public class CompanyEndpoint {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Company> findAll(@RequestParam(value = "start", defaultValue = "0") int pStart, @RequestParam(value = "size", defaultValue = "20") int pSize) throws DAOException {
+	public List<Company> findAll(@RequestParam(value = "start", defaultValue = "0") int pStart, @RequestParam(value = "size", defaultValue = "0") int pSize) throws DAOException {
 
 		if (pSize > 50) {
 			throw new IllegalArgumentException();
@@ -46,7 +46,7 @@ public class CompanyEndpoint {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Company find(@PathVariable("id") int pId) throws DAOException {
+	public ResponseEntity<Company> find(@PathVariable("id") int pId) throws DAOException {
 		System.out.println("CompanyEndpoint.find");
 		System.out.println("pId = [" + pId + "]");
 		Company company = mCompanyService.find(pId);
@@ -54,7 +54,7 @@ public class CompanyEndpoint {
 		if (company == null) {
 			throw new ResourceNotFound();
 		}
-		return company;
+		return new ResponseEntity<>(company, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/test", method = RequestMethod.GET)

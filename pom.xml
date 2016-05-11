@@ -116,7 +116,11 @@
         <spring-security-web.version>${spring-security.version}</spring-security-web.version>
         <spring-security-config.version>${spring-security.version}</spring-security-config.version>
         <spring-security-taglibs.version>${spring-security.version}</spring-security-taglibs.version>
-        <jackson-databind.version>2.7.4</jackson-databind.version>
+
+        <jackson.version>2.7.4</jackson.version>
+        <jackson-databind.version>${jackson.version}</jackson-databind.version>
+        <jackson-annotations.version>${jackson.version}</jackson-annotations.version>
+        <json-path.version>2.2.0</json-path.version>
     </properties>
 
     <build>
@@ -472,6 +476,11 @@
                 <version>${jackson-databind.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson-annotations.version}</version>
+            </dependency>
 
             <!-- Dépendance de Tomcat & JavaEE -->
 
@@ -738,6 +747,13 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>${spring-test.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jayway.jsonpath</groupId>
+                <artifactId>json-path</artifactId>
+                <version>${json-path.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

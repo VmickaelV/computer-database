@@ -20,6 +20,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.excilys.mviegas.speccdb</groupId>
+            <artifactId>binding</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
         </dependency>
@@ -59,11 +64,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
         </dependency>
 
         <dependency>
