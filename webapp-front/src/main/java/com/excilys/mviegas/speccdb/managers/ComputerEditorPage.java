@@ -176,12 +176,20 @@ public class ComputerEditorPage implements IEditorComputerControler {
 		return mId > 0;
 	}
 
+	public boolean hasValidName() {
+		return isValidName(mName);
+	}
+
 	public boolean hasValidIntroducedDate() {
 		return isValidDate(mIntroducedDate, sDateTimeFormatter);
 	}
 
 	public boolean hasValidDiscontinuedDate() {
 		return isValidDate(mDiscontinuedDate, sDateTimeFormatter);
+	}
+
+	public boolean hasValidIdCompany() {
+		return CompanyIdValidator.isValidIdCompany(mIdCompany);
 	}
 
 	public boolean isValidForm() {
