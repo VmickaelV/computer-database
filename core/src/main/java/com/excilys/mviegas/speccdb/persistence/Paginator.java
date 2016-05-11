@@ -81,6 +81,49 @@ public class Paginator<T> {
 		}
 	}
 
+	//=============================================================
+	// Getters & Setters
+	//=============================================================
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(int pCurrentPage) {
+		currentPage = pCurrentPage;
+	}
+
+	public int getElementsCount() {
+		return elementsCount;
+	}
+
+	public void setElementsCount(int pElementsCount) {
+		elementsCount = pElementsCount;
+	}
+
+	public int getElementsByPage() {
+		return elementsByPage;
+	}
+
+	public void setElementsByPage(int pElementsByPage) {
+		elementsByPage = pElementsByPage;
+	}
+
+	public List<T> getValues() {
+		return values;
+	}
+
+	public void setValues(List<T> pValues) {
+		values = pValues;
+	}
+
+	public int getNbPages() {
+		return nbPages;
+	}
+
+	public void setNbPages(int pNbPages) {
+		nbPages = pNbPages;
+	}
+
 	//===========================================================
 	// Méthodes - Object
 	//===========================================================
