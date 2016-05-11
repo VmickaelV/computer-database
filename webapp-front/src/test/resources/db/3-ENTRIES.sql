@@ -1,5 +1,3 @@
-CREATE INDEX `index_name` ON `computer` (`name`);
-
 DELETE FROM `computer`;
 DELETE FROM `company`;
 
