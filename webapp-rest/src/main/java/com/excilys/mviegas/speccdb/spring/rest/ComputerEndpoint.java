@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
+ * Endpoint de {@link Computer}
+ *
  * @author VIEGAS Mickael
  */
 @RestController

@@ -19,7 +19,7 @@
         </encoder>
     </appender>
 
-    <logger name="debug" level="DEBUG"><appender-ref ref="daily"/></logger>
+    <!--<logger name="debug" level="DEBUG"><appender-ref ref="daily"/></logger>-->
     <!--<logger name="console" level="WARN"><appender-ref ref="daily"/></logger>-->
     <root level="WARN" >
         <appender-ref ref="console"/>

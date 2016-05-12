@@ -13,10 +13,11 @@
   <packaging>war</packaging>
 
   <build>
-    <finalName>rest</finalName>
+      <finalName>rest</finalName>
   </build>
 
   <dependencies>
+      <!-- JSON binding -->
       <dependency>
           <groupId>com.fasterxml.jackson.core</groupId>
           <artifactId>jackson-databind</artifactId>
@@ -66,7 +67,6 @@
       <dependency>
           <groupId>mysql</groupId>
           <artifactId>mysql-connector-java</artifactId>
-          <version>${mysql-connector-java.version}</version>
           <scope>runtime</scope>
       </dependency>
 
@@ -107,7 +107,6 @@
           <scope>test</scope>
       </dependency>
 
-      <!-- TODO Voir à quelle niveau il est utilisé -->
       <dependency>
           <groupId>org.apache.tomcat</groupId>
           <artifactId>tomcat-el-api</artifactId>
