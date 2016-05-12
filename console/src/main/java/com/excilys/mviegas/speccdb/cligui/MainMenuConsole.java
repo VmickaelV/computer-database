@@ -2,16 +2,32 @@ package com.excilys.mviegas.speccdb.cligui;
 
 import com.excilys.mviegas.speccdb.controlers.IMainMenuControler;
 
+/**
+ * View du menu principale
+ */
 public class MainMenuConsole {
+
+	//=============================================================
+	// Attributs
+	//=============================================================
+
 	private IMainMenuControler mMainMenuControler;
 	
-	String[] menu = new String[] {"Voir la liste des companies", "Voir la liste des ordinateurs", "Ajouter un ordinateur"};
+	private String[] menu = new String[] {"Voir la liste des companies", "Voir la liste des ordinateurs", "Ajouter un ordinateur"};
+
+	//=============================================================
+	// Contructeurs
+	//=============================================================
 
 	protected MainMenuConsole(IMainMenuControler pMainMenuControler) {
 		super();
 		mMainMenuControler = pMainMenuControler;
 	}
-	
+
+	//=============================================================
+	// Méthodes
+	//=============================================================
+
 	public void display() {
 
 		System.out.println("*******************************************************************");
@@ -52,7 +68,11 @@ public class MainMenuConsole {
 		System.out.println("\n\n-------------------------------------------------------------------");
 		System.out.print("FIN");
 	}
-	
+
+	//=============================================================
+	// Méthodes - static
+	//=============================================================
+
 	public static void printBread(String pLink) {
 		System.out.println("");
 		System.out.println(" > "+pLink);

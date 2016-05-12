@@ -13,11 +13,13 @@
     <name>console</name>
 
     <dependencies>
+        <!-- Internal -->
         <dependency>
             <groupId>com.excilys.mviegas.speccdb</groupId>
             <artifactId>binding</artifactId>
         </dependency>
 
+        <!-- Client REST -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
@@ -28,6 +30,7 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
+        <!-- Logback (à cause de client REST Spring) -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>

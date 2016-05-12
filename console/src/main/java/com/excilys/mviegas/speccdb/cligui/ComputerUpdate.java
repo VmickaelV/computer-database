@@ -9,7 +9,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Controleur d'un Update ou d'ajout de {@link Computer}
+ */
 public class ComputerUpdate implements IComputerUpdateControler {
+
+	//=============================================================
+	// Attributs
+	//=============================================================
 
 	private CompanyService mCompanyService = CompanyService.INSTANCE;
 
@@ -17,9 +24,17 @@ public class ComputerUpdate implements IComputerUpdateControler {
 
 	private Computer mComputer;
 
+	//=============================================================
+	// Constructors
+	//=============================================================
+
 	private ComputerUpdate(Computer pComputer) {
 		mComputer = pComputer;
 	}
+
+	//=============================================================
+	// Override - IComputerUpdateControler
+	//=============================================================
 
 	/* (non-Javadoc)
 	 * @see IComputerUpdateControler#launch()
@@ -183,6 +198,15 @@ public class ComputerUpdate implements IComputerUpdateControler {
 		System.out.printf("[!] Ordinateur %s (ID:%d) bien enregistrées%n", mComputer.getName(), mComputer.getId());
 	}
 
+	//=============================================================
+	// Méthodes static - public
+	//=============================================================
+
+	/**
+	 * Factory de ComputerUpdate
+	 * @param pId Id du computeur à éditer
+	 * @return Controleur, ou null si computer introuvable
+	 */
 	public static IComputerUpdateControler make(int pId) {
 		Computer computer;
 		computer = ComputerService.INSTANCE.find(pId);
@@ -195,6 +219,9 @@ public class ComputerUpdate implements IComputerUpdateControler {
 		}
 	}
 
+	/**
+	 * @see ComputerUpdate#make(int)
+	 */
 	public static IComputerUpdateControler make(Computer pComputer) {
 		if (pComputer == null) {
 			return null;
@@ -208,6 +235,10 @@ public class ComputerUpdate implements IComputerUpdateControler {
 		return new ComputerUpdate(pComputer);
 	}
 
+	/**
+	 * Factory de ComputerUpdate pour un ajout d'ordinateur
+	 * @return Controleur crée
+	 */
 	public static IComputerUpdateControler make() {
 		return new ComputerUpdate(null);
 	}

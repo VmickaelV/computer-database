@@ -4,16 +4,31 @@ import com.excilys.mviegas.speccdb.cligui.services.ComputerService;
 import com.excilys.mviegas.speccdb.controlers.IComputerDetailControler;
 import com.excilys.mviegas.speccdb.data.Computer;
 
+/**
+ * Controleur d'affiche d'un {@link Computer} en Détail
+ */
 public class ComputerDetail implements IComputerDetailControler {
+
+	//=============================================================
+	// Attributs
+	//=============================================================
 
 	private ComputerService mComputerService;
 
 	private Computer mComputer;
-	
+
+	//=============================================================
+	// Constructeurs
+	//=============================================================
+
 	private ComputerDetail(Computer pComputer) {
 		mComputer = pComputer;
 	}
-	
+
+	//=============================================================
+	// Méthodes private
+	//=============================================================
+
 	private void printDetail() {
 		MainMenuConsole.printBread("Ordinateur n°"+mComputer.getId()+" : "+mComputer.getName());
 		
@@ -23,6 +38,10 @@ public class ComputerDetail implements IComputerDetailControler {
 		System.out.printf("%15s : %s%n", "FIN PRODUCTION", mComputer.getDiscontinuedDate() == null ? "(N/A)" : mComputer.getDiscontinuedDate());
 		System.out.printf("%15s : %s%n", "FABRICANT", mComputer.getManufacturer() == null ? "(N/A)" : mComputer.getManufacturer().getName());
 	}
+
+	//=============================================================
+	// Override - IComputerDetailControler
+	//=============================================================
 	
 	/* (non-Javadoc)
 	 * @see com.excilys.mviegas.speccdb.ui.cligui.IComputerDetail#delete()
@@ -87,6 +106,10 @@ public class ComputerDetail implements IComputerDetailControler {
 		}
 	}
 
+	//=============================================================
+	// Méthodes private
+	//=============================================================
+
 	private boolean deleteComputer() {
 		System.out.println("Êtes-vous sur ? (O/n)");
 		
@@ -105,6 +128,10 @@ public class ComputerDetail implements IComputerDetailControler {
 		System.out.println(MainMenuControleur.SEPARATOR);
 		System.out.print("(d : delete, q : quitter, u : update)\n? > ");
 	}
+
+	//=============================================================
+	// Méthodes static - public
+	//=============================================================
 
 	public static IComputerDetailControler make(int pId) {
 		Computer computer;

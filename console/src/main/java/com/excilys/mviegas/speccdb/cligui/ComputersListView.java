@@ -7,11 +7,19 @@ import com.excilys.mviegas.speccdb.persistence.Paginator;
 
 import java.util.List;
 
+/**
+ * View d'une liste de Computer en CLI
+ */
 public enum ComputersListView implements IComputersListViewControler {
 
 	INSTANCE;
 
 	public static final String FORMAT_LINE = "%3s | %15.15s | %10s | %10s | %10s%n";
+
+	//=============================================================
+	// Attributs
+	//=============================================================
+
 	private int mStart = 0;
 	private int mSize = 20;
 
@@ -19,53 +27,14 @@ public enum ComputersListView implements IComputersListViewControler {
 
 	private ComputerService mComputerService;
 
-
+	//=============================================================
+	// Méthodes - private
+	//=============================================================
 
 	private void printHeaderList() {
 		System.out.println();
 		System.out.printf(FORMAT_LINE, "ID", "NOM", "DATE CREATION", "DATE FIN", "FABRICANT");
 		System.out.println("-------------------------------------------------------------------");
-	}
-
-	/* (non-Javadoc)
-	 * @see com.excilys.mviegas.speccdb.ui.cligui.IComputersListView#nextPage()
-	 */
-	@Override
-	public void nextPage() {
-		if (mPaginator.currentPage >= mPaginator.nbPages) {
-			System.err.println("Fin de liste atteinte !");
-		} else {
-			mStart += mSize;
-		}
-
-		invalidatePaginator();
-		printPage();
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.excilys.mviegas.speccdb.ui.cligui.IComputersListView#previousPage()
-	 */
-	@Override
-	public void previousPage() {
-		mStart -= mSize;
-		if (mStart < 0) {
-			mStart = 0;
-			System.err.println("Début de liste atteinte !");
-		}
-
-		invalidatePaginator();
-		printPage();
-	}
-
-	
-	/* (non-Javadoc)
-	 * @see com.excilys.mviegas.speccdb.ui.cligui.IComputersListView#setSize(int)
-	 */
-	@Override
-	public void setSize(int pSize) {
-		mSize = pSize;
-		invalidatePaginator();
-		printPage();
 	}
 
 	private void printPage() {
@@ -87,13 +56,62 @@ public enum ComputersListView implements IComputersListViewControler {
 		System.out.print("(n : nextPage, p : previousPage, q : quit, id : view specific computer)\n? > ");
 	}
 
+	private void invalidatePaginator() {
+		mPaginator = ComputerService.INSTANCE.findAllWithPaginator(mStart, mSize);
+	}
+
+	//=============================================================
+	// Override - IComputersListViewControler
+	//=============================================================
+	/* (non-Javadoc)
+	 * @see com.excilys.mviegas.speccdb.ui.cligui.IComputersListView#nextPage()
+	 */
+	@Override
+	public void nextPage() {
+		if (mPaginator.currentPage >= mPaginator.nbPages) {
+			System.err.println("Fin de liste atteinte !");
+		} else {
+			mStart += mSize;
+		}
+
+		invalidatePaginator();
+		printPage();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.excilys.mviegas.speccdb.ui.cligui.IComputersListView#previousPage()
+	 */
+	@Override
+	public void previousPage() {
+		mStart -= mSize;
+		if (mStart < 0) {
+			mStart = 0;
+			System.err.println("Début de liste atteinte !");
+		}
+
+		invalidatePaginator();
+		printPage();
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.excilys.mviegas.speccdb.ui.cligui.IComputersListView#setSize(int)
+	 */
+	@Override
+	public void setSize(int pSize) {
+		mSize = pSize;
+		invalidatePaginator();
+		printPage();
+	}
+
+
 	/* (non-Javadoc)
 	 * @see com.excilys.mviegas.speccdb.ui.cligui.IComputersListView#launch()
 	 */
 	@Override
 	public void launch() {
 		invalidatePaginator();
-		
+
 		MainMenuConsole.printBread("Liste des ordinateurs");
 
 		printPage();
@@ -125,10 +143,6 @@ public enum ComputersListView implements IComputersListViewControler {
 				continue;
 			}
 		}
-	}
-
-	private void invalidatePaginator() {
-		mPaginator = ComputerService.INSTANCE.findAllWithPaginator(mStart, mSize);
 	}
 
 	/* (non-Javadoc)
