@@ -17,7 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static com.excilys.mviegas.speccdb.DatabaseUtils.resetDatabase;
+import static com.excilys.mviegas.speccdb.utils.DatabaseUtils.resetDatabase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/beans-back.xml"})

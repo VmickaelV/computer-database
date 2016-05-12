@@ -68,7 +68,7 @@ public class ComputerEditorPage implements IEditorComputerControler {
 
 	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	private List<Message> mMessages = new LinkedList<>();
-	
+
 	//===========================================================
 	// Constructeurs
 	//===========================================================
@@ -325,7 +325,7 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	/**
 	 * Map une map à la liste des attributs du bean.
 	 *
-	 * @param map Map à convertir
+	 * @param map M
 	 */
 	public void map(Map<String, String> map) {
 		if (LOGGER.isDebugEnabled()) {

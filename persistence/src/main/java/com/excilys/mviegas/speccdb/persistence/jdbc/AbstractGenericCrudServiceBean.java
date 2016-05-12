@@ -50,6 +50,11 @@ public abstract class AbstractGenericCrudServiceBean<T extends Identifiable> imp
 		entityBeanType = ((Class) ((ParameterizedType) c.getGenericSuperclass()).getActualTypeArguments()[0]);
 	}
 
+	public AbstractGenericCrudServiceBean(EntityManager pEntityManager) {
+		this();
+		mEntityManager = pEntityManager;
+	}
+
 	//=============================================================
 	// Override
 	//=============================================================

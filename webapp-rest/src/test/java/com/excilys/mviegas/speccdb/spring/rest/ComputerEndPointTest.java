@@ -5,6 +5,7 @@ import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.dto.ComputerDto;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.services.ComputerService;
+import com.excilys.mviegas.speccdb.utils.DatabaseUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -23,12 +24,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,6 +56,7 @@ public class ComputerEndPointTest {
 	@Before
 	public void setUp() throws Exception {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+		DatabaseUtils.resetDatabase();
 	}
 
 	@Test
@@ -351,7 +354,113 @@ public class ComputerEndPointTest {
 		assertEquals(n-3, mComputerService.size());
 	}
 
+	@Test
+	public void updateWrongId() throws Exception {
+		int n = mComputerService.size();
 
+		Computer computer = mComputerService.find(26);
+//		String previous
+		MvcResult mvcResult =
+				mockMvc
+						.perform(put(URI.create("/computers/25"))
+								.contentType(MediaType.APPLICATION_JSON_UTF8)
+								.content(mObjectMapper.writeValueAsString(new ComputerDto(computer))))
+						.andExpect(status().isBadRequest())
+						.andExpect(content().string("Wrong argument id"))
+						.andReturn()
+				;
+
+		assertEquals(n, mComputerService.size());
+	}
+
+	@Test
+	public void update() throws Exception {
+		int n = mComputerService.size();
+
+		final int id = 25;
+		Computer computer = mComputerService.find(id);
+		final String previousName = computer.getName();
+		final String newName = "NouveauNom";
+
+		assertNotEquals(previousName, newName);
+		computer.setName(newName);
+		MvcResult mvcResult =
+				mockMvc
+						.perform(put(URI.create("/computers/"+id))
+								.contentType(MediaType.APPLICATION_JSON_UTF8)
+								.content(mObjectMapper.writeValueAsString(new ComputerDto(computer))))
+						.andExpect(status().isNoContent())
+						.andExpect(content().string(""))
+						.andReturn()
+				;
+
+		computer = mComputerService.find(id);
+
+		assertEquals(newName, computer.getName());
+
+		assertEquals(n, mComputerService.size());
+	}
+
+	@Test
+	public void updateWithDateAndCompany() throws Exception {
+		int n = mComputerService.size();
+
+		final int id = 25;
+		Computer computer = mComputerService.find(id);
+		final String previousName = computer.getName();
+		final String newName = "NouveauNom";
+
+		assertNotEquals(previousName, newName);
+		computer.setName(newName);
+		ComputerDto computerDto = new ComputerDto(computer);
+		computerDto.setIntroducedDate("2015-12-01");
+		MvcResult mvcResult =
+				mockMvc
+						.perform(put(URI.create("/computers/"+id))
+								.contentType(MediaType.APPLICATION_JSON_UTF8)
+								.content(mObjectMapper.writeValueAsString(computerDto)))
+						.andExpect(status().isNoContent())
+						.andExpect(content().string(""))
+						.andReturn()
+				;
+
+		computer = mComputerService.find(id);
+
+		assertEquals(newName, computer.getName());
+		assertEquals(LocalDate.of(2015, Month.DECEMBER, 1), computer.getIntroducedDate());
+
+		assertEquals(n, mComputerService.size());
+	}
+
+	@Test
+	public void updateWrongFormatDate() throws Exception {
+		int n = mComputerService.size();
+
+		final int id = 25;
+		Computer computer = mComputerService.find(id);
+		final String previousName = computer.getName();
+		final String newName = "NouveauNom";
+
+		assertNotEquals(previousName, newName);
+		computer.setName(newName);
+		ComputerDto computerDto = new ComputerDto(computer);
+		computerDto.setIntroducedDate("2015-13-01");
+		MvcResult mvcResult =
+				mockMvc
+						.perform(put(URI.create("/computers/"+id))
+								.contentType(MediaType.APPLICATION_JSON_UTF8)
+								.content(mObjectMapper.writeValueAsString(computerDto)))
+						.andExpect(status().isBadRequest())
+						.andExpect(content().string("Not Valid Computer"))
+						.andReturn()
+				;
+
+		computer = mComputerService.find(id);
+
+		assertEquals(previousName, computer.getName());
+
+		assertEquals(n, mComputerService.size());
+	}
 
 	public void assertCompany(List<Company> pListExcepted, List<Company> pListResult) {
 		Iterator<Company> iteratorExcepted = pListExcepted.iterator();

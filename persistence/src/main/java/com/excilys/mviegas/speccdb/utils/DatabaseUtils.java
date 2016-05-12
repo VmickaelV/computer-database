@@ -1,4 +1,4 @@
-package com.excilys.mviegas.speccdb;
+package com.excilys.mviegas.speccdb.utils;
 
 /**
  * Created by excilys on 22/04/16.
@@ -13,8 +13,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by excilys on 20/04/16.
@@ -58,11 +56,15 @@ public class DatabaseUtils {
 
 		try (Statement statement = connection.createStatement(); ResultSet resultSetComputer = statement.executeQuery("SELECT COUNT(*) FROM computer")) {
 			resultSetComputer.next();
-			assertEquals(574, resultSetComputer.getLong(1));
+			if (574 != resultSetComputer.getLong(1)) {
+				throw new RuntimeException();
+			}
 
 			try ( ResultSet resultSetCompany = statement.executeQuery("SELECT COUNT(*) FROM company")) {
 				resultSetCompany.next();
-				assertEquals(42, resultSetCompany.getLong(1));
+				if (42 != resultSetCompany.getLong(1)) {
+					throw new RuntimeException();
+				}
 			}
 		}
 

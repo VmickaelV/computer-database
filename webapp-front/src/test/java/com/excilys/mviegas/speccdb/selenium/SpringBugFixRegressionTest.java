@@ -1,6 +1,6 @@
 package com.excilys.mviegas.speccdb.selenium;
 
-import com.excilys.mviegas.speccdb.DatabaseUtils;
+import com.excilys.mviegas.speccdb.utils.DatabaseUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;

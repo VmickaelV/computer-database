@@ -6,6 +6,7 @@ import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.persistence.ICompanyDao;
 import com.excilys.mviegas.speccdb.persistence.IComputerDao;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
+import com.excilys.mviegas.speccdb.utils.DatabaseUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;

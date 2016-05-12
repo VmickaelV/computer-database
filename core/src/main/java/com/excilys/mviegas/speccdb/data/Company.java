@@ -31,6 +31,11 @@ public class Company implements Identifiable {
 		super();
 	}
 
+	public Company(long pId, String pName) {
+		mId = pId;
+		mName = pName;
+	}
+
 	// ===========================================================
 	// Getters & Setters
 	// ===========================================================

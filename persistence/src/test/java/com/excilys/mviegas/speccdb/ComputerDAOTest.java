@@ -7,6 +7,7 @@ import com.excilys.mviegas.speccdb.persistence.IComputerDao;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.QueryParameter;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
+import com.excilys.mviegas.speccdb.utils.DatabaseUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
