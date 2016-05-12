@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Service d'accès à des {@link Computer}
+ *
  * Created by excilys on 18/04/16.
  */
 @Service

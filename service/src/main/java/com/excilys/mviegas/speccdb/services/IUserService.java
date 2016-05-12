@@ -4,7 +4,9 @@ import com.excilys.mviegas.speccdb.data.User;
 import com.excilys.mviegas.speccdb.persistence.Crudable;
 
 /**
- * Created by excilys on 22/04/16.
+ * Interface d'utilssation d'un UserService
+ *
+ * @author VIEGAS Mickael
  */
 public interface IUserService extends Crudable<User> {
 	public User findByName(String pName);
