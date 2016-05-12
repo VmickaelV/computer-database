@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Endpoint de {@link Computer}
+ * Endpoint de {@link Computer}.
  *
  * @author VIEGAS Mickael
  */
@@ -115,14 +115,14 @@ public class ComputerEndpoint {
 
 	@RequestMapping(method = RequestMethod.DELETE)
 	public ResponseEntity<?> delete(@RequestBody long[] ids) throws DAOException {
-		for(long id : ids) {
+		for (long id : ids) {
 			Computer computer = mComputerService.find(id);
 			if (computer == null) {
 				throw new ResourceNotFound();
 			}
 		}
 
-		for(long id : ids) {
+		for (long id : ids) {
 			mComputerService.delete(id);
 		}
 

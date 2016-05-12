@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Interface global pour tout service de CRUD
+ * Interface global pour tout service de CRUD.
  *
  * @param <T> Type que gèrera le prochain Crudable
  *

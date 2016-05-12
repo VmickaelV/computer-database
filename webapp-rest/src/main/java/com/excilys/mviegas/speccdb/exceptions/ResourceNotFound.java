@@ -1,7 +1,7 @@
 package com.excilys.mviegas.speccdb.exceptions;
 
 /**
- * Exception de Ressource non trouvé
+ * Exception de Ressource non trouvé.
  *
  * @author VIEGAS Mickael
  */

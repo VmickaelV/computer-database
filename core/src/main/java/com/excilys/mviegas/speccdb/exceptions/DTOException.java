@@ -1,7 +1,7 @@
 package com.excilys.mviegas.speccdb.exceptions;
 
 /**
- * Exception lancé lors de DTO
+ * Exception lancé lors de DTO.
  *
  * @author Mickael Viegas
  * Created by excilys on 22/03/16.

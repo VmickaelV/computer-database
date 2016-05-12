@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.excilys.mviegas.speccdb</groupId>
         <artifactId>parent</artifactId>
-        <version>0.31</version>
+        <version>0.31.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>webapp-front</artifactId>

@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 /**
- * Objet représentant un ordinateur
+ * Objet représentant un ordinateur.
  *
  * @author Mickael
  */
@@ -109,16 +109,20 @@ public class Computer implements Identifiable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Computer other = (Computer) obj;
 		//noinspection RedundantIfStatement
-		if (mId != other.mId)
+		if (mId != other.mId) {
 			return false;
+		}
 		return true;
 	}
 
@@ -127,7 +131,7 @@ public class Computer implements Identifiable {
 	// ============================================================
 
 	/**
-	 * Class Builder d'un ordinateur
+	 * Class Builder d'un ordinateur.
 	 */
 	public static class Builder implements IBuilder<Builder, Computer> {
 

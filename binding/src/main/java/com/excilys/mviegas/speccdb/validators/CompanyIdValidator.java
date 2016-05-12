@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Validateur d'un ID de {@link com.excilys.mviegas.speccdb.data.Company}
+ * Validateur d'un ID de {@link com.excilys.mviegas.speccdb.data.Company}.
  *
  * @author VIEGAS Mickael
  */

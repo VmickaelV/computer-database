@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Group d'utilisateurs pour la gestion de droits d'accès
+ * Group d'utilisateurs pour la gestion de droits d'accès.
+ *
  * @author VIEGAS Mickael
  */
 @Entity(name = "GroupOfUsers")
@@ -20,30 +21,30 @@ public class Group implements Identifiable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator")
 	@SequenceGenerator(name = "idGenerator", sequenceName = "idGenerator", initialValue = 600)
 	/**
-	 * ID du group
+	 * ID du group.
 	 */
 	private long mId;
 
 	/**
-	 * Nom du groupe
+	 * Nom du groupe.
 	 */
 	private String mName;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="GROUP_AUTH",
-			joinColumns=@JoinColumn(name="GROUP_ID", referencedColumnName="MID"),
-			inverseJoinColumns=@JoinColumn(name="AUTH_ID", referencedColumnName="MID"))
+	@JoinTable(name = "GROUP_AUTH",
+			joinColumns = @JoinColumn(name = "GROUP_ID", referencedColumnName = "MID"),
+			inverseJoinColumns = @JoinColumn(name = "AUTH_ID", referencedColumnName = "MID"))
 	/**
-	 * Liste d'autorisations associé aux groupes
+	 * Liste d'autorisations associé aux groupes.
 	 */
 	private List<Authorization> mAuthorizationList;
 
 	@ManyToMany
-	@JoinTable(name="GROUP_USER",
-			joinColumns=@JoinColumn(name="GROUP_ID", referencedColumnName="MID"),
-			inverseJoinColumns=@JoinColumn(name="USER_ID", referencedColumnName="MID"))
+	@JoinTable(name = "GROUP_USER",
+			joinColumns = @JoinColumn(name = "GROUP_ID", referencedColumnName = "MID"),
+			inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "MID"))
 	/**
-	 * Utilisateurs présent dans le groupe
+	 * Utilisateurs présent dans le groupe.
 	 */
 	private List<User> mUserList;
 

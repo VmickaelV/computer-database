@@ -15,7 +15,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
- * Dao d'un {@link User}
+ * Dao d'un {@link User}.
  *
  * @author VIEGAS Mickael
  */
@@ -25,12 +25,12 @@ public class UserDao extends AbstractGenericCrudServiceBean<User> implements IUs
 	// Constantes
 	//=============================================================
 	/**
-	 * Logger de la classe
+	 * Logger de la classe.
 	 */
 	public static final Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
 
 	/**
-	 * Taille par défaut d'une page
+	 * Taille par défaut d'une page.
 	 */
 	public static final int BASE_SIZE_PAGE = 100;
 

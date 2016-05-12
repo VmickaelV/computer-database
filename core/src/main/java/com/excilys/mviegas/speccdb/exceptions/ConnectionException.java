@@ -1,7 +1,7 @@
 package com.excilys.mviegas.speccdb.exceptions;
 
 /**
- * Exception lancée lors d'un problème de connexion à la BDD
+ * Exception lancée lors d'un problème de connexion à la BDD.
  *
  * @author Mickael
  */

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * DTO d'un computer d'un formulaire
+ * DTO d'un computer d'un formulaire.
  *
  * @author VIEGAS Mickael
  */
@@ -107,6 +107,7 @@ public class ComputerDto {
 
 	@Override
 	public String toString() {
+		//noinspection StringBufferReplaceableByString
 		final StringBuilder sb = new StringBuilder("ComputerDto{");
 		sb.append("mId=").append(mId);
 		sb.append(", mName='").append(mName).append('\'');
@@ -122,7 +123,7 @@ public class ComputerDto {
 	//=============================================================
 
 	/**
-	 * Convertir le DTO en un vrai objet
+	 * Convertir le DTO en un vrai objet.
 	 * @param pCompanyDao DAOExceptionde Company pour l'extraire si besoin
 	 * @return Computer converti, null si Company et erreur dans la BDD
 	 */

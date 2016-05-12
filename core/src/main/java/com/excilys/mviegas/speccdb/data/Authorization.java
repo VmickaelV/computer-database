@@ -5,7 +5,7 @@ import com.excilys.mviegas.speccdb.interfaces.Identifiable;
 import javax.persistence.*;
 
 /**
- * Représentation du'n autorisation
+ * Représentation du'n autorisation.
  *
  * @author VIEGAS Mickael
  */

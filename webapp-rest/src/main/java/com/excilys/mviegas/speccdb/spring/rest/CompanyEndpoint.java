@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Endpoint de resources de {@link Company}
+ * Endpoint de resources de {@link Company}.
  *
  * @author VIEGAS Mickael
  */
@@ -22,6 +22,7 @@ import java.util.List;
 @RequestMapping("/companies")
 public class CompanyEndpoint {
 
+	@SuppressWarnings("WeakerAccess")
 	public static final Logger LOGGER = LoggerFactory.getLogger(CompanyEndpoint.class);
 
 	private final CompanyService mCompanyService;

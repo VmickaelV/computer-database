@@ -16,14 +16,15 @@ import java.util.Map.Entry;
 
 /**
  * Classe traitant le tag JSTL <viegasLib:pagination />
- * 
+ *
  * @author VIEGAS Mickael
  */
 @SuppressWarnings("unused")
 public class PaginationTag extends SimpleTagSupport {
 
+	@SuppressWarnings("WeakerAccess")
 	public static final Logger LOGGER = LoggerFactory.getLogger(PaginationTag.class);
-	
+
 	//===========================================================
 	// Attribut - private
 	//===========================================================
@@ -62,7 +63,7 @@ public class PaginationTag extends SimpleTagSupport {
 	 * Objet paginator (qui peut contenir toutes les infos pour le tag)
 	 */
 	private Paginator<Computer> mPaginator;
-	
+
 	//===========================================================
 	// Getters & Setters
 	//===========================================================
@@ -84,7 +85,7 @@ public class PaginationTag extends SimpleTagSupport {
 		}
 		mCurrentPage = pCurrentPage;
 	}
-	
+
 	public int getCountByPages() {
 		return mCountByPages;
 	}
@@ -141,48 +142,48 @@ public class PaginationTag extends SimpleTagSupport {
 			mCountByPages = mPaginator.elementsByPage;
 			mCurrentPage = mPaginator.currentPage;
 		}
-		
+
 		// TODO attention risque d'injection ?
 		StringBuilder builder = new StringBuilder("?");
-		
+
 		if (mParameters != null) {
 			Iterator<Entry<String, String>> iterator = mParameters.entrySet().iterator();
 			Entry<String, String> entry;
 			while (iterator.hasNext()) {
 				entry = iterator.next();
-				
+
 				if (!entry.getKey().equals("page")) {
 					builder.append(entry.getKey()).append("=").append(entry.getValue());
 					builder.append("&");
 				}
-				
+
 			}
 		}
-		
+
 		if (builder.length() > 0) {
 			builder.append("page=");
 		}
 
 		JspWriter out = getJspContext().getOut();
 		out.append("<ul class=\"pagination\">");
-		
+
 		if (mCurrentPage > 1) {
 			out.append("<li><a href=\"")
 					.append(builder.toString())
-					.append(String.valueOf(mCurrentPage-1))
+					.append(String.valueOf(mCurrentPage - 1))
 					.append("\" aria-label=\"Previous\"> <span aria-hidden=\"true\">&laquo;</span></a></li>");
 		}
-		
+
 		// TODO à retirer jusqu'à ce que je treouve un moyen de mettre une val par défaut
 		if (mCountByPages == 0) {
 			mCountByPages = DashboardPage.DEFAULT_SIZE_PAGE;
 		}
-		
-		int pageMax = mCount/mCountByPages;
+
+		int pageMax = mCount / mCountByPages;
 		if (mCount % mCountByPages != 0) {
 			pageMax++;
 		}
-		
+
 		int min = mCurrentPage - mPagesCountAround;
 		if (min < 1) {
 			min = 1;
@@ -191,30 +192,29 @@ public class PaginationTag extends SimpleTagSupport {
 		if (max > pageMax) {
 			max = pageMax;
 		}
-		
-		for(int i = min; i <= max; i++) {
+
+		for (int i = min; i <= max; i++) {
 			out.append("<li")
-				.append(mCurrentPage == i ? " class=\"active\"": "")
-				.append("><a href=\"")
-				.append(builder.toString())
-				.append(String.valueOf(i))
-				.append("\">")
-				.append(String.valueOf(i))
-				.append("</a></li>");
+					.append(mCurrentPage == i ? " class=\"active\"" : "")
+					.append("><a href=\"")
+					.append(builder.toString())
+					.append(String.valueOf(i))
+					.append("\">")
+					.append(String.valueOf(i))
+					.append("</a></li>");
 		}
-		
+
 		if (mCurrentPage < pageMax) {
 			out.append("<li><a href=\"")
-				.append(builder.toString())
-				.append(String.valueOf(mCurrentPage+1))
-				.append("\" aria-label=\"Next\"> <span aria-hidden=\"true\">&raquo;</span></a></li>");
+					.append(builder.toString())
+					.append(String.valueOf(mCurrentPage + 1))
+					.append("\" aria-label=\"Next\"> <span aria-hidden=\"true\">&raquo;</span></a></li>");
 		}
 
 		out.append("</ul>");
 	}
 
-	
-	
+
 	//===========================================================
 	// Méthodes - Object
 	//===========================================================
@@ -238,6 +238,5 @@ public class PaginationTag extends SimpleTagSupport {
 		return builder.toString();
 	}
 
-	
-	
+
 }

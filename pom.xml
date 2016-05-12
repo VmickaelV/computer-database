@@ -5,7 +5,7 @@
     <!-- Identifiant de base de POM -->
     <groupId>com.excilys.mviegas.speccdb</groupId>
     <artifactId>parent</artifactId>
-    <version>0.31</version>
+    <version>0.31.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <!-- MultiModule -->
@@ -16,7 +16,7 @@
         <module>binding</module>
         <module>webapp-front</module>
         <module>console</module>
-        <module>gatling-test</module>
+        <!--<module>gatling-test</module>-->
         <module>webapp-rest</module>
     </modules>
 
@@ -44,7 +44,7 @@
         <maven-checkstyle-plugin.configLocation>config/checkstyle/checkstyle.xml</maven-checkstyle-plugin.configLocation>
 
         <!-- Versions -->
-        <dev.version>0.31</dev.version>
+        <dev.version>0.31.1-SNAPSHOT</dev.version>
         <prod.version>0.31</prod.version>
         <core.version>${dev.version}</core.version>
         <persistence.version>${dev.version}</persistence.version>

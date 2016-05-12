@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Mapper de Exceptions à des réponses HTTP
+ * Mapper de Exceptions à des réponses HTTP.
  *
  * @author VIEGAS Mickael
  */

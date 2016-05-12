@@ -16,13 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Dao d'un Ordinateur {@link Computer}
- *
+ * Dao d'un Ordinateur {@link Computer}.
+ * <p>
  * Chaque appel à une méthode doit avoir une variable Connection stocké dans un threadlocal {@link ThreadLocals#CONNECTIONS}
  *
  * @author VIEGAS Mickael
- *
- * TODO voir si on raoute une vérif de présence de connexion dans ThreadLocal
+ *         <p>
+ *         TODO voir si on raoute une vérif de présence de connexion dans ThreadLocal
  */
 @Repository
 public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implements IComputerDao {
@@ -31,12 +31,12 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 	// Constantes
 	//=============================================================
 	/**
-	 * Logger de la classe
+	 * Logger de la classe.
 	 */
 	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerDao.class);
 
 	/**
-	 * Taille par défaut d'une page
+	 * Taille par défaut d'une page.
 	 */
 	public static final int BASE_SIZE_PAGE = 100;
 
@@ -45,23 +45,23 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 	//=============================================================
 
 	/**
-	 * Liste des Queries nommées proposer pour le ComputerDao
-	 * 
+	 * Liste des Queries nommées proposer pour le ComputerDao.
+	 *
 	 * @author VIEGAS Mickael
 	 */
 	public final class NamedQueries {
 		/**
-		 * Effectue une recherche par nom
-		 * 	SIZE 	int (opt) : nombre d'éléments
-		 *  START	int (opt) : décalage
-		 *  FILTER_NAME String (opt) : filtre
-		 *  ORDER 	String (opt) : rajoute
+		 * Effectue une recherche par nom.
+		 * SIZE 	int (opt) : nombre d'éléments
+		 * START	int (opt) : décalage
+		 * FILTER_NAME String (opt) : filtre
+		 * ORDER 	String (opt) : rajoute
 		 */
 		public static final String SEARCH = "search";
 	}
 
 	/**
-	 * Liste des noms de paramètres pour les NamedQuerys
+	 * Liste des noms de paramètres pour les NamedQuerys.
 	 */
 	public final class Parameters {
 		public static final String SIZE = "size";
@@ -72,13 +72,13 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 	}
 
 	/**
-	 * Type d'ordre possible pour un Tri
+	 * Type d'ordre possible pour un Tri.
 	 */
 	public enum TypeOrder {
 		ASC, DESC;
 
 		/**
-		 * Parse un String
+		 * Parse un String.
 		 *
 		 * @param pTypeOrder Texte à Parser
 		 * @return TypeOrder parsé ou null si pTypeOrder null ou vide
@@ -98,7 +98,7 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 	}
 
 	/**
-	 * Liste des Champs ordonnable
+	 * Liste des Champs ordonnable.
 	 */
 	public enum Order {
 		NAME("name", "mName"), INTRODUCED_DATE("introduced", "mIntroducedDate"), DISCONTINUED_DATE("discontinued", "mDiscontinuedDate"), ID_COMPANY("company_id", ""), NAME_COMPANY("company_name", "");
@@ -112,7 +112,8 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 		}
 
 		/**
-		 * Parse d'un String en Order
+		 * Parse d'un String en Order.
+		 *
 		 * @param pTexte Texte à parser
 		 * @return Order ou null si pTextde est null ou vide
 		 */
@@ -138,7 +139,7 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 	// ===========================================================
 	// Methods - Crudable
 	// ===========================================================
-	
+
 	@Override
 	public Paginator<Computer> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
 		switch (namedQueryName) {
@@ -160,8 +161,8 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 				cqCount.select(cb.count(cqCountcomputerRoot));
 
 				if (search != null && !search.isEmpty()) {
-					cq.where(cb.like(cb.lower(computerRoot.get("mName")), "%"+search.toLowerCase()+"%"));
-					cqCount.where(cb.like(cb.lower(cqCountcomputerRoot.get("mName")), "%"+search.toLowerCase()+"%"));
+					cq.where(cb.like(cb.lower(computerRoot.get("mName")), "%" + search.toLowerCase() + "%"));
+					cqCount.where(cb.like(cb.lower(cqCountcomputerRoot.get("mName")), "%" + search.toLowerCase() + "%"));
 				}
 
 				if (order != null) {
@@ -176,7 +177,7 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 
 				cq.select(computerRoot);
 
-				return new Paginator<>(start, nbCount, size,mEntityManager.createQuery(cq).setMaxResults(size).setFirstResult(start).getResultList());
+				return new Paginator<>(start, nbCount, size, mEntityManager.createQuery(cq).setMaxResults(size).setFirstResult(start).getResultList());
 			default:
 				throw new UnsupportedOperationException("NamedQueries not supported : " + namedQueryName);
 		}

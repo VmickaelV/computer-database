@@ -12,6 +12,7 @@ import java.time.format.DateTimeParseException;
 /**
  * Controleur d'un Update ou d'ajout de {@link Computer}.
  */
+@SuppressWarnings("WeakerAccess")
 public class ComputerUpdate implements IComputerUpdateControler {
 
 	//=============================================================
@@ -49,7 +50,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 			System.out.println("(Aide : la valeur entre parathèse est l'ancienne (saisissez vide)");
 		}
 
-		String name = null;
+		String name;
 
 		// Siasie nouveau nom
 		do {
@@ -63,7 +64,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 
 			if (mComputer != null && name != null && name.equals("")) {
 				name = mComputer.getName();
-			} else if (name.isEmpty()) {
+			} else if (name == null || name.isEmpty()) {
 				System.err.println("Saisie d'un nom obligatoire !");
 			}
 
@@ -135,8 +136,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 				System.out.print("> ID du fabricant (N/A) : ");
 			} else {
 				if (mComputer.getManufacturer() == null) {
-					System.out.printf("> ID du fabricant (ancien : (N/A) ) : ",
-							mComputer.getDiscontinuedDate().toString());
+					System.out.printf("> ID du fabricant (ancien : (N/A) ) : ");
 				} else {
 					System.out.printf("> ID du fabricant (ancien : %d (%s) ) : ", mComputer.getManufacturer().getId(),
 							mComputer.getManufacturer().getName());
@@ -150,7 +150,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 					company = mComputer.getManufacturer();
 				}
 			} else {
-				int id = -1;
+				int id;
 				try {
 					id = Integer.valueOf(t);
 				} catch (NumberFormatException e) {
@@ -207,12 +207,12 @@ public class ComputerUpdate implements IComputerUpdateControler {
 	 * @param pId Id du computeur à éditer
 	 * @return Controleur, ou null si computer introuvable
 	 */
+	@SuppressWarnings("unused")
 	public static IComputerUpdateControler make(int pId) {
 		Computer computer;
 		computer = ComputerService.INSTANCE.find(pId);
 
 		if (computer == null) {
-			// throw new IllegalArgumentException();
 			return null;
 		} else {
 			return new ComputerUpdate(computer);
@@ -236,7 +236,8 @@ public class ComputerUpdate implements IComputerUpdateControler {
 	}
 
 	/**
-	 * Factory de ComputerUpdate pour un ajout d'ordinateur
+	 * Factory de ComputerUpdate pour un ajout d'ordinateur.
+	 *
 	 * @return Controleur crée
 	 */
 	public static IComputerUpdateControler make() {

@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Classes de fonctions pour l'Expression Language
+ * Classes de fonctions pour l'Expression Language.
  *
  * @author VIGAS Mickael
- * Created by excilys on 22/03/16.
+ *         Created by excilys on 22/03/16.
  */
 public class ELFunctions {
 
@@ -27,13 +27,12 @@ public class ELFunctions {
 	}
 
 	/**
-	 * Fonction générant un lien
+	 * Fonction générant un lien.
 	 *
-	 * @param pTarget Page cible
-	 * @param pQueries Map de paramètres GET à ajouter dans le lien
+	 * @param pTarget        Page cible
+	 * @param pQueries       Map de paramètres GET à ajouter dans le lien
 	 * @param pQueryToEscape Un paramètre à ne pas inclure, ou avec une valeur à fixer à part
-	 * @param value Valeur à remplacer par le nom fournie dans le paramètre à ne pas inclure
-	 *
+	 * @param value          Valeur à remplacer par le nom fournie dans le paramètre à ne pas inclure
 	 * @return Lien texte généré
 	 */
 	public static String link(String pTarget, Map<String, String> pQueries, String pQueryToEscape, Object value) {
@@ -61,19 +60,18 @@ public class ELFunctions {
 			if (stringBuilder.length() > 0) {
 				stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 			}
-			return pTarget+".html"+(stringBuilder.length() > 0 ? '?' + stringBuilder.toString() : "");
+			return pTarget + ".html" + (stringBuilder.length() > 0 ? '?' + stringBuilder.toString() : "");
 		} else {
-			return pTarget+".html";
+			return pTarget + ".html";
 		}
 	}
 
 	/**
-	 * Fonction générant un lien
+	 * Fonction générant un lien.
 	 *
-	 * @param pTarget Page cible
-	 * @param pQueries Map de paramètres GET à ajouter dans le lien
+	 * @param pTarget        Page cible
+	 * @param pQueries       Map de paramètres GET à ajouter dans le lien
 	 * @param pNewParameters Nouveaux paramètres à intégrer
-	 *
 	 * @return Lien texte généré
 	 */
 	public static String link(String pTarget, Map<String, String> pQueries, Map<String, String> pNewParameters) {
@@ -107,18 +105,18 @@ public class ELFunctions {
 				stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 			}
 
-			return pTarget+".html"+(stringBuilder.length() > 0 ? '?' + stringBuilder.toString() : "");
+			return pTarget + ".html" + (stringBuilder.length() > 0 ? '?' + stringBuilder.toString() : "");
 		} else {
-			return pTarget+".html";
+			return pTarget + ".html";
 		}
 	}
 
 	/**
-	 * Génère un lien préformé pour un tri avec GET
+	 * Génère un lien préformé pour un tri avec GET.
 	 *
-	 * @param pTarget Page cible
-	 * @param pQueries Map de paramètres GET à ajouter dans le lien
-	 * @param pOrder Element selon lequel on doit trier
+	 * @param pTarget    Page cible
+	 * @param pQueries   Map de paramètres GET à ajouter dans le lien
+	 * @param pOrder     Element selon lequel on doit trier
 	 * @param pTypeOrder Type d'ordre (descendant ou ascendant)
 	 * @return Lien généré
 	 */

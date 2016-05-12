@@ -9,15 +9,16 @@ import java.util.stream.Collectors;
 import static com.excilys.mviegas.speccdb.managers.DashboardPage.DEFAULT_SIZE_PAGE;
 
 /**
- * Mapper de DashboardBean
+ * Mapper de DashboardBean.
  *
  * Created by Mickael on 12/04/16.
  */
 public class DashboardPageMapper {
 
 	/**
-	 * Clés possibles pour la Map
+	 * Clés possibles pour la Map.
 	 */
+	@SuppressWarnings("WeakerAccess")
 	public static class Keys {
 		public static final String PAGE = "page";
 		public static final String SIZE = "size";

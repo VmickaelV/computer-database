@@ -14,6 +14,7 @@ import java.util.List;
  *
  * @author VIEGAS Mickael
  */
+@SuppressWarnings("WeakerAccess")
 public class UserDetailMapper {
 
 	//=============================================================

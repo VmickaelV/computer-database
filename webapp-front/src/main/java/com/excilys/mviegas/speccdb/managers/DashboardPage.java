@@ -22,11 +22,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Bean permettant de gérer une liste de Computeurs
+ * Bean permettant de gérer une liste de Computeurs.
  *
  * @author Mickael
  */
 @Component
+@SuppressWarnings("WeakerAccess")
 public class DashboardPage {
 
 	//===========================================================
@@ -34,7 +35,7 @@ public class DashboardPage {
 	//===========================================================
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(DashboardPage.class);
-	
+
 	public static final int DEFAULT_SIZE_PAGE = 10;
 
 	//===========================================================
@@ -49,13 +50,13 @@ public class DashboardPage {
 
 	@Size(min = 3)
 	private String mSearch;
-	
+
 	private Paginator<Computer> mPaginator;
 
 	private String mOrder;
 
 	private String mTypeOrder;
-	
+
 	private List<Message> mMessages = new LinkedList<>();
 
 	private String mSelection;
@@ -116,7 +117,7 @@ public class DashboardPage {
 	public void setSize(int pSize) {
 		mSize = pSize;
 	}
-	
+
 	public String getSearch() {
 		return mSearch;
 	}
@@ -133,6 +134,7 @@ public class DashboardPage {
 		return mOrder;
 	}
 
+	@SuppressWarnings("unused")
 	public void setOrder(String pOrder) {
 		mOrder = pOrder;
 	}
@@ -169,6 +171,7 @@ public class DashboardPage {
 
 	@Override
 	public String toString() {
+		//noinspection StringBufferReplaceableByString
 		final StringBuilder sb = new StringBuilder("DashboardManagerBean{");
 		sb.append("mPage=").append(mPage);
 		sb.append(", mSize=").append(mSize);
@@ -189,12 +192,12 @@ public class DashboardPage {
 		if (mPage == 0) {
 			mPage = 1;
 		}
-		
+
 		if ((mSearch != null && !mSearch.isEmpty()) || (mOrder != null && !mOrder.isEmpty())) {
 			QueryParameter parameter = QueryParameter.with(ComputerDao.Parameters.FILTER_NAME, mSearch);
 			parameter
 					.and(ComputerDao.Parameters.SIZE, mSize)
-					.and(ComputerDao.Parameters.START, (mPage - 1)*mSize)
+					.and(ComputerDao.Parameters.START, (mPage - 1) * mSize)
 					.and(ComputerDao.Parameters.ORDER, Order.from(mOrder))
 					.and(ComputerDao.Parameters.TYPE_ORDER, TypeOrder.from(mTypeOrder))
 			;
@@ -207,7 +210,7 @@ public class DashboardPage {
 			}
 		} else {
 			try {
-				mPaginator = mComputerService.findAllWithPaginator((mPage-1)*mSize, mSize);
+				mPaginator = mComputerService.findAllWithPaginator((mPage - 1) * mSize, mSize);
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				LOGGER.error(pE.getMessage(), pE);
 				mMessages.add(new Message("Internal Error", "We have an Eror with the Database.\nRetrieve later", Level.ERROR));
@@ -221,24 +224,24 @@ public class DashboardPage {
 
 	public boolean delete(String pIntegers) {
 		String[] indexes = pIntegers.split(",");
-		
+
 		boolean result = true;
-		
+
 		// TODO à optimiser
 		for (String index : indexes) {
 			int i = Integer.parseInt(index);
 			try {
 				if (!mComputerService.delete(i)) {
-					mMessages.add(new Message("Internal Error", "We have an Eror with the Database when we tried to delete the computer n°"+index+".\nWould you retry later.", Level.ERROR));
+					mMessages.add(new Message("Internal Error", "We have an Eror with the Database when we tried to delete the computer n°" + index + ".\nWould you retry later.", Level.ERROR));
 					result = false;
 				}
 			} catch (com.excilys.mviegas.speccdb.exceptions.DAOException pE) {
 				LOGGER.error(pE.getMessage(), pE);
-				mMessages.add(new Message("Internal Error", "We have an Eror with the Database when we tried to delete the computer n°"+index+".\nWould you retry later.", Level.ERROR));
+				mMessages.add(new Message("Internal Error", "We have an Eror with the Database when we tried to delete the computer n°" + index + ".\nWould you retry later.", Level.ERROR));
 				result = false;
 			}
 		}
-		
+
 		mMessages.add(new Message("Successful Deletion", "All selectede computers are deleted from the Database.", Level.SUCCESS));
 		return result;
 	}

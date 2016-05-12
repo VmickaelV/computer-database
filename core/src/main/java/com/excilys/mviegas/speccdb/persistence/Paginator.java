@@ -4,10 +4,11 @@ import java.util.List;
 
 /**
  * Regroupement d'informations utile pour une pagination.
- *
+ * <p>
  * L'indexation des pages commence à 1 (car principalement utilisé pour de l'IU)
- *
+ * <p>
  * Created by excilys on 15/03/16.
+ *
  * @author Mickael
  */
 public class Paginator<T> {
@@ -16,27 +17,27 @@ public class Paginator<T> {
 	// Attributes - private
 	//===========================================================
 	/**
-	 * Numéro de la page courante
+	 * Numéro de la page courante.
 	 */
 	public int currentPage;
 
 	/**
-	 * Nombre d'éléments totales
+	 * Nombre d'éléments totales.
 	 */
 	public int elementsCount;
 
 	/**
-	 * Nom d'éléments par pages
+	 * Nom d'éléments par pages.
 	 */
 	public int elementsByPage;
 
 	/**
-	 * Valeurs de la pages
+	 * Valeurs de la pages.
 	 */
 	public List<T> values;
 
 	/**
-	 * Nombre de pages
+	 * Nombre de pages.
 	 */
 	public int nbPages;
 
@@ -45,13 +46,13 @@ public class Paginator<T> {
 	//===========================================================
 
 	/**
-	 * (For JsonMapper)
+	 * (For JsonMapper).
 	 */
 	public Paginator() {
 	}
 
 	/**
-	 * Pseudo constructeur par copie (ne copie pas les valeurs du tableaux)
+	 * Pseudo constructeur par copie (ne copie pas les valeurs du tableaux).
 	 *
 	 * @param pPaginator Paginator à copier
 	 */
@@ -63,19 +64,19 @@ public class Paginator<T> {
 	}
 
 	/**
-	 * Constructeur avec paramètres
+	 * Constructeur avec paramètres.
 	 *
-	 * @param pStartIndex Début de l'index de début
-	 * @param pElementsCount Nombre d'éléments totales
+	 * @param pStartIndex     Début de l'index de début
+	 * @param pElementsCount  Nombre d'éléments totales
 	 * @param pElementsByPage Nombre d'éléments par page
-	 * @param pValues Valeurs de la page actuelle
+	 * @param pValues         Valeurs de la page actuelle
 	 */
 	public Paginator(int pStartIndex, int pElementsCount, int pElementsByPage, List<T> pValues) {
 		super();
 		if (pElementsByPage == 0) {
 			pElementsByPage = -1;
 		}
-		currentPage = pStartIndex/pElementsByPage;
+		currentPage = pStartIndex / pElementsByPage;
 		currentPage++;
 
 		elementsCount = pElementsCount;

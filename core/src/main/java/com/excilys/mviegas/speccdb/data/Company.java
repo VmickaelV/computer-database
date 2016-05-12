@@ -7,7 +7,7 @@ import com.excilys.mviegas.speccdb.interfaces.Identifiable;
 import javax.persistence.*;
 
 /**
- * Objet représentant une compagnie
+ * Objet représentant une compagnie.
  *
  * @author Mickael
  */
@@ -73,12 +73,15 @@ public class Company implements Identifiable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Company other = (Company) obj;
 
 		return mId == other.mId;
@@ -89,7 +92,7 @@ public class Company implements Identifiable {
 	// ============================================================
 
 	/**
-	 * Class Builder d'une compagnie
+	 * Class Builder d'une compagnie.
 	 */
 	public static class Builder implements IBuilder<Builder, Company> {
 		private int mId;

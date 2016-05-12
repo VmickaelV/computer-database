@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 /**
- * Initialisation d'objets
+ * Initialisation d'objets.
  *
  * @author VIEGAS Mickael
  */

@@ -8,8 +8,9 @@ import com.excilys.mviegas.speccdb.persistence.Paginator;
 import java.util.List;
 
 /**
- * View d'une liste de Computer en CLI
+ * View d'une liste de Computer en CLI.
  */
+@SuppressWarnings("WeakerAccess")
 public enum ComputersListView implements IComputersListViewControler {
 
 	INSTANCE;
@@ -140,7 +141,6 @@ public enum ComputersListView implements IComputersListViewControler {
 				break mainloop;
 			default:
 				System.err.println("Choix invalide.\nVeuillez ressaisir votre choix.\n");
-				continue;
 			}
 		}
 	}

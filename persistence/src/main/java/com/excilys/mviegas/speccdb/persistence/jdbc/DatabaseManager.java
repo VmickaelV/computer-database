@@ -17,20 +17,20 @@ import java.sql.Statement;
 import java.util.*;
 
 /**
- * Gestion de la connection à la base de données
+ * Gestion de la connection à la base de données.
  *
  * @author Mickael
- * Created by Mickael on 18/10/2014.
  */
+@SuppressWarnings("WeakerAccess")
 public class DatabaseManager {
-	
+
 	public static final Logger LOGGER = LoggerFactory.getLogger(DatabaseManager.class);
 
 	// ===========================================================
 	// Constantes
 	// ===========================================================
 	/**
-	 * Nom du fichier de configuration de DatabaseManager
+	 * Nom du fichier de configuration de DatabaseManager.
 	 */
 	public static final String CONFIG_FILENAME = "config_bd.properties";
 
@@ -38,6 +38,7 @@ public class DatabaseManager {
 	public static final String KEY_URL = "db.url";
 	public static final String KEY_USER = "db.username";
 	public static final String KEY_PASSWORD = "db.password";
+	@SuppressWarnings("unused")
 	public static final String KEY_SCHEMA = "db.schema";
 	public static final String KEY_CREATE_SCRIPTS = "db.createScripts";
 	public static final String KEY_INSERT_SCRIPTS = "db.insertScripts";
@@ -50,7 +51,7 @@ public class DatabaseManager {
 	public static final String SQL_STATEMENT_SEPARATOR = ";";
 
 	/**
-	 * Pool de Connexion
+	 * Pool de Connexion.
 	 */
 	private static final HikariDataSource sConnectionPool;
 
@@ -64,33 +65,33 @@ public class DatabaseManager {
 	 */
 	private static final String URL;
 
-	/** 
-	 * The Constant user. 
+	/**
+	 * The Constant user.
 	 */
 	private static final String USER;
-	
+
 	/**
-	 * Liste de fichiers de scripts à lancer pour mettre en place la BDD
+	 * Liste de fichiers de scripts à lancer pour mettre en place la BDD.
 	 */
-	private static final String CREATE_SCRIPTS; 
-	
+	private static final String CREATE_SCRIPTS;
+
 	/**
-	 * Liste de fichiers de scripts à lancer à la première connexion pour remplir la BDD
+	 * Liste de fichiers de scripts à lancer à la première connexion pour remplir la BDD.
 	 */
 	private static final String INSERT_SCRIPTS;
-	
+
 	/**
-	 * Taille minimale du pool de connexion
+	 * Taille minimale du pool de connexion.
 	 */
 	public static final int MIN_SIZE_POOL;
-	
+
 	/**
-	 * Taille maximale qu'aura le pool de connexion
+	 * Taille maximale qu'aura le pool de connexion.
 	 */
 	public static final int MAX_SIZE_POOL;
 
 	/**
-	 * Nom de la classe du driver à charger
+	 * Nom de la classe du driver à charger.
 	 */
 	public static final String CLASS_NAME_JDBC_DRIVER;
 
@@ -98,14 +99,14 @@ public class DatabaseManager {
 	//	Bloc static
 	// ============================================================
 	static {
-		
+
 		// Chargement des préférences de connexions
 		Properties prefs = new Properties();
 
 		// Chargement de l'objet Preferences
 		if (new File(CONFIG_FILENAME).exists()) {
 			if (LOGGER.isInfoEnabled()) {
-				LOGGER.info("Chargement config à partir du fichier "+CONFIG_FILENAME);
+				LOGGER.info("Chargement config à partir du fichier " + CONFIG_FILENAME);
 			}
 			try (FileInputStream file = new FileInputStream(new File(CONFIG_FILENAME))) {
 				prefs.load(file);
@@ -141,8 +142,8 @@ public class DatabaseManager {
 
 
 		if (LOGGER.isInfoEnabled()) {
-			LOGGER.info("Connecting to "+USER+"@"+URL+"...");
-			LOGGER.info("with these scripts : "+CREATE_SCRIPTS+", "+INSERT_SCRIPTS);
+			LOGGER.info("Connecting to " + USER + "@" + URL + "...");
+			LOGGER.info("with these scripts : " + CREATE_SCRIPTS + ", " + INSERT_SCRIPTS);
 		}
 
 		// Chargement des pilotes 
@@ -152,13 +153,13 @@ public class DatabaseManager {
 //            LOGGER.error(ex.getMessage(), ex);
 //			throw new RuntimeException(ex);
 //        }
-		
+
 		// Scripts SQL à lancer au démarrage
 		if (!CREATE_SCRIPTS.isEmpty() || !INSERT_SCRIPTS.isEmpty()) {
 			try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-				
+
 				connection.setAutoCommit(false);
-				
+
 				List<String> list = new ArrayList<>();
 				if (!CREATE_SCRIPTS.isEmpty()) {
 					list.addAll(Arrays.asList(CREATE_SCRIPTS.split(SQL_STATEMENT_SEPARATOR)));
@@ -166,20 +167,20 @@ public class DatabaseManager {
 				if (!INSERT_SCRIPTS.isEmpty()) {
 					list.addAll(Arrays.asList(INSERT_SCRIPTS.split(SQL_STATEMENT_SEPARATOR)));
 				}
-				
+
 				System.out.println(list);
-				
+
 				for (String fileLink : list) {
 					StringBuilder builder = new StringBuilder();
 					//noinspection ConstantConditions
 					File file = new File(DatabaseManager.class.getClassLoader().getResource(fileLink).getFile());
-					
+
 					try (Scanner scanner = new Scanner(file)) {
 						while (scanner.hasNextLine()) {
 							String line = scanner.nextLine();
 							if (!line.trim().isEmpty()) {
 								builder.append(line);
-							
+
 								if (line.trim().endsWith(SQL_STATEMENT_SEPARATOR)) {
 									Statement statement = connection.createStatement();
 									statement.executeUpdate(builder.toString());
@@ -196,12 +197,12 @@ public class DatabaseManager {
 
 					} catch (IOException e) {
 						LOGGER.error(e.getMessage(), e);
-						throw new RuntimeException("Error with the file "+fileLink, e);
+						throw new RuntimeException("Error with the file " + fileLink, e);
 					}
 				}
-				
+
 				connection.setAutoCommit(true);
-				
+
 			} catch (SQLException e1) {
 				LOGGER.error(e1.getMessage(), e1);
 				throw new RuntimeException(e1);
@@ -221,11 +222,12 @@ public class DatabaseManager {
 	// ============================================================
 	//	Méthodes static
 	// ============================================================
+
 	/**
 	 * Gets the connection.
 	 *
 	 * @return the connection
-	 * @throws ConnectionException 
+	 * @throws ConnectionException
 	 */
 	public static synchronized Connection getConnection() throws ConnectionException {
 		try {
@@ -239,7 +241,7 @@ public class DatabaseManager {
 	 * Release connection.
 	 *
 	 * @param connection the connection
-	 * @throws ConnectionException 
+	 * @throws ConnectionException
 	 */
 	public static synchronized void releaseConnection(Connection connection) throws ConnectionException {
 		try {

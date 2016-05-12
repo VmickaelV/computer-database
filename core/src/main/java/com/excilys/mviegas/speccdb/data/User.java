@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Utilisateur sur le site
+ * Utilisateur sur le site.
  *
  * @author VIEGAS Mickael
  */
@@ -19,7 +19,7 @@ public class User implements Identifiable {
 	//=============================================================
 
 	/**
-	 * ID de l'utilisateur
+	 * ID de l'utilisateur.
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator")
@@ -27,31 +27,31 @@ public class User implements Identifiable {
 	private long mId;
 
 	/**
-	 * Nom d'utilisateur
+	 * Nom d'utilisateur.
 	 */
 	private String mUsername;
 
 	/**
-	 * Mot de passe non en clair
+	 * Mot de passe non en clair.
 	 */
 	private String mPassword;
 
 	/**
-	 * Compte autorisé ou non
+	 * Compte autorisé ou non.
 	 */
 	private boolean mEnabled;
 
 	/**
-	 * Liste des autorisations acquises
+	 * Liste des autorisations acquises.
 	 */
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="USER_AUTH",
-			joinColumns=@JoinColumn(name="USER_ID", referencedColumnName="MID"),
-			inverseJoinColumns=@JoinColumn(name="AUTH_ID", referencedColumnName="MID"))
+	@JoinTable(name = "USER_AUTH",
+			joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "MID"),
+			inverseJoinColumns = @JoinColumn(name = "AUTH_ID", referencedColumnName = "MID"))
 	private List<Authorization> mAuthorizationList;
 
 	/**
-	 * Liste d'appartenance à des groupes
+	 * Liste d'appartenance à des groupes.
 	 */
 	@ManyToMany(mappedBy = "mUserList", fetch = FetchType.EAGER)
 	private List<Group> mGroupList;

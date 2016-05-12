@@ -3,7 +3,8 @@ package com.excilys.mviegas.speccdb.validators;
 import com.excilys.mviegas.speccdb.dto.ComputerDto;
 
 /**
- * Validateur de {@link com.excilys.mviegas.speccdb.data.Computer}
+ * Validateur de {@link com.excilys.mviegas.speccdb.data.Computer}.
+ *
  * @author VIEGAS Mickael
  */
 public final class ComputerValidator {
@@ -13,7 +14,6 @@ public final class ComputerValidator {
 				ComputerNameValidator.isValidName(pComputerDto.getName()) &&
 				ComputerDateValidator.isValidDate(pComputerDto.getIntroducedDate(), null) &&
 				ComputerDateValidator.isValidDate(pComputerDto.getIntroducedDate(), null) &&
-				CompanyIdValidator.isValidIdCompany(pComputerDto.getIdCompany())
-		;
+				CompanyIdValidator.isValidIdCompany(pComputerDto.getIdCompany());
 	}
 }

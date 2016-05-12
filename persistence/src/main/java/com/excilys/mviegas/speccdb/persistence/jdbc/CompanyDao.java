@@ -15,7 +15,7 @@ import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.Root;
 
 /**
- * Dao d'une companie ({@link Company})
+ * Dao d'une companie ({@link Company}).
  */
 @Repository
 public class CompanyDao extends AbstractGenericCrudServiceBean<Company> implements ICompanyDao {

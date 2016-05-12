@@ -27,10 +27,11 @@ import static com.excilys.mviegas.speccdb.validators.ComputerDateValidator.isVal
 import static com.excilys.mviegas.speccdb.validators.ComputerNameValidator.isValidName;
 
 /**
- * Bean lié à la page de gestion d'un ordinateur
+ * Bean lié à la page de gestion d'un ordinateur.
  *
  * @author Mickael
  */
+@SuppressWarnings("WeakerAccess")
 @Component
 public class ComputerEditorPage implements IEditorComputerControler {
 
@@ -252,7 +253,7 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	}
 
 	/**
-	 * Action spécialie pour télécharger des données après l'assignation des différents services
+	 * Action spécialie pour télécharger des données après l'assignation des différents services.
 	 */
 	public void refresh(boolean isEditing) {
 		if (mId > 0) {
@@ -322,9 +323,9 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	}
 
 	/**
-	 * Map une map à la liste des attributs du bean
+	 * Map une map à la liste des attributs du bean.
 	 *
-	 * @param map
+	 * @param map Map à convertir
 	 */
 	public void map(Map<String, String> map) {
 		if (LOGGER.isDebugEnabled()) {

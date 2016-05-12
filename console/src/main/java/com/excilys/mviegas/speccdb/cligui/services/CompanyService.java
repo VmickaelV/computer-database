@@ -15,6 +15,6 @@ public enum CompanyService {
 	private RestTemplate mRestTemplate = new RestTemplate();
 
 	public Company find(long pId) {
-		return mRestTemplate.getForEntity(ClientRest.BASE_URL+"/companies/"+pId, Company.class).getBody();
+		return mRestTemplate.getForEntity(ClientRest.BASE_URL + "/companies/" + pId, Company.class).getBody();
 	}
 }

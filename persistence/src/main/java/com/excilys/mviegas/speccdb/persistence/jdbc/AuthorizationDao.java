@@ -5,7 +5,7 @@ import com.excilys.mviegas.speccdb.persistence.IAuthorityDao;
 import org.springframework.stereotype.Repository;
 
 /**
- * Dao d'une {@link Authorization}
+ * Dao d'une {@link Authorization}.
  *
  * @author VIEGAS Mickael
  */
