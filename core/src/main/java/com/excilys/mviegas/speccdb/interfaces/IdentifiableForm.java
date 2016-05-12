@@ -3,7 +3,7 @@ package com.excilys.mviegas.speccdb.interfaces;
 import java.io.Serializable;
 
 /**
- * Interface permattant de rendre Identifiable un objet
+ * (Ancienne) Interface permattant de rendre Identifiable un objet
  *
  * Created by Mickael on 21/03/2016.
  */

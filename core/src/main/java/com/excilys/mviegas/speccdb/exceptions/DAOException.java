@@ -1,6 +1,5 @@
 package com.excilys.mviegas.speccdb.exceptions;
 
-
 /**
  * Exception générique lié aux DAO
  *

@@ -1,9 +1,9 @@
 package com.excilys.mviegas.speccdb.wrappers;
 
-import com.excilys.mviegas.speccdb.IConverter;
 import com.excilys.mviegas.speccdb.concurrency.ThreadLocals;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
+import com.excilys.mviegas.speccdb.interfaces.IConverter;
 import com.excilys.mviegas.speccdb.persistence.ICompanyDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
