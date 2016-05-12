@@ -28,6 +28,7 @@
             <artifactId>jackson-annotations</artifactId>
         </dependency>
 
+        <!-- TODO revoir intérêt de cette dépedence-->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>

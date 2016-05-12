@@ -3,6 +3,7 @@ package com.excilys.mviegas.speccdb.validators;
 import com.excilys.mviegas.speccdb.dto.ComputerDto;
 
 /**
+ * Validateur de {@link com.excilys.mviegas.speccdb.data.Computer}
  * @author VIEGAS Mickael
  */
 public final class ComputerValidator {

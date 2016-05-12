@@ -10,7 +10,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * DTO d'un computer d'une formulaire
+ * DTO d'un computer d'un formulaire
+ *
+ * @author VIEGAS Mickael
  */
 public class ComputerDto {
 	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerDto.class);
@@ -118,6 +120,12 @@ public class ComputerDto {
 	//=============================================================
 	// Methods
 	//=============================================================
+
+	/**
+	 * Convertir le DTO en un vrai objet
+	 * @param pCompanyDao DAOExceptionde Company pour l'extraire si besoin
+	 * @return Computer converti, null si Company et erreur dans la BDD
+	 */
 	public Computer toComputer(ICompanyDao pCompanyDao) {
 		Computer computer = new Computer();
 

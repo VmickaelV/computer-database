@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
+ * Validateur de Date
+ *
  * @author VIEGAS Mickael
  */
 public final class ComputerDateValidator {
