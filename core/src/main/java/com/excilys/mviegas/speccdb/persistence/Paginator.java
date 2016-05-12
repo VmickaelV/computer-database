@@ -50,6 +50,11 @@ public class Paginator<T> {
 	public Paginator() {
 	}
 
+	/**
+	 * Pseudo constructeur par copie (ne copie pas les valeurs du tableaux)
+	 *
+	 * @param pPaginator Paginator à copier
+	 */
 	public Paginator(Paginator<?> pPaginator) {
 		currentPage = pPaginator.currentPage;
 		elementsCount = pPaginator.elementsCount;
@@ -58,6 +63,7 @@ public class Paginator<T> {
 	}
 
 	/**
+	 * Constructeur avec paramètres
 	 *
 	 * @param pStartIndex Début de l'index de début
 	 * @param pElementsCount Nombre d'éléments totales

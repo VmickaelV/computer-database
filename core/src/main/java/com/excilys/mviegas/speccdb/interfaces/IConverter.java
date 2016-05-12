@@ -1,4 +1,4 @@
-package com.excilys.mviegas.speccdb;
+package com.excilys.mviegas.speccdb.interfaces;
 
 /**
  * Interface de création de convertisseur
