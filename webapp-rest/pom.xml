@@ -1,116 +1,117 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.excilys.mviegas.speccdb</groupId>
-    <artifactId>parent</artifactId>
-    <version>0.29.1-SNAPSHOT</version>
-  </parent>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.excilys.mviegas.speccdb</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.29.1-SNAPSHOT</version>
+    </parent>
 
-  <artifactId>webapp-rest</artifactId>
-  <name>webapp for REST</name>
-  <packaging>war</packaging>
+    <artifactId>webapp-rest</artifactId>
+    <name>webapp for REST</name>
+    <packaging>war</packaging>
 
-  <build>
-      <finalName>rest</finalName>
-  </build>
+    <build>
+        <finalName>rest</finalName>
+    </build>
 
-  <dependencies>
-      <!-- JSON binding -->
-      <dependency>
-          <groupId>com.fasterxml.jackson.core</groupId>
-          <artifactId>jackson-databind</artifactId>
-      </dependency>
+    <dependencies>
+        <!-- JSON binding -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
 
-      <!-- Internal -->
-      <dependency>
-          <groupId>com.excilys.mviegas.speccdb</groupId>
-          <artifactId>service</artifactId>
-      </dependency>
+        <!-- Internal -->
+        <dependency>
+            <groupId>com.excilys.mviegas.speccdb</groupId>
+            <artifactId>service</artifactId>
+        </dependency>
 
-      <dependency>
-          <groupId>com.excilys.mviegas.speccdb</groupId>
-          <artifactId>binding</artifactId>
-      </dependency>
+        <dependency>
+            <groupId>com.excilys.mviegas.speccdb</groupId>
+            <artifactId>binding</artifactId>
+        </dependency>
 
-      <!-- Validator -->
-      <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-validator</artifactId>
-      </dependency>
+        <!-- Validator -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
 
-      <!-- Spring -->
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-webmvc</artifactId>
-      </dependency>
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
 
-      <!-- ORM -->
-      <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-entitymanager</artifactId>
-      </dependency>
+        <!-- ORM -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
 
-      <dependency>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-java8</artifactId>
-      </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+        </dependency>
 
-      <!-- Drivers BDD JDBC -->
-      <dependency>
-          <groupId>com.h2database</groupId>
-          <artifactId>h2</artifactId>
-          <scope>runtime</scope>
-      </dependency>
+        <!-- Drivers BDD JDBC -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
-      <dependency>
-          <groupId>mysql</groupId>
-          <artifactId>mysql-connector-java</artifactId>
-          <scope>runtime</scope>
-      </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
-      <!-- Logs -->
-      <dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>jcl-over-slf4j</artifactId>
-      </dependency>
+        <!-- Logs -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
 
-      <dependency>
-          <groupId>ch.qos.logback</groupId>
-          <artifactId>logback-core</artifactId>
-          <scope>runtime</scope>
-      </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
-      <dependency>
-          <groupId>ch.qos.logback</groupId>
-          <artifactId>logback-classic</artifactId>
-          <scope>runtime</scope>
-      </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
-      <!-- Tests -->
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-test</artifactId>
-          <scope>test</scope>
-      </dependency>
+        <!-- Tests -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-      <dependency>
-          <groupId>org.apache.tomcat.embed</groupId>
-          <artifactId>tomcat-embed-core</artifactId>
-          <scope>test</scope>
-      </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-      <dependency>
-          <groupId>com.jayway.jsonpath</groupId>
-          <artifactId>json-path</artifactId>
-          <scope>test</scope>
-      </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-      <dependency>
-          <groupId>org.apache.tomcat</groupId>
-          <artifactId>tomcat-el-api</artifactId>
-          <scope>test</scope>
-      </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-el-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
