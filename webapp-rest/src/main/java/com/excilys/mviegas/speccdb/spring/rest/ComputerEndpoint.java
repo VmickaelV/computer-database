@@ -84,4 +84,48 @@ public class ComputerEndpoint {
 		);
 		return new ResponseEntity<>(null, httpHeaders, HttpStatus.CREATED);
 	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> edit(@PathVariable("id") long id, @RequestBody ComputerDto pComputerDto) throws DAOException {
+		if (id != pComputerDto.getId()) {
+			// TODO remplacer par une exception
+			return new ResponseEntity<Object>("Wrong argument id", HttpStatus.BAD_REQUEST);
+		}
+
+		if (!ComputerValidator.isValidComputer(pComputerDto)) {
+			return new ResponseEntity<Object>("Not Valid Computer", HttpStatus.BAD_REQUEST);
+		}
+
+		Computer computer = pComputerDto.toComputer(mCompanyDao);
+		mComputerService.update(computer);
+		return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> delete(@PathVariable("id") long id) throws DAOException {
+		Computer computer = mComputerService.find(id);
+		if (computer == null) {
+			throw new ResourceNotFound();
+		}
+		mComputerService.delete(id);
+		return new ResponseEntity<>(null, HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.DELETE)
+	public ResponseEntity<?> delete(@RequestBody long[] ids) throws DAOException {
+		for(long id : ids) {
+			Computer computer = mComputerService.find(id);
+			if (computer == null) {
+				throw new ResourceNotFound();
+			}
+		}
+
+		for(long id : ids) {
+			mComputerService.delete(id);
+		}
+
+		return new ResponseEntity<>(null, HttpStatus.OK);
+	}
+
+
 }

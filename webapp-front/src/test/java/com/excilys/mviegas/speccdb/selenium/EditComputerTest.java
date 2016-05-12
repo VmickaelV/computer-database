@@ -41,6 +41,7 @@ public class EditComputerTest extends BaseSeleniumTest {
 
 	@Test
 	public void edition1() throws Exception {
+//		TODO a réadapter pour le changement de locale
 		driver.findElement(By.linkText("4")).click();
 		assertEquals("Macintosh Quadra", driver.findElement(By.xpath("//tbody[@id='results']/tr[6]/td[2]")).getText());
 		assertEquals("1991-01-01", driver.findElement(By.xpath("//tbody[@id='results']/tr[6]/td[3]")).getText());
@@ -66,7 +67,7 @@ public class EditComputerTest extends BaseSeleniumTest {
 		driver.findElement(By.linkText("4")).click();
 		assertEquals("Plus de Matc", driver.findElement(By.xpath("//tbody[@id='results']/tr[6]/td[2]")).getText());
 		assertEquals("", driver.findElement(By.xpath("//tbody[@id='results']/tr[6]/td[3]")).getText());
-		assertEquals("2016-08-04", driver.findElement(By.xpath("//tbody[@id='results']/tr[6]/td[4]")).getText());
+		assertEquals("2016-04-08", driver.findElement(By.xpath("//tbody[@id='results']/tr[6]/td[4]")).getText());
 		assertEquals("Nokia", driver.findElement(By.xpath("//tbody[@id='results']/tr[6]/td[5]")).getText());
 
 	}

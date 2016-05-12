@@ -285,7 +285,6 @@ public abstract class BaseSeleniumTest {
 	}
 
 	protected void open(String pURL) {
-		System.out.println("open:"+pURL);
 		mWebDriver.get(pURL);
 	}
 

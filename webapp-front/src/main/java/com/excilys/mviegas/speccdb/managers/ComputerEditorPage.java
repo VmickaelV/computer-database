@@ -168,6 +168,14 @@ public class ComputerEditorPage implements IEditorComputerControler {
 		mComputerService = pComputerService;
 	}
 
+	public List<Message> getMessages() {
+		return mMessages;
+	}
+
+	public void setMessages(List<Message> pMessages) {
+		mMessages = pMessages;
+	}
+
 	//===========================================================
 	// Functions
 	//===========================================================
@@ -193,7 +201,8 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	}
 
 	public boolean isValidForm() {
-		return (mAction == null || mAction.equals("")) && isValidName(mName) && hasValidIntroducedDate() && hasValidDiscontinuedDate() && CompanyIdValidator.isValidIdCompany(mIdCompany);
+//		TODO revoir la condition de la variable mAction
+		return (mAction != null) && isValidName(mName) && hasValidIntroducedDate() && hasValidDiscontinuedDate() && CompanyIdValidator.isValidIdCompany(mIdCompany);
 	}
 
 	private Computer makeComputer() {

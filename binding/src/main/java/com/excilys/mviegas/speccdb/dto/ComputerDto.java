@@ -122,6 +122,9 @@ public class ComputerDto {
 		Computer computer = new Computer();
 
 		DateTimeFormatter sDateTimeFormatter = DateTimeFormatter.ISO_DATE;
+		if (mId > 0) {
+			computer.setId(mId);
+		}
 		computer.setName(mName);
 		computer.setIntroducedDate(mIntroducedDate == null || mIntroducedDate.isEmpty() ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter));
 		computer.setDiscontinuedDate(mDiscontinuedDate == null || mDiscontinuedDate.isEmpty() ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter));

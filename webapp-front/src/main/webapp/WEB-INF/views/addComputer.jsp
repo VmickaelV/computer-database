@@ -33,10 +33,18 @@
 
 	<section id="main">
 		<div class="container">
+            <c:forEach items="${computerEditor.messages}" var="message">
+            <div class="alert alert-warning alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+            aria-hidden="true">×</span>
+            </button>
+            <h4>${message.title}</h4>
+            <div>${message.description}</div>
+            </div>
+            </c:forEach>
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<c:choose>
-
 						<c:when test="${not empty computerEditor.computer}">
 							<div class="label label-default pull-right">
 	                        	id: ${computerEditor.computer.id}
@@ -63,7 +71,7 @@
 									type="text" class="form-control" id="name" name="name"
 									placeholder="Computer name" value="${computerEditor.name}"
 									required="required">
-								<c:if test="${!computerEditor.hasValidName()}">
+								<c:if test="${computerEditor.name != null && computerEditor.name != '' && !computerEditor.hasValidName()}">
 									<span class="help-block"><spring:message text="Computer's Name is compulsory." code="lbl.error.computerNameCompulsory"/></span>
 								</c:if>
 							</div>
