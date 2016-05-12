@@ -13,21 +13,25 @@
     <name>persistence</name>
 
     <dependencies>
+        <!-- Internal -->
         <dependency>
             <groupId>com.excilys.mviegas.speccdb</groupId>
             <artifactId>core</artifactId>
         </dependency>
 
+        <!-- Spring -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
         </dependency>
 
+        <!-- Pool de connexion -->
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
         </dependency>
 
+        <!-- ORM - Hibernate -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
@@ -40,6 +44,7 @@
             <artifactId>spring-test</artifactId>
         </dependency>
 
+        <!-- Tests -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
@@ -49,7 +54,6 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -72,7 +76,6 @@
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
             <scope>test</scope>
         </dependency>
 

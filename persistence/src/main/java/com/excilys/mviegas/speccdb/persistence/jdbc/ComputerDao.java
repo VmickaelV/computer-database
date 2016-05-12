@@ -41,10 +41,6 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 	public static final int BASE_SIZE_PAGE = 100;
 
 	//=============================================================
-	// Attributs
-	//=============================================================
-
-	//=============================================================
 	// Inner Classes
 	//=============================================================
 
@@ -81,6 +77,12 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 	public enum TypeOrder {
 		ASC, DESC;
 
+		/**
+		 * Parse un String
+		 *
+		 * @param pTypeOrder Texte à Parser
+		 * @return TypeOrder parsé ou null si pTypeOrder null ou vide
+		 */
 		public static TypeOrder from(String pTypeOrder) {
 			if (pTypeOrder == null || pTypeOrder.isEmpty()) {
 				return null;
@@ -109,6 +111,11 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 			queryName = pQueryName;
 		}
 
+		/**
+		 * Parse d'un String en Order
+		 * @param pTexte Texte à parser
+		 * @return Order ou null si pTextde est null ou vide
+		 */
 		public static Order from(String pTexte) {
 			if (pTexte == null || pTexte.isEmpty()) {
 				return null;
@@ -123,22 +130,10 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 	}
 
 	//=============================================================
-	// Attributres - private
-	//=============================================================
-
-	//=============================================================
 	// Constructors
 	//=============================================================
 	public ComputerDao() {
 	}
-
-	//===========================================================
-	// Getters & Setters
-	//===========================================================
-
-	//===========================================================
-	// Methods - private
-	//===========================================================
 
 	// ===========================================================
 	// Methods - Crudable
@@ -146,11 +141,6 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 	
 	@Override
 	public Paginator<Computer> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("ComputerDao.findWithNamedQueryWithPaginator");
-			LOGGER.debug("namedQueryName = [" + namedQueryName + "], parameters = [" + parameters + "]");
-		}
-
 		switch (namedQueryName) {
 			case NamedQueries.SEARCH:
 				int size = (int) parameters.getOrDefault(Parameters.SIZE, BASE_SIZE_PAGE);
@@ -181,7 +171,6 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 						cq.orderBy(cb.asc(computerRoot.get(order.attributeName)));
 					}
 				}
-
 
 				int nbCount = Math.toIntExact(mEntityManager.createQuery(cqCount).getSingleResult());
 

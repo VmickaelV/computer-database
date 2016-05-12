@@ -29,9 +29,11 @@ public abstract class AbstractGenericCrudServiceBean<T extends Identifiable> imp
 	// Attributs
 	//=============================================================
 
+	@SuppressWarnings("WeakerAccess")
 	@PersistenceContext
 	protected EntityManager mEntityManager;
 
+	@SuppressWarnings("WeakerAccess")
 	protected final Class<T> entityBeanType;
 
 	//=============================================================
@@ -188,31 +190,6 @@ public abstract class AbstractGenericCrudServiceBean<T extends Identifiable> imp
 		q.setFirstResult(pStart);
 		q.setMaxResults(pSize);
 		return new Paginator<>(pStart, count, pSize, q.getResultList());
-
-//		Paginator<T> paginator;
-//
-//		Query query = mEntityManager.createNativeQuery("SELECT * FROM "+entityBeanType.getSimpleName());
-//
-//		if (pSize> 0) {
-//			query.setMaxResults(pSize);
-//		}
-//		if (pStart > 0) {
-//			query.setFirstResult(pStart);
-//		}
-//
-//		//noinspection unchecked
-//		List<T> resultList = query.getResultList();
-//
-//		int nbCount;
-//		if (pSize > 0) {
-//			nbCount = (int) ((BigInteger) mEntityManager.createNativeQuery("SELECT COUNT(*) FROM " + entityBeanType.getSimpleName()).getSingleResult()).longValue();
-//		} else {
-//			nbCount = resultList.size();
-//		}
-//
-//		paginator = new Paginator<>(pStart, nbCount, pSize, resultList);
-//
-//		return paginator;
 	}
 
 	@Override
