@@ -5,7 +5,7 @@ import com.excilys.mviegas.speccdb.controlers.IComputerDetailControler;
 import com.excilys.mviegas.speccdb.data.Computer;
 
 /**
- * Controleur d'affiche d'un {@link Computer} en Détail
+ * Controleur d'affiche d'un {@link Computer} en Détail.
  */
 public class ComputerDetail implements IComputerDetailControler {
 
@@ -30,7 +30,7 @@ public class ComputerDetail implements IComputerDetailControler {
 	//=============================================================
 
 	private void printDetail() {
-		MainMenuConsole.printBread("Ordinateur n°"+mComputer.getId()+" : "+mComputer.getName());
+		MainMenuConsole.printBread("Ordinateur n°" + mComputer.getId() + " : " + mComputer.getName());
 		
 		System.out.printf("%15s : %d%n", "ID", mComputer.getId());
 		System.out.printf("%15s : %s%n", "NOM", mComputer.getName());

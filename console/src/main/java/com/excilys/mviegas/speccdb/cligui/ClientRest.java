@@ -1,7 +1,8 @@
 package com.excilys.mviegas.speccdb.cligui;
 
 /**
- * Base de ClientRest
+ * Base de ClientRest.
+ *
  * @author VIEGAS Mickael
  */
 public final class ClientRest {

@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
- * Controleur d'un Update ou d'ajout de {@link Computer}
+ * Controleur d'un Update ou d'ajout de {@link Computer}.
  */
 public class ComputerUpdate implements IComputerUpdateControler {
 
@@ -203,7 +203,7 @@ public class ComputerUpdate implements IComputerUpdateControler {
 	//=============================================================
 
 	/**
-	 * Factory de ComputerUpdate
+	 * Factory de ComputerUpdate.
 	 * @param pId Id du computeur à éditer
 	 * @return Controleur, ou null si computer introuvable
 	 */

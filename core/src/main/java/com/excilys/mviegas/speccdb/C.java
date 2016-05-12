@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Classe de constantes
+ * Classe de constantes.
  * 
  * @author Mickael
  */

@@ -75,7 +75,7 @@ public class MainMenuConsole {
 
 	public static void printBread(String pLink) {
 		System.out.println("");
-		System.out.println(" > "+pLink);
+		System.out.println(" > " + pLink);
 		System.out.println("-------------------------------------------------------------------");
 		
 	}
