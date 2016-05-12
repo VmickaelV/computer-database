@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.validation.Valid;
 
 /**
+ * Controleur d'Authentification
+ *
  * Created by excilys on 14/04/16.
  */
 @Controller
@@ -36,13 +38,5 @@ public class LoginController {
 		pLoginPage.setUserService(mUserService);
 
 		return "login";
-//		if (pLoginPage.addComputer()) {
-//			pModelMap.put("computerAdded", true);
-//			return "redirect:dashboard.html?logged";
-//		} else {
-//			pModelMap.put("loginPage", pLoginPage);
-//			pModelMap.put("error", true);
-//			return "login";
-//		}
 	}
 }

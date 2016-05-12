@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Bean lié à la gestion d'un ordinateur
+ * Bean lié à la gestion du login
  *
  * @author Mickael
  */
@@ -101,36 +101,5 @@ public class LoginPage {
 		mAction = null;
 		mPassword = null;
 		mUsername = null;
-	}
-
-	/**
-	 * Action sp&écialie pour télécharger des données après l'assignation des différences services
-	 */
-	public void refresh(boolean isEditing) {
-
-	}
-
-	public void refresh() {
-		refresh(false);
-	}
-
-	//===========================================================
-	// Méthodes Controleurs
-	//===========================================================
-	public boolean addComputer() {
-//		if (isValidForm()) {
-//			try {
-//				mComputerService.create(makeComputer());
-//			} catch (DAOException pE) {
-//				mMessages.add(new Message("Internal Error", "Interal Error", Level.ERROR));
-//				return false;
-//			}
-//			mMessages.add(new Message("Computed Added", "Computer Added", Level.SUCCESS));
-//			return true;
-//		} else {
-//			mMessages.add(new Message("Invalid Formular", "You formular is Invalid.\nCheck the details", Level.ERROR));
-//			return false;
-//		}
-		return false;
 	}
 }

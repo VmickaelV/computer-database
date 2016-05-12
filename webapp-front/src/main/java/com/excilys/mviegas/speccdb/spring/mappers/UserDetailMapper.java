@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * Map de {@link User} vers {@link UserDetails}
+ *
  * @author VIEGAS Mickael
  */
 public class UserDetailMapper {

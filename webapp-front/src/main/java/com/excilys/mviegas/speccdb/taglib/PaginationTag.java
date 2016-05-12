@@ -49,7 +49,7 @@ public class PaginationTag extends SimpleTagSupport {
 	private int mPagesCountAround = 3;
 
 	/**
-	 *
+	 * Nombre d'élément total
 	 */
 	private int mCount;
 
