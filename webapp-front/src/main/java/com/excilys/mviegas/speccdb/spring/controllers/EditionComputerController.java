@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.validation.Valid;
 
 /**
+ * Controleur pour l'édition de Computer
  * Created by excilys on 14/04/16.
  */
 @Controller

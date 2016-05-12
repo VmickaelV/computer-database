@@ -14,6 +14,7 @@
     <packaging>war</packaging>
 
     <dependencies>
+        <!-- Internal -->
         <dependency>
             <groupId>com.excilys.mviegas.speccdb</groupId>
             <artifactId>service</artifactId>
@@ -24,6 +25,7 @@
             <artifactId>binding</artifactId>
         </dependency>
 
+        <!-- Validation -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -52,6 +54,18 @@
         </dependency>
 
         <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Spring Sécurité -->
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
         </dependency>
@@ -66,17 +80,7 @@
             <artifactId>spring-security-taglibs</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
+        <!-- ORM -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
@@ -87,6 +91,7 @@
             <artifactId>hibernate-java8</artifactId>
         </dependency>
 
+        <!-- Pilote JDBC -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -100,6 +105,7 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Logback -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>

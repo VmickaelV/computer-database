@@ -10,11 +10,13 @@
         http://www.springframework.org/schema/security/spring-security.xsd
        ">
 
+    <!-- Désécurisation des resources static -->
     <http pattern="/css/**" security="none"/>
     <http pattern="/images/**" security="none"/>
     <http pattern="/js/**" security="none"/>
     <http pattern="/fonts/**" security="none"/>
 
+    <!-- Déclaration des règles de sécurité -->
     <http use-expressions="true">
         <intercept-url pattern="/login.html*" access="isAnonymous()"/>
         <intercept-url pattern="/addComputer.html*" access="hasRole('ADMIN')"/>
@@ -25,12 +27,15 @@
         <logout />
         <csrf />
     </http>
+
+    <!-- Déclaration de la gestion des Utilisateurs -->
     <authentication-manager>
         <authentication-provider user-service-ref="myUserDetailsService">
             <password-encoder ref="bcryptEncoder"/>
         </authentication-provider>
     </authentication-manager>
 
+    <!-- Déclaration du Crypteur de Mot de Passe-->
     <beans:bean name="bcryptEncoder"
                 class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 </beans:beans>

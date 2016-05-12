@@ -11,11 +11,16 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
+ * "Dao" de UserDetails pour SpringSecurity
+ *
  * @author VIEGAS Mickael
  */
 @Component
 public class MyUserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
+	/**
+	 * Cache d'utilisateurs
+	 */
 	private Map<String, UserDetails> mCache = new TreeMap<>();
 
 	@Autowired
@@ -37,6 +42,9 @@ public class MyUserDetailsService implements org.springframework.security.core.u
 		}
 	}
 
+	/**
+	 * Invalidation du Cache
+	 */
 	public void invalidate() {
 		mCache.clear();
 	}

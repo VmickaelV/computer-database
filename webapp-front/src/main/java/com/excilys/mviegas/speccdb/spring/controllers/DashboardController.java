@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.validation.Valid;
 
 /**
+ * Controleur pour les pages du dashboard
+ *
  * Created by excilys on 14/04/16.
  */
 @Controller
 public class DashboardController {
+
 	@Autowired
 	private ComputerService mComputerService;
 

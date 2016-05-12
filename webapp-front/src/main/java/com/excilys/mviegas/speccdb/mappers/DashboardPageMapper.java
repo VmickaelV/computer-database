@@ -15,6 +15,9 @@ import static com.excilys.mviegas.speccdb.managers.DashboardPage.DEFAULT_SIZE_PA
  */
 public class DashboardPageMapper {
 
+	/**
+	 * Clés possibles pour la Map
+	 */
 	public static class Keys {
 		public static final String PAGE = "page";
 		public static final String SIZE = "size";
