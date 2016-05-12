@@ -1,22 +1,9 @@
 package com.excilys.mviegas.speccdb.cligui;
 
-import org.springframework.web.client.RestTemplate;
-
 /**
+ * Base de ClientRest
  * @author VIEGAS Mickael
  */
-public enum ClientRest {
-	INSTANCE;
-
-	private RestTemplate mRestTemplate;
+public final class ClientRest {
 	public static final String BASE_URL = "http://localhost:8888";
-
-	ClientRest() {
-//		Service.create()
-		mRestTemplate = new RestTemplate();
-	}
-
-	public RestTemplate getRestTemplate() {
-		return mRestTemplate;
-	}
 }
