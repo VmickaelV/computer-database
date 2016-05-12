@@ -17,8 +17,6 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-	<!-- Bean de connexion à la BDD -->
-
 	<!-- Pool de connexion -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="poolName" value="springHikariCP" />
@@ -59,10 +57,6 @@
 		<property name="entityManagerFactory" ref="myEmf" />
 	</bean>
 
-	<!--<bean id="persistenceExceptionTranslationPostProcessor" -->
-	<!--class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" 
-		/> -->
-
 	<!-- Bean de fournisseur de messages internationnalisées -->
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -79,10 +73,10 @@
 	<bean id="validator"
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
+    <!-- Scan & déclarations divers -->
 	<context:property-placeholder location="classpath:config_bd.properties" />
 
 	<context:component-scan base-package="com.excilys.mviegas.speccdb.persistence.jdbc" />
-	<context:component-scan base-package="com.excilys.mviegas.speccdb.services" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 

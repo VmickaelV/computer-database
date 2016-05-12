@@ -25,6 +25,12 @@ public class CompanyDao extends AbstractGenericCrudServiceBean<Company> implemen
 	// ============================================================
 	public static final Logger LOGGER = LoggerFactory.getLogger(CompanyDao.class);
 
+	//=============================================================
+	// Constructors
+	//=============================================================
+	public CompanyDao() {
+	}
+
 	// ===========================================================
 	// Methods - Crudable
 	// ===========================================================
