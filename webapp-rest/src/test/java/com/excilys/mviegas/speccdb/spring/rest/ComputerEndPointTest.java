@@ -29,8 +29,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -220,6 +219,139 @@ public class ComputerEndPointTest {
 
 		assertEquals(n, mComputerService.size());
 	}
+
+	@Test
+	public void deleteNotFound1() throws Exception {
+
+		// TODO retravailler les messages d'erreurs
+		int n = mComputerService.size();
+		MvcResult mvcResult =
+				mockMvc
+						.perform(delete(URI.create("/computers/-1"))
+								.content("{\"id\":321}")
+								.contentType(MediaType.APPLICATION_JSON_UTF8))
+
+						.andExpect(status().isNotFound())
+						.andExpect(content().string(""))
+						.andReturn()
+				;
+
+		assertEquals(n, mComputerService.size());
+	}
+
+	@Test
+	public void deleteNotFound2() throws Exception {
+
+		// TODO retravailler les messages d'erreurs
+		int n = mComputerService.size();
+		MvcResult mvcResult =
+				mockMvc
+						.perform(delete(URI.create("/computers/64332")))
+						.andExpect(status().isNotFound())
+						.andExpect(content().string(""))
+						.andReturn()
+				;
+
+		assertEquals(n, mComputerService.size());
+	}
+
+	@Test
+	public void deleteResource() throws Exception {
+
+		// TODO retravailler les messages d'erreurs
+		int n = mComputerService.size();
+		MvcResult mvcResult =
+				mockMvc
+						.perform(delete(URI.create("/computers/23")))
+						.andExpect(status().isOk())
+						.andExpect(content().string(""))
+						.andReturn()
+				;
+
+		assertEquals(n-1, mComputerService.size());
+	}
+
+	@Test
+	public void deleteResourcenotIndompedence() throws Exception {
+
+		// TODO retravailler les messages d'erreurs
+		int n = mComputerService.size();
+		MvcResult mvcResult =
+				mockMvc
+						.perform(delete(URI.create("/computers/25")))
+						.andExpect(status().isOk())
+						.andExpect(content().string(""))
+						.andReturn()
+				;
+
+		assertEquals(n-1, mComputerService.size());
+
+		mvcResult =
+				mockMvc
+						.perform(delete(URI.create("/computers/25")))
+						.andExpect(status().isNotFound())
+						.andExpect(content().string(""))
+						.andReturn()
+				;
+
+		assertEquals(n-1, mComputerService.size());
+	}
+
+	@Test
+	public void deleteSuceptibleBig() throws Exception {
+
+		// TODO retravailler les messages d'erreurs
+		int n = mComputerService.size();
+		MvcResult mvcResult =
+				mockMvc
+						.perform(delete(URI.create("/computers/25"))
+								.contentType(MediaType.APPLICATION_JSON_UTF8)
+								.content("[-1, 2, 3]"))
+						.andExpect(status().isOk())
+						.andExpect(content().string(""))
+						.andReturn()
+				;
+
+		assertEquals(n-1, mComputerService.size());
+	}
+
+	@Test
+	public void deleteListWrong() throws Exception {
+
+		// TODO retravailler les messages d'erreurs
+		int n = mComputerService.size();
+		MvcResult mvcResult =
+				mockMvc
+						.perform(delete(URI.create("/computers"))
+								.contentType(MediaType.APPLICATION_JSON_UTF8)
+								.content("[-1, 2, 3]"))
+						.andExpect(status().isNotFound())
+						.andExpect(content().string(""))
+						.andReturn()
+				;
+
+		assertEquals(n, mComputerService.size());
+	}
+
+	@Test
+	public void deleteListWright() throws Exception {
+
+		// TODO retravailler les messages d'erreurs
+		int n = mComputerService.size();
+		MvcResult mvcResult =
+				mockMvc
+						.perform(delete(URI.create("/computers"))
+								.contentType(MediaType.APPLICATION_JSON_UTF8)
+								.content("[1, 2, 3]"))
+						.andExpect(status().isOk() 	)
+						.andExpect(content().string(""))
+						.andReturn()
+				;
+
+		assertEquals(n-3, mComputerService.size());
+	}
+
+
 
 	public void assertCompany(List<Company> pListExcepted, List<Company> pListResult) {
 		Iterator<Company> iteratorExcepted = pListExcepted.iterator();
