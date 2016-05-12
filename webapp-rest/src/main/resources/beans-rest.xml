@@ -16,6 +16,7 @@
     <!-- Imports -->
     <import resource="classpath:beans-back.xml"/>
     <import resource="classpath:beans-binding.xml"/>
+    <import resource="classpath:beans-service.xml"/>
 
     <!-- Scan des annotations -->
     <context:component-scan base-package="com.excilys.mviegas.speccdb.spring.rest" />
