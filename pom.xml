@@ -94,6 +94,7 @@
         <xml-apis.version>1.4.01</xml-apis.version>
         <HikariCP.version>2.4.5</HikariCP.version>
         <webapp-runner.version>8.0.30.2</webapp-runner.version>
+        <commons-logging.version>1.1.1</commons-logging.version>
 
         <selenium.version>2.53.0</selenium.version>
         <selenium-java.version>${selenium.version}</selenium-java.version>
@@ -121,7 +122,7 @@
         <jackson-databind.version>${jackson.version}</jackson-databind.version>
         <jackson-annotations.version>${jackson.version}</jackson-annotations.version>
         <json-path.version>2.2.0</json-path.version>
-        <commons-logging.version>1.1.1</commons-logging.version>
+
     </properties>
 
     <build>
