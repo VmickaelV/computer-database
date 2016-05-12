@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
+ * Endpoint de resources de {@link Company}
+ *
  * @author VIEGAS Mickael
  */
 @RestController
@@ -55,10 +57,5 @@ public class CompanyEndpoint {
 			throw new ResourceNotFound();
 		}
 		return new ResponseEntity<>(company, HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ResponseEntity<?> test() {
-		return new ResponseEntity<Object>("salut", HttpStatus.OK);
 	}
 }
