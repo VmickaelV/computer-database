@@ -6,29 +6,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html lang="${pageContext.response.locale}">
-<head>
-<title>Computer Database</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Bootstrap -->
-<link href="/speccdb/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="/speccdb/css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="/speccdb/css/jquery-ui.min.css" rel="stylesheet" media="screen">
-<link href="/speccdb/css/jquery-ui.structure.min.css" rel="stylesheet" media="screen">
-<link href="/speccdb/css/jquery-ui.theme.min.css" rel="stylesheet" media="screen">
-<link href="/speccdb/css/main.css" rel="stylesheet" media="screen">
-</head>
+<%@include file="../templates/head.jsp"%>
 <body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-            <a class="navbar-brand" href="dashboard.html"><spring:message code="lbl.title"/></a>
-
-            <div class="navbar-right">
-                <a href="?lang=fr"><img src="/speccdb/images/fr.jpg"></a>
-                <a href="?lang=en"><img src="/speccdb/images/en.jpg"></a>
-            </div>
-		</div>
-	</header>
-
+    <%@include file="../templates/header.jsp" %>
 
 	<section id="main">
 		<div class="container">

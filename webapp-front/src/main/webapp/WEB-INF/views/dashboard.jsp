@@ -9,33 +9,9 @@
 <%--@elvariable id="dashboardManager" type="com.excilys.mviegas.speccdb.managers.DashboardPage"--%>
 
 <html lang="${pageContext.response.locale}">
-<head>
-    <title>Computer Database</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <!-- Bootstrap -->
-    <link href="/speccdb/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="/speccdb/css/font-awesome.css" rel="stylesheet" media="screen">
-    <link href="/speccdb/css/main.css" rel="stylesheet" media="screen">
-</head>
+<%@include file="../templates/head.jsp"%>
 <body>
-<header class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="dashboard.html"><spring:message code="lbl.title"/></a>
-
-        <div class="navbar-right">
-            <form id="logoutForm" class="form-inline" method="POST" action="/speccdb/logout">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                <button class="btn" type="submit" id="btnLogout" name="action" value="logout">
-                    <spring:message text="Logout" code="lbl.logout"/>
-                </button>
-            </form>
-
-            <a href="?lang=fr"><img src="/speccdb/images/fr.jpg"></a>
-            <a href="?lang=en"><img src="/speccdb/images/en.jpg"></a>
-        </div>
-    </div>
-</header>
+<%@include file="../templates/header.jsp" %>
 <section id="main">
     
     <%-- Message de confirmations --%>
