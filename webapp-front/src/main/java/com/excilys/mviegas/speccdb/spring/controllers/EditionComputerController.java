@@ -7,6 +7,7 @@ import com.excilys.mviegas.speccdb.spring.singletons.ListOfCompanies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,7 @@ public class EditionComputerController {
 	public String get(@Valid ComputerEditorPage pComputerEditorPage, ModelMap  pModelMap) {
 		pComputerEditorPage.setCompanyService(mCompanyService);
 		pComputerEditorPage.setComputerService(mComputerService);
+		pComputerEditorPage.setLocale(LocaleContextHolder.getLocale());
 		pComputerEditorPage.refresh();
 
 		pModelMap.put("computerEditor", pComputerEditorPage);
@@ -47,6 +49,7 @@ public class EditionComputerController {
 	public String add(@Valid ComputerEditorPage pComputerEditorPage, ModelMap pModelMap) {
 		pComputerEditorPage.setCompanyService(mCompanyService);
 		pComputerEditorPage.setComputerService(mComputerService);
+		pComputerEditorPage.setLocale(LocaleContextHolder.getLocale());
 		pComputerEditorPage.refresh();
 
 		if (pComputerEditorPage.addComputer()) {
@@ -63,6 +66,7 @@ public class EditionComputerController {
 	public String getComputer(@Valid ComputerEditorPage pComputerEditorPage, ModelMap pModelMap) {
 		pComputerEditorPage.setCompanyService(mCompanyService);
 		pComputerEditorPage.setComputerService(mComputerService);
+		pComputerEditorPage.setLocale(LocaleContextHolder.getLocale());
 		pComputerEditorPage.refresh();
 		
 		pModelMap.put("computerEditor", pComputerEditorPage);
@@ -74,6 +78,7 @@ public class EditionComputerController {
 	public String edit(@Valid ComputerEditorPage pComputerEditorPage, ModelMap pModelMap) {
 		pComputerEditorPage.setCompanyService(mCompanyService);
 		pComputerEditorPage.setComputerService(mComputerService);
+		pComputerEditorPage.setLocale(LocaleContextHolder.getLocale());
 		pComputerEditorPage.refresh(true);
 		
 		if (pComputerEditorPage.editComputer()) {

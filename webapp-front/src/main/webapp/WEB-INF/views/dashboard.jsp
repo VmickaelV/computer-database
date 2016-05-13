@@ -2,8 +2,8 @@
 %><!DOCTYPE html>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="/WEB-INF/tagslib.tld" prefix="my" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="my2" %>
+<%@ taglib uri="/WEB-INF/tagslib.tld" prefix="myFn" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="myTags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--@elvariable id="dashboardManager" type="com.excilys.mviegas.speccdb.managers.DashboardPage"--%>
@@ -100,7 +100,7 @@
         </h1>
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
-                <form id="searchForm" action="${my:link('dashboard')}" method="GET" class="form-inline">
+                <form id="searchForm" action="${myFn:link('dashboard')}" method="GET" class="form-inline">
                     <c:if test="${not empty param.size}">
                         <input type="hidden" name="size" value="${param.size}">
                     </c:if>
@@ -147,10 +147,10 @@
                         class="fa fa-trash-o fa-lg"></i>
                 </a>
 						</span></th>
-                <th><a href="${my:linkSort('dashboard', param, 'name', (dashboardManager.order == 'name' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'name'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.computer_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'name' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
-                <th><a href="${my:linkSort('dashboard', param, 'introduced', (dashboardManager.order == 'introduced' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'introduced'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.introduced_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'introduced' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
-                <th><a href="${my:linkSort('dashboard', param, 'discontinued', (dashboardManager.order == 'discontinued' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'discontinued'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.discontinued_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'discontinued' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
-                <th><a href="${my:linkSort('dashboard', param, 'company_name', (dashboardManager.order == 'company_name' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'company_name'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.company_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'company_name' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${myFn:linkSort('dashboard', param, 'name', (dashboardManager.order == 'name' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'name'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.computer_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'name' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${myFn:linkSort('dashboard', param, 'introduced', (dashboardManager.order == 'introduced' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'introduced'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.introduced_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'introduced' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${myFn:linkSort('dashboard', param, 'discontinued', (dashboardManager.order == 'discontinued' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'discontinued'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.discontinued_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'discontinued' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
+                <th><a href="${myFn:linkSort('dashboard', param, 'company_name', (dashboardManager.order == 'company_name' && dashboardManager.typeOrder != 'DESC' ? 'DESC' : null))}"><c:if test="${dashboardManager.order == 'company_name'}"><span class="glyphicon glyphicon-chevron-${dashboardManager.typeOrder == 'DESC' ? 'down': 'up'}" aria-hidden="true"></span></c:if> <spring:message code="lbl.company_name"/> <span class="glyphicon glyphicon-sort-by-attributes${dashboardManager.order == 'company_name' && dashboardManager.typeOrder != 'DESC' ? '-alt': ''}" aria-hidden="true"></span></a></th>
             </tr>
             </thead>
 
@@ -179,8 +179,8 @@
                             </jsp:element>
                         </security:authorize>
                     </td>
-                    <td><c:out value="${computer.introducedDate}"/></td>
-                    <td><c:out value="${computer.discontinuedDate}"/></td>
+                    <td><c:out value="${myFn:printLocalizedDate(computer.introducedDate)}"/></td>
+                    <td><c:out value="${myFn:printLocalizedDate(computer.discontinuedDate)}"/></td>
                     <td><c:out value="${computer.manufacturer.name}"/></td>
                 </tr>
             </c:forEach>
@@ -192,14 +192,14 @@
 
 <footer class="navbar-fixed-bottom">
     <div class="container text-center">
-        <my:pagination paginator="${dashboardManager.paginator}"
+        <myFn:pagination paginator="${dashboardManager.paginator}"
                        parameters="${param}"/>
 
         <div class="btn-group btn-group-sm pull-right" role="group">
             <a type="button" class="btn btn-default ${param.size == 10 || empty param.size ? 'active' : ''}"
-               href="${my:linkQE('dashboard', param, 'size', null)}">10</a>
-            <a type="button" class="btn btn-default ${param.size == 50 ? 'active' : ''}" href="${my:linkQE('dashboard', param, 'size', 50)}">50</a>
-            <a type="button" class="btn btn-default ${param.size == 100 ? 'active' : ''}" href="${my:linkQE('dashboard', param, 'size', 100)}">100</a>
+               href="${myFn:linkQE('dashboard', param, 'size', null)}">10</a>
+            <a type="button" class="btn btn-default ${param.size == 50 ? 'active' : ''}" href="${myFn:linkQE('dashboard', param, 'size', 50)}">50</a>
+            <a type="button" class="btn btn-default ${param.size == 100 ? 'active' : ''}" href="${myFn:linkQE('dashboard', param, 'size', 100)}">100</a>
         </div>
     </div>
 </footer>

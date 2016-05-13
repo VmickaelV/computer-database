@@ -1,8 +1,15 @@
 package com.excilys.mviegas.speccdb.taglib;
 
+import org.springframework.context.i18n.LocaleContextHolder;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import static com.excilys.mviegas.speccdb.managers.ComputerEditorPage.FORMATTER_EN;
+import static com.excilys.mviegas.speccdb.managers.ComputerEditorPage.FORMATTER_FR;
 
 /**
  * Classes de fonctions pour l'Expression Language.
@@ -126,6 +133,28 @@ public class ELFunctions {
 		map.put("typeOrder", pTypeOrder);
 
 		return link(pTarget, pQueries, map);
+	}
+
+	/**
+	 * Affiche une date qui est localisé, selon Spring.
+	 *
+	 * @param pLocalDate Date à formatter
+	 * @return Date formatté
+	 */
+	public static String printLocalizedDate(LocalDate pLocalDate) {
+		if (pLocalDate == null) {
+			return "";
+		}
+
+		switch (LocaleContextHolder.getLocale().getLanguage()) {
+			case "fr":
+				return FORMATTER_FR.format(pLocalDate);
+			case "en":
+				return FORMATTER_EN.format(pLocalDate);
+
+			default:
+				return DateTimeFormatter.ISO_DATE.format(pLocalDate);
+		}
 	}
 
 }

@@ -154,10 +154,10 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 		assertEquals("", driver.findElement(By.id("searchbox")).getText());
 
 		assertEquals("Apple II Plus", driver.findElement(By.linkText("Apple II Plus")).getText());
-		assertEquals("1980-05-01", driver.findElement(By.xpath("//tbody[@id='results']/tr[2]/td[3]")).getText());
+		assertEquals("05/01/1980", driver.findElement(By.xpath("//tbody[@id='results']/tr[2]/td[3]")).getText());
 		assertEquals("Apple Inc.", driver.findElement(By.xpath("//tbody[@id='results']/tr[6]/td[5]")).getText());
-		assertEquals("1983-12-01", driver.findElement(By.xpath("//tbody[@id='results']/tr[7]/td[3]")).getText());
-		assertEquals("1977-01-01", driver.findElement(By.xpath("//tbody[@id='results']/tr[10]/td[3]")).getText());
+		assertEquals("12/01/1983", driver.findElement(By.xpath("//tbody[@id='results']/tr[7]/td[3]")).getText());
+		assertEquals("01/01/1977", driver.findElement(By.xpath("//tbody[@id='results']/tr[10]/td[3]")).getText());
 		assertTrue(isElementPresent(By.linkText("COSMAC ELF")));
 
 
@@ -222,7 +222,7 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 		assertEquals("", driver.findElement(By.xpath("//tbody[@id='results']/tr/td[3]")).getText());
 		assertEquals("", driver.findElement(By.xpath("//tbody[@id='results']/tr[2]/td[3]")).getText());
 		assertEquals("", driver.findElement(By.xpath("//tbody[@id='results']/tr[3]/td[3]")).getText());
-		assertEquals("2002-01-01", driver.findElement(By.xpath("//tbody[@id='results']/tr[9]/td[3]")).getText());
+		assertEquals("01/01/2002", driver.findElement(By.xpath("//tbody[@id='results']/tr[9]/td[3]")).getText());
 		assertEquals("", driver.findElement(By.xpath("//tbody[@id='results']/tr/td[5]")).getText());
 		assertEquals("", driver.findElement(By.xpath("//tbody[@id='results']/tr[5]/td[5]")).getText());
 		assertEquals("IBM", driver.findElement(By.xpath("//tbody[@id='results']/tr[9]/td[5]")).getText());
@@ -445,14 +445,12 @@ public class Tests extends com.excilys.mviegas.speccdb.selenium.BaseSeleniumTest
 		assertFalse(isElementPresent(headerElement, By.cssSelector("span.glyphicon.glyphicon-chevron-up")));
 
 		// Assert Content
-		assertEquals("2011-03-02", driver.findElement(By.xpath("//tbody[@id='results']/tr/td[4]")).getText());
-		assertEquals("2009-01-01", driver.findElement(By.xpath("//tbody[@id='results']/tr[2]/td[4]")).getText());
-		assertEquals("2006-08-01", driver.findElement(By.xpath("//tbody[@id='results']/tr[3]/td[4]")).getText());
-		assertEquals("1998-01-01", driver.findElement(By.xpath("//tbody[@id='results']/tr[8]/td[4]")).getText());
-		assertEquals("1998-01-01", driver.findElement(By.xpath("//tbody[@id='results']/tr[8]/td[4]")).getText());
-		assertEquals("1996-01-01", driver.findElement(By.xpath("//tbody[@id='results']/tr[9]/td[4]")).getText());
-		assertEquals("1995-01-01", driver.findElement(By.xpath("//tbody[@id='results']/tr[10]/td[4]")).getText());
-
-
+		assertEquals("03/02/2011", driver.findElement(By.xpath("//tbody[@id='results']/tr/td[4]")).getText());
+		assertEquals("01/01/2009", driver.findElement(By.xpath("//tbody[@id='results']/tr[2]/td[4]")).getText());
+		assertEquals("08/01/2006", driver.findElement(By.xpath("//tbody[@id='results']/tr[3]/td[4]")).getText());
+		assertEquals("01/01/1998", driver.findElement(By.xpath("//tbody[@id='results']/tr[8]/td[4]")).getText());
+		assertEquals("01/01/1998", driver.findElement(By.xpath("//tbody[@id='results']/tr[8]/td[4]")).getText());
+		assertEquals("01/01/1996", driver.findElement(By.xpath("//tbody[@id='results']/tr[9]/td[4]")).getText());
+		assertEquals("01/01/1995", driver.findElement(By.xpath("//tbody[@id='results']/tr[10]/td[4]")).getText());
 	}
 }

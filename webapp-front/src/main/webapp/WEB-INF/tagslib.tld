@@ -76,4 +76,11 @@
 		<function-class>com.excilys.mviegas.speccdb.taglib.ELFunctions</function-class>
 		<function-signature>java.lang.String linkSort(java.lang.String,java.util.Map,java.lang.String,java.lang.String)</function-signature>
 	</function>
+
+    <function>
+        <description>Affiche une date formmaté dans le locale défini par Spring</description>
+        <name>printLocalizedDate</name>
+        <function-class>com.excilys.mviegas.speccdb.taglib.ELFunctions</function-class>
+        <function-signature>java.lang.String printLocalizedDate(java.time.LocalDate)</function-signature>
+    </function>
 </taglib>

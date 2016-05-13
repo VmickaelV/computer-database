@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.excilys.mviegas.speccdb.validators.ComputerDateValidator.isValidDate;
@@ -39,9 +40,9 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	// Constantes
 	//=============================================================
 	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerEditorPage.class);
-	public static final String PATTERN_DATE = "dd/MM/yyyy";
-	public static final DateTimeFormatter sDateTimeFormatter = DateTimeFormatter.ofPattern(PATTERN_DATE);
-	
+	public static final DateTimeFormatter FORMATTER_EN = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+	public static final DateTimeFormatter FORMATTER_FR = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
 	//===========================================================
 	// Attribute - private
 	//===========================================================
@@ -68,6 +69,8 @@ public class ComputerEditorPage implements IEditorComputerControler {
 
 	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 	private List<Message> mMessages = new LinkedList<>();
+
+	private Locale mLocale = Locale.ENGLISH;
 
 	//===========================================================
 	// Constructeurs
@@ -177,6 +180,14 @@ public class ComputerEditorPage implements IEditorComputerControler {
 		mMessages = pMessages;
 	}
 
+	public Locale getLocale() {
+		return mLocale;
+	}
+
+	public void setLocale(Locale pLocale) {
+		mLocale = pLocale;
+	}
+
 	//===========================================================
 	// Functions
 	//===========================================================
@@ -190,11 +201,11 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	}
 
 	public boolean hasValidIntroducedDate() {
-		return isValidDate(mIntroducedDate, sDateTimeFormatter);
+		return isValidDate(mIntroducedDate, getFormatter());
 	}
 
 	public boolean hasValidDiscontinuedDate() {
-		return isValidDate(mDiscontinuedDate, sDateTimeFormatter);
+		return isValidDate(mDiscontinuedDate, getFormatter());
 	}
 
 	public boolean hasValidIdCompany() {
@@ -211,13 +222,13 @@ public class ComputerEditorPage implements IEditorComputerControler {
 			if (mComputer == null) {
 				return new Computer.Builder()
 						.setName(mName)
-						.setIntroducedDate(mIntroducedDate == null || mIntroducedDate.isEmpty() ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter))
-						.setDiscontinuedDate(mDiscontinuedDate == null || mDiscontinuedDate.isEmpty() ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter))
+						.setIntroducedDate(mIntroducedDate == null || mIntroducedDate.isEmpty() ? null : LocalDate.parse(mIntroducedDate, getFormatter()))
+						.setDiscontinuedDate(mDiscontinuedDate == null || mDiscontinuedDate.isEmpty() ? null : LocalDate.parse(mDiscontinuedDate, getFormatter()))
 						.setManufacturer(mCompanyService.find(mIdCompany)).build();
-			} else {				
+			} else {
 				mComputer.setName(mName);
-				mComputer.setIntroducedDate(mIntroducedDate == null || mIntroducedDate.isEmpty() ? null : LocalDate.parse(mIntroducedDate, sDateTimeFormatter));
-				mComputer.setDiscontinuedDate(mDiscontinuedDate == null || mDiscontinuedDate.isEmpty() ? null : LocalDate.parse(mDiscontinuedDate, sDateTimeFormatter));
+				mComputer.setIntroducedDate(mIntroducedDate == null || mIntroducedDate.isEmpty() ? null : LocalDate.parse(mIntroducedDate, getFormatter()));
+				mComputer.setDiscontinuedDate(mDiscontinuedDate == null || mDiscontinuedDate.isEmpty() ? null : LocalDate.parse(mDiscontinuedDate, getFormatter()));
 				mComputer.setManufacturer(mCompanyService.find(mIdCompany));
 				
 				if (LOGGER.isDebugEnabled()) {
@@ -263,10 +274,10 @@ public class ComputerEditorPage implements IEditorComputerControler {
 				if (!isEditing) {
 					mName = mComputer.getName();
 					if (mComputer.getIntroducedDate() != null) {
-						mIntroducedDate = mComputer.getIntroducedDate().format(sDateTimeFormatter);
+						mIntroducedDate = mComputer.getIntroducedDate().format(getFormatter());
 					}
 					if (mComputer.getDiscontinuedDate() != null) {
-						mDiscontinuedDate = mComputer.getDiscontinuedDate().format(sDateTimeFormatter);
+						mDiscontinuedDate = mComputer.getDiscontinuedDate().format(getFormatter());
 					}
 					if (mComputer.getManufacturer() != null) {
 						mIdCompany = mComputer.getManufacturer().getId();
@@ -328,12 +339,6 @@ public class ComputerEditorPage implements IEditorComputerControler {
 	 * @param map M
 	 */
 	public void map(Map<String, String> map) {
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("map = " + map);
-			LOGGER.debug("this = " + this);
-
-		}
-
 		if (map.containsKey("id")) {
 			setId(Integer.parseInt(map.get("id")));
 		}
@@ -356,6 +361,22 @@ public class ComputerEditorPage implements IEditorComputerControler {
 
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("this = " + this);
+		}
+	}
+
+	public DateTimeFormatter getFormatter() {
+		System.out.println("ComputerEditorPage.getFormatter");
+		System.out.println("mLocale = " + mLocale.getLanguage());
+		System.out.println("mLocale = " + mLocale.getCountry());
+		// TODO trouver une autre façon
+		switch (mLocale.getLanguage()) {
+			case "fr":
+				return FORMATTER_FR;
+			case "en":
+				return FORMATTER_EN;
+
+			default:
+				return DateTimeFormatter.ISO_DATE;
 		}
 	}
 }

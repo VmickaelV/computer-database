@@ -212,7 +212,7 @@ public class AddComputerTest extends BaseSeleniumTest {
 
 //		 04/05/2016
 		assertEquals("Nouvel Ordinateur", driver.findElement(By.xpath("//tbody[@id='results']/tr[75]/td[2]")).getText());
-		assertEquals("2016-08-04", driver.findElement(By.xpath("//tbody[@id='results']/tr[75]/td[3]")).getText());
+		assertEquals("04/08/2016", driver.findElement(By.xpath("//tbody[@id='results']/tr[75]/td[3]")).getText());
 		assertEquals("", driver.findElement(By.xpath("//tbody[@id='results']/tr[75]/td[4]")).getText());
 		assertEquals("NeXT", driver.findElement(By.xpath("//tbody[@id='results']/tr[75]/td[5]")).getText());
 	}
