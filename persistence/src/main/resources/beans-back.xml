@@ -46,7 +46,7 @@
 			<props>
 				<prop key="javax.persistence.schema-generation.database.action">drop-and-create</prop>
 				<prop key="javax.persistence.schema-generation.create-source">metadata</prop>
-				<prop key="javax.persistence.sql-load-script-source">META-INF/db/3-ENTRIES.sql</prop>
+				<prop key="javax.persistence.sql-load-script-source">META-INF/db/auto.sql</prop>
 				<prop key="javax.persistence.schema-generation.drop-source">metadata</prop>
 			</props>
 		</property>
