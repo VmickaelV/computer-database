@@ -4,15 +4,15 @@ import com.excilys.mviegas.speccdb.cligui.ClientRest;
 import com.excilys.mviegas.speccdb.data.Computer;
 import com.excilys.mviegas.speccdb.dto.ComputerDto;
 import com.excilys.mviegas.speccdb.persistence.Paginator;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.web.client.RestTemplate;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -22,21 +22,23 @@ public enum ComputerService {
 
 	INSTANCE;
 
-	private RestTemplate mRestTemplate = new RestTemplate();
-
-	private Map<String, String> mMap = new HashMap<>();
+	private Client mClient = ClientBuilder.newClient();
 
 	public Computer find(long pId) {
-		return mRestTemplate.getForEntity(ClientRest.BASE_URL + "/computers/" + pId, Computer.class).getBody();
+		WebTarget target = mClient.target(ClientRest.BASE_URL).path("computers/"+pId);
+		return target.request().get(Computer.class);
 	}
 
 	public void delete(Computer pComputer) {
-		mRestTemplate.delete(ClientRest.BASE_URL + "/computers/" + pComputer.getId());
+		WebTarget target = mClient.target(ClientRest.BASE_URL).path("computers");
+		target.request().delete();
 	}
 
 	public Paginator<Computer> findAllWithPaginator(int pStart, int pSize) {
-		Paginator<ComputerDto> dtoPaginator = mRestTemplate.exchange(ClientRest.BASE_URL + "/computers?start=" + pStart + "&size=" + pSize, HttpMethod.GET, HttpEntity.EMPTY, new ParameterizedTypeReference<Paginator<ComputerDto>>() {
-		}).getBody();
+		WebTarget target = mClient.target(ClientRest.BASE_URL).path("/computers").queryParam("start", pStart).queryParam("size", pSize);
+		Paginator<ComputerDto> dtoPaginator;
+
+		dtoPaginator = target.request(MediaType.APPLICATION_JSON_TYPE).get().readEntity(new GenericType<Paginator<ComputerDto>>() {});
 
 		Paginator<Computer> paginator = new Paginator<>(dtoPaginator);
 
@@ -64,6 +66,7 @@ public enum ComputerService {
 	}
 
 	public void create(Computer pComputer) {
-		mRestTemplate.exchange(ClientRest.BASE_URL + "/computers", HttpMethod.POST, new HttpEntity<>(new ComputerDto(pComputer)), Void.class);
+		WebTarget target = mClient.target(ClientRest.BASE_URL).path("/computers");
+		target.request().post(Entity.entity(new ComputerDto(pComputer), MediaType.APPLICATION_JSON));
 	}
 }

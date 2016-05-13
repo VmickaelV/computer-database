@@ -2,7 +2,10 @@ package com.excilys.mviegas.speccdb.cligui.services;
 
 import com.excilys.mviegas.speccdb.cligui.ClientRest;
 import com.excilys.mviegas.speccdb.data.Company;
-import org.springframework.web.client.RestTemplate;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 
 /**
  * @author VIEGAS Mickael
@@ -12,9 +15,14 @@ public enum CompanyService {
 	INSTANCE;
 
 
-	private RestTemplate mRestTemplate = new RestTemplate();
+ 	public Company find(long pId) {
+		WebTarget target = mClient.target(ClientRest.BASE_URL).path("companies/"+pId);
+		return target.request().get(Company.class);
+	}
 
-	public Company find(long pId) {
-		return mRestTemplate.getForEntity(ClientRest.BASE_URL + "/companies/" + pId, Company.class).getBody();
+	private final Client mClient;
+
+	CompanyService() {
+		mClient = ClientBuilder.newClient();
 	}
 }

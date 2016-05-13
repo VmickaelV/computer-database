@@ -25,7 +25,7 @@ public class ParseJsonTest {
 	@Test
 	public void computerDto2() throws Exception {
 		assertEquals(mObjectMapper.readTree("{\"introducedDate\":\"2016-05-12\",\"id\":0,\"discontinuedDate\":null,\"idCompany\":12,\"name\":\"un nom\"}"),
-				mObjectMapper.readTree(mObjectMapper.writeValueAsString(new ComputerDto(new Computer.Builder().setName("un nom").setIntroducedDate(LocalDate.now()).setManufacturer(new Company(12, "Apple")).build()))));
+				mObjectMapper.readTree(mObjectMapper.writeValueAsString(new ComputerDto(new Computer.Builder().setName("un nom").setIntroducedDate(LocalDate.of(2015, 5, 12)).setManufacturer(new Company(12, "Apple")).build()))));
 	}
 
 	@Test

@@ -123,6 +123,8 @@
         <jackson-annotations.version>${jackson.version}</jackson-annotations.version>
         <json-path.version>2.2.0</json-path.version>
 
+        <jersey-media-json-jackson.version>2.22.2</jersey-media-json-jackson.version>
+        <jersey-client.version>2.22.2</jersey-client.version>
     </properties>
 
     <build>
@@ -607,6 +609,18 @@
                 <version>${commons-logging.version}</version>
             </dependency>
 
+            <!-- Client REST && Parsage JSON -->
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-json-jackson</artifactId>
+                <version>${jersey-media-json-jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-client</artifactId>
+                <version>${jersey-client.version}</version>
+            </dependency>
+
             <!-- ================ Dependances internes =============== -->
             <dependency>
                 <groupId>com.excilys.mviegas.speccdb</groupId>
@@ -758,6 +772,7 @@
                 <scope>test</scope>
             </dependency>
 
+            <!-- Pour extraction de valeur JSON -->
             <dependency>
                 <groupId>com.jayway.jsonpath</groupId>
                 <artifactId>json-path</artifactId>
