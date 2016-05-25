@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Parent-->
+    <parent>
+        <groupId>com.excilys.mviegas.speccdb</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.31.1-SNAPSHOT</version>
+    </parent>
+
+    <!-- Info module -->
+    <artifactId>swagger</artifactId>
+    <packaging>war</packaging>
+    <name>Swagger UI of Webapp REST</name>
+
+    <dependencies>
+        <!-- Internal -->
+        <dependency>
+            <groupId>com.excilys.mviegas.speccdb</groupId>
+            <artifactId>webapp-rest</artifactId>
+        </dependency>
+
+        <!-- Swagger -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+
+        <!-- Swagger UI -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+    </dependencies>
+</project>

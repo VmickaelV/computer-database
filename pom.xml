@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Identifiant de base de POM -->
@@ -18,6 +19,7 @@
         <module>console</module>
         <!--<module>gatling-test</module>-->
         <module>webapp-rest</module>
+        <module>swagger</module>
     </modules>
 
     <!-- Informations sur le projet -->
@@ -41,7 +43,8 @@
         <!-- Miscallaneous -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <name.finale>speccdb</name.finale>
-        <maven-checkstyle-plugin.configLocation>config/checkstyle/checkstyle.xml</maven-checkstyle-plugin.configLocation>
+        <maven-checkstyle-plugin.configLocation>config/checkstyle/checkstyle.xml
+        </maven-checkstyle-plugin.configLocation>
 
         <!-- Versions -->
         <dev.version>0.31.1-SNAPSHOT</dev.version>
@@ -50,8 +53,10 @@
         <persistence.version>${dev.version}</persistence.version>
         <service.version>${dev.version}</service.version>
         <binding.version>${dev.version}</binding.version>
-        <webapp.version>${dev.version}</webapp.version>
+        <webapp-front.version>${dev.version}</webapp-front.version>
+        <webapp-rest.version>${dev.version}</webapp-rest.version>
         <console.version>${dev.version}</console.version>
+        <swagger.version>${dev.version}</swagger.version>
 
         <java.version>1.8</java.version>
         <logback.version>1.1.2</logback.version>
@@ -125,6 +130,9 @@
 
         <jersey-media-json-jackson.version>2.22.2</jersey-media-json-jackson.version>
         <jersey-client.version>2.22.2</jersey-client.version>
+
+        <springfox-swagger2.version>2.2.2</springfox-swagger2.version>
+        <springfox-swagger-ui.version>2.2.2</springfox-swagger-ui.version>
     </properties>
 
     <build>
@@ -486,6 +494,18 @@
                 <version>${jackson-annotations.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox-swagger2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox-swagger-ui.version}</version>
+            </dependency>
+
             <!-- Dépendance de Tomcat & JavaEE -->
 
             <dependency>
@@ -648,8 +668,20 @@
 
             <dependency>
                 <groupId>com.excilys.mviegas.speccdb</groupId>
-                <artifactId>webapp</artifactId>
-                <version>${webapp.version}</version>
+                <artifactId>webapp-front</artifactId>
+                <version>${webapp-front.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.excilys.mviegas.speccdb</groupId>
+                <artifactId>webapp-rest</artifactId>
+                <version>${webapp-rest.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.excilys.mviegas.speccdb</groupId>
+                <artifactId>swagger</artifactId>
+                <version>${swagger.version}</version>
             </dependency>
 
             <dependency>

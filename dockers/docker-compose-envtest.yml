@@ -121,6 +121,35 @@ services:
 
       - "tomcat7:run"
 
+  test_rest_server:
+    extends: base_test
+
+    networks:
+      - back
+      - front
+
+    ports:
+      - "8888:8888"
+
+    depends_on:
+      - bdd
+
+    command:
+      - "mvn"
+      - "-P"
+      - "docker"
+      - "-pl"
+      - "webapp-rest"
+      - "-Ddb.min_size=25"
+
+      - "-Ddb.username=sa"
+      - "-Ddb.password="
+      - "-Ddb.className=org.h2.Driver"
+      - "-Ddb.url=jdbc:h2:tcp://bdd:1521/~/test"
+
+      - "tomcat7:run"
+
+
   # TODO créer un service pour créer un serveur de production avec Tomcat
   tomcat_webapp:
     build:
