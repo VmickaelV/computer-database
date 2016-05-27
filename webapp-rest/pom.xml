@@ -35,6 +35,11 @@
             <artifactId>binding</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.excilys.mviegas.speccdb</groupId>
+            <artifactId>swagger</artifactId>
+        </dependency>
+
         <!-- Validator -->
         <dependency>
             <groupId>org.hibernate</groupId>

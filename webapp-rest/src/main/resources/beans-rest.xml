@@ -17,9 +17,10 @@
     <import resource="classpath:beans-back.xml"/>
     <import resource="classpath:beans-binding.xml"/>
     <import resource="classpath:beans-service.xml"/>
+    <import resource="classpath:swagger-config.xml"/>
 
     <!-- Scan des annotations -->
-    <context:component-scan base-package="com.excilys.mviegas.speccdb.spring.rest" />
+    <context:component-scan base-package="com.excilys.mviegas.speccdb.spring.rest"/>
 
-    <mvc:annotation-driven validator="validator" />
+    <mvc:annotation-driven validator="validator"/>
 </beans>

@@ -17,12 +17,6 @@
     <name>Swagger UI of Webapp REST</name>
 
     <dependencies>
-        <!-- Internal -->
-        <dependency>
-            <groupId>com.excilys.mviegas.speccdb</groupId>
-            <artifactId>webapp-rest</artifactId>
-        </dependency>
-
         <!-- Swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
