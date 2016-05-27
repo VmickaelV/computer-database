@@ -9,6 +9,7 @@ import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.services.ComputerService;
 import com.excilys.mviegas.speccdb.validators.ComputerValidator;
+import io.swagger.annotations.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,12 @@ public class ComputerEndpoint {
 		mComputerService = pComputerService;
 	}
 
+	/**
+	 * Renvoie une liste des paramètres
+	 * @param pMap Map
+	 * @return Retour
+	 * @throws DAOException
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public Paginator<ComputerDto> findAll(@RequestParam Map<String, Object> pMap) throws DAOException {
 
@@ -70,6 +77,8 @@ public class ComputerEndpoint {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
+	@ApiResponse(message = "Ordinateur crée", code = 204)
 	public ResponseEntity<?> create(@RequestBody ComputerDto pComputerDto) throws DAOException {
 		if (!ComputerValidator.isValidComputer(pComputerDto)) {
 			return new ResponseEntity<Object>("Not Valid Computer", HttpStatus.BAD_REQUEST);
