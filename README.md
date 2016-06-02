@@ -14,15 +14,13 @@ This project used :
     * Localization i18n
 * Hibernate Validation
 * JPA and Hibernate (with Criteria)
-    * Docker & docker Compose
+* Docker & docker Compose
     * Dockerfile, dind, ...
-    *
 * Maven & organization with modules
     * Maven configuration with rapports
     * CheckStyle
 * Concepts of DAO, DTO, Services, Mappers, Paginator
-* Logs
-
+* Logs (LogBack)
 * JSPs, JSTL, and Tags
 * jQuery lib (jquery, jQuery UI, jQuery Validation)
 * Units Testing & Integration testing with Selenium
@@ -38,7 +36,7 @@ This project used :
 
 ## Utilisation
 
-First at all, be into the folder of the project
+First at all, be into the root folder of the project
 
 To launch the test server :
 
@@ -57,6 +55,7 @@ docker-compose -f dockers/docker-compose-envtest.yml up selenium_test
 ```
 
 To launch Production Server :
+(if the docker is not build, you need to generate the war of the front-webapp project)
 ```bash
 docker-compose -f dockers/docker-compose-envtest.yml up tomcat_webapp
 ```
