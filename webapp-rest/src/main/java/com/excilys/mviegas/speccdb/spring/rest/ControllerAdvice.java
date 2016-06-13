@@ -21,8 +21,8 @@ public class ControllerAdvice {
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
-	public ResponseEntity<?> illegalArgument(Exception pE) {
-		return new ResponseEntity<>(pE.toString(), HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> illegalArgument(Exception e) {
+		return new ResponseEntity<>(e.toString(), HttpStatus.BAD_REQUEST);
 	}
 
 }
