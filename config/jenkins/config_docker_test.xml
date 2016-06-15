@@ -16,13 +16,10 @@
         <url>https://github.com/VmickaelV/spec-db</url>
         <credentialsId>089882c5-f739-4d50-91bc-a4979bc3b721</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
-      <hudson.plugins.git.UserRemoteConfig>
-        <url>file:///home/excilys/Programmations/Formations/projet/spec-cdb</url>
-      </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>*/master</name>
+        <name>*/swagger</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
@@ -41,31 +38,34 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>rm -R -f target</command>
-    </hudson.tasks.Shell>
-    <hudson.tasks.Shell>
-      <command>#docker-compose -f dockers/docker-compose-envtest.yml down --rmi=local</command>
+      <command>rm -R -f target resultset</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>docker-compose -f dockers/docker-compose-envtest.yml up --no-color unit_test</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>docker cp dockers_unit_test_1:/project/target target</command>
+      <command>docker cp dockers_unit_test_1:/project/ resultset/</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>docker-compose -f dockers/docker-compose-envtest.yml down</command>
+      <command>docker-compose -f dockers/docker-compose-envtest.yml down --rmi=local</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.11">
-      <testResults>target/surefire-reports/*.xml</testResults>
+      <testResults>resultset/*/target/surefire-reports/*.xml</testResults>
       <keepLongStdio>false</keepLongStdio>
       <healthScaleFactor>1.0</healthScaleFactor>
       <allowEmptyResults>false</allowEmptyResults>
     </hudson.tasks.junit.JUnitResultArchiver>
-    <hudson.tasks.test.AggregatedTestResultPublisher plugin="junit@1.11">
-      <includeFailedBuilds>false</includeFailedBuilds>
-    </hudson.tasks.test.AggregatedTestResultPublisher>
+    <hudson.tasks.BuildTrigger>
+      <childProjects>docker-selenium</childProjects>
+      <threshold>
+        <name>SUCCESS</name>
+        <ordinal>0</ordinal>
+        <color>BLUE</color>
+        <completeBuild>true</completeBuild>
+      </threshold>
+    </hudson.tasks.BuildTrigger>
   </publishers>
   <buildWrappers/>
 </project>

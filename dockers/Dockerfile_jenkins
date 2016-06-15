@@ -5,7 +5,8 @@ MAINTAINER Viegas Mickael <mviegas@excilys.com>
 COPY config/jenkins/plugins.txt /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 
-COPY config/jenkins/config.xml /var/jenkins_home/jobs/docker-test/
+COPY config/jenkins/config_docker_test.xml /var/jenkins_home/jobs/docker-test/config.xml
+COPY config/jenkins/config_docker_selenium_test.xml /var/jenkins_home/jobs/docker-selenium/config.xml
 
 USER root
 RUN chown -R jenkins:jenkins /var/jenkins_home/jobs/
@@ -14,8 +15,10 @@ RUN chown -R jenkins:jenkins /var/jenkins_home/jobs/docker-test
 # installation de docker client
 RUN cd /tmp && \
     wget https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz && \
-    tar zxvf docker-latest.tgz -C / && \
+    tar zxvf docker-latest.tgz -C /opt && \
     rm docker-latest.tgz
+
+ENV PATH ${PATH}:/opt/docker/
 
 #Installation de docke-compose
 RUN curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose && \
@@ -27,5 +30,4 @@ RUN curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-com
 #RUN usermod -aG docker root
 #RUN usermod -aG docker jenkins
 
-ENV DOCKER_HOST tcp://docker:2375
 #USER jenkins

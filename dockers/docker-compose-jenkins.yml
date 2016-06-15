@@ -1,31 +1,11 @@
 version: '2'
 
 services:
-  docker:
-    image: docker:dind
-    networks:
-      - back
-    privileged: true
-    volumes:
-      - var_docker:/var/lib/docker
-      - m2_repository:/root/.m2/repository
-
   jenkins:
     build:
       context: ..
       dockerfile: dockers/Dockerfile_jenkins
     ports:
       - "8080:8080"
-    networks:
-      - back
-    depends_on:
-      - docker
-
-networks:
-  back:
-    driver: bridge
-
-volumes:
-  var_docker:
-
-  m2_repository:
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

@@ -18,8 +18,6 @@ public class SwaggerConfig {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
 				.apis(RequestHandlerSelectors.any())
-//				.apis(RequestHandlerSelectors.none())
-//				.apis(RequestHandlerSelectors.basePackage())
 				.paths(PathSelectors.any())
 				.build()
 				.apiInfo(apiInfo())
