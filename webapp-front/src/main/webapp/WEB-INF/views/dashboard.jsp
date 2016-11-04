@@ -179,10 +179,10 @@
         </div>
     </div>
 </footer>
-<script src="/speccdb/js/jquery.min.js"></script>
-<script src="/speccdb/js/bootstrap.min.js"></script>
-<script src="/speccdb/js/jquery.i18n.properties.min.js"></script>
-<script src="/speccdb/js/dashboard.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.i18n.properties.min.js"></script>
+<script src="/js/dashboard.js"></script>
 
 </body>
 </html>

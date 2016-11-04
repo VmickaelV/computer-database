@@ -6,7 +6,7 @@
 <h1>Page Redirection</h1>
 <%
    // New location to be redirected
-   String site = "/speccdb/dashboard.html";
+   String site = "/dashboard.html";
    response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
    response.setHeader("Location", site); 
 %>

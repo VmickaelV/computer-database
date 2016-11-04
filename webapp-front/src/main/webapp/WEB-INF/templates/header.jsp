@@ -4,8 +4,8 @@
 
         <div class="navbar-right">
 
-            <a href="?lang=fr"><img src="/speccdb/images/fr.jpg"></a>
-            <a href="?lang=en"><img src="/speccdb/images/en.jpg"></a>
+            <a href="?lang=fr"><img src="/images/fr.jpg"></a>
+            <a href="?lang=en"><img src="/images/en.jpg"></a>
         </div>
     </div>
 </header>
