@@ -42,8 +42,8 @@ public class DatabaseManager {
 	public static final String KEY_SCHEMA = "db.schema";
 	public static final String KEY_CREATE_SCRIPTS = "db.createScripts";
 	public static final String KEY_INSERT_SCRIPTS = "db.insertScripts";
-	public static final String KEY_MIN_SIZE = "db.min_size";
-	public static final String KEY_MAX_SIZE = "db.max_size";
+	public static final String KEY_MIN_SIZE = "db.min_pool_size";
+	public static final String KEY_MAX_SIZE = "db.max_pool_size";
 	public static final String KEY_CLASSNAME = "db.className";
 
 	public static final int DEFAULT_MIN_SIZE_POOL = 25;
