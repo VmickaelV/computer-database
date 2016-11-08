@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Computer-database by VmickaelV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Computer-database</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/VmickaelV/computer-database" class="btn">View on GitHub</a>
+      <a href="https://github.com/VmickaelV/computer-database/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/VmickaelV/computer-database/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="computer-database-project" class="anchor" href="#computer-database-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Computer-database project</h1>
+
+<h2>
+<a id="content" class="anchor" href="#content" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Content</h2>
+
+<p>This project was made in order to training with plenty of concepts of computings, and some tools.</p>
+
+<p>This project used :</p>
+
+<ul>
+<li>Tomcat</li>
+<li>Spring
+
+<ul>
+<li>MVC</li>
+<li>Transaction</li>
+<li>Security (with login)</li>
+<li>WebServices with REST</li>
+<li>Localization i18n</li>
+</ul>
+</li>
+<li>Hibernate Validation</li>
+<li>JPA and Hibernate (with Criteria)</li>
+<li>Docker &amp; docker Compose
+
+<ul>
+<li>Dockerfile, dind, ...</li>
+</ul>
+</li>
+<li>Maven &amp; organization with modules
+
+<ul>
+<li>Maven configuration with rapports</li>
+<li>CheckStyle</li>
+</ul>
+</li>
+<li>Concepts of DAO, DTO, Services, Mappers, Paginator</li>
+<li>Logs (LogBack)</li>
+<li>JSPs, JSTL, and Tags</li>
+<li>jQuery lib (jquery, jQuery UI, jQuery Validation)</li>
+<li>Units Testing &amp; Integration testing with Selenium</li>
+<li><p>Continuous delivery (Jenkins)</p></li>
+<li>
+<p>Old concepts (in previous commits)</p>
+
+<ul>
+<li>Servlets</li>
+<li>JDBC</li>
+<li>ThreadLocal</li>
+<li>Singleton enum Pattern</li>
+<li>Connection Pool (today managed by Spring Datasource)</li>
+<li>Spring Security (authentication with Digest)</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="utilisation" class="anchor" href="#utilisation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Utilisation</h2>
+
+<p>First at all, be into the root folder of the project</p>
+
+<p>To launch the test server :</p>
+
+<div class="highlight highlight-source-shell"><pre>docker-compose -f dockers/docker-compose-envtest.yml up test_server</pre></div>
+
+<p>To launch Unit tests :</p>
+
+<div class="highlight highlight-source-shell"><pre>docker-compose -f dockers/docker-compose-envtest.yml up unit_test</pre></div>
+
+<p>To launch Integration testing :</p>
+
+<div class="highlight highlight-source-shell"><pre>docker-compose -f dockers/docker-compose-envtest.yml up selenium_test</pre></div>
+
+<p>To launch Production Server :
+(if the docker is not build, you need to generate the war of the front-webapp project)</p>
+
+<div class="highlight highlight-source-shell"><pre>docker-compose -f dockers/docker-compose-envtest.yml up tomcat_webapp</pre></div>
+
+<p>To launch stress tests :
+TODO</p>
+
+<h2>
+<a id="points-to-view" class="anchor" href="#points-to-view" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Points to view</h2>
+
+<h4>
+<a id="443-glazer-container-agent" class="anchor" href="#443-glazer-container-agent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.4.3 Glazer Container Agent</h4>
+
+<p>The Glazer Container Agent is a simple webapp that allow us to manage Docker containers.</p>
+
+<p>Create a Docker container with a Glazer Container Agent. This container will be your staging server. Like the Jenkins container, this container must be able to start containers (Docker in Docker).</p>
+
+<p>Create two Docker images: one for the computer database webapp and one for the mysql. Once again use docker-compose to describe your services. Push them to DockerHub.</p>
+
+<p>Add another job in your Jenkins that updates the computer-database-webapp image with the latest successful war and pushes it to DockerHub. Then ask your Glazer Container Agent container to create a new container from the latest image. This job must be triggered only if the UT tests pass.</p>
+
+<h4>
+<a id="452-point-overview-continuous-integration-t0--18-days" class="anchor" href="#452-point-overview-continuous-integration-t0--18-days" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4.5.2. Point overview: Continuous Integration (t0 + 18 days)</h4>
+
+<p>Jenkins + DinD: Which service actually starts the containers ? How to share directories between containers ?<br>
+Glazer Container Agent + DinD: How to handle container port mapping ? (2 solutions)<br>
+DockerHub: Automated builds limitations ?</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/VmickaelV/computer-database">Computer-database</a> is maintained by <a href="https://github.com/VmickaelV">VmickaelV</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
