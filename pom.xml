@@ -131,8 +131,8 @@
         <jersey-media-json-jackson.version>2.22.2</jersey-media-json-jackson.version>
         <jersey-client.version>2.22.2</jersey-client.version>
 
-        <springfox-swagger2.version>2.2.2</springfox-swagger2.version>
-        <springfox-swagger-ui.version>2.2.2</springfox-swagger-ui.version>
+        <springfox-swagger2.version>2.5.0</springfox-swagger2.version>
+        <springfox-swagger-ui.version>2.5.0</springfox-swagger-ui.version>
     </properties>
 
     <build>

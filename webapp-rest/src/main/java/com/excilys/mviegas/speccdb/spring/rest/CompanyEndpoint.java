@@ -4,12 +4,17 @@ import com.excilys.mviegas.speccdb.data.Company;
 import com.excilys.mviegas.speccdb.exceptions.DAOException;
 import com.excilys.mviegas.speccdb.exceptions.ResourceNotFound;
 import com.excilys.mviegas.speccdb.services.CompanyService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -38,17 +43,20 @@ public class CompanyEndpoint {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Company> findAll(@RequestParam(value = "start", defaultValue = "0") int pStart, @RequestParam(value = "size", defaultValue = "0") int pSize) throws DAOException {
+	@ApiOperation(value = "Récupère une liste d'entreprises - findall")
+	public List<Company> findAll(@RequestParam(value = "start", defaultValue = "0") int start,
+								 @RequestParam(value = "size", defaultValue = "0") int size) throws DAOException {
 
-		if (pSize > 50) {
+		if (size > 50) {
 			throw new IllegalArgumentException();
 		}
 		// TODO voir si on met uen erreur 400 en cas de nom de paramètre non évaluable
 
-		return mCompanyService.findAll(pStart, pSize);
+		return mCompanyService.findAll(start, size);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@ApiOperation(value = "Récupère un ordinateur particulier - find")
 	public ResponseEntity<Company> find(@PathVariable("id") int pId) throws DAOException {
 		System.out.println("CompanyEndpoint.find");
 		System.out.println("pId = [" + pId + "]");

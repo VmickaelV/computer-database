@@ -9,6 +9,9 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
@@ -20,6 +23,10 @@ public class SwaggerConfig {
 				.paths(PathSelectors.any())
 				.build()
 				.apiInfo(apiInfo())
+//                .useDefaultResponseMessages(false)
+                .consumes(new HashSet<>(Arrays.asList("application/json")))
+                .produces(new HashSet<>(Arrays.asList("application/json")))
+
 				;
 	}
 
@@ -28,7 +35,7 @@ public class SwaggerConfig {
 				"This is a REST Api for using the Computer Database",
 				"0.37",
 				null,
-				"Conteact",
+				"VIEGAS Mickael",
 				null,
 				null
 		);

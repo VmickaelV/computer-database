@@ -1,6 +1,6 @@
 .git
 .idea
 *.iml
-*/target/*
+*/target/*/*
 target
 gatling-test

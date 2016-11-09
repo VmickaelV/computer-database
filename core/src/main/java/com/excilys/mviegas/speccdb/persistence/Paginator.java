@@ -1,16 +1,18 @@
 package com.excilys.mviegas.speccdb.persistence;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
 /**
  * Regroupement d'informations utile pour une pagination.
  * <p>
  * L'indexation des pages commence à 1 (car principalement utilisé pour de l'IU)
- * <p>
- * Created by excilys on 15/03/16.
  *
- * @author Mickael
+ * @author VIEGAS Mickael
  */
+@ApiModel(description = "Modèle représentant une pagination")
 public class Paginator<T> {
 
 	//===========================================================
@@ -19,6 +21,7 @@ public class Paginator<T> {
 	/**
 	 * Numéro de la page courante.
 	 */
+	@ApiModelProperty(value = "Numéro de la page courante")
 	public int currentPage;
 
 	/**
