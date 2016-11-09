@@ -9,6 +9,8 @@ import com.excilys.mviegas.speccdb.persistence.Paginator;
 import com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.speccdb.services.ComputerService;
 import com.excilys.mviegas.speccdb.validators.ComputerValidator;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,8 +53,12 @@ public class ComputerEndpoint {
 	 * @throws DAOException
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public Paginator<ComputerDto> findAll(@RequestParam Map<String, Object> pMap) throws DAOException {
-
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = ComputerDao.Parameters.SIZE, dataType = "integer"),
+			@ApiImplicitParam(name = ComputerDao.Parameters.START, dataType = "integer"),
+			@ApiImplicitParam(name = ComputerDao.Parameters.ORDER, dataType = "com.excilys.mviegas.speccdb.persistence.jdbc.ComputerDao.Order"),
+	})
+	public Paginator<ComputerDto> findAll(@ApiIgnore @RequestParam Map<String, Object> pMap) throws DAOException {
 		if (pMap.containsKey(ComputerDao.Parameters.SIZE)) {
 			pMap.put(ComputerDao.Parameters.SIZE, Integer.valueOf((String) pMap.get(ComputerDao.Parameters.SIZE)));
 		}

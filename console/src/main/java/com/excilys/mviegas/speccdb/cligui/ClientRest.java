@@ -6,5 +6,5 @@ package com.excilys.mviegas.speccdb.cligui;
  * @author VIEGAS Mickael
  */
 public final class ClientRest {
-	public static final String BASE_URL = "http://localhost:8888";
+	public static final String BASE_URL = "http://localhost:8080/api";
 }

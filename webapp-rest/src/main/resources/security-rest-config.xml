@@ -10,6 +10,7 @@
       http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <http realm="REALM">
+        <intercept-url pattern="/login" access="hasRole('USER')"/>
         <intercept-url pattern="/computers" method="DELETE" access="hasRole('ADMIN')"/>
         <intercept-url pattern="/computers" method="POST" access="hasRole('ADMIN')"/>
         <intercept-url pattern="/computers/{id}" method="PUT" access="hasRole('ADMIN')"/>
@@ -26,7 +27,7 @@
     <authentication-manager alias="authenticationManager">
         <authentication-provider>
             <user-service>
-                <user name="admin" password="admin" authorities="ROLE_ADMIN"/>
+                <user name="admin" password="admin" authorities="ROLE_ADMIN, ROLE_USER"/>
                 <user name="user" password="user" authorities="ROLE_USER"/>
             </user-service>
         </authentication-provider>
