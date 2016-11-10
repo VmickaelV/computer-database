@@ -40,9 +40,11 @@
     </prerequisites>
 
     <properties>
+        <!-- To Redefine -->
+        <applicationContext>/${build.finalName}</applicationContext>
         <!-- Miscallaneous -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <name.finale>speccdb</name.finale>
+        <name.finale>computer-database</name.finale>
         <maven-checkstyle-plugin.configLocation>config/checkstyle/checkstyle.xml
         </maven-checkstyle-plugin.configLocation>
 
@@ -86,6 +88,7 @@
         <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
         <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
         <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
+        <maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
         <versions-maven-plugin.version>2.2</versions-maven-plugin.version>
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
 
@@ -183,29 +186,29 @@
             </plugin>
 
             <!-- Pour heroku -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>${maven-dependency-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>com.github.jsimone</groupId>
-                                    <artifactId>webapp-runner</artifactId>
-                                    <version>${webapp-runner.version}</version>
-                                    <destFileName>webapp-runner.jar</destFileName>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-dependency-plugin</artifactId>-->
+                <!--<version>${maven-dependency-plugin.version}</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>copy</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<artifactItems>-->
+                                <!--<artifactItem>-->
+                                    <!--<groupId>com.github.jsimone</groupId>-->
+                                    <!--<artifactId>webapp-runner</artifactId>-->
+                                    <!--<version>${webapp-runner.version}</version>-->
+                                    <!--<destFileName>webapp-runner.jar</destFileName>-->
+                                <!--</artifactItem>-->
+                            <!--</artifactItems>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
 
             <!-- Configuration des tests -->
             <plugin>
@@ -231,8 +234,8 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>${tomcat7-maven-plugin.version}</version>
                 <configuration>
-                    <path>/${project.build.finalName}</path>
-                    <port>8888</port>
+                    <path>${applicationContext}</path>
+                    <port>8080</port>
                 </configuration>
             </plugin>
 
@@ -254,6 +257,15 @@
                             <cargo.servlet.port>8888</cargo.servlet.port>
                         </properties>
                     </configuration>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>${maven-deploy-plugin.version}</version>
+                <configuration>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>

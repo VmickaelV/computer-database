@@ -13,6 +13,10 @@
     <name>webapp for REST</name>
     <packaging>war</packaging>
 
+    <properties>
+        <applicationContext>/api</applicationContext>
+    </properties>
+
     <build>
         <finalName>rest</finalName>
     </build>
