@@ -9,7 +9,7 @@
     <tag>
     	<description>une description de Tag</description>
         <name>pagination</name>
-        <tag-class>com.excilys.mviegas.speccdb.taglib.PaginationTag</tag-class>
+        <tag-class>com.excilys.mviegas.computer_database.taglib.PaginationTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
         	<description>Numero de la page courante</description>
@@ -45,42 +45,42 @@
 		<attribute>
 			<name>paginator</name>
 			<rtexprvalue>true</rtexprvalue>
-			<type>com.excilys.mviegas.speccdb.persistence.Paginator</type>
+			<type>com.excilys.mviegas.computer_database.persistence.Paginator</type>
 		</attribute>
     </tag>
 	
 	<function>
 		<description>Affiche un lien</description>
 		<name>link</name>
-		<function-class>com.excilys.mviegas.speccdb.taglib.ELFunctions</function-class>
+		<function-class>com.excilys.mviegas.computer_database.taglib.ELFunctions</function-class>
 		<function-signature>java.lang.String link(java.lang.String)</function-signature>
 	</function>
 
 	<function>
 		<description>Affiche un lien avec une liste de paramètre</description>
 		<name>linkQ</name>
-		<function-class>com.excilys.mviegas.speccdb.taglib.ELFunctions</function-class>
+		<function-class>com.excilys.mviegas.computer_database.taglib.ELFunctions</function-class>
 		<function-signature>java.lang.String link(java.lang.String,java.util.Map)</function-signature>
 	</function>
 
 	<function>
 		<description>Affiche un lien avec une liste de paramètres, mais possibilité de filtre un paramètre</description>
 		<name>linkQE</name>
-		<function-class>com.excilys.mviegas.speccdb.taglib.ELFunctions</function-class>
+		<function-class>com.excilys.mviegas.computer_database.taglib.ELFunctions</function-class>
 		<function-signature>java.lang.String link(java.lang.String,java.util.Map,java.lang.String,java.lang.Object)</function-signature>
 	</function>
 
 	<function>
 		<description>Affiche un lien avec une liste de paramètres, et la possibilité de spécifier un ordre de tri</description>
 		<name>linkSort</name>
-		<function-class>com.excilys.mviegas.speccdb.taglib.ELFunctions</function-class>
+		<function-class>com.excilys.mviegas.computer_database.taglib.ELFunctions</function-class>
 		<function-signature>java.lang.String linkSort(java.lang.String,java.util.Map,java.lang.String,java.lang.String)</function-signature>
 	</function>
 
     <function>
         <description>Affiche une date formmaté dans le locale défini par Spring</description>
         <name>printLocalizedDate</name>
-        <function-class>com.excilys.mviegas.speccdb.taglib.ELFunctions</function-class>
+        <function-class>com.excilys.mviegas.computer_database.taglib.ELFunctions</function-class>
         <function-signature>java.lang.String printLocalizedDate(java.time.LocalDate)</function-signature>
     </function>
 </taglib>

@@ -38,7 +38,7 @@
 	<bean id="myEmf"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan" value="com.excilys.mviegas.speccdb.data" />
+		<property name="packagesToScan" value="com.excilys.mviegas.computer_database.data" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 		</property>
@@ -76,9 +76,9 @@
     <!-- Scan & déclarations divers -->
 	<context:property-placeholder location="classpath:config_bd.properties" />
 
-	<context:component-scan base-package="com.excilys.mviegas.speccdb.persistence.jdbc" />
+	<context:component-scan base-package="com.excilys.mviegas.computer_database.persistence.jdbc" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
-	<jpa:repositories base-package="com.excilys.mviegas.speccdb.persistence" />
+	<jpa:repositories base-package="com.excilys.mviegas.computer_database.persistence" />
 </beans>

@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Identifiant de base de POM -->
-    <groupId>com.excilys.mviegas.speccdb</groupId>
+    <groupId>com.excilys.mviegas.computer_database</groupId>
     <artifactId>parent</artifactId>
     <version>0.31.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -24,7 +24,7 @@
 
     <!-- Informations sur le projet -->
     <scm>
-        <url>https://github.com/VmickaelV/spec-db</url>
+        <url>https://github.com/VmickaelV/computer-database</url>
     </scm>
     <developers>
         <developer>
@@ -41,7 +41,7 @@
 
     <properties>
         <!-- To Redefine -->
-        <applicationContext>/${build.finalName}</applicationContext>
+        <applicationContext>/${project.build.finalName}</applicationContext>
         <!-- Miscallaneous -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <name.finale>computer-database</name.finale>
@@ -216,7 +216,7 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>com/excilys/mviegas/speccdb/selenium/**</exclude>
+                        <exclude>com/excilys/mviegas/computer_database/selenium/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -364,7 +364,7 @@
                         <version>${maven-surefire-plugin.version}</version>
                         <configuration>
                             <includes>
-                                <include>com/excilys/mviegas/speccdb/selenium/**</include>
+                                <include>com/excilys/mviegas/computer_database/selenium/**</include>
                             </includes>
                             <excludes>
                                 <exclude>none</exclude>
@@ -655,49 +655,49 @@
 
             <!-- ================ Dependances internes =============== -->
             <dependency>
-                <groupId>com.excilys.mviegas.speccdb</groupId>
+                <groupId>com.excilys.mviegas.computer_database</groupId>
                 <artifactId>core</artifactId>
                 <version>${core.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.excilys.mviegas.speccdb</groupId>
+                <groupId>com.excilys.mviegas.computer_database</groupId>
                 <artifactId>persistence</artifactId>
                 <version>${persistence.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.excilys.mviegas.speccdb</groupId>
+                <groupId>com.excilys.mviegas.computer_database</groupId>
                 <artifactId>service</artifactId>
                 <version>${service.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.excilys.mviegas.speccdb</groupId>
+                <groupId>com.excilys.mviegas.computer_database</groupId>
                 <artifactId>binding</artifactId>
                 <version>${binding.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.excilys.mviegas.speccdb</groupId>
+                <groupId>com.excilys.mviegas.computer_database</groupId>
                 <artifactId>webapp-front</artifactId>
                 <version>${webapp-front.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.excilys.mviegas.speccdb</groupId>
+                <groupId>com.excilys.mviegas.computer_database</groupId>
                 <artifactId>webapp-rest</artifactId>
                 <version>${webapp-rest.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.excilys.mviegas.speccdb</groupId>
+                <groupId>com.excilys.mviegas.computer_database</groupId>
                 <artifactId>swagger</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.excilys.mviegas.speccdb</groupId>
+                <groupId>com.excilys.mviegas.computer_database</groupId>
                 <artifactId>console</artifactId>
                 <version>${console.version}</version>
             </dependency>

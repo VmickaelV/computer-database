@@ -6,7 +6,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="myTags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-<%--@elvariable id="dashboardManager" type="com.excilys.mviegas.speccdb.managers.DashboardPage"--%>
+<%--@elvariable id="dashboardManager" type="com.excilys.mviegas.computer_database.managers.DashboardPage"--%>
 
 <html lang="${pageContext.response.locale}">
 <%@include file="../templates/head.jsp"%>

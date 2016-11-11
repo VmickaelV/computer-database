@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.excilys.mviegas.speccdb</groupId>
+        <groupId>com.excilys.mviegas.computer_database</groupId>
         <artifactId>parent</artifactId>
         <version>0.31.1-SNAPSHOT</version>
     </parent>
@@ -21,7 +21,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.excilys.mviegas.speccdb.cligui.MainMenuControleur</mainClass>
+                            <mainClass>com.excilys.mviegas.computer_database.cligui.MainMenuControleur</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -39,7 +39,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.excilys.mviegas.speccdb.cligui.MainMenuControleur</mainClass>
+                    <mainClass>com.excilys.mviegas.computer_database.cligui.MainMenuControleur</mainClass>
                 </configuration>
             </plugin>
         </plugins>
@@ -48,7 +48,7 @@
     <dependencies>
         <!-- Internal -->
         <dependency>
-            <groupId>com.excilys.mviegas.speccdb</groupId>
+            <groupId>com.excilys.mviegas.computer_database</groupId>
             <artifactId>binding</artifactId>
         </dependency>
 

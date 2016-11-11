@@ -53,8 +53,8 @@
     </mvc:interceptors>
 
     <!-- Scan de composents -->
-    <context:component-scan base-package="com.excilys.mviegas.speccdb.managers" />
-    <context:component-scan base-package="com.excilys.mviegas.speccdb.spring" />
+    <context:component-scan base-package="com.excilys.mviegas.computer_database.managers" />
+    <context:component-scan base-package="com.excilys.mviegas.computer_database.spring" />
 
     <mvc:annotation-driven validator="validator" />
 

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.excilys.mviegas.speccdb</groupId>
+        <groupId>com.excilys.mviegas.computer_database</groupId>
         <artifactId>parent</artifactId>
         <version>0.31.1-SNAPSHOT</version>
     </parent>
@@ -15,12 +15,12 @@
     <dependencies>
         <!-- Internal -->
         <dependency>
-            <groupId>com.excilys.mviegas.speccdb</groupId>
+            <groupId>com.excilys.mviegas.computer_database</groupId>
             <artifactId>core</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.excilys.mviegas.speccdb</groupId>
+            <groupId>com.excilys.mviegas.computer_database</groupId>
             <artifactId>persistence</artifactId>
         </dependency>
     </dependencies>

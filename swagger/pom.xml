@@ -6,7 +6,7 @@
 
     <!-- Parent-->
     <parent>
-        <groupId>com.excilys.mviegas.speccdb</groupId>
+        <groupId>com.excilys.mviegas.computer_database</groupId>
         <artifactId>parent</artifactId>
         <version>0.31.1-SNAPSHOT</version>
     </parent>
