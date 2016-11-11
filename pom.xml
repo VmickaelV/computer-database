@@ -134,12 +134,49 @@
         <jersey-media-json-jackson.version>2.22.2</jersey-media-json-jackson.version>
         <jersey-client.version>2.22.2</jersey-client.version>
 
+        <swagger-annotations.version>1.5.10</swagger-annotations.version>
         <springfox-swagger2.version>2.5.0</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.5.0</springfox-swagger-ui.version>
+        <exec-maven-plugin.version>1.5.0</exec-maven-plugin.version>
+        <maven-jar-plugin.version>3.3.9</maven-jar-plugin.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/libs-milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <finalName>${name.finale}</finalName>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${exec-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>java</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 
         <plugins>
             <!-- Compilateur JDK Java -->
@@ -399,17 +436,6 @@
         </profile>
     </profiles>
 
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/libs-milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
     <dependencyManagement>
         <dependencies>
             <!-- ========== Dépedances incluses ============== -->
@@ -504,6 +530,12 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson-annotations.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-annotations.version}</version>
             </dependency>
 
             <dependency>

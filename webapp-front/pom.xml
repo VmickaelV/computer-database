@@ -13,6 +13,10 @@
     <name>webapp-front</name>
     <packaging>war</packaging>
 
+    <properties>
+        <applicationContext>/</applicationContext>
+    </properties>
+
     <dependencies>
         <!-- Internal -->
         <dependency>

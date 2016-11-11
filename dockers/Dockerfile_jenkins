@@ -1,4 +1,4 @@
-FROM jenkins
+FROM jenkins:1.651.3
 
 MAINTAINER Viegas Mickael <mviegas@excilys.com>
 
@@ -20,7 +20,7 @@ RUN cd /tmp && \
 
 ENV PATH ${PATH}:/opt/docker/
 
-#Installation de docke-compose
+#Installation de docker-compose
 RUN curl -L https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose && \
     docker-compose --version

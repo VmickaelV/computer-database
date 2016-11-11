@@ -5,7 +5,7 @@
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.18.1">
-      <projectUrl>https://github.com/VmickaelV/spec-db/</projectUrl>
+      <projectUrl>https://github.com/VmickaelV/computer-database/</projectUrl>
       <displayName></displayName>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
   </properties>
@@ -13,13 +13,13 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>https://github.com/VmickaelV/spec-db</url>
+        <url>https://github.com/VmickaelV/computer-database</url>
         <credentialsId>089882c5-f739-4d50-91bc-a4979bc3b721</credentialsId>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>*/swagger</name>
+        <name>*/dev</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
