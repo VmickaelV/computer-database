@@ -8,10 +8,10 @@
     </appender>
 
     <appender name="daily" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/spec-cdb</file>
+        <file>logs/computer-database</file>
         <append>true</append>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>spec-cdb.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>computer-database.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!--<maxHistory>10</maxHistory>-->
         </rollingPolicy>
         <encoder>

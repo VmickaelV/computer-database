@@ -45,10 +45,6 @@ import static org.junit.Assert.*;
 @SuppressWarnings("WeakerAccess")
 public abstract class BaseSeleniumTest {
 
-	public String getApplicationId() {
-		return "computer_database";
-	}
-
 	//=============================================================
 	// Constantes
 	//=============================================================
@@ -59,6 +55,7 @@ public abstract class BaseSeleniumTest {
 		public static final String URL_REMOTE_WEBDRIVER = "webdriver.url";
 		public static final String SERVER_IP = "server.ip";
 		public static final String SERVER_PORT = "server.port";
+		public static final String APPLICATION_CONTEXT = "server.applicationContext";
 
 		public static final String DONT_CLOSE = "test.dont_close";
 	}
@@ -66,6 +63,7 @@ public abstract class BaseSeleniumTest {
 	public static final String DEFAULT_URL_REMOTE_WEBDRIVER = null;
 	public static final String DEFAULT_SERVER_IP = "localhost";
 	public static final String DEFAULT_SERVER_PORT = "8888";
+    public static final String DEFAULT_APPLICATION_CONTEXT = "computer_database";
 
 	public static final boolean DEFAULT_DONT_CLOSE = false;
 
@@ -73,6 +71,8 @@ public abstract class BaseSeleniumTest {
 	public static final String TOMCAT_DEPLOY_DIR = TOMCAT_WORKING_DIR + "/webapps";
 	public static final String SERVER_IP = System.getProperty(Properties.SERVER_IP, DEFAULT_SERVER_IP);
 	public static final int SERVER_PORT = Integer.parseInt(System.getProperty(Properties.SERVER_PORT, DEFAULT_SERVER_PORT));
+	public static final String APPLICATION_CONTEXT = System.getProperty(Properties.APPLICATION_CONTEXT,
+			DEFAULT_APPLICATION_CONTEXT);
 	public static final String TOMCAT_CONTEXT = System.getProperty(Properties.TOMCAT_CONTEXT, "/");
 
 	public static final String URL_REMOTE_WEBDRIVER = System.getProperties().getProperty(Properties.URL_REMOTE_WEBDRIVER, DEFAULT_URL_REMOTE_WEBDRIVER);
@@ -115,7 +115,6 @@ public abstract class BaseSeleniumTest {
 			System.out.println(SERVER_IP);
 			mFirefoxProfile.setPreference("intl.accept_languages", "en");
 			mWebDriver = new FirefoxDriver(mFirefoxProfile);
-
 		} else {
 			mWebDriver = new RemoteWebDriver(new URL(URL_REMOTE_WEBDRIVER), DesiredCapabilities.firefox());
 		}
@@ -190,20 +189,20 @@ public abstract class BaseSeleniumTest {
 		}
 	}
 
-	public String getApplicationUrl(String appName) {
+	public String getApplicationUrl(String applicationContext) {
 //		return String.format("http://%s:%d/%s", mTomcat.getHost().getName(),
 //				mTomcat.getConnector().getLocalPort(), appName);
 		return String.format("http://%s:%d/%s", SERVER_IP,
-				SERVER_PORT, appName);
+				SERVER_PORT, applicationContext);
 	}
 
 	public String getApplicationUrl() {
-		return getApplicationUrl(getApplicationId());
+		return getApplicationUrl(APPLICATION_CONTEXT);
 	}
 
 	protected String getTargetUrl(String pTarget) {
 		return String.format("http://%s:%d/%s/%s.html", SERVER_IP,
-				SERVER_PORT, getApplicationId(), pTarget);
+				SERVER_PORT, APPLICATION_CONTEXT, pTarget);
 	}
 
 	protected String getMessage(String pKey, Object... pArgs) {
@@ -231,7 +230,7 @@ public abstract class BaseSeleniumTest {
 	}
 
 	protected void deploy() throws ServletException {
-		String contextPath = "/" + getApplicationId();
+		String contextPath = "/" + APPLICATION_CONTEXT;
 //		String contextPath = "/";
 		System.out.println("contextPath = " + contextPath);
 //		File webApp = new File(TOMCAT_WORKING_DIR, getApplicationId());
@@ -299,7 +298,9 @@ public abstract class BaseSeleniumTest {
 	}
 
 	protected void open() {
-		open(getApplicationUrl());
+        System.out.println("BaseSeleniumTest.open");
+        System.out.println("getApplicationUrl() = " + getApplicationUrl());
+        open(getApplicationUrl());
 	}
 
 	protected void openAndWait() {
