@@ -298,8 +298,6 @@ public abstract class BaseSeleniumTest {
 	}
 
 	protected void open() {
-        System.out.println("BaseSeleniumTest.open");
-        System.out.println("getApplicationUrl() = " + getApplicationUrl());
         open(getApplicationUrl());
 	}
 
