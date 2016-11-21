@@ -1,7 +1,9 @@
 package com.excilys.mviegas.computer_database.validators;
 
 import com.excilys.mviegas.computer_database.dto.ComputerDto;
+import sun.util.resources.LocaleData;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -21,6 +23,16 @@ public final class ComputerValidator {
 				ComputerNameValidator.isValidName(pComputerDto.getName()) &&
 				ComputerDateValidator.isValidDate(pComputerDto.getIntroducedDate(), DateTimeFormatter.ISO_DATE.withLocale(pLocale)) &&
 				ComputerDateValidator.isValidDate(pComputerDto.getIntroducedDate(), DateTimeFormatter.ISO_DATE.withLocale(pLocale)) &&
+                isCorrectDates(pComputerDto.getIntroducedDate(), pComputerDto.getDiscontinuedDate(), pLocale) &&
 				CompanyIdValidator.isValidIdCompany(pComputerDto.getIdCompany());
+	}
+
+	private static boolean isCorrectDates(String from, String to, Locale locale) {
+        if (from == null || from.isEmpty() || to == null || to.isEmpty()) {
+            return true;
+        }
+        LocalDate fromDate = LocalDate.parse(from, DateTimeFormatter.ISO_DATE.withLocale(locale));
+        LocalDate toDate = LocalDate.parse(to, DateTimeFormatter.ISO_DATE.withLocale(locale));
+        return fromDate.isBefore(toDate);
 	}
 }
