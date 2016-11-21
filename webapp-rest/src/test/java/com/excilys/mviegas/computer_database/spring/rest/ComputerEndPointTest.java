@@ -140,7 +140,7 @@ public class ComputerEndPointTest {
 
 				.andExpect(status().isCreated())
 				.andExpect(content().string(""))
-				.andExpect(MockMvcResultMatchers.header().string("Location", Matchers.startsWith("http://localh")))
+				.andExpect(MockMvcResultMatchers.header().string("Location", Matchers.startsWith("http://localhost")))
 				.andReturn()
 				;
 

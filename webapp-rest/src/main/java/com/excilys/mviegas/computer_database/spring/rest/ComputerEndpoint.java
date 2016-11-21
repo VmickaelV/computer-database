@@ -6,9 +6,11 @@ import com.excilys.mviegas.computer_database.exceptions.DAOException;
 import com.excilys.mviegas.computer_database.exceptions.ResourceNotFound;
 import com.excilys.mviegas.computer_database.persistence.ICompanyDao;
 import com.excilys.mviegas.computer_database.persistence.Paginator;
+import com.excilys.mviegas.computer_database.persistence.QueryParameter;
 import com.excilys.mviegas.computer_database.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.computer_database.services.ComputerService;
 import com.excilys.mviegas.computer_database.validators.ComputerValidator;
+import com.google.common.base.Strings;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiResponse;
@@ -54,26 +56,29 @@ public class ComputerEndpoint {
 
 	/**
 	 * Renvoie une liste des paramètres
-	 * @param pMap Map
 	 * @return Retour
-	 * @throws DAOException
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = ComputerDao.Parameters.SIZE, dataType = "integer"),
-			@ApiImplicitParam(name = ComputerDao.Parameters.START, dataType = "integer"),
-			@ApiImplicitParam(name = ComputerDao.Parameters.ORDER, dataType = "com.excilys.mviegas.computer_database.persistence.jdbc.ComputerDao.Order"),
-	})
-	public Paginator<ComputerDto> findAll(@ApiIgnore @RequestParam Map<String, Object> pMap) throws DAOException {
-		if (pMap.containsKey(ComputerDao.Parameters.SIZE)) {
-			pMap.put(ComputerDao.Parameters.SIZE, Integer.valueOf((String) pMap.get(ComputerDao.Parameters.SIZE)));
-		}
+	public Paginator<ComputerDto> findAll(@RequestParam(value = "size", defaultValue = "20", required = false) int size,
+										  @RequestParam(value = "offset", defaultValue = "0", required = false) int offset,
+										  @RequestParam(value = "order", required = false) ComputerDao.Order order,
+										  @RequestParam(value = "search", required = false) String filterName,
+										  @RequestParam(value = "type_order", required = false) ComputerDao.TypeOrder typeOrder) throws DAOException {
+        QueryParameter queryParameter = QueryParameter.with(ComputerDao.Parameters.SIZE, size)
+                .and(ComputerDao.Parameters.START, offset);
 
-		if (pMap.containsKey(ComputerDao.Parameters.START)) {
-			pMap.put(ComputerDao.Parameters.START, Integer.valueOf((String) pMap.get(ComputerDao.Parameters.START)));
-		}
+        if (filterName != null && !filterName.isEmpty()) {
+            queryParameter.put(ComputerDao.Parameters.FILTER_NAME, filterName);
+        }
 
-		Paginator<Computer> paginator = mComputerService.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, pMap);
+        if (order != null) {
+            queryParameter.put(ComputerDao.Parameters.ORDER, filterName);
+        }
+
+        if (typeOrder != null)
+            queryParameter.put(ComputerDao.Parameters.TYPE_ORDER, filterName);
+
+		Paginator<Computer> paginator = mComputerService.findWithNamedQueryWithPaginator(ComputerDao.NamedQueries.SEARCH, queryParameter.parameters());
 
 		Paginator<ComputerDto> paginatorDto = new Paginator<>(paginator);
 		paginatorDto.values = paginator.values.stream().map(ComputerDto::new).collect(Collectors.toList());
