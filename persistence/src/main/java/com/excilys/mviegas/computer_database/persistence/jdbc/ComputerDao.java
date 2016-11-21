@@ -142,7 +142,7 @@ public class ComputerDao extends AbstractGenericCrudServiceBean<Computer> implem
 
 	@Override
 	public Paginator<Computer> findWithNamedQueryWithPaginator(String namedQueryName, Map<String, Object> parameters) throws DAOException {
-		switch (namedQueryName) {
+        switch (namedQueryName) {
 			case NamedQueries.SEARCH:
 				int size = (int) parameters.getOrDefault(Parameters.SIZE, BASE_SIZE_PAGE);
 				int start = (int) parameters.getOrDefault(Parameters.START, 0);
