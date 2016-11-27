@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/beans-front.xml"})
-public class BeansTest {
+public class BeansIntegrationTest {
 
 	@Autowired
 	private DashboardPage mDashboardManagerBean;

@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author VIEGAS Mickael
  */
-public class LocalizationTest extends BaseSeleniumTest {
+public class LocalizationIntegrationTest extends BaseSeleniumIntegrationTest {
 
 	@Override
 	public void setUp() throws Exception {

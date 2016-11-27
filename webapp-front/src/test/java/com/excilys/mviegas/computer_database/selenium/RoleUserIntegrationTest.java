@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
-public class RoleUserTest extends BaseSeleniumTest {
+public class RoleUserIntegrationTest extends BaseSeleniumIntegrationTest {
 
 	@Override
 	public void tearDown() throws Exception {

@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/beans-front.xml"})
-public class DeleteComputerTest extends BaseSeleniumTest {
+public class DeleteComputerIntegrationTest extends BaseSeleniumIntegrationTest {
 
 	private Connection mConnection;
 

@@ -43,7 +43,7 @@ import static org.junit.Assert.*;
  * @author Mickael
  */
 @SuppressWarnings("WeakerAccess")
-public abstract class BaseSeleniumTest {
+public abstract class BaseSeleniumIntegrationTest {
 
 	//=============================================================
 	// Constantes
@@ -340,7 +340,7 @@ public abstract class BaseSeleniumTest {
 	// Main Method
 	//=============================================================
 	public static void main(String[] args) {
-		BaseSeleniumTest baseSeleniumTest = new BaseSeleniumTest() {
+		BaseSeleniumIntegrationTest baseSeleniumTest = new BaseSeleniumIntegrationTest() {
 
 		};
 

@@ -1,6 +1,6 @@
 package com.excilys.mviegas.computer_database.selenium.errors;
 
-import com.excilys.mviegas.computer_database.selenium.BaseSeleniumTest;
+import com.excilys.mviegas.computer_database.selenium.BaseSeleniumIntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
  *
  * Created by excilys on 15/04/16.
  */
-public class PageErorTest extends BaseSeleniumTest {
+public class PageErorIntegrationTest extends BaseSeleniumIntegrationTest {
 
 	@Override
 	@Before

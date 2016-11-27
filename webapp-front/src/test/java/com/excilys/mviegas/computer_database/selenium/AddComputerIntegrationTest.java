@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/beans-front.xml"})
-public class AddComputerTest extends BaseSeleniumTest {
+public class AddComputerIntegrationTest extends BaseSeleniumIntegrationTest {
 
 	private Connection mConnection;
 

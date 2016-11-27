@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
-public class Tests extends com.excilys.mviegas.computer_database.selenium.BaseSeleniumTest {
+public class IntegrationTests extends BaseSeleniumIntegrationTest {
 	
 	@BeforeClass
 	public static void beforeClass() throws Exception {

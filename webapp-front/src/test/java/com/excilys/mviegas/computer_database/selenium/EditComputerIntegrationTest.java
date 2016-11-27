@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/beans-front.xml"})
-public class EditComputerTest extends BaseSeleniumTest {
+public class EditComputerIntegrationTest extends BaseSeleniumIntegrationTest {
 
 	private Connection mConnection;
 

@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 /**
  * Created by excilys on 15/04/16.
  */
-public class SpringBugFixRegressionTest extends BaseSeleniumTest {
+public class SpringBugFixRegressionTest extends BaseSeleniumIntegrationTest {
 
 	@Override
 	public void setUp() throws Exception {

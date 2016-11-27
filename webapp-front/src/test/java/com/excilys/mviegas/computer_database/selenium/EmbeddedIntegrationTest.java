@@ -12,7 +12,7 @@ import static org.junit.Assert.fail;
  *
  */
 @Ignore
-public class EmbeddedTest extends BaseSeleniumTest {
+public class EmbeddedIntegrationTest extends BaseSeleniumIntegrationTest {
 
 	//===========================================================
 	// Callback

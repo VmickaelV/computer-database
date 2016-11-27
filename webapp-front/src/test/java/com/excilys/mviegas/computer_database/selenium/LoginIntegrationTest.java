@@ -12,7 +12,7 @@ import java.util.List;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
-public class LoginTest extends BaseSeleniumTest {
+public class LoginIntegrationTest extends BaseSeleniumIntegrationTest {
 
 	@Override
 	public void tearDown() throws Exception {
