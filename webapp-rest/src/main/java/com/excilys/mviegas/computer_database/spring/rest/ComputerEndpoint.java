@@ -10,9 +10,6 @@ import com.excilys.mviegas.computer_database.persistence.QueryParameter;
 import com.excilys.mviegas.computer_database.persistence.jdbc.ComputerDao;
 import com.excilys.mviegas.computer_database.services.ComputerService;
 import com.excilys.mviegas.computer_database.validators.ComputerValidator;
-import com.google.common.base.Strings;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -59,7 +54,8 @@ public class ComputerEndpoint {
 	 * @return Retour
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public Paginator<ComputerDto> findAll(@RequestParam(value = "size", defaultValue = "20", required = false) int size,
+	public Paginator<ComputerDto> findAll(@RequestParam(value = "size", defaultValue = "100", required = false) int
+                                                      size,
 										  @RequestParam(value = "offset", defaultValue = "0", required = false) int offset,
 										  @RequestParam(value = "order", required = false) ComputerDao.Order order,
 										  @RequestParam(value = "search", required = false) String filterName,

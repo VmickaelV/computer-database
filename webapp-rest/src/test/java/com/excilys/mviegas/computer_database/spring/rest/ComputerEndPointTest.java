@@ -115,7 +115,7 @@ public class ComputerEndPointTest {
 
 	@Test
 	public void findAll3() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(get(URI.create("/computers?start=6&size=15")))
+		MvcResult mvcResult = mockMvc.perform(get(URI.create("/computers?offset=6&size=15")))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andReturn()
