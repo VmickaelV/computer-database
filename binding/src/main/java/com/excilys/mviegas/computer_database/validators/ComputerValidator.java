@@ -1,7 +1,6 @@
 package com.excilys.mviegas.computer_database.validators;
 
 import com.excilys.mviegas.computer_database.dto.ComputerDto;
-import sun.util.resources.LocaleData;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
