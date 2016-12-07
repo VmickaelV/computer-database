@@ -61,6 +61,6 @@ public class DatabaseManagerTest {
 	
 	@Test
 	public void testResetDatabase() throws Exception {
-		resetDatabase();
+		resetDatabase(mConnection);
 	}
 }

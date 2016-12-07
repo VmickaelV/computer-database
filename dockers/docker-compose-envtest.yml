@@ -40,7 +40,8 @@ services:
       context: ..
       dockerfile: dockers/Dockerfile_java_maven
     volumes:
-      - ~/.m2/repository:/root/.m2/repository
+      #- ~/.m2/repository:/root/.m2/repository
+      - m2_repository:/root/.m2/repository
 
   # Lancement des tests unitaires
   unit_test:
@@ -64,18 +65,23 @@ services:
       - front
       - back
     depends_on:
-      - test_server
+      - bdd
       - firefox
     command:
       - "mvn"
-      - "test"
+      - "verify"
       - "-P"
-      - "seleniumTest,docker"
+      - "docker"
+
+      - "-Ddb.username=sa"
+      - "-Ddb.password="
+      - "-Ddb.className=org.h2.Driver"
+      - "-Ddb.url=jdbc:h2:tcp://bdd:1521/~/test"
+
       - "-Dserver.ip=test_server"
       - "-Dserver.port=8080"
       - "-Dwebdriver.url=http://firefox:4444/wd/hub"
       - "-Ddb.url=jdbc:h2:tcp://bdd:1521/~/test"
-      - "-DfailIfNoTests=false"
       - "-Dserver.applicationContext="
 
         # TODO Voir si sleep important ou pas
@@ -169,3 +175,6 @@ networks:
   front:
 
   back:
+
+volumes:
+  m2_repository:

@@ -29,6 +29,11 @@
             <artifactId>binding</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.excilys.mviegas.computer_database</groupId>
+            <artifactId>testUtils</artifactId>
+        </dependency>
+
         <!-- Validation -->
         <dependency>
             <groupId>org.hibernate</groupId>

@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/beans-front.xml"})
@@ -21,7 +24,16 @@ public class EditComputerIntegrationTest extends BaseSeleniumIntegrationTest {
 
 	private Connection mConnection;
 
-	@Autowired
+    @Autowired
+    private void setDatasource(DataSource pDatasource) {
+        try {
+            mConnection = pDatasource.getConnection();
+        } catch (SQLException ignored) {
+            fail();
+        }
+    }
+
+    @Autowired
 	private IComputerDao mComputerDao;
 
 	@Override
@@ -36,7 +48,7 @@ public class EditComputerIntegrationTest extends BaseSeleniumIntegrationTest {
 		openAndWait();
 		authentication("admin", "admin");
 
-		DatabaseUtils.resetDatabase();
+		DatabaseUtils.resetDatabase(mConnection);
 	}
 
 	@Test

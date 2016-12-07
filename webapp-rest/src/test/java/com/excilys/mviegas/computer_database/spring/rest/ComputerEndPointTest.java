@@ -23,7 +23,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.sql.DataSource;
 import java.net.URI;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Iterator;
@@ -52,11 +55,22 @@ public class ComputerEndPointTest {
 
 	@Autowired
 	private ComputerService mComputerService;
+	private Connection mConnection;
+
+	@Autowired
+	private void setDatasource(DataSource pDatasource) {
+		try {
+			mConnection = pDatasource.getConnection();
+		} catch (SQLException ignored) {
+			fail();
+		}
+	}
+
 
 	@Before
 	public void setUp() throws Exception {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		DatabaseUtils.resetDatabase();
+		DatabaseUtils.resetDatabase(mConnection);
 	}
 
 	@Test

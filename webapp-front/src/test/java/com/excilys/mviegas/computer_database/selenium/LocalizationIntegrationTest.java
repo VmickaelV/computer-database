@@ -4,19 +4,37 @@ import com.excilys.mviegas.computer_database.utils.DatabaseUtils;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * @author VIEGAS Mickael
  */
 public class LocalizationIntegrationTest extends BaseSeleniumIntegrationTest {
 
-	@Override
+    private Connection mConnection;
+
+    @Autowired
+    private void setDatasource(DataSource pDatasource) {
+        try {
+            mConnection = pDatasource.getConnection();
+        } catch (SQLException ignored) {
+            fail();
+        }
+    }
+
+
+    @Override
 	public void setUp() throws Exception {
 		super.setUp();
 
-		DatabaseUtils.resetDatabase();
+		DatabaseUtils.resetDatabase(mConnection);
 
 		openAndWait();
 	}

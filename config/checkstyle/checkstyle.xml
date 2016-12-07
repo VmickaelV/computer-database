@@ -195,9 +195,6 @@
     <property name="onCommentFormat" value="CHECKSTYLE_ON: JAVADOC"/>
     <property name="checkFormat" value="JavadocMethod"/>
   </module>
-  <module name="SuppressionFilter">
-    <property name="file" value="config/checkstyle/suppressions.xml"/>
-  </module>
 
 
 </module>

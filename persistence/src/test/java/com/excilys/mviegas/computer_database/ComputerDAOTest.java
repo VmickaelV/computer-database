@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,13 +47,25 @@ public class ComputerDAOTest {
 
 	@Autowired
 	private ICompanyDao mCompanyDao;
-	
+
+	private Connection mConnection;
+
+	@Autowired
+	private void setDatasource(DataSource pDatasource) {
+		try {
+			mConnection = pDatasource.getConnection();
+		} catch (SQLException ignored) {
+			fail();
+		}
+	}
+
+
 	//===========================================================
 	// Callbacks
 	//===========================================================
 	@Before
 	public void before() throws Exception {
-		DatabaseUtils.resetDatabase();
+		DatabaseUtils.resetDatabase(mConnection);
 	}
 
 	//===========================================================

@@ -5,13 +5,29 @@ import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
 
 public class RoleUserIntegrationTest extends BaseSeleniumIntegrationTest {
 
-	@Override
+    private Connection mConnection;
+
+    @Autowired
+    private void setDatasource(DataSource pDatasource) {
+        try {
+            mConnection = pDatasource.getConnection();
+        } catch (SQLException ignored) {
+            fail();
+        }
+    }
+
+    @Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 	}
@@ -20,7 +36,7 @@ public class RoleUserIntegrationTest extends BaseSeleniumIntegrationTest {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		DatabaseUtils.resetDatabase();
+		DatabaseUtils.resetDatabase(mConnection);
 
 		openAndWait();
 	}

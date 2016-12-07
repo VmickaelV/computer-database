@@ -5,6 +5,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.*;
@@ -13,8 +18,19 @@ import static org.junit.Assert.*;
  * Created by excilys on 15/04/16.
  */
 public class SpringBugFixRegressionTest extends BaseSeleniumIntegrationTest {
+    private Connection mConnection;
 
-	@Override
+    @Autowired
+    private void setDatasource(DataSource pDatasource) {
+        try {
+            mConnection = pDatasource.getConnection();
+        } catch (SQLException ignored) {
+            fail();
+        }
+    }
+
+
+    @Override
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -24,7 +40,7 @@ public class SpringBugFixRegressionTest extends BaseSeleniumIntegrationTest {
 	@Test
 	@Ignore("bug dans le tri")
 	public void name() throws Exception {
-		DatabaseUtils.resetDatabase();
+		DatabaseUtils.resetDatabase(mConnection);
 		driver.findElement(By.linkText("2")).click();
 		driver.findElement(By.linkText("4")).click();
 		driver.findElement(By.linkText("Introduced date")).click();

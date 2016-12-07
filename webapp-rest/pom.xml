@@ -19,6 +19,27 @@
 
     <build>
         <finalName>rest</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources-test-db</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.testOutputDirectory}/META-INF/db</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>../persistence/src/main/resources/META-INF/db</directory></resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
     <dependencies>
@@ -42,6 +63,11 @@
         <dependency>
             <groupId>com.excilys.mviegas.computer_database</groupId>
             <artifactId>swagger</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.excilys.mviegas.computer_database</groupId>
+            <artifactId>testUtils</artifactId>
         </dependency>
 
         <!-- Validator -->

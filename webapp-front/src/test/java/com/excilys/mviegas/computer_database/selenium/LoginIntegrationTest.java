@@ -6,7 +6,11 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.hamcrest.core.IsNot.not;
@@ -14,7 +18,18 @@ import static org.junit.Assert.*;
 
 public class LoginIntegrationTest extends BaseSeleniumIntegrationTest {
 
-	@Override
+    private Connection mConnection;
+
+    @Autowired
+    private void setDatasource(DataSource pDatasource) {
+        try {
+            mConnection = pDatasource.getConnection();
+        } catch (SQLException ignored) {
+            fail();
+        }
+    }
+
+    @Override
 	public void tearDown() throws Exception {
 		super.tearDown();
 	}
@@ -23,7 +38,7 @@ public class LoginIntegrationTest extends BaseSeleniumIntegrationTest {
 	public void setUp() throws Exception {
 		super.setUp();
 		
-		DatabaseUtils.resetDatabase();
+		DatabaseUtils.resetDatabase(mConnection);
 
 		openAndWait();
 	}
