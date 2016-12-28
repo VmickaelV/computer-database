@@ -5,3 +5,12 @@ jdk:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+sudo: required
+
+services:
+  - docker
+
+scripts:
+  - "mvn test"
+  - "bash ./cmd/docker_test.sh"
