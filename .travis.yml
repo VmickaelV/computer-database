@@ -11,6 +11,6 @@ sudo: required
 services:
   - docker
 
-scripts:
+script:
   - "mvn test"
   - "bash ./cmd/docker_test.sh"
