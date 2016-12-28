@@ -14,3 +14,4 @@ services:
 script:
   - "mvn test"
   - "bash ./cmd/docker_test.sh"
+  - "bash ./cmd/docker_test_selenium.sh"
